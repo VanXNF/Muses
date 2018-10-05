@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Muses</string>
+    <!--account feature package-->
+    <string name="custom_login">其他登录方式</string>
 </resources>
