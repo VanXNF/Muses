@@ -10,4 +10,9 @@
     <string name="please_enter_password">请输入密码</string>
     <string name="get_verification_code">发送验证码</string>
     <string name="already_has_account">登录已有账户</string>
+    <!--login-->
+    <string name="login">登录</string>
+    <string name="login_by_password">密码登录</string>
+    <string name="login_by_verification_code">验证码登录</string>
+    <string name="register_account">注册账户</string>
 </resources>
