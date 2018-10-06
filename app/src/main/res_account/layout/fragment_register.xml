@@ -1,7 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/content_margin_start"
+        android:layout_marginTop="@dimen/content_margin_top"
+        android:layout_marginEnd="@dimen/content_margin_end"
+        android:orientation="vertical">
+
+        <include layout="@layout/header_account" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edit_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_margin_start"
+                android:layout_marginTop="@dimen/edit_margin_top"
+                android:layout_marginEnd="@dimen/edit_margin_end"
+                android:hint="@string/please_enter_phone_number" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_verification_code_height"
+                android:layout_marginStart="@dimen/edit_margin_start"
+                android:layout_marginEnd="@dimen/edit_margin_end">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edit_verification_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/edit_margin_top"
+                    android:hint="@string/please_enter_verification_code" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/button_verification_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:text="@string/get_verification_code"
+                    android:textColor="@color/tip_text_white" />
+
+            </FrameLayout>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_margin_start"
+                android:layout_marginEnd="@dimen/edit_margin_end"
+                android:hint="@string/please_enter_password" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@drawable/button_register_selector"
+                android:elevation="@dimen/elevation"
+                android:text="@string/register"
+                android:textColor="@color/tip_text_white"
+                android:textSize="@dimen/subtitle_text_size" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/text_already_has_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/edit_margin_end"
+                android:text="@string/already_has_account" />
+
+        </LinearLayout>
+
+        <include layout="@layout/footer_account" />
+
+    </LinearLayout>
+
+</ScrollView>

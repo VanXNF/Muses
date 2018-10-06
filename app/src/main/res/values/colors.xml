@@ -5,5 +5,8 @@
     <color name="colorAccent">#ff1100</color>
 
     <color name="line_color">#9e9e9e</color>
-    <color name="tip_text_color">#9e9e9e</color>
+    <color name="tip_text_grey">#9e9e9e</color>
+    <color name="tip_text_white">#FFFFFF</color>
+    <color name="logo_red">#FE4E5B</color>
+    <color name="logo_red_light">#f96670</color>
 </resources>

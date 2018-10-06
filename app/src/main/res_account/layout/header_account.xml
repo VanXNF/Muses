@@ -3,13 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/skip"
+        android:textColor="@color/tip_text_grey"
+        android:textSize="@dimen/tip_text_size" />
+
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image_logo"
         android:layout_width="@dimen/logo_size"
         android:layout_height="@dimen/logo_size"
-        android:elevation="@dimen/logo_elevation"
-        android:layout_marginTop="@dimen/logo_margin_top"
         android:layout_centerInParent="true"
-        android:background="@drawable/logo" />
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:background="@drawable/logo"
+        android:elevation="@dimen/elevation" />
 
 </RelativeLayout>

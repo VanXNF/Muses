@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <dimen name="elevation">10dp</dimen>
     <!--logo-->
     <dimen name="logo_size">170dp</dimen>
     <dimen name="logo_margin_top">44.7dp</dimen>
-    <dimen name="logo_elevation">5dp</dimen>
     <!--<dimen name="logo_margin_start">130.5dp</dimen>-->
     <!--<dimen name="logo_margin_end">130.5dp</dimen>-->
     <!--<dimen name="logo_margin_bottom">59dp</dimen>-->
     <!--custom login-->
+    <dimen name="custom_logo_padding">32.3dp</dimen>
     <dimen name="tip_padding_size">5dp</dimen>
     <dimen name="line_height">0.4dp</dimen>
     <dimen name="custom_logo_size">47.9dp</dimen>
     <dimen name="custom_logo_margin_top">32.3dp</dimen>
     <dimen name="custom_logo_interval">43.9dp</dimen>
     <dimen name="custom_logo_margin_bottom">38.3dp</dimen>
+    <!--content margin-->
+    <dimen name="content_margin_top">14.8dp</dimen>
+    <dimen name="content_margin_start">14.8dp</dimen>
+    <dimen name="content_margin_end">14.8dp</dimen>
+    <!--<dimen name="content_margin_bottom">38.3dp</dimen>-->
+    <!--edit view-->
+    <dimen name="edit_verification_code_height">78.6dp</dimen>
+    <dimen name="edit_margin_top">15dp</dimen>
+    <dimen name="edit_margin_start">5dp</dimen>
+    <dimen name="edit_margin_end">5dp</dimen>
+    <!--button-->
+    <dimen name="register_button_radius">20dp</dimen>
+    <dimen name="button_margin">20dp</dimen>
 </resources>

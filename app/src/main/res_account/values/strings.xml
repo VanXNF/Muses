@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--account feature package-->
+    <string name="custom_login">其他登录方式</string>
+    <string name="skip">跳过</string>
+    <!--register-->
+    <string name="register">注册</string>
+    <string name="please_enter_phone_number">请输入手机号</string>
+    <string name="please_enter_verification_code">请输入验证码</string>
+    <string name="please_enter_password">请输入密码</string>
+    <string name="get_verification_code">发送验证码</string>
+    <string name="already_has_account">登录已有账户</string>
+</resources>

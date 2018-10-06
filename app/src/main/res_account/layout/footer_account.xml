@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/tip_padding_size"
             android:text="@string/custom_login"
-            android:textColor="@color/tip_text_color"
+            android:textColor="@color/tip_text_grey"
             android:textSize="@dimen/tip_text_size" />
 
         <view
@@ -35,30 +35,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/custom_logo_margin_top"
-        android:layout_marginBottom="@dimen/custom_logo_margin_bottom"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/custom_logo_padding">
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/button_qq"
             android:layout_width="@dimen/custom_logo_size"
             android:layout_height="@dimen/custom_logo_size"
             android:layout_marginEnd="@dimen/custom_logo_interval"
-            android:background="@drawable/qq" />
+            android:background="@drawable/qq"
+            android:elevation="@dimen/elevation" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/button_weibo"
             android:layout_width="@dimen/custom_logo_size"
             android:layout_height="@dimen/custom_logo_size"
-            android:background="@drawable/weibo" />
+            android:background="@drawable/weibo"
+            android:elevation="@dimen/elevation" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/button_wechat"
             android:layout_width="@dimen/custom_logo_size"
             android:layout_height="@dimen/custom_logo_size"
             android:layout_marginStart="@dimen/custom_logo_interval"
-            android:background="@drawable/wechat" />
+            android:background="@drawable/wechat"
+            android:elevation="@dimen/elevation" />
 
     </LinearLayout>
 
