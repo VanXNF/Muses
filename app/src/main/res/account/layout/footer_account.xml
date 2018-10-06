@@ -10,7 +10,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <view
+        <View
             android:layout_width="0dp"
             android:layout_height="@dimen/line_height"
             android:layout_weight="1"
@@ -24,7 +24,7 @@
             android:textColor="@color/tip_text_grey"
             android:textSize="@dimen/tip_text_size" />
 
-        <view
+        <View
             android:layout_width="0dp"
             android:layout_height="@dimen/line_height"
             android:layout_weight="1"

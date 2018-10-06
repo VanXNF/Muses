@@ -9,6 +9,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_register);
+        setContentView(R.layout.activity_main);
     }
 }

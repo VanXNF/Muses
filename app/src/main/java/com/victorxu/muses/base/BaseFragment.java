@@ -213,12 +213,25 @@ public class BaseFragment extends Fragment implements ISupportFragment {
         return mDelegate.onBackPressedSupport();
     }
 
+    /**
+     * 类似 { Activity#setResult(int, Intent)}
+     * <p>
+     * Similar to { Activity#setResult(int, Intent)}
+     *
+     * @see #startForResult(ISupportFragment, int)
+     */
     @Override
     public void setFragmentResult(int resultCode, Bundle bundle) {
         mDelegate.setFragmentResult(resultCode, bundle);
     }
 
-
+    /**
+     * 类似  { Activity#onActivityResult(int, int, Intent)}
+     * <p>
+     * Similar to { Activity#onActivityResult(int, int, Intent)}
+     *
+     * @see #startForResult(ISupportFragment, int)
+     */
     @Override
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         mDelegate.onFragmentResult(requestCode, resultCode, data);
@@ -226,6 +239,10 @@ public class BaseFragment extends Fragment implements ISupportFragment {
 
     /**
      * 在start(TargetFragment,LaunchMode)时,启动模式为SingleTask/SingleTop, 回调TargetFragment的该方法
+     * 类似 {Activity#onNewIntent(Intent)}
+     * <p>
+     * Similar to { Activity#onNewIntent(Intent)}
+     *
      * @param args putNewBundle(Bundle newBundle)
      * @see #start(ISupportFragment, int)
      */
@@ -245,7 +262,8 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     }
 
 
-    // 自定制Support时，可移除以下不必要的方法
+    /****************************************以下为可选方法(Optional methods)******************************************************/
+    // 自定制Support时，可移除不必要的方法
 
     /**
      * 隐藏软键盘
@@ -280,7 +298,7 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     }
 
     /**
-     * @param launchMode Similar to Activity'fragment_login_verification_code LaunchMode.
+     * @param launchMode Similar to Activity's LaunchMode.
      */
     public void start(final ISupportFragment toFragment, @LaunchMode int launchMode) {
         mDelegate.start(toFragment, launchMode);
@@ -318,7 +336,7 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     }
 
     /**
-     * Pop the last fragment transition from the manager'fragment_login_verification_code fragment
+     * Pop the last fragment transition from the manager's fragment
      * back stack.
      * <p>
      * 出栈到目标fragment
@@ -336,4 +354,5 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     public <T extends ISupportFragment> T findChildFragment(Class<T> fragmentClass) {
         return SupportHelper.findFragment(getChildFragmentManager(), fragmentClass);
     }
+
 }

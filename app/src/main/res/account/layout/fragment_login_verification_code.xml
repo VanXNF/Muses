@@ -21,7 +21,7 @@
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edit_phone_number"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_height_mini"
+                android:layout_height="@dimen/edit_height"
                 android:layout_marginStart="@dimen/edit_margin_start"
                 android:layout_marginTop="@dimen/edit_margin_top"
                 android:layout_marginEnd="@dimen/edit_margin_end"
@@ -50,32 +50,41 @@
 
             </FrameLayout>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/edit_password"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@drawable/button_register_selector"
+                android:elevation="@dimen/elevation"
+                android:text="@string/login"
+                android:textColor="@color/tip_text_white"
+                android:textSize="@dimen/subtitle_text_size" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/edit_margin_start"
                 android:layout_marginEnd="@dimen/edit_margin_end"
-                android:hint="@string/please_enter_password" />
+                android:layout_marginBottom="@dimen/text_margin_bottom">
 
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_height_mini"
-                android:layout_margin="@dimen/button_margin"
-                android:background="@drawable/button_register_selector"
-                android:elevation="@dimen/elevation"
-                android:text="@string/register"
-                android:textColor="@color/tip_text_white"
-                android:textSize="@dimen/subtitle_text_size" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/text_login_by_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/login_by_password"
+                    android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/text_already_has_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/edit_margin_end"
-                android:text="@string/already_has_account" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/text_register_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/register_account"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
