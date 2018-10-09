@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.victorxu.muses"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -18,11 +18,12 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs =
-                [
+            res.srcDirs = [
                     'src/main/res',
-                    'src/main/res/account'
-                ]
+                    'src/main/res/core',
+                    'src/main/res/account',
+                    'src/main/res/gallery'
+            ]
         }
     }
 }
@@ -40,6 +41,10 @@ dependencies {
     implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
 //    Fragmentation + EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
+//    ConvenientBanner
+    implementation 'com.bigkoo:ConvenientBanner:2.1.4'
+//    immersion-sdk
+    implementation 'spa.lyh.cn:immersion-sdk:1.0.7'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

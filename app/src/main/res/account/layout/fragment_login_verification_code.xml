@@ -21,30 +21,33 @@
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edit_phone_number"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_height"
+                android:layout_height="@dimen/edit_height_mini"
                 android:layout_marginStart="@dimen/edit_margin_start"
                 android:layout_marginTop="@dimen/edit_margin_top"
                 android:layout_marginEnd="@dimen/edit_margin_end"
-                android:hint="@string/please_enter_phone_number" />
+                android:hint="@string/please_enter_phone_number"
+                android:textSize="@dimen/hint_text_size" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_height"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/edit_margin_start"
                 android:layout_marginEnd="@dimen/edit_margin_end">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/edit_verification_code"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/edit_margin_top"
-                    android:hint="@string/please_enter_verification_code" />
+                    android:layout_height="@dimen/edit_height_mini"
+                    android:hint="@string/please_enter_verification_code"
+                    android:inputType="number"
+                    android:textSize="@dimen/hint_text_size" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/button_verification_code"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|top"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginBottom="@dimen/button_margin_bottom"
                     android:text="@string/get_verification_code"
                     android:textColor="@color/tip_text_white" />
 

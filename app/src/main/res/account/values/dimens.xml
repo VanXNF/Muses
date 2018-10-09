@@ -3,8 +3,9 @@
 
     <dimen name="elevation">10dp</dimen>
     <!--logo-->
-    <dimen name="logo_size">170dp</dimen>
+    <dimen name="logo_size">130dp</dimen>
     <dimen name="logo_margin_top">44.7dp</dimen>
+    <dimen name="logo_elevation">40dp</dimen>
     <!--<dimen name="logo_margin_start">130.5dp</dimen>-->
     <!--<dimen name="logo_margin_end">130.5dp</dimen>-->
     <!--<dimen name="logo_margin_bottom">59dp</dimen>-->
@@ -22,12 +23,14 @@
     <dimen name="content_margin_end">14.8dp</dimen>
     <!--<dimen name="content_margin_bottom">38.3dp</dimen>-->
     <!--edit view-->
-    <dimen name="edit_height">78.6dp</dimen>
-    <dimen name="edit_height_mini">50dp</dimen>
+    <dimen name="edit_height">80dp</dimen>
+    <dimen name="edit_height_mini">60dp</dimen>
     <dimen name="edit_margin_top">15dp</dimen>
-    <dimen name="edit_margin_start">5dp</dimen>
-    <dimen name="edit_margin_end">5dp</dimen>
+    <dimen name="edit_margin_start">30dp</dimen>
+    <dimen name="edit_margin_end">30dp</dimen>
     <!--button-->
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_margin_bottom">10dp</dimen>
     <dimen name="register_button_radius">20dp</dimen>
     <dimen name="button_margin">20dp</dimen>
     <!--text link-->
