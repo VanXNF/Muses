@@ -12,10 +12,12 @@ import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivityDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import spa.lyh.cn.statusbarlightmode.ImmersionMode;
 
 public class BaseActivity extends AppCompatActivity implements ISupportActivity {
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
+    public ImmersionMode immersionMode;
 
     @Override
     public SupportActivityDelegate getSupportDelegate() {
@@ -35,6 +37,14 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
+        immersionMode = ImmersionMode.getInstance();
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        immersionMode.execImmersionMode(this);
+
     }
 
     @Override

@@ -7,3 +7,7 @@
 ## 2018-10-9
 - 导入开源库 ConvenientBanner 2.1.4
 - 导入开源库 immersion-sdk 1.0.7
+
+## 2018-10-10
+- 移除开源库 ConvenientBanner 2.1.4
+- 导入开源库 banner 1.4.10

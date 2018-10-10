@@ -43,10 +43,13 @@ dependencies {
     implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
 //    Fragmentation + EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
-//    ConvenientBanner
-    implementation 'com.bigkoo:ConvenientBanner:2.1.4'
+//    banner
+    implementation 'com.youth.banner:banner:1.4.10'
 //    immersion-sdk
     implementation 'spa.lyh.cn:immersion-sdk:1.0.7'
+//    Glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

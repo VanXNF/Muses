@@ -8,4 +8,6 @@
 
     <dimen name="button_message_size">30dp</dimen>
     <dimen name="button_message_margin">10dp</dimen>
+
+    <integer name="banner_image_radius">6</integer>
 </resources>
