@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_bar_height"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_bar_bg"
+            android:backgroundTint="@color/background_grey_light"
+            android:hint="@string/default_search_hint"
+            android:paddingStart="@dimen/search_view_padding_start"
+            android:paddingEnd="@dimen/search_view_padding_end"
+            android:singleLine="true" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/button_search"
+            android:layout_width="@dimen/button_search_size"
+            android:layout_height="@dimen/button_search_size"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/button_search_margin_start"
+            android:background="@drawable/search" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/button_search_clear"
+            android:layout_width="@dimen/button_clear_size"
+            android:layout_height="@dimen/button_clear_size"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="@dimen/button_clear_margin_end"
+            android:background="@drawable/clear" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

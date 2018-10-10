@@ -22,7 +22,9 @@ android {
                     'src/main/res',
                     'src/main/res/core',
                     'src/main/res/account',
-                    'src/main/res/gallery'
+                    'src/main/res/gallery',
+                    'src/main/res/custom',
+                    'src/main/res/custom/search_view',
             ]
         }
     }

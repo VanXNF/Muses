@@ -11,4 +11,5 @@
     <color name="logo_red_light">#f96670</color>
     <color name="background_transparent">#00000000</color>
     <color name="background_white">#FFFFFF</color>
+    <color name="background_grey_light">#F6F6F6</color>
 </resources>
