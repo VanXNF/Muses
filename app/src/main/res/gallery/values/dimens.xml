@@ -10,4 +10,14 @@
     <dimen name="button_message_margin">10dp</dimen>
 
     <integer name="banner_image_radius">6</integer>
+    <dimen name="banner_height">200dp</dimen>
+    <dimen name="banner_margin">15dp</dimen>
+    <dimen name="banner_radius">20dp</dimen>
+
+    <dimen name="classification_bar_margin_top">30dp</dimen>
+    <dimen name="classification_bar_margin_bottom">30dp</dimen>
+    <integer name="classification_button_weight">6</integer>
+    <dimen name="classification_button_size">50dp</dimen>
+    <dimen name="classification_button_margin">5dp</dimen>
+    <dimen name="classification_label_margin_top">5dp</dimen>
 </resources>

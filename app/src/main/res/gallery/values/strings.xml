@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="hot_list">热销榜</string>
+    <string name="check_in">签到</string>
+    <string name="ticket_market">券集市</string>
+    <string name="classification">分类</string>
 </resources>
