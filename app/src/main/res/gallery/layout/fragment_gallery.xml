@@ -12,9 +12,9 @@
 
         <include layout="@layout/search_bar" />
 
-        <include layout="@layout/banner_bar" />
+        <include layout="@layout/banner_section" />
 
-        <include layout="@layout/classification_bar" />
+        <include layout="@layout/classification_section" />
 
     </LinearLayout>
 
