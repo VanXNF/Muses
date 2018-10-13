@@ -9,7 +9,10 @@
     <string name="hot_product">热销爆款</string>
     <string name="more">更多</string>
     <string name="end">我是有底线的！</string>
-
+    <string name="cancel">取消</string>
+    <string name="popular_searches">热门搜索</string>
+    <string name="historical_search">搜索历史</string>
+    <string name="delete_all">清空</string>
 
     <!--default test data-->
     <string name="product_1_title">客厅北欧风格装饰画</string>

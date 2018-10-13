@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/search_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tag_content_margin_start"
+        android:layout_marginTop="@dimen/tag_content_margin_top"
+        android:layout_marginEnd="@dimen/tag_content_margin_end"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/popular_searches"
+                android:textColor="@color/title_text_default"
+                android:textSize="@dimen/large_title_text_size"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <android.support.design.internal.FlowLayout
+            android:id="@+id/popular_search_flow_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tag_margin_top"
+            android:layout_marginBottom="@dimen/tag_margin_bottom"
+            app:itemSpacing="@dimen/tag_spacing"
+            app:lineSpacing="@dimen/tag_spacing">
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="欧式" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="水墨画" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="莫奈" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="印象派" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="梵高" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="超现实主义" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="水墨画" />
+
+        </android.support.design.internal.FlowLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tag_content_margin_top">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/historical_search"
+                android:textColor="@color/title_text_default"
+                android:textSize="@dimen/large_title_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/delete_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete_all"
+                    android:textSize="@dimen/tip_text_size" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/button_icon_size_mini"
+                    android:layout_height="@dimen/button_icon_size_mini"
+                    android:src="@drawable/delete_all" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <android.support.design.internal.FlowLayout
+            android:id="@+id/historical_search_flow_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tag_margin_top"
+            android:layout_marginBottom="@dimen/tag_margin_bottom"
+            app:itemSpacing="@dimen/tag_spacing"
+            app:lineSpacing="@dimen/tag_spacing">
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="北欧风格" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="现代简约" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="抽象" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="蒙娜丽莎" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="新中式" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="餐厅装饰画" />
+
+            <com.robertlevonyan.views.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_chipText="绿植" />
+
+        </android.support.design.internal.FlowLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

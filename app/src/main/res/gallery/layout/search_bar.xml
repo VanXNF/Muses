@@ -14,11 +14,13 @@
         android:layout_marginBottom="@dimen/search_view_margin_bottom"
         android:layout_weight="@integer/search_view_weight" />
 
-    <android.support.v7.widget.AppCompatImageButton
-        android:layout_width="@dimen/button_message_size"
-        android:layout_height="@dimen/button_message_size"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_margin="@dimen/button_message_margin"
-        android:background="@drawable/message" />
+        android:textSize="@dimen/tip_text_size"
+        android:layout_margin="@dimen/button_icon_margin"
+        android:text="@string/cancel" />
 
 </LinearLayout>
