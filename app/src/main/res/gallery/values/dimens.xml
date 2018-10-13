@@ -15,9 +15,35 @@
     <dimen name="banner_radius">20dp</dimen>
 
     <dimen name="classification_bar_margin_top">10dp</dimen>
-    <dimen name="classification_bar_margin_bottom">20dp</dimen>
+    <dimen name="classification_bar_margin_bottom">10dp</dimen>
     <integer name="classification_button_weight">6</integer>
     <dimen name="classification_button_size">40dp</dimen>
     <dimen name="classification_button_margin">5dp</dimen>
     <dimen name="classification_label_margin_top">5dp</dimen>
+
+    <dimen name="more_icon_size">15dp</dimen>
+
+    <dimen name="recommend_margin_start">15dp</dimen>
+    <dimen name="recommend_margin_end">15dp</dimen>
+    <dimen name="recommend_margin_top">5dp</dimen>
+    <integer name="recommend_image_radius">20</integer>
+    <dimen name="recommend_item_image_width">192dp</dimen>
+    <dimen name="recommend_item_image_height">120dp</dimen>
+    <dimen name="recommend_item_image_margin">5dp</dimen>
+
+    <dimen name="product_image_radius">5dp</dimen>
+    <dimen name="product_margin_top">10dp</dimen>
+    <dimen name="product_margin_start">15dp</dimen>
+    <dimen name="product_margin_end">15dp</dimen>
+    <dimen name="product_content_title_height">200dp</dimen>
+    <dimen name="product_content_title_margin_top">10dp</dimen>
+    <dimen name="product_content_height">270dp</dimen>
+    <dimen name="product_content_margin_top">15dp</dimen>
+    <dimen name="product_content_margin_top_mini">10dp</dimen>
+    <dimen name="product_content_margin_start">2dp</dimen>
+    <dimen name="product_content_margin_end">2dp</dimen>
+    <dimen name="product_content_image_size">180dp</dimen>
+    <dimen name="product_text_margin_top">2dp</dimen>
+
+
 </resources>

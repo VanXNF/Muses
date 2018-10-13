@@ -4,4 +4,17 @@
     <string name="check_in">签到</string>
     <string name="ticket_market">券集市</string>
     <string name="classification">分类</string>
+    <string name="recommend_today">今日推荐</string>
+    <string name="new_product">新品上市</string>
+    <string name="hot_product">热销爆款</string>
+    <string name="more">更多</string>
+
+
+    <!--default test data-->
+    <string name="product_1_title">客厅北欧风格装饰画</string>
+    <string name="product_1_tag">现代简约 高档三联 风景挂画</string>
+    <string name="product_1_price">￥716</string>
+    <string name="product_2_title">荷花禅意装饰画</string>
+    <string name="product_2_tag">实木挂轴画 现代简约 卷轴墙壁画</string>
+    <string name="product_2_price">￥439</string>
 </resources>

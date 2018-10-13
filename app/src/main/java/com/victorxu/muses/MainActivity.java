@@ -2,12 +2,16 @@ package com.victorxu.muses;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.victorxu.muses.base.BaseActivity;
+import com.victorxu.muses.gallery.view.adapter.RecommendAdapter;
+import com.victorxu.muses.gallery.view.entity.ImageItem;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -19,6 +23,7 @@ public class MainActivity extends BaseActivity {
 
     private Banner mBanner;
     private List<Integer> mDefaultBannerData;
+    private RecyclerView mRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,34 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .start();
+
+//        recommend
+        mRecycler = findViewById(R.id.recycler_recommend);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecycler.setLayoutManager(layoutManager);
+        List<ImageItem> data = new ArrayList<>();
+        data.add(new ImageItem(1, R.drawable.recommend1));
+        data.add(new ImageItem(2, R.drawable.recommend2));
+        data.add(new ImageItem(3, R.drawable.recommend3));
+        RecommendAdapter adapter = new RecommendAdapter(R.layout.item_recommend, data);
+        mRecycler.setAdapter(adapter);
+////        new product
+//        mRecyclerProduct = findViewById(R.id.recycler_new_product);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+//        mRecyclerProduct.setLayoutManager(gridLayoutManager);
+//        final List<ProductItem> productData = new ArrayList<>();
+//        productData.add(new ProductItem(ProductItem.TITLE, R.drawable.product_title, "TestTitle","TestTag", "￥761"));
+//        productData.add(new ProductItem(ProductItem.CONTENT, R.drawable.product1, "客厅北欧装饰画","现代简约 高档三联 风景挂画", "￥761"));
+//        productData.add(new ProductItem(ProductItem.CONTENT, R.drawable.product2, "荷花禅意装饰画","实木挂轴画 简约现代 卷轴墙壁画", "￥439"));
+//        ProductAdapter productAdapter = new ProductAdapter(productData);
+//        productAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+//                return productData.get(position).getItemType();
+//            }
+//        });
+//        mRecyclerProduct.setAdapter(productAdapter);
 
     }
 

@@ -25,6 +25,7 @@ android {
                     'src/main/res/gallery',
                     'src/main/res/custom',
                     'src/main/res/custom/search_view',
+                    'src/main/res/custom/advanced_image_view'
             ]
         }
     }
@@ -50,6 +51,8 @@ dependencies {
 //    Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+//    BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

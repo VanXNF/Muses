@@ -5,6 +5,9 @@
     <dimen name="tip_text_size">16sp</dimen>
     <dimen name="label_text_size">16sp</dimen>
     <dimen name="hint_text_size">14sp</dimen>
+    <dimen name="content_title_size">17sp</dimen>
+    <dimen name="content_sub_title_size">13sp</dimen>
+    <dimen name="content_price_size">15sp</dimen>
 
     <dimen name="elevation">5dp</dimen>
 </resources>
