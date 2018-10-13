@@ -21,6 +21,8 @@
 
         <include layout="@layout/hot_product_section" />
 
+        <include layout="@layout/footer_section" />
+
     </LinearLayout>
 
 </ScrollView>

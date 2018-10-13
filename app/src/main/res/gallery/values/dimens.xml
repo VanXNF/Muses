@@ -45,5 +45,8 @@
     <dimen name="product_content_image_size">180dp</dimen>
     <dimen name="product_text_margin_top">2dp</dimen>
 
+    <dimen name="footer_margin_top">10dp</dimen>
+    <dimen name="footer_margin_bottom">10dp</dimen>
+
 
 </resources>
