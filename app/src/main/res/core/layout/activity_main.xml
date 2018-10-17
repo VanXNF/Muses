@@ -9,19 +9,19 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_42" />
+        android:layout_marginBottom="@dimen/dp_50" />
 
     <com.victorxu.muses.custom.view.BottomBar
         android:id="@+id/main_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_42"
+        android:layout_height="@dimen/dp_50"
         android:layout_gravity="bottom" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/dp_42"
+        android:layout_marginBottom="@dimen/dp_50"
         android:background="@drawable/actionbar_shadow_up" />
 
 </FrameLayout>

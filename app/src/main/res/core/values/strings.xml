@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Muses</string>
-
+    <string name="gallery">画廊</string>
+    <string name="creation">创作</string>
+    <string name="shop_cart">购物车</string>
+    <string name="mine">我的</string>
 </resources>

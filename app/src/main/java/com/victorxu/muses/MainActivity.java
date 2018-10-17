@@ -61,10 +61,10 @@ public class MainActivity extends BaseActivity implements BaseMainFragment.OnBac
     private void initView() {
         mBottomBar = findViewById(R.id.main_bottom_bar);
 
-        mBottomBar.addItem(new BottomBarTab(this, R.drawable.gallery))
-                .addItem(new BottomBarTab(this, R.drawable.creation))
-                .addItem(new BottomBarTab(this, R.drawable.cart))
-                .addItem(new BottomBarTab(this, R.drawable.mine));
+        mBottomBar.addItem(new BottomBarTab(this, R.drawable.gallery,  R.string.gallery))
+                .addItem(new BottomBarTab(this, R.drawable.creation, R.string.creation))
+                .addItem(new BottomBarTab(this, R.drawable.cart, R.string.shop_cart))
+                .addItem(new BottomBarTab(this, R.drawable.mine, R.string.mine));
 
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
