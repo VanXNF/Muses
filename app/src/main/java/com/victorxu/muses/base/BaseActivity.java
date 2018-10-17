@@ -1,6 +1,8 @@
 package com.victorxu.muses.base;
 
 import android.os.Bundle;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,13 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
     public ImmersionMode immersionMode;
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        immersionMode.execImmersionMode(this);
+
+    }
 
     @Override
     public SupportActivityDelegate getSupportDelegate() {
@@ -38,13 +47,6 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
         immersionMode = ImmersionMode.getInstance();
-    }
-
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        immersionMode.execImmersionMode(this);
-
     }
 
     @Override
@@ -117,13 +119,6 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
         return mDelegate.onCreateFragmentAnimator();
     }
 
-    /**
-     * Causes the Runnable r to be added to the action queue.
-     * <p>
-     * The runnable will be run after all the previous action has been run.
-     * <p>
-     * 前面的事务全部执行后 执行该Action
-     */
     @Override
     public void post(Runnable runnable) {
         mDelegate.post(runnable);
@@ -131,25 +126,80 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
 
     /****************************************以下为可选方法(Optional methods)******************************************************/
 
-    // 选择性拓展其他方法
-
+    /**
+     * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
+     *
+     * @param containerId 容器id
+     * @param toFragment  目标Fragment
+     */
     public void loadRootFragment(int containerId, @NonNull ISupportFragment toFragment) {
         mDelegate.loadRootFragment(containerId, toFragment);
     }
 
+    public void loadRootFragment(int containerId, ISupportFragment toFragment, boolean addToBackStack, boolean allowAnimation) {
+        mDelegate.loadRootFragment(containerId, toFragment, addToBackStack, allowAnimation);
+    }
+
+    /**
+     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
+     */
+    public void loadMultipleRootFragment(int containerId, int showPosition, ISupportFragment... toFragments) {
+        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
+    }
+
+    /**
+     * show一个Fragment,hide其他同栈所有Fragment
+     * 使用该方法时，要确保同级栈内无多余的Fragment,(只有通过loadMultipleRootFragment()载入的Fragment)
+     * <p>
+     * 建议使用更明确的{@link #showHideFragment(ISupportFragment, ISupportFragment)}
+     *
+     * @param showFragment 需要show的Fragment
+     */
+    public void showHideFragment(ISupportFragment showFragment) {
+        mDelegate.showHideFragment(showFragment);
+    }
+
+    /**
+     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
+     */
+    public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
+        mDelegate.showHideFragment(showFragment, hideFragment);
+    }
+
+    /**
+     * It is recommended to use {@link BaseFragment#start(ISupportFragment)}.
+     */
     public void start(ISupportFragment toFragment) {
         mDelegate.start(toFragment);
     }
 
     /**
-     * @param launchMode Same as Activity's LaunchMode.
+     * It is recommended to use {@link BaseFragment#start(ISupportFragment, int)}.
+     *
+     * @param launchMode Similar to Activity's LaunchMode.
      */
     public void start(ISupportFragment toFragment, @ISupportFragment.LaunchMode int launchMode) {
         mDelegate.start(toFragment, launchMode);
     }
 
     /**
-     * It is recommended to use {startWithPopTo(ISupportFragment, Class, boolean)}.
+     * It is recommended to use {@link BaseFragment#startForResult(ISupportFragment, int)}.
+     * Launch an fragment for which you would like a result when it poped.
+     */
+    public void startForResult(ISupportFragment toFragment, int requestCode) {
+        mDelegate.startForResult(toFragment, requestCode);
+    }
+
+    /**
+     * It is recommended to use {@link BaseFragment#startWithPop(ISupportFragment)}.
+     * Start the target Fragment and pop itself
+     */
+    public void startWithPop(ISupportFragment toFragment) {
+        mDelegate.startWithPop(toFragment);
+    }
+
+    /**
+     * It is recommended to use {@link BaseFragment#startWithPopTo(ISupportFragment, Class, boolean)}.
      *
      * @see #popTo(Class, boolean)
      * +
@@ -157,6 +207,13 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
      */
     public void startWithPopTo(ISupportFragment toFragment, Class<?> targetFragmentClass, boolean includeTargetFragment) {
         mDelegate.startWithPopTo(toFragment, targetFragmentClass, includeTargetFragment);
+    }
+
+    /**
+     * It is recommended to use {@link BaseFragment#replaceFragment(ISupportFragment, boolean)}.
+     */
+    public void replaceFragment(ISupportFragment toFragment, boolean addToBackStack) {
+        mDelegate.replaceFragment(toFragment, addToBackStack);
     }
 
     /**
@@ -169,6 +226,11 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     /**
      * Pop the last fragment transition from the manager's fragment
      * back stack.
+     * <p>
+     * 出栈到目标fragment
+     *
+     * @param targetFragmentClass   目标fragment
+     * @param includeTargetFragment 是否包含该fragment
      */
     public void popTo(Class<?> targetFragmentClass, boolean includeTargetFragment) {
         mDelegate.popTo(targetFragmentClass, includeTargetFragment);
@@ -187,6 +249,15 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     }
 
     /**
+     * 当Fragment根布局 没有 设定background属性时,
+     * Fragmentation默认使用Theme的android:windowbackground作为Fragment的背景,
+     * 可以通过该方法改变其内所有Fragment的默认背景。
+     */
+    public void setDefaultFragmentBackground(@DrawableRes int backgroundRes) {
+        mDelegate.setDefaultFragmentBackground(backgroundRes);
+    }
+
+    /**
      * 得到位于栈顶Fragment
      */
     public ISupportFragment getTopFragment() {
@@ -199,4 +270,6 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     public <T extends ISupportFragment> T findFragment(Class<T> fragmentClass) {
         return SupportHelper.findFragment(getSupportFragmentManager(), fragmentClass);
     }
+
+
 }

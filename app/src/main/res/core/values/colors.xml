@@ -16,4 +16,5 @@
     <color name="title_sub_text_default">#707070</color>
     <color name="price_text">#FF0000</color>
     <color name="footer_background">#F6F6F6</color>
+    <color name="tab_unselected">#c9c9c9</color>
 </resources>
