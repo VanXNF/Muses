@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -8,19 +9,20 @@
         android:id="@+id/search_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/search_view_margin_start"
+        android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/search_view_margin_top"
         android:layout_marginEnd="@dimen/search_view_margin_end"
         android:layout_marginBottom="@dimen/search_view_margin_bottom"
-        android:layout_weight="@integer/search_view_weight" />
+        android:layout_weight="@integer/search_view_weight"
+        app:hint="@string/default_search_hint" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:textSize="@dimen/tip_text_size"
         android:layout_margin="@dimen/button_icon_margin"
-        android:text="@string/cancel" />
+        android:text="@string/cancel"
+        android:textSize="@dimen/sp_12" />
 
 </LinearLayout>

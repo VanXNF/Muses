@@ -1,6 +1,7 @@
 package com.victorxu.muses.custom.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.text.Editable;
@@ -27,6 +28,9 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
         mBtnClear.setVisibility(GONE);
         mEtSearchView.addTextChangedListener(this);
         mBtnClear.setOnClickListener(this);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SearchView);
+        String hint = array.getString(R.styleable.SearchView_hint);
+        setSearchViewHint(hint);
     }
 
     @Override
