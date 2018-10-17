@@ -1,22 +1,15 @@
 package com.victorxu.muses;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.internal.FlowLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.internal.FlowLayout;
 import com.victorxu.muses.base.BaseActivity;
-import com.victorxu.muses.gallery.view.adapter.RecommendAdapter;
-import com.victorxu.muses.gallery.view.entity.ImageItem;
 import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;

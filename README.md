@@ -18,3 +18,7 @@
 ## 2018-10-13
 - 更新开源库 BaseRecyclerViewAdapterHelper 2.9.37
 - 导入开源库 MaterialChipView 1.2.4
+
+## 2018-10-17
+- 移除开源库 MaterialChipView 1.2.4
+- 升级项目依赖包为 AndroidX

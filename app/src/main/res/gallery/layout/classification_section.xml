@@ -12,7 +12,7 @@
         android:layout_weight="@integer/classification_button_weight"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/classification_hot_list"
             android:layout_width="@dimen/classification_button_size"
             android:layout_height="@dimen/classification_button_size"
@@ -20,7 +20,7 @@
             android:layout_margin="@dimen/classification_button_margin"
             android:src="@drawable/classification_ranking" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -39,7 +39,7 @@
         android:layout_weight="@integer/classification_button_weight"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/classification_check_in"
             android:layout_width="@dimen/classification_button_size"
             android:layout_height="@dimen/classification_button_size"
@@ -47,7 +47,7 @@
             android:layout_margin="@dimen/classification_button_margin"
             android:src="@drawable/classification_list" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -66,7 +66,7 @@
         android:layout_weight="@integer/classification_button_weight"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/classification_ticket_market"
             android:layout_width="@dimen/classification_button_size"
             android:layout_height="@dimen/classification_button_size"
@@ -74,7 +74,7 @@
             android:layout_margin="@dimen/classification_button_margin"
             android:src="@drawable/classification_ticket" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -93,7 +93,7 @@
         android:layout_weight="@integer/classification_button_weight"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/classification_class"
             android:layout_width="@dimen/classification_button_size"
             android:layout_height="@dimen/classification_button_size"
@@ -101,7 +101,7 @@
             android:layout_margin="@dimen/classification_button_margin"
             android:src="@drawable/classification_school" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

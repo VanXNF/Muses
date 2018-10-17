@@ -16,7 +16,7 @@
         android:layout_weight="@integer/search_view_weight"
         app:hint="@string/default_search_hint" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/background_transparent">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:textSize="@dimen/tip_text_size"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_logo"
         android:layout_width="@dimen/logo_size"
         android:layout_height="@dimen/logo_size"

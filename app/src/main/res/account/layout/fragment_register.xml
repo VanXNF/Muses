@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_height_mini"
@@ -35,7 +35,7 @@
                 android:layout_marginStart="@dimen/edit_margin_start"
                 android:layout_marginEnd="@dimen/edit_margin_end">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edit_verification_code"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_height_mini"
@@ -43,7 +43,7 @@
                     android:inputType="number"
                     android:textSize="@dimen/hint_text_size" />
 
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_verification_code"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/button_height"
@@ -54,7 +54,7 @@
 
             </FrameLayout>
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_height_mini"
@@ -64,7 +64,7 @@
                 android:inputType="textPassword"
                 android:textSize="@dimen/hint_text_size" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_height_mini"
                 android:layout_margin="@dimen/button_margin"
@@ -74,7 +74,7 @@
                 android:textColor="@color/tip_text_white"
                 android:textSize="@dimen/subtitle_text_size" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_already_has_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

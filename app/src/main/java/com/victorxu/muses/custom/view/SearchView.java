@@ -2,8 +2,8 @@ package com.victorxu.muses.custom.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
