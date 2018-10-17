@@ -9,20 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:text="@string/skip"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
         android:textColor="@color/tip_text_grey"
-        android:textSize="@dimen/tip_text_size"
-        android:textStyle="bold" />
+        android:text="@string/skip"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_logo"
-        android:layout_width="@dimen/logo_size"
-        android:layout_height="@dimen/logo_size"
+        android:layout_width="@dimen/dp_130"
+        android:layout_height="@dimen/dp_130"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_marginTop="@dimen/dp_44"
         android:background="@color/background_transparent"
-        android:elevation="@dimen/logo_elevation"
-        android:src="@drawable/logo" />
+        android:elevation="@dimen/dp_40"
+        android:src="@drawable/logo"/>
 
 
 </RelativeLayout>

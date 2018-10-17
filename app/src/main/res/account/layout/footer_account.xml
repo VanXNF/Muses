@@ -12,21 +12,21 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="@dimen/line_height"
+            android:layout_height="@dimen/dp_0_5"
             android:layout_weight="1"
             android:background="@color/line_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/tip_padding_size"
+            android:padding="@dimen/dp_4_5"
             android:text="@string/custom_login"
             android:textColor="@color/tip_text_grey"
-            android:textSize="@dimen/tip_text_size" />
+            android:textSize="@dimen/sp_14" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="@dimen/line_height"
+            android:layout_height="@dimen/dp_0_5"
             android:layout_weight="1"
             android:background="@color/line_color" />
 
@@ -37,30 +37,30 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/custom_logo_padding">
+        android:padding="@dimen/dp_14">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/button_qq"
-            android:layout_width="@dimen/custom_logo_size"
-            android:layout_height="@dimen/custom_logo_size"
-            android:layout_marginEnd="@dimen/custom_logo_interval"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginEnd="@dimen/dp_44"
             android:background="@drawable/qq"
-            android:elevation="@dimen/elevation" />
+            android:elevation="@dimen/dp_5" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/button_weibo"
-            android:layout_width="@dimen/custom_logo_size"
-            android:layout_height="@dimen/custom_logo_size"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
             android:background="@drawable/weibo"
-            android:elevation="@dimen/elevation" />
+            android:elevation="@dimen/dp_5" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/button_wechat"
-            android:layout_width="@dimen/custom_logo_size"
-            android:layout_height="@dimen/custom_logo_size"
-            android:layout_marginStart="@dimen/custom_logo_interval"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginStart="@dimen/dp_44"
             android:background="@drawable/wechat"
-            android:elevation="@dimen/elevation" />
+            android:elevation="@dimen/dp_5" />
 
     </LinearLayout>
 

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <dimen name="title_text_size">20sp</dimen>
-    <dimen name="subtitle_text_size">18sp</dimen>
-    <dimen name="tip_text_size">16sp</dimen>
-    <dimen name="label_text_size">16sp</dimen>
-    <dimen name="hint_text_size">14sp</dimen>
-    <dimen name="content_title_size">17sp</dimen>
-    <dimen name="content_sub_title_size">13sp</dimen>
-    <dimen name="content_price_size">15sp</dimen>
-    <dimen name="large_title_text_size">24sp</dimen>
-    <dimen name="elevation">5dp</dimen>
-
     <!--view size-->
     <dimen name="dp_m_60">-60dp</dimen>
     <dimen name="dp_m_30">-30dp</dimen>

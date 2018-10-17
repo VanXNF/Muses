@@ -37,10 +37,10 @@
             android:id="@+id/popular_search_flow_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tag_margin_top"
-            android:layout_marginBottom="@dimen/tag_margin_bottom"
-            app:itemSpacing="@dimen/tag_spacing"
-            app:lineSpacing="@dimen/tag_spacing">
+            android:layout_marginTop="@dimen/dp_9"
+            android:layout_marginBottom="@dimen/dp_5"
+            app:itemSpacing="@dimen/dp_10"
+            app:lineSpacing="@dimen/dp_10">
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tag_content_margin_top">
+            android:layout_marginTop="@dimen/dp_30">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/historical_search"
                 android:textColor="@color/title_text_default"
-                android:textSize="@dimen/large_title_text_size"
+                android:textSize="@dimen/sp_24"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -130,10 +130,10 @@
             android:id="@+id/historical_search_flow_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tag_margin_top"
-            android:layout_marginBottom="@dimen/tag_margin_bottom"
-            app:itemSpacing="@dimen/tag_spacing"
-            app:lineSpacing="@dimen/tag_spacing">
+            android:layout_marginTop="@dimen/dp_9"
+            android:layout_marginBottom="@dimen/dp_5"
+            app:itemSpacing="@dimen/dp_10"
+            app:lineSpacing="@dimen/dp_10">
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"

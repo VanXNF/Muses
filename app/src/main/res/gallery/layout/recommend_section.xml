@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/recommend_margin_top"
+    android:layout_marginTop="@dimen/dp_4_5"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/recommend_margin_start"
-        android:layout_marginEnd="@dimen/recommend_margin_end">
+        android:layout_marginStart="@dimen/dp_13"
+        android:layout_marginEnd="@dimen/dp_13">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:text="@string/recommend_today"
             android:textColor="@color/title_text_default"
-            android:textSize="@dimen/title_text_size"
+            android:textSize="@dimen/sp_18"
             android:textStyle="bold" />
 
 
@@ -35,11 +35,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/more"
                 android:textColor="@color/title_sub_text_default"
-                android:textSize="@dimen/tip_text_size" />
+                android:textSize="@dimen/sp_14" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/more_icon_size"
-                android:layout_height="@dimen/more_icon_size"
+                android:layout_width="@dimen/dp_13"
+                android:layout_height="@dimen/dp_13"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/more" />
 
@@ -51,6 +51,6 @@
         android:id="@+id/recycler_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/recommend_margin_top" />
+        android:layout_marginTop="@dimen/dp_4_5" />
 
 </LinearLayout>

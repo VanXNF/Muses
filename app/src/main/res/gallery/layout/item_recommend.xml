@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_recommend"
-    android:layout_width="@dimen/recommend_item_image_width"
-    android:layout_height="@dimen/recommend_item_image_height"
-    android:layout_margin="@dimen/recommend_item_image_margin"
+    android:layout_width="@dimen/dp_192"
+    android:layout_height="@dimen/dp_120"
+    android:layout_margin="@dimen/dp_5"
     android:scaleType="fitXY" />

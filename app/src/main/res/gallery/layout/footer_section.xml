@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginTop="@dimen/footer_margin_top"
-        android:layout_marginBottom="@dimen/footer_margin_bottom"
+        android:layout_marginTop="@dimen/dp_9"
+        android:layout_marginBottom="@dimen/dp_9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

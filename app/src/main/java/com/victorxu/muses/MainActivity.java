@@ -26,15 +26,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_search);
-        flowLayout = findViewById(R.id.historical_search_flow_layout);
-        linearLayout = findViewById(R.id.delete_all);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flowLayout.removeAllViews();
-            }
-        });
+        setContentView(R.layout.fragment_register);
+//        flowLayout = findViewById(R.id.historical_search_flow_layout);
+//        linearLayout = findViewById(R.id.delete_all);
+//        linearLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                flowLayout.removeAllViews();
+//            }
+//        });
 //        initView();
 
     }
