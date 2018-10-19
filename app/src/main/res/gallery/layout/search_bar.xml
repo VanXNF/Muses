@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.victorxu.muses.custom.view.SearchView
+    <com.victorxu.muses.custom.view.search_view.SearchView
         android:id="@+id/search_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -14,6 +14,8 @@
         android:layout_marginEnd="@dimen/dp_4_5"
         android:layout_marginBottom="@dimen/dp_4_5"
         android:layout_weight="@integer/search_view_weight"
+        app:editable="true"
+        app:focusableInTouchMode="true"
         app:hint="@string/default_search_hint" />
 
     <androidx.appcompat.widget.AppCompatTextView

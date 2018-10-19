@@ -8,12 +8,12 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.internal.FlowLayout;
 import com.victorxu.muses.R;
-import com.victorxu.muses.base.BaseMainFragment;
+import com.victorxu.muses.base.BaseSwipeBackFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class SearchFragment extends BaseMainFragment {
+public class SearchFragment extends BaseSwipeBackFragment {
 
     private FlowLayout mFlowLayout;
     private LinearLayout mLinearLayout;
@@ -31,7 +31,7 @@ public class SearchFragment extends BaseMainFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         initView(view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     private void initView(View view) {

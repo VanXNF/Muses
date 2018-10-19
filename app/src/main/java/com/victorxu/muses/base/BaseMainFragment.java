@@ -1,29 +1,13 @@
 package com.victorxu.muses.base;
 
-import android.content.Context;
-
-import com.victorxu.muses.gallery.view.GalleryFragment;
+import android.widget.Toast;
+import com.victorxu.muses.R;
 
 public class BaseMainFragment extends BaseFragment {
 
-    protected OnBackToFirstListener mBackToFirstListener;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnBackToFirstListener) {
-            mBackToFirstListener = (OnBackToFirstListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnBackToFirstListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mBackToFirstListener = null;
-    }
+    // 再点一次退出程序时间设置
+    private static final long WAIT_TIME = 2000L;
+    private long TOUCH_TIME = 0;
 
     /**
      * 处理回退事件
@@ -32,19 +16,12 @@ public class BaseMainFragment extends BaseFragment {
      */
     @Override
     public boolean onBackPressedSupport() {
-        if (getChildFragmentManager().getBackStackEntryCount() > 1) {
-            mDelegate.popChild();
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            mActivity.finish();
         } else {
-            if (this instanceof GalleryFragment) {   // 如果是 第一个Fragment GalleryFragment 则退出app
-                mActivity.finish();
-            } else {                                    // 如果不是,则回到第一个Fragment
-                mBackToFirstListener.onBackToFirstFragment();
-            }
+            TOUCH_TIME = System.currentTimeMillis();
+            Toast.makeText(mActivity, R.string.press_again_exit, Toast.LENGTH_SHORT).show();
         }
         return true;
-    }
-
-    public interface OnBackToFirstListener {
-        void onBackToFirstFragment();
     }
 }

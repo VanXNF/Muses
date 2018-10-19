@@ -12,12 +12,17 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BottomBar extends LinearLayout {
 
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private boolean mVisible = true;
+
+    private List<BottomBarTab> mTabs = new ArrayList<>();
 
     private LinearLayout mTabLayout;
 
@@ -67,7 +72,7 @@ public class BottomBar extends LinearLayout {
                     mListener.onTabSelected(pos, mCurrentPosition);
                     tab.setSelected(true);
                     mListener.onTabUnselected(mCurrentPosition);
-                    mTabLayout.getChildAt(mCurrentPosition).setSelected(false);
+                    mTabs.get(mCurrentPosition).setSelected(false);
                     mCurrentPosition = pos;
                 }
             }
@@ -75,6 +80,7 @@ public class BottomBar extends LinearLayout {
         tab.setTabPosition(mTabLayout.getChildCount());
         tab.setLayoutParams(mTabParams);
         mTabLayout.addView(tab);
+        mTabs.add(tab);
         return this;
     }
 
@@ -89,6 +95,18 @@ public class BottomBar extends LinearLayout {
                 mTabLayout.getChildAt(position).performClick();
             }
         });
+    }
+
+    public int getCurrentItemPosition() {
+        return mCurrentPosition;
+    }
+
+    /**
+     * 获取 Tab
+     */
+    public BottomBarTab getItem(int index) {
+        if (mTabs.size() < index) return null;
+        return mTabs.get(index);
     }
 
     public interface OnTabSelectedListener {
@@ -117,10 +135,6 @@ public class BottomBar extends LinearLayout {
         mCurrentPosition = ss.position;
     }
 
-    public int getCurrentItemPosition() {
-        return mCurrentPosition;
-    }
-
     static class SavedState extends BaseSavedState {
         private int position;
 
@@ -140,7 +154,7 @@ public class BottomBar extends LinearLayout {
             out.writeInt(position);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
