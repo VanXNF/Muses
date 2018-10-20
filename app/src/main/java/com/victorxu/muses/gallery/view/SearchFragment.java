@@ -12,11 +12,13 @@ import com.victorxu.muses.base.BaseSwipeBackFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class SearchFragment extends BaseSwipeBackFragment {
 
     private FlowLayout mFlowLayout;
     private LinearLayout mLinearLayout;
+    private AppCompatTextView mTextCancel;
 
     public static SearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -41,6 +43,13 @@ public class SearchFragment extends BaseSwipeBackFragment {
             @Override
             public void onClick(View v) {
                 mFlowLayout.removeAllViews();
+            }
+        });
+        mTextCancel = view.findViewById(R.id.text_cancel);
+        mTextCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.onBackPressed();
             }
         });
 

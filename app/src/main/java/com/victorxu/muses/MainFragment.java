@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.victorxu.muses.account.view.LoginByCodeFragment;
+import com.victorxu.muses.account.view.LoginByPWDFragment;
+import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.custom.view.BottomBar;
 import com.victorxu.muses.custom.view.BottomBarTab;
@@ -12,12 +15,13 @@ import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.gallery.view.SearchFragment;
 import com.victorxu.muses.gallery.view.TabSelectedEvent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
 public class MainFragment extends BaseFragment {
-    private static final int REQ_MSG = 10;
 
+    private static final int REQ_MAIN_FRAGMENT = 10;
     public static final int FIRST = 0;
     public static final int SECOND = 1;
     public static final int THIRD = 2;
@@ -27,9 +31,7 @@ public class MainFragment extends BaseFragment {
 
     private BottomBar mBottomBar;
 
-
     public static MainFragment newInstance() {
-
         Bundle args = new Bundle();
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
@@ -38,7 +40,7 @@ public class MainFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
         return view;
@@ -50,11 +52,11 @@ public class MainFragment extends BaseFragment {
         BaseFragment firstFragment = findChildFragment(GalleryFragment.class);
         if (firstFragment == null) {
             mFragments[FIRST] = GalleryFragment.newInstance();
-            mFragments[SECOND] = SearchFragment.newInstance();
-            mFragments[THIRD] = SearchFragment.newInstance();
-            mFragments[FORTH] = SearchFragment.newInstance();
+            mFragments[SECOND] = RegisterFragment.newInstance();
+            mFragments[THIRD] = LoginByPWDFragment.newInstance();
+            mFragments[FORTH] = LoginByCodeFragment.newInstance();
 
-            loadMultipleRootFragment(R.id.fl_tab_container, FIRST,
+            loadMultipleRootFragment(R.id.tab_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRD],
@@ -64,14 +66,14 @@ public class MainFragment extends BaseFragment {
 
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
-            mFragments[SECOND] = findChildFragment(SearchFragment.class);
-            mFragments[THIRD] = findChildFragment(SearchFragment.class);
-            mFragments[FORTH] = findChildFragment(SearchFragment.class);
+            mFragments[SECOND] = findChildFragment(RegisterFragment.class);
+            mFragments[THIRD] = findChildFragment(LoginByPWDFragment.class);
+            mFragments[FORTH] = findChildFragment(LoginByCodeFragment.class);
         }
     }
 
     private void initView(View view) {
-        mBottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
+        mBottomBar = view.findViewById(R.id.bottomBar);
 
         mBottomBar
                 .addItem(new BottomBarTab(mActivity, R.drawable.gallery, getString(R.string.gallery)))
@@ -80,19 +82,19 @@ public class MainFragment extends BaseFragment {
                 .addItem(new BottomBarTab(mActivity, R.drawable.mine, getString(R.string.mine)));
 
         // 模拟未读消息
-        mBottomBar.getItem(FIRST).setUnreadCount(9);
-
+//        mBottomBar.getItem(FIRST).setUnreadCount(9);
+//
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, int prePosition) {
                 showHideFragment(mFragments[position], mFragments[prePosition]);
 
-                BottomBarTab tab = mBottomBar.getItem(FIRST);
-                if (position == FIRST) {
-                    tab.setUnreadCount(0);
-                } else {
-                    tab.setUnreadCount(tab.getUnreadCount() + 1);
-                }
+//                BottomBarTab tab = mBottomBar.getItem(FIRST);
+//                if (position == FIRST) {
+//                    tab.setUnreadCount(0);
+//                } else {
+//                    tab.setUnreadCount(tab.getUnreadCount() + 1);
+//                }
             }
 
             @Override
@@ -112,7 +114,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        if (requestCode == REQ_MSG && resultCode == RESULT_OK) {
+        if (requestCode == REQ_MAIN_FRAGMENT && resultCode == RESULT_OK) {
+            // TODO: 18-10-19 获取子fragment结果
 
         }
     }

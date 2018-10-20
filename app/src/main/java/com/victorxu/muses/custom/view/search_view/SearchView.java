@@ -2,6 +2,8 @@ package com.victorxu.muses.custom.view.search_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import android.text.Editable;
@@ -21,9 +23,13 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
     private OnSearchViewClickListener onSearchViewClickListener;
     private AppCompatImageButton mBtnClear;
 
-    public SearchView(final Context context, AttributeSet attrs) {
+    public SearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.search_view, this, true);
+        initView(context, attrs);
+    }
+
+    private void initView(Context context, AttributeSet attrs) {
+        LayoutInflater.from(context).inflate(R.layout.search_view, this);
         mEtSearchView = findViewById(R.id.search_view);
         mBtnClear = findViewById(R.id.button_search_clear);
         mBtnClear.setVisibility(GONE);
@@ -44,7 +50,6 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
                 }
             });
         }
-
     }
 
     @Override
