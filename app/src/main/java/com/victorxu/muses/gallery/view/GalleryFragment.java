@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -21,8 +20,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.victorxu.muses.MainFragment;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.custom.view.search_view.OnSearchViewClickListener;
-import com.victorxu.muses.custom.view.search_view.SearchView;
+import com.victorxu.muses.custom.search_view.OnSearchViewClickListener;
+import com.victorxu.muses.custom.search_view.SearchView;
 import com.victorxu.muses.gallery.contract.GalleryContract;
 import com.victorxu.muses.gallery.view.adapter.RecommendAdapter;
 import com.victorxu.muses.gallery.view.entity.ImageItem;

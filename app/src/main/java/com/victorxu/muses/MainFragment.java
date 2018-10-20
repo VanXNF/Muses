@@ -9,12 +9,10 @@ import com.victorxu.muses.account.view.LoginByCodeFragment;
 import com.victorxu.muses.account.view.LoginByPWDFragment;
 import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.custom.view.BottomBar;
-import com.victorxu.muses.custom.view.BottomBarTab;
+import com.victorxu.muses.custom.bottom_bar.BottomBar;
+import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
+import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
-import com.victorxu.muses.gallery.view.SearchFragment;
-import com.victorxu.muses.gallery.view.TabSelectedEvent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;

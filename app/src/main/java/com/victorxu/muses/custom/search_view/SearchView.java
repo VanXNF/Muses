@@ -1,9 +1,8 @@
-package com.victorxu.muses.custom.view.search_view;
+package com.victorxu.muses.custom.search_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import android.text.Editable;

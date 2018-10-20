@@ -54,7 +54,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.victorxu.muses.custom.view.AdvancedImageView
+        <com.victorxu.muses.custom.AdvancedImageView
             android:id="@+id/image_hot_product_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_175"
@@ -79,7 +79,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.view.AdvancedImageView
+                <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_hot_product_1_image"
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="@dimen/dp_158"
@@ -139,7 +139,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.view.AdvancedImageView
+                <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_hot_product_2_image"
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="@dimen/dp_158"
@@ -207,7 +207,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.view.AdvancedImageView
+                <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_hot_product_3_image"
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="@dimen/dp_158"
@@ -268,7 +268,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.view.AdvancedImageView
+                <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_hot_product_4_image"
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="@dimen/dp_158"

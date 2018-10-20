@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.view;
+package com.victorxu.muses.custom;
 
 import android.content.Context;
 import android.content.res.TypedArray;

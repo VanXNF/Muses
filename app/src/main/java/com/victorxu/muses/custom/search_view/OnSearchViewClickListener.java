@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.view.search_view;
+package com.victorxu.muses.custom.search_view;
 
 import android.view.View;
 
