@@ -94,4 +94,12 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
     public void setFocusableInTouchMode(boolean focusableInTouchMode) {
         mEtSearchView.setFocusableInTouchMode(focusableInTouchMode);
     }
+
+    public String getSearchViewText() {
+        return mEtSearchView.getText().toString();
+    }
+
+    public void setSearchViewText(String text) {
+        mEtSearchView.setText(text);
+    }
 }

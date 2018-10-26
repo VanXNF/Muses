@@ -24,11 +24,17 @@ android {
                     'src/main/res/account',
                     'src/main/res/gallery',
                     'src/main/res/custom',
+                    'src/main/res/search',
+                    'src/main/res/product',
                     'src/main/res/custom/search_view',
                     'src/main/res/custom/advanced_image_view',
                     'src/main/res/custom/bottom_bar'
             ]
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -48,8 +54,8 @@ dependencies {
 
 //    banner
     implementation 'com.youth.banner:banner:1.4.10'
-//    immersion-sdk
-    implementation 'spa.lyh.cn:immersion-sdk:1.0.7'
+//    immersionbar
+    implementation 'com.gyf.immersionbar:immersionbar:2.3.2-beta01'
 //    Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'

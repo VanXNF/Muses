@@ -25,6 +25,7 @@ import com.victorxu.muses.custom.search_view.SearchView;
 import com.victorxu.muses.gallery.contract.GalleryContract;
 import com.victorxu.muses.gallery.view.adapter.RecommendAdapter;
 import com.victorxu.muses.gallery.view.entity.ImageItem;
+import com.victorxu.muses.search.view.SearchFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 

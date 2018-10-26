@@ -4,11 +4,15 @@ package com.victorxu.muses.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.view.animation.Animation;
+
+import com.gyf.barlibrary.ImmersionBar;
+import com.victorxu.muses.R;
 
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportFragment;
@@ -20,6 +24,7 @@ public class BaseFragment extends Fragment implements ISupportFragment {
 
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
     protected FragmentActivity mActivity;
+    private ImmersionBar mImmersionBar;
 
     @Override
     public SupportFragmentDelegate getSupportDelegate() {
@@ -87,6 +92,8 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     public void onDestroy() {
         mDelegate.onDestroy();
         super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
     @Override
@@ -157,6 +164,8 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     @Override
     public void onSupportVisible() {
         mDelegate.onSupportVisible();
+        mImmersionBar = ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor(R.color.background_white).statusBarDarkFont(true);
+        mImmersionBar.init();
     }
 
     /**

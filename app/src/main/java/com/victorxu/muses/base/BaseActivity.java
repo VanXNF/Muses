@@ -1,12 +1,19 @@
 package com.victorxu.muses.base;
 
+import android.database.ContentObserver;
 import android.os.Bundle;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.provider.Settings;
 import android.view.MotionEvent;
+
+import com.gyf.barlibrary.ImmersionBar;
+import com.victorxu.muses.R;
 
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportActivity;
@@ -14,17 +21,16 @@ import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivityDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
-import spa.lyh.cn.statusbarlightmode.ImmersionMode;
 
 public class BaseActivity extends AppCompatActivity implements ISupportActivity {
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
-    public ImmersionMode immersionMode;
+    private ImmersionBar mImmersionBar;
+    private static final String NAVIGATIONBAR_IS_MIN = "navigationbar_is_min";
 
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        immersionMode.execImmersionMode(this);
 
     }
 
@@ -46,7 +52,8 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
-        immersionMode = ImmersionMode.getInstance();
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();
     }
 
     @Override
@@ -59,6 +66,8 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     protected void onDestroy() {
         mDelegate.onDestroy();
         super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
     }
 
     /**
@@ -270,6 +279,23 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     public <T extends ISupportFragment> T findFragment(Class<T> fragmentClass) {
         return SupportHelper.findFragment(getSupportFragmentManager(), fragmentClass);
     }
+
+    private ContentObserver mNavigationStatusObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            int navigationBarIsMin = Settings.System.getInt(getContentResolver(),
+                    NAVIGATIONBAR_IS_MIN, 0);
+            if (navigationBarIsMin == 1) {
+                //导航键隐藏了
+                mImmersionBar.transparentNavigationBar().init();
+            } else {
+                //导航键显示了
+                mImmersionBar.navigationBarColor(android.R.color.black) //隐藏前导航栏的颜色
+                        .fullScreen(false)
+                        .init();
+            }
+        }
+    };
 
 
 }
