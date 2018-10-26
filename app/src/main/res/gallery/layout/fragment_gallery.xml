@@ -1,56 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refresh_gallery"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_white"
-    android:scrollbars="none">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@color/background_white"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.victorxu.muses.custom.search_view.SearchView
-                android:id="@+id/search_gallery"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_4_5"
-                android:layout_marginEnd="@dimen/dp_4_5"
-                android:layout_marginBottom="@dimen/dp_4_5"
-                android:layout_weight="@integer/search_view_weight"
-                app:editable="false"
-                app:focusableInTouchMode="false"
-                app:hint="@string/default_search_hint" />
+                android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/button_customer_service"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                android:layout_gravity="center|end"
-                android:layout_margin="@dimen/dp_9"
-                android:background="@drawable/message" />
+                <com.victorxu.muses.custom.search_view.SearchView
+                    android:id="@+id/search_gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_4_5"
+                    android:layout_marginEnd="@dimen/dp_4_5"
+                    android:layout_marginBottom="@dimen/dp_4_5"
+                    android:layout_weight="@integer/search_view_weight"
+                    app:editable="false"
+                    app:focusableInTouchMode="false"
+                    app:hint="@string/default_search_hint" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_customer_service"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center|end"
+                    android:layout_margin="@dimen/dp_9"
+                    android:background="@drawable/message" />
+
+            </LinearLayout>
+
+            <include layout="@layout/banner_section" />
+
+            <include layout="@layout/classification_section" />
+
+            <include layout="@layout/recommend_section" />
+
+            <include layout="@layout/new_product_section" />
+
+            <include layout="@layout/hot_product_section" />
+
+            <include
+                android:id="@+id/footer_section"
+                layout="@layout/footer_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-        <include layout="@layout/banner_section" />
+    </ScrollView>
 
-        <include layout="@layout/classification_section" />
-
-        <include layout="@layout/recommend_section" />
-
-        <include layout="@layout/new_product_section" />
-
-        <include layout="@layout/hot_product_section" />
-
-        <include layout="@layout/footer_section" />
-
-    </LinearLayout>
-
-</ScrollView>
+</com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>

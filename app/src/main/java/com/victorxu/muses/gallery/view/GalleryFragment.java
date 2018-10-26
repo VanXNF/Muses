@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.MainFragment;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
@@ -38,6 +41,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     private RecyclerView mRecycler;
     private SearchView mSearchView;
     private AppCompatImageButton mImageButton;
+    private TwinklingRefreshLayout mRefreshLayout;
     private List<Integer> mDefaultBannerData;
 
     public static GalleryFragment newInstance() {
@@ -96,6 +100,27 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
             @Override
             public void onClick(View v) {
                 // TODO: 18-10-19 客服功能 
+            }
+        });
+        mRefreshLayout = view.findViewById(R.id.refresh_gallery);
+        mRefreshLayout.setOverScrollTopShow(false);
+        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(()->{
+                    view.findViewById(R.id.footer_section).setVisibility(View.GONE);
+                    mRefreshLayout.finishRefreshing();
+                    mRefreshLayout.setEnableLoadmore(true);
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(() -> {
+                    view.findViewById(R.id.footer_section).setVisibility(View.VISIBLE);
+                    mRefreshLayout.finishLoadmore();
+                    mRefreshLayout.setEnableLoadmore(false);
+                    }, 2000);
             }
         });
 

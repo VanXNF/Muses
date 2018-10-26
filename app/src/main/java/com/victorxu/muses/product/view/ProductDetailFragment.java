@@ -47,8 +47,6 @@ public class ProductDetailFragment extends BaseBackFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-//        mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(true);
-//        mImmersionBar.init();
     }
 
     @Override

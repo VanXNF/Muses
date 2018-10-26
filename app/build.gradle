@@ -61,6 +61,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 //    BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.37'
+//    tkrefreshlayout
+    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
