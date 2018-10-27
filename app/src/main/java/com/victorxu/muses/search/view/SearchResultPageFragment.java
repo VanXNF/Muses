@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
+import com.victorxu.muses.custom.header_view.BlockHeaderView;
 import com.victorxu.muses.product.view.ProductDetailFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
@@ -21,13 +24,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class SearchResultPageFragment extends BaseFragment implements SearchResultContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class SearchResultPageFragment extends BaseFragment implements SearchResultContract.View{
 
 
     private SearchResultContract.Presenter mPresenter;
-    private SwipeRefreshLayout mRefreshLayout;
+    private TwinklingRefreshLayout mRefreshLayout;
     private RecyclerView mRecycler;
     private ProductAdapter mAdapter;
     private List<ProductItem> mData;
@@ -53,7 +55,7 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
     }
 
     private void initView(View view) {
-        mRefreshLayout = view.findViewById(R.id.refresh_layout);
+        mRefreshLayout = view.findViewById(R.id.refresh_search_result);
         mRecycler = view.findViewById(R.id.page_recycler);
         mRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mPresenter.loadData();
@@ -65,8 +67,28 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
             }
         });
         mRecycler.setAdapter(mAdapter);
-        mAdapter.setOnLoadMoreListener(this, mRecycler);
-        mRefreshLayout.setOnRefreshListener(this);
+        BlockHeaderView headerView = new BlockHeaderView(mActivity);
+        mRefreshLayout.setHeaderView(headerView);
+        mRefreshLayout.setMaxHeadHeight(140);
+//        mRefreshLayout.setEnableLoadmore(false);
+
+        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                mRefreshLayout.postDelayed(()->{
+                    mPresenter.refreshData();
+                    mRefreshLayout.finishRefreshing();
+                },2000);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                mRefreshLayout.postDelayed(() -> {
+                    mPresenter.loadMoreData();
+                    mRefreshLayout.finishLoadmore();
+                },2000);
+            }
+        });
     }
 
     @Override
@@ -82,10 +104,9 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
     @Override
     public void refreshProductList(List<ProductItem> data) {
         mData = data;
-        post(() -> {
+        mRecycler.post(()->{
             mAdapter.setNewData(mData);
             mAdapter.notifyDataSetChanged();
-            mRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -93,27 +114,18 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
     public void loadMoreProduct(List<ProductItem> data, boolean isCompleted) {
         if (!isCompleted) {
             mData.addAll(data);
-            mAdapter.enableLoadMoreEndClick(true);
-            mRecycler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.setNewData(mData);
-                    mAdapter.notifyDataSetChanged();
-                    mAdapter.loadMoreComplete();
-                }
-            }, 500);
+            mRecycler.post(()-> {
+                mAdapter.setNewData(mData);
+                mAdapter.notifyDataSetChanged();
+                mAdapter.loadMoreComplete();
+            });
         } else {
-            mAdapter.loadMoreEnd();
+            mRefreshLayout.setEnableLoadmore(false);
         }
     }
 
-    @Override
-    public void onRefresh() {
-        mPresenter.refreshData();
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mPresenter.loadMoreData();
-    }
+//    @Override
+//    public void onLoadMoreRequested() {
+//        mPresenter.loadMoreData();
+//    }
 }
