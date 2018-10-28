@@ -13,6 +13,8 @@ import com.victorxu.muses.custom.bottom_bar.BottomBar;
 import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
 import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
+import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
@@ -51,7 +53,7 @@ public class MainFragment extends BaseFragment {
         if (firstFragment == null) {
             mFragments[FIRST] = GalleryFragment.newInstance();
             mFragments[SECOND] = RegisterFragment.newInstance();
-            mFragments[THIRD] = LoginByPWDFragment.newInstance();
+            mFragments[THIRD] = ShoppingCartFragment.newInstance();
             mFragments[FORTH] = LoginByCodeFragment.newInstance();
 
             loadMultipleRootFragment(R.id.tab_container, FIRST,
@@ -65,7 +67,7 @@ public class MainFragment extends BaseFragment {
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
             mFragments[SECOND] = findChildFragment(RegisterFragment.class);
-            mFragments[THIRD] = findChildFragment(LoginByPWDFragment.class);
+            mFragments[THIRD] = findChildFragment(ShoppingCartFragment.class);
             mFragments[FORTH] = findChildFragment(LoginByCodeFragment.class);
         }
     }
