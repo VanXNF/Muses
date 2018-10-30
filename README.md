@@ -26,3 +26,6 @@
 ## 2018-10-21
 - 移除开源库 immersion-sdk 1.0.7
 - 导入开源库 immersionbar 2.3.2-beta01
+
+## 2018-10-29
+- 导入开源库 recyclerview-swipe 1.1.4
