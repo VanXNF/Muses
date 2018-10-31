@@ -9,8 +9,8 @@
         android:id="@+id/cart_title_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
-        android:layout_marginTop="@dimen/dp_10"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_5">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -115,7 +115,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/rmb"
                     android:textColor="@color/dark_red"
-                    android:textSize="@dimen/sp_13" />
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/cart_text_total_price"
@@ -124,7 +125,8 @@
                     android:layout_margin="@dimen/dp_5"
                     android:text="@string/zero"
                     android:textColor="@color/dark_red"
-                    android:textSize="@dimen/sp_13" />
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/cart_button_settle"

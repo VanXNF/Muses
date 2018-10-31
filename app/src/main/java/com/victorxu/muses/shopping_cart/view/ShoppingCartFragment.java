@@ -1,5 +1,6 @@
 package com.victorxu.muses.shopping_cart.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,13 +22,11 @@ import com.victorxu.muses.shopping_cart.view.adapter.ShoppingCartAdapter;
 import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -35,9 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCartContract.View {
 
@@ -52,6 +49,8 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private AppCompatButton mDeleteButton;
     private AppCompatButton mCollectButton;
     private SwipeMenuRecyclerView mRecycler;
+    private LinearLayout mNormalModeContainer;
+    private LinearLayout mEditModeContainer;
     private List<ShoppingCartProduct> mData;
 
     public static ShoppingCartFragment newInstance() {
@@ -65,6 +64,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
+        mPresenter = new ShoppingCartPresenter(this);
         initView(view);
         return view;
     }
@@ -78,163 +78,124 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mDeleteButton = view.findViewById(R.id.cart_button_delete);
         mCollectButton = view.findViewById(R.id.cart_button_collect);
         mCartModeToggle = view.findViewById(R.id.cart_text_toggle);
-        LinearLayout normalModeContainer = view.findViewById(R.id.cart_normal_mode_container);
-        LinearLayout editModeContainer = view.findViewById(R.id.cart_edit_mode_container);
-        mCartModeToggle.setOnClickListener((v) -> {
-            if (mCartMode) {
-                for (ShoppingCartProduct product : mData) {
-                    product.setEditedMode(false);
-                }
-                view.post(() -> {
-                    mCartModeToggle.setText(R.string.edit);
-                    editModeContainer.setVisibility(View.GONE);
-                    normalModeContainer.setVisibility(View.VISIBLE);
-                    mAdapter.setNewData(mData);
-                    mAdapter.notifyDataSetChanged();
-                });
-                mCartMode = false;
-            } else {
-                for (ShoppingCartProduct product : mData) {
-                    product.setEditedMode(true);
-                }
-                view.post(() -> {
-                    mCartModeToggle.setText(R.string.save);
-                    normalModeContainer.setVisibility(View.GONE);
-                    editModeContainer.setVisibility(View.VISIBLE);
-                    mAdapter.setNewData(mData);
-                    mAdapter.notifyDataSetChanged();
-                });
-                mCartMode = true;
+        mNormalModeContainer = view.findViewById(R.id.cart_normal_mode_container);
+        mEditModeContainer = view.findViewById(R.id.cart_edit_mode_container);
+
+        mRefreshLayout.setEnableLoadmore(false);
+
+        mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            SwipeMenuItem collectItem = new SwipeMenuItem(mActivity)
+                    .setText(getResources().getString(R.string.collect))
+                    .setHeight(height)
+                    .setWidth(width)
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setBackgroundColor(getResources().getColor(R.color.dark_gray));
+            rightMenu.addMenuItem(collectItem);
+            SwipeMenuItem deleteItem = new SwipeMenuItem(mActivity)
+                    .setText(getResources().getString(R.string.delete))
+                    .setHeight(height)
+                    .setWidth(width)
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setBackgroundColor(getResources().getColor(R.color.dark_red));
+            rightMenu.addMenuItem(deleteItem);
+        });
+        mRecycler.setSwipeMenuItemClickListener((SwipeMenuBridge menuBridge) -> {
+            menuBridge.closeMenu();
+            int adapterPosition = menuBridge.getAdapterPosition();
+            int menuPosition = menuBridge.getPosition();
+            if (menuPosition == 1) {
+                mData.remove(adapterPosition);
+                mPresenter.refreshPrice(mData);
             }
         });
-        mPresenter = new ShoppingCartPresenter(this);
-        mPresenter.loadData();
+        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT,5));
+        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+    }
+
+    @Override
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
+        onLazyInitView(savedInstanceState);
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        mCartModeToggle.setOnClickListener((v) -> {
+            mCartMode = !mCartMode;
+            mPresenter.changeCartMode(mCartMode);
+        });
 
         mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                mPresenter.loadData();
+                mPresenter.refreshProduct();
+                mPresenter.refreshPrice(mData);
+                mCheckAll.setChecked(false);
                 mRefreshLayout.finishRefreshing();
             }
         });
-        mRefreshLayout.setEnableLoadmore(false);
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                boolean isNeedUpdateData = false;
-                int id = view.getId();
-                ShoppingCartProduct item = mData.get(position);
-                switch (id) {
-                    case R.id.cart_image_add:
-                        item.setNumber(item.getNumber() + 1);
-                        isNeedUpdateData = true;
-                        break;
-                    case R.id.cart_image_remove:
-                        item.setNumber(item.getNumber() >= 2 ? item.getNumber() - 1 : 1);
-                        isNeedUpdateData = true;
-                        break;
-                    case R.id.cart_check_item:
-                        item.setChecked(!item.isChecked());
-                        isNeedUpdateData = true;
-                        break;
-                }
-                if (isNeedUpdateData) {
-                    mRecycler.post(()->{
-                        double totalPrice = 0;
-                        for (ShoppingCartProduct product : mData) {
-                            if (product.isChecked()) {
-                                totalPrice += Double.parseDouble(product.getPrice()) * product.getNumber();
-                            }
-                        }
-                        mPrice.setText(String.valueOf(totalPrice));
-                        mAdapter.setNewData(mData);
-                        mAdapter.notifyDataSetChanged();
-                    });
-                }
-
+        mPresenter.loadProduct();
+        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+            boolean isNeedUpdateData = false;
+            int id = v.getId();
+            ShoppingCartProduct item = mData.get(position);
+            switch (id) {
+                case R.id.cart_image_add:
+                    item.setNumber(item.getNumber() + 1);
+                    isNeedUpdateData = true;
+                    break;
+                case R.id.cart_image_remove:
+                    item.setNumber(item.getNumber() >= 2 ? item.getNumber() - 1 : 1);
+                    isNeedUpdateData = true;
+                    break;
+                case R.id.cart_check_item:
+                    item.setChecked(!item.isChecked());
+                    isNeedUpdateData = true;
+                    break;
+                case R.id.cart_image_item:
+                    // TODO: 18-10-31 跳转商品详情
+                    break;
+                case R.id.cart_attr_container_edit_mode:
+                    // TODO: 18-10-31 弹出属性选择面板
+                    break;
             }
-        });
-        SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
-
-            @Override
-            public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
-                int height = ViewGroup.LayoutParams.MATCH_PARENT;
-                int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
-                SwipeMenuItem collectItem = new SwipeMenuItem(mActivity)
-                        .setText(getResources().getString(R.string.collect))
-                        .setHeight(height)
-                        .setWidth(width)
-                        .setTextColor(getResources().getColor(R.color.white))
-                        .setBackgroundColor(getResources().getColor(R.color.dark_gray));
-                rightMenu.addMenuItem(collectItem);
-                SwipeMenuItem deleteItem = new SwipeMenuItem(mActivity)
-                        .setText(getResources().getString(R.string.delete))
-                        .setHeight(height)
-                        .setWidth(width)
-                        .setTextColor(getResources().getColor(R.color.white))
-                        .setBackgroundColor(getResources().getColor(R.color.dark_red));
-                rightMenu.addMenuItem(deleteItem);
-            }
-        };
-        mRecycler.setSwipeMenuCreator(mSwipeMenuCreator);
-        mRecycler.setSwipeMenuItemClickListener(new SwipeMenuItemClickListener() {
-            @Override
-            public void onItemClick(SwipeMenuBridge menuBridge) {
-                menuBridge.closeMenu();
-                int adapterPosition = menuBridge.getAdapterPosition();
-                int menuPosition = menuBridge.getPosition();
-                if (menuPosition == 1) {
-                    if (mData.get(adapterPosition).isChecked()) {
-                        double currentPrice = Double.parseDouble(mPrice.getText().toString());
-                        if (currentPrice != 0) {
-                            currentPrice -= Double.parseDouble(mData.get(adapterPosition).getPrice()) * mData.get(adapterPosition).getNumber();
-                        }
-                        mPrice.setText(String.valueOf(currentPrice));
-                    }
-                    mData.remove(adapterPosition);
-                }
-                post(()->{
-                    mAdapter.setNewData(mData);
-                    mAdapter.notifyDataSetChanged();
-                });
+            if (isNeedUpdateData) {
+                mPresenter.refreshPrice(mData);
             }
         });
         mRecycler.setAdapter(mAdapter);
-//        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_gray)));
-        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-
-
-        mCheckAll.setOnClickListener((v) ->
-            post(()->{
-                double totalPrice = 0;
-                for (ShoppingCartProduct product : mData) {
-                    product.setChecked(mCheckAll.isChecked());
-                    if (product.isChecked()) {
-                        totalPrice += Double.parseDouble(product.getPrice()) * product.getNumber();
-                    }
-                }
-                mPrice.setText(String.valueOf(totalPrice));
-                mAdapter.setNewData(mData);
-                mAdapter.notifyDataSetChanged();
-            })
-        );
-
-        mDeleteButton.setOnClickListener((v)->{
-            List<ShoppingCartProduct> newData = new ArrayList<>();
-            for (ShoppingCartProduct product : mData) {
-                if (!product.isChecked()) {
-                    newData.add(product);
-                }
-            }
-            mData.clear();
-            mData.addAll(newData);
-            mRecycler.post(()->{
-                mPrice.setText(getString(R.string.zero));
-                mAdapter.setNewData(mData);
-                mAdapter.notifyDataSetChanged();
-            });
+        mCheckAll.setOnClickListener((v) -> {
+            mPresenter.refreshPrice(mData, mCheckAll.isChecked());
         });
+        mDeleteButton.setOnClickListener((v)->{
+            mPresenter.removeCheckedProduct(mData);
+            mPresenter.refreshPrice(mData);
+        });
+        mSettleButton.setOnClickListener((v)->{
+            // TODO: 18-10-31 结算金额
+        });
+        mCollectButton.setOnClickListener((v)->{
+            // TODO: 18-10-31 收藏商品
+        });
+    }
+
+    @Override
+    public void loadCartItem(List<ShoppingCartProduct> data) {
+        mData = data;
+        mAdapter = new ShoppingCartAdapter(mData);
+    }
+
+    @Override
+    public Context getViewContext() {
+        return mActivity;
+    }
+
+    @Override
+    public void refreshCartTotalPrice(String price) {
+        mPrice.setText(price);
+        refreshCartItem(mData);
     }
 
     @Override
@@ -245,8 +206,17 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                 mAdapter.setNewData(mData);
                 mAdapter.notifyDataSetChanged();
             });
-        } else {
-            mAdapter = new ShoppingCartAdapter(mData);
         }
+    }
+
+    @Override
+    public void changeCartMode(List<ShoppingCartProduct> data) {
+        mData = data;
+        post(()->{
+            mCartModeToggle.setText(mCartMode ? R.string.save : R.string.edit);
+            mEditModeContainer.setVisibility(mCartMode ? View.VISIBLE : View.GONE);
+            mNormalModeContainer.setVisibility(mCartMode ? View.GONE : View.VISIBLE);
+        });
+        refreshCartItem(mData);
     }
 }

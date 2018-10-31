@@ -33,7 +33,8 @@ public class ShoppingCartAdapter extends BaseQuickAdapter<ShoppingCartProduct, B
                 .addOnClickListener(R.id.cart_check_item)
                 .addOnClickListener(R.id.cart_image_item)
                 .addOnClickListener(R.id.cart_image_add)
-                .addOnClickListener(R.id.cart_image_remove);
+                .addOnClickListener(R.id.cart_image_remove)
+                .addOnClickListener(R.id.cart_attr_container_edit_mode);
 
         Glide.with(mContext)
                 .load(item.getImageUri())
