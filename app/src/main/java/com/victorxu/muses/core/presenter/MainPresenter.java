@@ -12,8 +12,5 @@ public class MainPresenter implements MainContract.Presenter {
         this.mView = mView;
     }
 
-    @Override
-    public void startToMainFunction() {
-        mView.loadMainFragment(mModel.getAccountName(), mModel.getSecurityCode());
-    }
+
 }

@@ -1,25 +1,28 @@
-package com.victorxu.muses;
+package com.victorxu.muses.core.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.victorxu.muses.R;
 import com.victorxu.muses.account.view.LoginByCodeFragment;
-import com.victorxu.muses.account.view.LoginByPWDFragment;
 import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
+import com.victorxu.muses.core.contract.MainContract;
+import com.victorxu.muses.core.presenter.MainPresenter;
 import com.victorxu.muses.custom.bottom_bar.BottomBar;
 import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
 import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
+import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements MainContract.View {
 
     private static final int REQ_MAIN_FRAGMENT = 10;
     public static final int FIRST = 0;
@@ -28,7 +31,7 @@ public class MainFragment extends BaseFragment {
     public static final int FORTH = 3;
 
     private BaseFragment[] mFragments = new BaseFragment[4];
-
+    private MainPresenter mPresenter;
     private BottomBar mBottomBar;
 
     public static MainFragment newInstance() {
@@ -42,6 +45,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        mPresenter = new MainPresenter(this);
         initView(view);
         return view;
     }
@@ -53,7 +57,7 @@ public class MainFragment extends BaseFragment {
         if (firstFragment == null) {
             mFragments[FIRST] = GalleryFragment.newInstance();
             mFragments[SECOND] = RegisterFragment.newInstance();
-            mFragments[THIRD] = ShoppingCartFragment.newInstance();
+            mFragments[THIRD] = ShoppingCartContainerFragment.newInstance();
             mFragments[FORTH] = LoginByCodeFragment.newInstance();
 
             loadMultipleRootFragment(R.id.tab_container, FIRST,
@@ -62,12 +66,10 @@ public class MainFragment extends BaseFragment {
                     mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
-            // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
-
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
             mFragments[SECOND] = findChildFragment(RegisterFragment.class);
-            mFragments[THIRD] = findChildFragment(ShoppingCartFragment.class);
+            mFragments[THIRD] = findChildFragment(ShoppingCartContainerFragment.class);
             mFragments[FORTH] = findChildFragment(LoginByCodeFragment.class);
         }
     }
@@ -120,10 +122,17 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    /**
-     * start other BrotherFragment
-     */
+    @Override
+    public void startToAccountFragment() {
+
+    }
+
+    @Override
     public void startBrotherFragment(BaseFragment targetFragment) {
         start(targetFragment);
+    }
+
+    public BottomBar getmBottomBar() {
+        return mBottomBar;
     }
 }

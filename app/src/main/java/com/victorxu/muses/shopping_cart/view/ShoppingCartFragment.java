@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.R;
+import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.presenter.ShoppingCartPresenter;
@@ -36,7 +37,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCartContract.View {
+public class ShoppingCartFragment extends BaseFragment implements ShoppingCartContract.View {
 
     private boolean mCartMode = false;
     private AppCompatTextView mCartModeToggle;
@@ -172,6 +173,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mDeleteButton.setOnClickListener((v)->{
             mPresenter.removeCheckedProduct(mData);
             mPresenter.refreshPrice(mData);
+            mCheckAll.setChecked(false);
         });
         mSettleButton.setOnClickListener((v)->{
             // TODO: 18-10-31 结算金额
@@ -200,13 +202,18 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
     @Override
     public void refreshCartItem(List<ShoppingCartProduct> data) {
-        mData = data;
-        if (mAdapter != null) {
-            post(()->{
-                mAdapter.setNewData(mData);
-                mAdapter.notifyDataSetChanged();
-            });
+        if (data.size() != 0) {
+            mData = data;
+            if (mAdapter != null) {
+                post(()->{
+                    mAdapter.setNewData(mData);
+                    mAdapter.notifyDataSetChanged();
+                });
+            }
+        } else {
+            ((ShoppingCartContainerFragment) getParentFragment()).showEmptyFragment();
         }
+
     }
 
     @Override
@@ -218,5 +225,9 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
             mNormalModeContainer.setVisibility(mCartMode ? View.GONE : View.VISIBLE);
         });
         refreshCartItem(mData);
+    }
+
+    public ShoppingCartPresenter getmPresenter() {
+        return mPresenter;
     }
 }

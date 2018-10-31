@@ -1,5 +1,7 @@
 package com.victorxu.muses.core.contract;
 
+import com.victorxu.muses.base.BaseFragment;
+
 import androidx.annotation.Nullable;
 
 public interface MainContract {
@@ -14,14 +16,14 @@ public interface MainContract {
 
     interface View {
 
-        void loadMainFragment(@Nullable String accountName, @Nullable String securityCode);
+        void startToAccountFragment();
 
+        void startBrotherFragment(BaseFragment targetFragment);
 
     }
 
     interface Presenter {
 
-        void startToMainFunction();
 
     }
 }
