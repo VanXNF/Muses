@@ -62,7 +62,6 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(mActivity, mData.get(position).getmTitle(), Toast.LENGTH_SHORT).show();
                 ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductDetailFragment.newInstance());
             }
         });
