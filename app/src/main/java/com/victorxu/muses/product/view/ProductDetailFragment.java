@@ -78,8 +78,8 @@ public class ProductDetailFragment extends BaseSwipeBackFragment {
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        mImmersionBar = ImmersionBar.with(this).transparentStatusBar().fitsSystemWindows(false);
-        mImmersionBar.init();
+//        mImmersionBar = ImmersionBar.with(this).transparentStatusBar().fitsSystemWindows(false);
+//        mImmersionBar.init();
 
     }
 
@@ -101,7 +101,7 @@ public class ProductDetailFragment extends BaseSwipeBackFragment {
     private void initView(View view) {
         mCollapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar_product);
         mToolbar = view.findViewById(R.id.toolbar_product);
-        initToolbarNav(mToolbar);
+//        initToolbarNav(mToolbar);
         mTabLayout = view.findViewById(R.id.product_detail_tab);
         mPager = view.findViewById(R.id.product_detail_view_pager);
 
@@ -135,24 +135,24 @@ public class ProductDetailFragment extends BaseSwipeBackFragment {
 
     }
 
-    private void initToolbarNav(Toolbar toolbar) {
-        toolbar.setNavigationIcon(R.drawable.back);
-        toolbar.inflateMenu(R.menu.product_deatil_menu);
-        toolbar.setOnMenuItemClickListener((MenuItem item) -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.product_detail_button_share:
-                    // TODO: 18-11-5 分享功能
-                    Toast.makeText(mActivity, "分享成功", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-            return super.onOptionsItemSelected(item);
-        });
-        toolbar.setNavigationOnClickListener((v)-> {
-            mActivity.onBackPressed();
-        });
-
-    }
+//    private void initToolbarNav(Toolbar toolbar) {
+//        toolbar.setNavigationIcon(R.drawable.back);
+//        toolbar.inflateMenu(R.menu.product_deatil_menu);
+//        toolbar.setOnMenuItemClickListener((MenuItem item) -> {
+//            int id = item.getItemId();
+//            switch (id) {
+//                case R.id.product_detail_button_share:
+//                    // TODO: 18-11-5 分享功能
+//                    Toast.makeText(mActivity, "分享成功", Toast.LENGTH_SHORT).show();
+//                    break;
+//            }
+//            return super.onOptionsItemSelected(item);
+//        });
+//        toolbar.setNavigationOnClickListener((v)-> {
+//            mActivity.onBackPressed();
+//        });
+//
+//    }
 
     private void initDefaultBannerData() {
         mDefaultBannerData = new ArrayList<>();

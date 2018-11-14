@@ -24,4 +24,5 @@
     <color name="light_red">#d9ff4013</color>
     <color name="light_gray">#9e9e9e</color>
     <color name="light_white">#F6F6F6</color>
+    <color name="red_transparent">#80f7b8b8</color>
 </resources>

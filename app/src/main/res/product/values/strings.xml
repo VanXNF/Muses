@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="share">分享</string>
+    <string name="product">商品</string>
+    <string name="detail">详情</string>
+    <string name="comment">评价</string>
+    <string name="coupon">领券</string>
+    <string name="add_to_cart">加入购物车</string>
+    <string name="buy_now">立即购买</string>
+    <string name="promotion">促销</string>
+    <string name="parameter">参数</string>
+    <string name="view_product_related_information">查看产品相关信息</string>
 </resources>
