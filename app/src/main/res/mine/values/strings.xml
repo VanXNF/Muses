@@ -4,4 +4,14 @@
     <string name="voucher">抵用券</string>
     <string name="collection">收藏</string>
     <string name="footprint">足迹</string>
+    <string name="pending_payment">待付款</string>
+    <string name="to_be_delivered">待发货</string>
+    <string name="pending_receipt">待收货</string>
+    <string name="waiting_for_evaluation">待评价</string>
+    <string name="return_after_sale">退换/售后</string>
+    <string name="share_app">分享 APP</string>
+    <string name="address_management">地址管理</string>
+    <string name="my_comment">我的评价</string>
+    <string name="customer_service">客户服务</string>
+    <string name="feedback">意见反馈</string>
 </resources>

@@ -5,6 +5,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/mine_linear_pending_payment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -13,21 +14,22 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_35"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:src="@drawable/classification_school" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="待付款"
+            android:text="@string/pending_payment"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mine_linear_to_be_delivered"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -36,21 +38,22 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_35"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:src="@drawable/classification_school" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="待付款"
+            android:text="@string/to_be_delivered"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mine_linear_pending_receipt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -59,21 +62,22 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_35"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:src="@drawable/classification_school" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="待付款"
+            android:text="@string/pending_receipt"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mine_linear_waiting_for_evaluation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -82,21 +86,22 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_35"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:src="@drawable/classification_school" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="待付款"
+            android:text="@string/waiting_for_evaluation"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mine_linear_return_after_sale"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -105,17 +110,17 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_35"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:src="@drawable/classification_school" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="待付款"
+            android:text="@string/return_after_sale"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
     </LinearLayout>
 
