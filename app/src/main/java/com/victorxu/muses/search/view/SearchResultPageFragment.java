@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -12,7 +11,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.custom.header_view.BlockHeaderView;
-import com.victorxu.muses.product.view.ProductDetailFragment;
+import com.victorxu.muses.product.view.ProductContainerFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
 import com.victorxu.muses.search.view.adapter.ProductAdapter;
@@ -62,7 +61,12 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductDetailFragment.newInstance());
+                try {
+                    ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductContainerFragment.newInstance());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         mRecycler.setAdapter(mAdapter);
