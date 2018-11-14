@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="integral">积分</string>
+    <string name="voucher">抵用券</string>
+    <string name="collection">收藏</string>
+    <string name="footprint">足迹</string>
+</resources>

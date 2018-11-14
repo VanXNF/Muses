@@ -15,6 +15,7 @@ import com.victorxu.muses.custom.bottom_bar.BottomBar;
 import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
 import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
+import com.victorxu.muses.mine.view.MineFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
 
@@ -58,7 +59,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
             mFragments[FIRST] = GalleryFragment.newInstance();
             mFragments[SECOND] = RegisterFragment.newInstance();
             mFragments[THIRD] = ShoppingCartContainerFragment.newInstance();
-            mFragments[FORTH] = LoginByCodeFragment.newInstance();
+            mFragments[FORTH] = MineFragment.newInstance();
 
             loadMultipleRootFragment(R.id.tab_container, FIRST,
                     mFragments[FIRST],
@@ -70,7 +71,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
             mFragments[FIRST] = firstFragment;
             mFragments[SECOND] = findChildFragment(RegisterFragment.class);
             mFragments[THIRD] = findChildFragment(ShoppingCartContainerFragment.class);
-            mFragments[FORTH] = findChildFragment(LoginByCodeFragment.class);
+            mFragments[FORTH] = findChildFragment(MineFragment.class);
         }
     }
 
