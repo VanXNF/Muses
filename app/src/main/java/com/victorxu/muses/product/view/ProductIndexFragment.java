@@ -18,7 +18,9 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.custom.scroll_view.GradationScrollView;
+import com.victorxu.muses.product.view.adapter.EvaluationAdapter;
 import com.victorxu.muses.product.view.adapter.PromotionAdapter;
+import com.victorxu.muses.product.view.entity.EvaluationItem;
 import com.victorxu.muses.product.view.entity.PromotionItem;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -43,8 +45,10 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
     private AppCompatTextView mTextPrice;
     private AppCompatTextView mTextOriginPrice;
     private ImmersionBar mImmersionBar;
-    private RecyclerView mRecycler;
-    private PromotionAdapter mAdapter;
+    private RecyclerView mPromotionRecycler;
+    private RecyclerView mEvaluationRecycler;
+    private PromotionAdapter mPromotionAdapter;
+    private EvaluationAdapter mEvaluationAdapter;
 
     public static ProductIndexFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -87,13 +91,30 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
                 .setIndicatorGravity(BannerConfig.RIGHT)
                 .start();
 
-        mRecycler = view.findViewById(R.id.product_index_promotion_recycler_view);
-        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mPromotionRecycler = view.findViewById(R.id.product_index_promotion_recycler_view);
+        mPromotionRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         ArrayList<PromotionItem> promotionItems = new ArrayList<>();
         promotionItems.add(new PromotionItem("10元现金券满·200减30"));
         promotionItems.add(new PromotionItem("全场满188包邮"));
-        mAdapter = new PromotionAdapter(promotionItems);
-        mRecycler.setAdapter(mAdapter);
+        mPromotionAdapter = new PromotionAdapter(promotionItems);
+        mPromotionRecycler.setAdapter(mPromotionAdapter);
+
+        mEvaluationRecycler = view.findViewById(R.id.product_index_comment_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        mEvaluationRecycler.setLayoutManager(linearLayoutManager);
+        ArrayList<EvaluationItem> evaluationItems = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
+                    "夏朗拿度", "2018-11-15", "51", "99+",
+                    "这款耳机主打低音，一直很喜欢索尼耳机的柔和。这款耳机低音不哄耳。振膜很给力，耳机响起来...",
+                    "https://s1.ax1x.com/2018/03/30/9vze8e.jpg",
+                    "https://s1.ax1x.com/2018/03/30/9vzmgH.jpg",
+                    "https://s1.ax1x.com/2018/03/30/9vzE4O.jpg"));
+        }
+        mEvaluationAdapter = new EvaluationAdapter(evaluationItems);
+        mEvaluationRecycler.setAdapter(mEvaluationAdapter);
+
     }
 
     @Override
@@ -128,6 +149,7 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
 
     private void initDefaultBannerData() {
         mDefaultBannerData = new ArrayList<>();
+        mDefaultBannerData.add(R.drawable.test_index_1);
         mDefaultBannerData.add(R.drawable.banner_guide);
         mDefaultBannerData.add(R.drawable.banner_dew);
         mDefaultBannerData.add(R.drawable.banner_cubism);

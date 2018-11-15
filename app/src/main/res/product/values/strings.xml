@@ -10,4 +10,9 @@
     <string name="promotion">促销</string>
     <string name="parameter">参数</string>
     <string name="view_product_related_information">查看产品相关信息</string>
+    <string name="product_style">款式</string>
+    <string name="seven_days_no_reason_to_return">7天无理由退货</string>
+    <string name="fifteen_days_quality_problem">15天质量问题包退换</string>
+    <string name="product_evaluation">产品评价</string>
+    <string name="see_all_reviews">查看全部评论</string>
 </resources>
