@@ -1,5 +1,7 @@
 package com.victorxu.muses.product.view.entity;
 
+import java.util.List;
+
 public class EvaluationItem {
 
     private String avatarUrl;
@@ -8,20 +10,30 @@ public class EvaluationItem {
     private String likeNum;
     private String commentNum;
     private String comment;
-    private String commentImage1;
-    private String commentImage2;
-    private String commentImage3;
+    private String rank;
+    private List<String> commentImages;
+    private String type;
 
-    public EvaluationItem(String avatarUrl, String userName, String commentDate, String likeNum, String commentNum, String comment, String commentImage1, String commentImage2, String commentImage3) {
+    public EvaluationItem(String avatarUrl, String userName, String commentDate, String likeNum, String commentNum, String comment, List<String> commentImages) {
         this.avatarUrl = avatarUrl;
         this.userName = userName;
         this.commentDate = commentDate;
         this.likeNum = likeNum;
         this.commentNum = commentNum;
         this.comment = comment;
-        this.commentImage1 = commentImage1;
-        this.commentImage2 = commentImage2;
-        this.commentImage3 = commentImage3;
+        this.commentImages = commentImages;
+    }
+
+    public EvaluationItem(String avatarUrl, String userName, String commentDate, String likeNum, String commentNum, String comment, String rank, List<String> commentImages, String type) {
+        this.avatarUrl = avatarUrl;
+        this.userName = userName;
+        this.commentDate = commentDate;
+        this.likeNum = likeNum;
+        this.commentNum = commentNum;
+        this.comment = comment;
+        this.rank = rank;
+        this.commentImages = commentImages;
+        this.type = type;
     }
 
     public String getAvatarUrl() {
@@ -72,27 +84,27 @@ public class EvaluationItem {
         this.comment = comment;
     }
 
-    public String getCommentImage1() {
-        return commentImage1;
+    public String getRank() {
+        return rank;
     }
 
-    public void setCommentImage1(String commentImage1) {
-        this.commentImage1 = commentImage1;
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 
-    public String getCommentImage2() {
-        return commentImage2;
+    public List<String> getCommentImages() {
+        return commentImages;
     }
 
-    public void setCommentImage2(String commentImage2) {
-        this.commentImage2 = commentImage2;
+    public void setCommentImages(List<String> commentImages) {
+        this.commentImages = commentImages;
     }
 
-    public String getCommentImage3() {
-        return commentImage3;
+    public String getType() {
+        return type;
     }
 
-    public void setCommentImage3(String commentImage3) {
-        this.commentImage3 = commentImage3;
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -104,13 +104,14 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mEvaluationRecycler.setLayoutManager(linearLayoutManager);
         ArrayList<EvaluationItem> evaluationItems = new ArrayList<>();
+        ArrayList<String> urls = new ArrayList<>();
+        urls.add("https://s1.ax1x.com/2018/03/30/9vze8e.jpg");
+        urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
+        urls.add("https://s1.ax1x.com/2018/03/30/9vzE4O.jpg");
         for (int i = 0; i < 4; i++) {
             evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
                     "夏朗拿度", "2018-11-15", "51", "99+",
-                    "这款耳机主打低音，一直很喜欢索尼耳机的柔和。这款耳机低音不哄耳。振膜很给力，耳机响起来...",
-                    "https://s1.ax1x.com/2018/03/30/9vze8e.jpg",
-                    "https://s1.ax1x.com/2018/03/30/9vzmgH.jpg",
-                    "https://s1.ax1x.com/2018/03/30/9vzE4O.jpg"));
+                    "这款耳机主打低音，一直很喜欢索尼耳机的柔和。这款耳机低音不哄耳。振膜很给力，耳机响起来...", urls));
         }
         mEvaluationAdapter = new EvaluationAdapter(evaluationItems);
         mEvaluationRecycler.setAdapter(mEvaluationAdapter);

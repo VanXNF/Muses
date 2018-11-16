@@ -30,15 +30,15 @@ public class EvaluationAdapter extends BaseQuickAdapter<EvaluationItem, BaseView
                 .into((AdvancedImageView) helper.getView(R.id.product_index_evaluation_image_avatar));
 
         Glide.with(mContext)
-                .load(item.getCommentImage1())
+                .load(item.getCommentImages().get(0))
                 .into((AdvancedImageView) helper.getView(R.id.product_index_evaluation_image_comment_image_1));
 
         Glide.with(mContext)
-                .load(item.getCommentImage2())
+                .load(item.getCommentImages().get(1))
                 .into((AdvancedImageView) helper.getView(R.id.product_index_evaluation_image_comment_image_2));
 
         Glide.with(mContext)
-                .load(item.getCommentImage3())
+                .load(item.getCommentImages().get(2))
                 .into((AdvancedImageView) helper.getView(R.id.product_index_evaluation_image_comment_image_3));
     }
 }

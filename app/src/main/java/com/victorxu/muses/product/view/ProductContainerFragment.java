@@ -55,7 +55,7 @@ public class ProductContainerFragment extends BaseSwipeBackFragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        View titleBar = view.findViewById(R.id.toolbar_product);
+        View titleBar = view.findViewById(R.id.product_container_toolbar);
         if (titleBar != null)
             ImmersionBar.setTitleBar(mActivity, titleBar);
     }

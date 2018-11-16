@@ -1,6 +1,8 @@
 package com.victorxu.muses.product.view.adapter;
 
+import com.victorxu.muses.product.view.ProductDetailFragment;
 import com.victorxu.muses.product.view.ProductIndexFragment;
+import com.victorxu.muses.product.view.ProductCommentFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,9 +23,9 @@ public class ProductPagerFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return ProductIndexFragment.newInstance();
             case 1:
-                return ProductIndexFragment.newInstance();
+                return ProductDetailFragment.newInstance();
             case 2:
-                return ProductIndexFragment.newInstance();
+                return ProductCommentFragment.newInstance();
             default:
                 break;
         }
