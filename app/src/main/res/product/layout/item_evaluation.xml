@@ -63,7 +63,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
-                android:src="@drawable/checked"
+                android:src="@drawable/thumb_up"
                 android:tint="@color/light_gray" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -76,10 +76,10 @@
                 android:textSize="@dimen/sp_12" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="21dp"
+                android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
                 android:layout_marginStart="@dimen/dp_10"
-                android:src="@drawable/checked"
+                android:src="@drawable/comment"
                 android:tint="@color/light_gray" />
 
             <androidx.appcompat.widget.AppCompatTextView

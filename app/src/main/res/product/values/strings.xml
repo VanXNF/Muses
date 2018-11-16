@@ -15,4 +15,6 @@
     <string name="fifteen_days_quality_problem">15天质量问题包退换</string>
     <string name="product_evaluation">产品评价</string>
     <string name="see_all_reviews">查看全部评论</string>
+    <string name="product_customer_service">客服</string>
+
 </resources>
