@@ -29,3 +29,6 @@
 
 ## 2018-10-29
 - 导入开源库 recyclerview-swipe 1.1.4
+
+## 2018-11-23
+- 导入开源库 simpleratingbar:0.1.5
