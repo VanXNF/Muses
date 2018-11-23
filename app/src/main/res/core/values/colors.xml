@@ -19,6 +19,7 @@
     <color name="tab_unselected">#c9c9c9</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
     <color name="dark_gray">#333333</color>
     <color name="dark_red">#FFFF4013</color>
     <color name="light_red">#d9ff4013</color>

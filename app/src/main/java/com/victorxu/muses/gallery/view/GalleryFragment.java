@@ -28,6 +28,7 @@ import com.victorxu.muses.custom.search_view.SearchView;
 import com.victorxu.muses.gallery.contract.GalleryContract;
 import com.victorxu.muses.gallery.view.adapter.RecommendAdapter;
 import com.victorxu.muses.gallery.view.entity.ImageItem;
+import com.victorxu.muses.message.view.MessageListFragment;
 import com.victorxu.muses.search.view.SearchFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -96,11 +97,8 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         });
 
         mImageButton = view.findViewById(R.id.button_customer_service);
-        mImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 18-10-19 客服功能 
-            }
+        mImageButton.setOnClickListener((v) -> {
+            ((MainFragment) getParentFragment()).startBrotherFragment(MessageListFragment.newInstance());
         });
         mRefreshLayout = view.findViewById(R.id.refresh_gallery);
         mRefreshLayout.setOverScrollTopShow(false);

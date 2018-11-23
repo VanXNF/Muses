@@ -23,6 +23,7 @@ android {
                     'src/main/res/core',
                     'src/main/res/account',
                     'src/main/res/gallery',
+                    'src/main/res/message',
                     'src/main/res/mine',
                     'src/main/res/custom',
                     'src/main/res/search',
