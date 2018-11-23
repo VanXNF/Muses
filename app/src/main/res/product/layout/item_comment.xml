@@ -91,7 +91,6 @@
             android:layout_height="@dimen/dp_105"
             android:layout_alignParentStart="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/product1"
             app:type="normal" />
 
         <com.victorxu.muses.custom.AdvancedImageView
@@ -99,7 +98,7 @@
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/product1"
+            android:scaleType="centerCrop"
             app:type="normal" />
 
         <com.victorxu.muses.custom.AdvancedImageView
@@ -107,7 +106,7 @@
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/product1"
+            android:scaleType="centerCrop"
             app:type="normal" />
 
         <com.victorxu.muses.custom.AdvancedImageView
@@ -118,7 +117,6 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/dp_7"
             android:scaleType="centerCrop"
-            android:src="@drawable/product1"
             app:type="normal" />
 
         <com.victorxu.muses.custom.AdvancedImageView
@@ -128,7 +126,7 @@
             android:layout_below="@id/product_comment_image_comment_image_2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_7"
-            android:src="@drawable/product1"
+            android:scaleType="centerCrop"
             app:type="normal" />
 
         <com.victorxu.muses.custom.AdvancedImageView
@@ -138,7 +136,7 @@
             android:layout_below="@id/product_comment_image_comment_image_3"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/dp_7"
-            android:src="@drawable/product1"
+            android:scaleType="centerCrop"
             app:type="normal" />
 
     </RelativeLayout>

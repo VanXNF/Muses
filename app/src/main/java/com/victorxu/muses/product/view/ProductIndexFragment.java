@@ -103,17 +103,7 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mEvaluationRecycler.setLayoutManager(linearLayoutManager);
-        ArrayList<EvaluationItem> evaluationItems = new ArrayList<>();
-        ArrayList<String> urls = new ArrayList<>();
-        urls.add("https://s1.ax1x.com/2018/03/30/9vze8e.jpg");
-        urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
-        urls.add("https://s1.ax1x.com/2018/03/30/9vzE4O.jpg");
-        for (int i = 0; i < 4; i++) {
-            evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
-                    "夏朗拿度", "2018-11-15", "51", "99+",
-                    "这款耳机主打低音，一直很喜欢索尼耳机的柔和。这款耳机低音不哄耳。振膜很给力，耳机响起来...", urls));
-        }
-        mEvaluationAdapter = new EvaluationAdapter(evaluationItems);
+        mEvaluationAdapter = new EvaluationAdapter(initTestEvaluationData());
         mEvaluationRecycler.setAdapter(mEvaluationAdapter);
 
     }
@@ -155,5 +145,19 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
         mDefaultBannerData.add(R.drawable.banner_dew);
         mDefaultBannerData.add(R.drawable.banner_cubism);
         mDefaultBannerData.add(R.drawable.banner_institute);
+    }
+
+    private ArrayList<EvaluationItem> initTestEvaluationData() {
+        ArrayList<EvaluationItem> evaluationItems = new ArrayList<>();
+        ArrayList<String> urls = new ArrayList<>();
+        urls.add("https://s1.ax1x.com/2018/03/30/9vze8e.jpg");
+        urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
+        urls.add("https://s1.ax1x.com/2018/03/30/9vzE4O.jpg");
+        for (int i = 0; i < 4; i++) {
+            evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
+                    "夏朗拿度", "2018-11-15", "51", "99+",
+                    "这款耳机主打低音，一直很喜欢索尼耳机的柔和。这款耳机低音不哄耳。振膜很给力，耳机响起来...", urls));
+        }
+        return evaluationItems;
     }
 }

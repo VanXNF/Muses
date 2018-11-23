@@ -10,7 +10,7 @@ public class EvaluationItem {
     private String likeNum;
     private String commentNum;
     private String comment;
-    private String rank;
+    private float rank;
     private List<String> commentImages;
     private String type;
 
@@ -24,7 +24,7 @@ public class EvaluationItem {
         this.commentImages = commentImages;
     }
 
-    public EvaluationItem(String avatarUrl, String userName, String commentDate, String likeNum, String commentNum, String comment, String rank, List<String> commentImages, String type) {
+    public EvaluationItem(String avatarUrl, String userName, String commentDate, String likeNum, String commentNum, String comment, float rank, List<String> commentImages, String type) {
         this.avatarUrl = avatarUrl;
         this.userName = userName;
         this.commentDate = commentDate;
@@ -84,11 +84,11 @@ public class EvaluationItem {
         this.comment = comment;
     }
 
-    public String getRank() {
+    public float getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(float rank) {
         this.rank = rank;
     }
 
