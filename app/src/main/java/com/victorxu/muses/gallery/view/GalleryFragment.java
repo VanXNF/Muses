@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +46,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     private AppCompatImageButton mImageButton;
     private TwinklingRefreshLayout mRefreshLayout;
     private List<Integer> mDefaultBannerData;
+    private AppCompatImageView mTicketMarket;
 
     public static GalleryFragment newInstance() {
         Bundle args = new Bundle();
@@ -121,7 +124,8 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                     }, 2000);
             }
         });
-
+        mTicketMarket = view.findViewById(R.id.classification_ticket_market);
+        mTicketMarket.setOnClickListener((v) -> ((MainFragment) getParentFragment()).startBrotherFragment(TicketFragment.newInstance()));
     }
 
     private void initDefaultBannerData() {

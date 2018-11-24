@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_200"
+    android:background="@color/light_white"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_5">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_toStartOf="@id/ticket_text_percentage"
+            android:text="@string/received"
+            android:textSize="@dimen/sp_13" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/ticket_text_percentage_unit"
+            android:text="90"
+            android:textSize="@dimen/sp_13" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_percentage_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_toStartOf="@id/ticket_progressbar"
+            android:text="@string/percentage"
+            android:textSize="@dimen/sp_13" />
+
+        <ProgressBar
+            android:id="@+id/ticket_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_12"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:max="100"
+            android:maxHeight="@dimen/dp_12"
+            android:minHeight="@dimen/dp_12"
+            android:progress="90"
+            android:progressDrawable="@drawable/progress_bg" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ticket_bg"
+        android:padding="@dimen/dp_15">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_sub_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="满200减30/全品类"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_13" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_text_sub_desc"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="30元现金券"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_21"
+            android:textStyle="normal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_18"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_0"
+            android:layout_below="@id/ticket_text_desc"
+            android:background="@drawable/line_bg" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_text_desc"
+            android:layout_marginTop="@dimen/dp_25"
+            android:text="60"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/sp_13"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_score_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_text_desc"
+            android:layout_marginStart="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_25"
+            android:layout_toEndOf="@id/ticket_text_score"
+            android:text="@string/score"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/sp_13"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ticket_text_redeem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ticket_text_score"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dp_19"
+            android:text="@string/redeem_now"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/sp_13"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ticket_image_redeem"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_below="@id/ticket_text_desc"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dp_24"
+            android:padding="@dimen/dp_4"
+            android:src="@drawable/more"
+            android:tint="@color/light_red" />
+
+    </RelativeLayout>
+
+</LinearLayout>

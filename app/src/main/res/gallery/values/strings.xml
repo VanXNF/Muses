@@ -14,6 +14,12 @@
     <string name="popular_searches">热门搜索</string>
     <string name="historical_search">搜索历史</string>
     <string name="delete_all">清空</string>
+    <string name="current_score">当前积分：</string>
+    <string name="received">已领取</string>
+    <string name="redeem_now">立即兑换</string>
+    <string name="redeem_finished">已兑完</string>
+    <string name="percentage">%</string>
+    <string name="score">积分</string>
 
     <!--default test data-->
     <string name="product_1_title">客厅北欧风格装饰画</string>
