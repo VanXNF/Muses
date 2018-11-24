@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ public class TicketFragment extends BaseSwipeBackFragment {
 
     private TicketAdapter mTicketAdapter;
     private RecyclerView mTicketRecycler;
+    private AppCompatImageView mImageBack;
 
     public static TicketFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -42,6 +44,8 @@ public class TicketFragment extends BaseSwipeBackFragment {
         mTicketRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mTicketAdapter = new TicketAdapter(initTestTicketData());
         mTicketRecycler.setAdapter(mTicketAdapter);
+        mImageBack = view.findViewById(R.id.ticket_image_back);
+        mImageBack.setOnClickListener((v) -> mActivity.onBackPressed());
     }
 
     private ArrayList<TicketItem> initTestTicketData() {
