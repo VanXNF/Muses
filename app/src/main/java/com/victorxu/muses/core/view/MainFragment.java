@@ -6,18 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.victorxu.muses.R;
-import com.victorxu.muses.account.view.LoginByCodeFragment;
-import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.contract.MainContract;
 import com.victorxu.muses.core.presenter.MainPresenter;
+import com.victorxu.muses.creation.view.CreationFragment;
 import com.victorxu.muses.custom.bottom_bar.BottomBar;
 import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
 import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.mine.view.MineFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
-import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +55,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         BaseFragment firstFragment = findChildFragment(GalleryFragment.class);
         if (firstFragment == null) {
             mFragments[FIRST] = GalleryFragment.newInstance();
-            mFragments[SECOND] = RegisterFragment.newInstance();
+            mFragments[SECOND] = CreationFragment.newInstance();
             mFragments[THIRD] = ShoppingCartContainerFragment.newInstance();
             mFragments[FORTH] = MineFragment.newInstance();
 
@@ -69,7 +67,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         } else {
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
-            mFragments[SECOND] = findChildFragment(RegisterFragment.class);
+            mFragments[SECOND] = findChildFragment(CreationFragment.class);
             mFragments[THIRD] = findChildFragment(ShoppingCartContainerFragment.class);
             mFragments[FORTH] = findChildFragment(MineFragment.class);
         }
