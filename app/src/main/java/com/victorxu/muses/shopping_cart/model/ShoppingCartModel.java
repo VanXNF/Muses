@@ -81,9 +81,13 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
 
     private List<ShoppingCartProduct> initTestData() {
         List<ShoppingCartProduct> testData = new ArrayList<>();
-        for (int i = 0; i < 5 ; i++) {
-            testData.add(new ShoppingCartProduct("https://s1.ax1x.com/2018/04/02/CSWxf0.jpg", "便携保温杯", "银色 旋转波纹", "999", 1));
-        }
+        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i2/1779099327/TB24wCWpN9YBuNjy0FfXXXIsVXa_!!1779099327.jpg_430x430q90.jpg", "三联北欧创意油画大气壁画油画挂画", "麻棉油画布肌理+环保画框", "358.00", 2));
+        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i4/2122078663/O1CN012DrhaXqQtvjYMdJ_!!2122078663.jpg_430x430q90.jpg", "客厅装饰画沙发背景墙挂画新中式办公室", "独立", "418.00", 1));
+        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i1/1675711085/O1CN011JsyCTbDzUR7HRD_!!0-item_pic.jpg_430x430q90.jpg", "现代简约餐厅墙面装饰壁画", "多尺寸组合 深色木框", "286.00", 2));
+
+//        for (int i = 0; i < 5 ; i++) {
+//            testData.add(new ShoppingCartProduct("https://s1.ax1x.com/2018/04/02/CSWxf0.jpg", "便携保温杯", "银色 旋转波纹", "999", 1));
+//        }
         return testData;
     }
 }

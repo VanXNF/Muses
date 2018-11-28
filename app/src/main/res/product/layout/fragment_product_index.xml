@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="@string/product_1_title"
+                    android:text="北欧风格玄关创意壁画挂画"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_18"
                     android:textStyle="bold" />

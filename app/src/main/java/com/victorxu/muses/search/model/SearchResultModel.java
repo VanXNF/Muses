@@ -48,9 +48,13 @@ public class SearchResultModel implements SearchResultContract.Model {
         Random random = new Random();
         for (int i = 0; i < num; i++) {
             if (random.nextBoolean()) {
-                data.add(new ProductItem(i, "https://s1.ax1x.com/2018/04/02/CS2Ljg.jpg", "客厅北欧风格装饰画", "现代简约 高档三联 风景挂画", "￥716"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i3/2048829272/O1CN012IMcnFurWfqbAUN_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格玄关创意壁画挂画", "组合套装", "￥718"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i2/1779099327/TB24wCWpN9YBuNjy0FfXXXIsVXa_!!1779099327.jpg_430x430q90.jpg", "三联北欧创意油画大气壁画油画挂画", "现代简约 高档三联 风景挂画", "￥358"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i4/2122078663/O1CN012DrhaXqQtvjYMdJ_!!2122078663.jpg_430x430q90.jpg", "客厅装饰画沙发背景墙挂画新中式办公室", "独立 办公室 背景挂画", "￥418"));
             } else {
-                data.add(new ProductItem(i, "https://s1.ax1x.com/2018/03/30/9vIx9P.jpg", "荷花禅意装饰画", "实木挂轴画 现代简约 卷轴墙壁画", "￥439"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i3/2048829272/O1CN011U7MIo2IMcnnwObD0_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格现代简约组合挂画几何抽象画三联壁画", "几何抽象画 升级款", "￥220"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i1/1675711085/O1CN011JsyCTbDzUR7HRD_!!0-item_pic.jpg_430x430q90.jpg", "现代简约办公室餐厅墙面装饰壁画", "现代简约 装饰壁画", "￥286"));
+                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i4/1675711085/O1CN011JsyCYkgbcobAxN_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格装饰画麋鹿挂画三联画", "环保画材 艺术微喷工艺", "￥306"));
             }
         }
         return data;

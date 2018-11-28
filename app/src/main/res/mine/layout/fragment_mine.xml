@@ -27,12 +27,12 @@
             android:layout_height="@dimen/dp_70">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_15"
-                android:src="@drawable/classification_school" />
+                android:src="@drawable/mine_share" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -48,6 +48,7 @@
                 android:layout_height="@dimen/dp_30"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:tint="@color/light_gray"
                 android:layout_marginEnd="@dimen/dp_5"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/more" />
@@ -60,12 +61,12 @@
             android:layout_height="@dimen/dp_70">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_15"
-                android:src="@drawable/classification_school" />
+                android:src="@drawable/mine_address" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -82,6 +83,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_5"
+                android:tint="@color/light_gray"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/more" />
 
@@ -94,12 +96,12 @@
             android:layout_marginBottom="@dimen/dp_15">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_15"
-                android:src="@drawable/classification_school" />
+                android:src="@drawable/mine_comment" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -116,6 +118,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_5"
+                android:tint="@color/light_gray"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/more" />
 
@@ -133,12 +136,12 @@
             android:layout_marginTop="@dimen/dp_15">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_15"
-                android:src="@drawable/classification_school" />
+                android:src="@drawable/mine_customer_service" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -166,12 +169,12 @@
             android:layout_height="@dimen/dp_70">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_15"
-                android:src="@drawable/classification_school" />
+                android:src="@drawable/mine_feedback" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"

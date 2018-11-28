@@ -14,9 +14,9 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/classification_school" />
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:src="@drawable/mine_pending_payment" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -38,9 +38,9 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/classification_school" />
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:src="@drawable/mine_pending_send" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -62,9 +62,9 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/classification_school" />
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:src="@drawable/mine_pending_received" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -86,9 +86,9 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/classification_school" />
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:src="@drawable/mine_wait_evaluated" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -110,9 +110,9 @@
         android:padding="@dimen/dp_10">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:src="@drawable/classification_school" />
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:src="@drawable/mine_return" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"

@@ -28,9 +28,11 @@
         android:layout_marginTop="@dimen/dp_5"
         android:layout_toEndOf="@id/cart_image_item"
         android:singleLine="true"
+        android:paddingStart="@dimen/dp_0"
+        android:paddingEnd="@dimen/dp_40"
         android:text="@string/product_1_title"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_14"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -76,6 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cart_text_product_title"
         android:layout_marginTop="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_50"
+        android:paddingStart="@dimen/dp_0"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_toEndOf="@id/cart_image_item"
         android:text="@string/product_1_tag"

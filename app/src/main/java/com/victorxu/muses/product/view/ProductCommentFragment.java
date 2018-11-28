@@ -76,19 +76,32 @@ public class ProductCommentFragment extends BaseFragment {
 
 //        urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
 //        urls.add("https://s1.ax1x.com/2018/03/30/9vzE4O.jpg");
-        for (int i = 0; i < 6; i++) {
-            ArrayList<String> urls = new ArrayList<>();
-            if (urls.size() < 6) {
-                int j = i + 1;
-                while (j-- > 0) {
-                    urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
-                }
-            }
-            evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
-                    "夏朗拿度", "2018-11-15", "51", "99+",
-                    "这款北欧风情装饰画质量很不错，图案比较美观，印刷质感也很好。发货迅速，下次还到这里购买。",
-                    5, urls, "北欧风情装饰画 三联"));
-        }
+//        for (int i = 0; i < 6; i++) {
+//            ArrayList<String> urls = new ArrayList<>();
+//            if (urls.size() < 6) {
+//                int j = i + 1;
+//                while (j-- > 0) {
+//                    urls.add("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg");
+//                }
+//            }
+//            evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
+//                    "夏朗拿度", "2018-11-15", "51", "99+",
+//                    "这款北欧风情装饰画质量很不错，图案比较美观，印刷质感也很好。发货迅速，下次还到这里购买。",
+//                    5, urls, "北欧风情装饰画 三联"));
+//        }
+        ArrayList<String> urls = new ArrayList<>();
+        urls.add("https://img.alicdn.com/imgextra/i3/2048829272/O1CN012IMcnFurWfqbAUN_!!0-item_pic.jpg_430x430q90.jpg");
+        urls.add("https://img.alicdn.com/imgextra/i2/2048829272/O1CN012IMcn6lxTGWJyTb_!!2048829272.jpg_430x430q90.jpg");
+        evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vxcnI.jpg",
+                "夏朗拿度", "2018-11-15", "51", "99+",
+                "这款北欧风情装饰画质量很不错，图案比较美观，印刷质感也很好。发货迅速，下次还到这里购买。",
+                5, urls, "北欧风情装饰画 三联"));
+        ArrayList<String> urls2 = new ArrayList<>();
+        urls2.add("https://img.alicdn.com/imgextra/i4/2122078663/O1CN012DrhaXqQtvjYMdJ_!!2122078663.jpg_430x430q90.jpg");
+        evaluationItems.add(new EvaluationItem("https://s1.ax1x.com/2018/03/30/9vzE4O.jpg",
+                "吉**吉", "2018-11-14", "20", "35",
+                "包装用心，画质很好，纹理清晰，很漂亮，和玄关很搭，不错",
+                5, urls2, "几何抽象"));
         return evaluationItems;
     }
 }
