@@ -15,10 +15,7 @@ public class Muses extends Application {
         Fragmentation.builder()
                 .stackViewMode(Fragmentation.NONE)
                 .debug(true)
-                .handleException(new ExceptionHandler() {
-                    @Override
-                    public void onException(@NonNull Exception e) {}
-                })
+                .handleException((Exception e)->{})
                 .install();
     }
 }

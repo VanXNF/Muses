@@ -64,7 +64,16 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         return view;
     }
 
-    private void initView(View view) {
+    private void initDefaultBannerData() {
+        mDefaultBannerData = new ArrayList<>();
+        mDefaultBannerData.add(R.drawable.banner_guide);
+        mDefaultBannerData.add(R.drawable.banner_dew);
+        mDefaultBannerData.add(R.drawable.banner_cubism);
+        mDefaultBannerData.add(R.drawable.banner_institute);
+    }
+
+    @Override
+    public void initView(View view) {
         mBanner = view.findViewById(R.id.banner_gallery);
         initDefaultBannerData();
         mBanner.setImages(mDefaultBannerData)
@@ -121,19 +130,60 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                     view.findViewById(R.id.footer_section).setVisibility(View.VISIBLE);
                     mRefreshLayout.finishLoadmore();
                     mRefreshLayout.setEnableLoadmore(false);
-                    }, 2000);
+                }, 2000);
             }
         });
         mTicketMarket = view.findViewById(R.id.classification_ticket_market);
         mTicketMarket.setOnClickListener((v) -> ((MainFragment) getParentFragment()).startBrotherFragment(TicketFragment.newInstance()));
     }
 
-    private void initDefaultBannerData() {
-        mDefaultBannerData = new ArrayList<>();
-        mDefaultBannerData.add(R.drawable.banner_guide);
-        mDefaultBannerData.add(R.drawable.banner_dew);
-        mDefaultBannerData.add(R.drawable.banner_cubism);
-        mDefaultBannerData.add(R.drawable.banner_institute);
+    @Override
+    public void showBanner() {
+
     }
 
+    @Override
+    public void showRecommendSection() {
+
+    }
+
+    @Override
+    public void showNewSection() {
+
+    }
+
+    @Override
+    public void showHotSection() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showLoadMore() {
+
+    }
+
+    @Override
+    public void hideLoadMore() {
+
+    }
+
+    @Override
+    public void showErrorPage() {
+
+    }
+
+    @Override
+    public void hideErrorPage() {
+
+    }
 }

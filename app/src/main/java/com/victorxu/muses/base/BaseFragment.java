@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -24,7 +25,6 @@ public class BaseFragment extends Fragment implements ISupportFragment {
 
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
     protected FragmentActivity mActivity;
-    private ImmersionBar mImmersionBar;
 
     @Override
     public SupportFragmentDelegate getSupportDelegate() {
@@ -51,6 +51,17 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (isImmersionBarEnabled()) {
+            if (setTitleBar() != 0) {
+                View titleBar = view.findViewById(setTitleBar());
+                ImmersionBar.setTitleBar(mActivity, titleBar);
+            }
+        }
     }
 
     @Override
@@ -92,8 +103,7 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     public void onDestroy() {
         mDelegate.onDestroy();
         super.onDestroy();
-        if (mImmersionBar != null)
-            mImmersionBar.destroy();
+        ImmersionBar.with(mActivity).destroy();
     }
 
     @Override
@@ -164,8 +174,9 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     @Override
     public void onSupportVisible() {
         mDelegate.onSupportVisible();
-        mImmersionBar = ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor(R.color.background_white).statusBarDarkFont(true);
-        mImmersionBar.init();
+        if (isImmersionBarEnabled()) {
+            initImmersionBar();
+        }
     }
 
     /**
@@ -438,4 +449,15 @@ public class BaseFragment extends Fragment implements ISupportFragment {
         return SupportHelper.findFragment(getChildFragmentManager(), fragmentClass);
     }
 
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).init();
+    }
+
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
+    protected int setTitleBar() {
+        return 0;
+    }
 }

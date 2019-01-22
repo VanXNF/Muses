@@ -32,3 +32,11 @@
 
 ## 2018-11-23
 - 导入开源库 simpleratingbar 0.1.5
+
+## 2019-01-22
+- 更新开源库 BaseRecyclerViewAdapterHelper 2.9.44
+- 导入开源库 Gson 2.8.5
+- 导入开源库 SmartRefreshLayout 1.1.0-andx-2
+- 导入开源库 SmartRefreshHeader 1.1.0-andx-2
+- 导入开源库 flowlayout-lib 1.1.2
+- 导入开源库 okhttp 3.12.0

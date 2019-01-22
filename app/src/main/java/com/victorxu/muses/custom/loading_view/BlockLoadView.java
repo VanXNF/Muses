@@ -10,6 +10,7 @@ import android.graphics.Path;
 
 import android.util.AttributeSet;
 
+// TODO: 19-1-22 重构代码，合并BaseLoadingView， 将 BlockLoadingView 改为自动播放
 public class BlockLoadView extends BaseLoadView {
     private Paint mPaint, mPaintShadow, mPaintLeft, mPaintRight;
     private float mWidth = 0f;
@@ -29,7 +30,6 @@ public class BlockLoadView extends BaseLoadView {
         super(context, attrs);
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -40,7 +40,6 @@ public class BlockLoadView extends BaseLoadView {
             mWidth = getMeasuredWidth();
         rhomboidsX = (float) (3 * mWidth / 16 / Math.sqrt(3));
         rhomboidsY = mWidth / 16;
-
     }
 
     @Override
@@ -66,11 +65,9 @@ public class BlockLoadView extends BaseLoadView {
                 drawShadowStep3(canvas, mAnimatedValue);
         }
         canvas.restore();
-
     }
 
     private void drawStep1(Canvas canvas, float time) {
-
 
         float moveX = rhomboidsX / 2.0f * time / (1.0f / 3);
         float moveY = rhomboidsY / 2.0f * time / (1.0f / 3);
@@ -83,7 +80,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 - moveX, rhomboidsY * 12 - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX - moveX, rhomboidsY * 13 - moveY - mWidth / 2 + moveYtoCenter);
@@ -91,7 +87,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 - rhomboidsX * 2 - moveX, rhomboidsY * 12 - moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintLeft);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + moveX, rhomboidsY * 12 - rhomboidsY + moveY - mWidth / 2 + moveYtoCenter);
@@ -101,7 +96,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 12 + moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 11 + moveY - mWidth / 2 + moveYtoCenter);
@@ -109,7 +103,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 13 + moveY - mWidth / 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaint);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 12 + moveY - mWidth / 2 + moveYtoCenter);
@@ -119,7 +112,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintLeft);
 
-
         p.reset();
         p.moveTo(mWidth / 2 + rhomboidsX + rhomboidsX + moveX, mWidth / 4 * 3 + moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 13 + moveY - mWidth / 2 + moveYtoCenter);
@@ -127,7 +119,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + rhomboidsX + rhomboidsX + moveX, mWidth / 4 * 3 + moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintRight);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
@@ -137,7 +128,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - moveX, rhomboidsY * 13 + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
@@ -146,7 +136,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintLeft);
 
-
         p.reset();
         p.moveTo(mWidth / 2 + rhomboidsX - moveX, mWidth / 4 * 3 + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - moveX, rhomboidsY * 13 + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
@@ -154,13 +143,9 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + rhomboidsX - moveX, mWidth / 4 * 3 + rhomboidsY - moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintRight);
-
-
     }
 
-
     private void drawStep2(Canvas canvas, float time) {
-
 
         float moveX = rhomboidsX * (time - 1.0f / 3) / (1.0f / 3);
         float moveY = rhomboidsY * (time - 1.0f / 3) / (1.0f / 3);
@@ -173,7 +158,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 - rhomboidsX / 2.0f + moveX, rhomboidsY * 12 - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX - rhomboidsX / 2.0f + moveX, rhomboidsY * 13 - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
@@ -181,7 +165,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 - rhomboidsX * 2 - rhomboidsX / 2.0f + moveX, rhomboidsY * 12 - rhomboidsY / 2.0f - moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintLeft);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX / 2.0f, rhomboidsY * 12 - rhomboidsY + rhomboidsY / 2.0f - mWidth / 2 + moveYtoCenter);
@@ -207,7 +190,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - rhomboidsX / 2.0f, rhomboidsY * 13 + rhomboidsY - rhomboidsY / 2.0f - mWidth / 2 + moveYtoCenter);
@@ -223,7 +205,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + rhomboidsX - rhomboidsX / 2.0f, mWidth / 4 * 3 + rhomboidsY - rhomboidsY / 2.0f - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintRight);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY / 2.0f + moveY - mWidth / 2 + moveYtoCenter);
@@ -248,12 +229,9 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - moveX, mWidth / 4 * 3 + rhomboidsY / 2.0f + moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintRight);
-
     }
 
-
     private void drawStep3(Canvas canvas, float time) {
-
 
         float moveX = rhomboidsX / 2.0f * (time - 1.0f / 3 * 2) / (1.0f / 3);
         float moveY = rhomboidsY / 2.0f * (time - 1.0f / 3 * 2) / (1.0f / 3);
@@ -266,7 +244,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 - rhomboidsX / 2.0f + rhomboidsX + moveX, rhomboidsY * 12 - rhomboidsY / 2.0f - rhomboidsY + moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX - rhomboidsX / 2.0f + rhomboidsX + moveX, rhomboidsY * 13 - rhomboidsY / 2.0f - rhomboidsY + moveY - mWidth / 2 + moveYtoCenter);
@@ -274,7 +251,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 - rhomboidsX * 2 - rhomboidsX / 2.0f + rhomboidsX + moveX, rhomboidsY * 12 - rhomboidsY / 2.0f - rhomboidsY + moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintLeft);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX / 2.0f + moveX, rhomboidsY * 12 - rhomboidsY + rhomboidsY / 2.0f + moveY - mWidth / 2 + moveYtoCenter);
@@ -284,7 +260,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 + rhomboidsX + rhomboidsX / 2.0f + moveX, mWidth / 4 * 3 - rhomboidsY + rhomboidsY / 2.0f + moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX / 2.0f + moveX, rhomboidsY * 13 - rhomboidsY + rhomboidsY / 2.0f + moveY - mWidth / 2 + moveYtoCenter);
@@ -293,7 +268,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintRight);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY / 2.0f + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - rhomboidsX - moveX, rhomboidsY * 11 + rhomboidsY / 2.0f + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
@@ -301,7 +275,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - rhomboidsX - moveX, rhomboidsY * 13 + rhomboidsY / 2.0f + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaint);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY / 2.0f + rhomboidsY - moveY - mWidth / 2 + moveYtoCenter);
@@ -319,7 +292,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintRight);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 11 + rhomboidsY - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
@@ -328,7 +300,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaint);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 13 + rhomboidsY - rhomboidsY / 2.0f - moveY - mWidth / 2 + moveYtoCenter);
@@ -336,13 +307,9 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f - moveY - mWidth / 2 + rhomboidsY * 2 + moveYtoCenter);
         p.close();
         canvas.drawPath(p, mPaintLeft);
-
-
     }
 
-
     private void drawShadowStep1(Canvas canvas, float time) {
-
 
         float moveX = rhomboidsX / 2.0f * time / (1.0f / 3);
         float moveY = rhomboidsY / 2.0f * time / (1.0f / 3);
@@ -355,7 +322,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + moveX, rhomboidsY * 12 - rhomboidsY + moveY);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + moveX, rhomboidsY * 11 - rhomboidsY + moveY);
@@ -363,7 +329,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + moveX, rhomboidsY * 13 - rhomboidsY + moveY);
         p.close();
         canvas.drawPath(p, mPaintShadow);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + moveX, rhomboidsY * 12 + moveY);
@@ -373,7 +338,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY - moveY);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX - moveX, rhomboidsY * 11 + rhomboidsY - moveY);
@@ -382,7 +346,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
     }
-
 
     private void drawShadowStep2(Canvas canvas, float time) {
 
@@ -397,7 +360,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX / 2.0f, rhomboidsY * 12 - rhomboidsY + rhomboidsY / 2.0f);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + rhomboidsX / 2.0f, rhomboidsY * 11 - rhomboidsY + rhomboidsY / 2.0f);
@@ -406,7 +368,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY / 2.0f + moveY);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - moveX, rhomboidsY * 11 + rhomboidsY / 2.0f + moveY);
@@ -414,7 +375,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - moveX, rhomboidsY * 13 + rhomboidsY / 2.0f + moveY);
         p.close();
         canvas.drawPath(p, mPaintShadow);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f);
@@ -425,9 +385,7 @@ public class BlockLoadView extends BaseLoadView {
         canvas.drawPath(p, mPaintShadow);
     }
 
-
     private void drawShadowStep3(Canvas canvas, float time) {
-
 
         float moveX = rhomboidsX / 2.0f * (time - 1.0f / 3 * 2) / (1.0f / 3);
         float moveY = rhomboidsY / 2.0f * (time - 1.0f / 3 * 2) / (1.0f / 3);
@@ -440,7 +398,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX / 2.0f + moveX, rhomboidsY * 12 - rhomboidsY + rhomboidsY / 2.0f + moveY);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX + rhomboidsX / 2.0f + moveX, rhomboidsY * 11 - rhomboidsY + rhomboidsY / 2.0f + moveY);
@@ -448,7 +405,6 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX + rhomboidsX / 2.0f + moveX, rhomboidsY * 13 - rhomboidsY + rhomboidsY / 2.0f + moveY);
         p.close();
         canvas.drawPath(p, mPaintShadow);
-
 
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX + rhomboidsX + rhomboidsX / 2.0f - rhomboidsX - moveX, rhomboidsY * 12 + rhomboidsY / 2.0f + rhomboidsY - moveY);
@@ -458,7 +414,6 @@ public class BlockLoadView extends BaseLoadView {
         p.close();
         canvas.drawPath(p, mPaintShadow);
 
-
         p.reset();
         p.moveTo(mWidth / 2 - rhomboidsX * 2 + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 12 + rhomboidsY - rhomboidsY / 2.0f - moveY);
         p.lineTo(mWidth / 2 - rhomboidsX + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 11 + rhomboidsY - rhomboidsY / 2.0f - moveY);
@@ -466,10 +421,7 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 13 + rhomboidsY - rhomboidsY / 2.0f - moveY);
         p.close();
         canvas.drawPath(p, mPaintShadow);
-
-
     }
-
 
     private void initPaint() {
         mPaint = new Paint();
@@ -502,7 +454,6 @@ public class BlockLoadView extends BaseLoadView {
         int green = (color & 0x00ff00) >> 8;
         int blue = (color & 0x0000ff);
 
-
         mPaintLeft.setColor(Color.rgb((red - 15) > 0 ? red - 15 : 0,
                 (green - 58) > 0 ? green - 58 : 0,
                 (blue - 31) > 0 ? blue - 31 : 0));
@@ -517,13 +468,10 @@ public class BlockLoadView extends BaseLoadView {
         mPaintShadow.setColor(color);
         postInvalidate();
 
-
         postInvalidate();
     }
 
-
     float mAnimatedValue = 0;
-
 
     @Override
     protected void InitPaint() {
@@ -533,7 +481,6 @@ public class BlockLoadView extends BaseLoadView {
     @Override
     protected void OnAnimationUpdate(ValueAnimator valueAnimator) {
         mAnimatedValue = (float) valueAnimator.getAnimatedValue();
-
         invalidate();
     }
 
@@ -557,7 +504,6 @@ public class BlockLoadView extends BaseLoadView {
     private boolean mShadow = true;
 
     public void isShadow(boolean show) {
-
         this.mShadow = show;
         invalidate();
     }
