@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_gallery"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_white"
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.victorxu.muses.custom.search_view.SearchView
+                <com.victorxu.muses.custom.SearchView
                     android:id="@+id/search_gallery"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -64,6 +64,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

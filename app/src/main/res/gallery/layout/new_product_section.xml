@@ -59,7 +59,7 @@
             android:layout_height="@dimen/dp_175"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_9"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/product_title"
             app:borderRadius="@dimen/dp_4_5"
             app:type="round" />
@@ -121,9 +121,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_2"
+                        android:drawableStart="@drawable/vector_drawable_yuan"
                         android:text="@string/product_1_price"
                         android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_15"
+                        android:textSize="@dimen/sp_17"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -181,9 +182,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_2"
+                        android:drawableStart="@drawable/vector_drawable_yuan"
                         android:text="@string/product_2_price"
                         android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_15"
+                        android:textSize="@dimen/sp_17"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -242,13 +244,14 @@
                         android:singleLine="true"
                         android:text="@string/product_1_tag"
                         android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_13" />
+                        android:textSize="@dimen/sp_11" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_3_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_2"
+                        android:drawableStart="@drawable/vector_drawable_yuan"
                         android:text="@string/product_1_price"
                         android:textColor="@color/price_text"
                         android:textSize="@dimen/sp_17"
@@ -302,13 +305,14 @@
                         android:singleLine="true"
                         android:text="@string/product_2_tag"
                         android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_13" />
+                        android:textSize="@dimen/sp_11" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_4_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_2"
+                        android:drawableStart="@drawable/vector_drawable_yuan"
                         android:text="@string/product_2_price"
                         android:textColor="@color/price_text"
                         android:textSize="@dimen/sp_17"
