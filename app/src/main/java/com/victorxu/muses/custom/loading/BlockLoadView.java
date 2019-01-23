@@ -1,6 +1,5 @@
-package com.victorxu.muses.custom.loading_view;
+package com.victorxu.muses.custom.loading;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,9 +8,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
 
-// TODO: 19-1-22 重构代码，合并BaseLoadingView， 将 BlockLoadingView 改为自动播放
-public class BlockLoadView extends BaseLoadView {
+public class BlockLoadView extends View {
+
+    private float mAnimatedValue = 0f;
+    public ValueAnimator mValueAnimator;
+    private boolean mShadow = true; //默认包含阴影
     private Paint mPaint, mPaintShadow, mPaintLeft, mPaintRight;
     private float mWidth = 0f;
     float moveYtoCenter = 0f;
@@ -28,12 +32,129 @@ public class BlockLoadView extends BaseLoadView {
 
     public BlockLoadView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initPaint();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startAnim();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        stopAnim();
+        super.onDetachedFromWindow();
+    }
+
+    private void startAnim() {
+        stopAnim();
+        startViewAnim(0f, 1f, 500);
+    }
+
+    private void stopAnim() {
+        if (mValueAnimator != null) {
+            clearAnimation();
+            mValueAnimator.setRepeatCount(0);
+            mValueAnimator.cancel();
+            mValueAnimator.end();
+            if (OnStopAnim() == 0) {
+                mValueAnimator.setRepeatCount(0);
+                mValueAnimator.cancel();
+                mValueAnimator.end();
+            }
+        }
+    }
+
+    private ValueAnimator startViewAnim(float startF, float endF, long time) {
+        mValueAnimator = ValueAnimator.ofFloat(startF, endF);
+        mValueAnimator.setDuration(time);
+        mValueAnimator.setInterpolator(new LinearInterpolator());
+        mValueAnimator.setRepeatCount(SetAnimRepeatCount());
+        if (ValueAnimator.RESTART == SetAnimRepeatMode()) {
+            mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        } else if (ValueAnimator.REVERSE == SetAnimRepeatMode()) {
+            mValueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        }
+        mValueAnimator.addUpdateListener((ValueAnimator valueAnimator) -> {
+            mAnimatedValue = (float) valueAnimator.getAnimatedValue();
+            invalidate();
+        });
+        if (!mValueAnimator.isRunning()) {
+            mValueAnimator.start();
+        }
+        return mValueAnimator;
+    }
+
+    private int OnStopAnim() {
+        mAnimatedValue = 0f;
+        postInvalidate();
+        return 1;
+    }
+    //设置主体颜色
+    public void setViewColor(int color) {
+        mPaint.setColor(color);
+        int red = (color & 0xff0000) >> 16;
+        int green = (color & 0x00ff00) >> 8;
+        int blue = (color & 0x0000ff);
+        mPaintLeft.setColor(Color.rgb((red - 15) > 0 ? red - 15 : 0,
+                (green - 58) > 0 ? green - 58 : 0,
+                (blue - 31) > 0 ? blue - 31 : 0));
+        mPaintRight.setColor(Color.rgb((red - 59) > 0 ? red - 59 : 0,
+                (green - 111) > 0 ? green - 111 : 0,
+                (blue - 16) > 0 ? blue - 16 : 0));
+        postInvalidate();
+    }
+    //设置阴影颜色
+    public void setShadowColor(int color) {
+        mPaintShadow.setColor(color);
+        postInvalidate();
+//        postInvalidate();
+    }
+
+    //设置是否有阴影
+    public void setShadow(boolean show) {
+        this.mShadow = show;
+        invalidate();
+    }
+
+    //设置动画重复模式
+    private int SetAnimRepeatMode() {
+        return ValueAnimator.RESTART;
+    }
+
+    //设置动画播放次数
+    private int SetAnimRepeatCount() {
+        return ValueAnimator.INFINITE;
+    }
+
+    //初始化画笔
+    private void initPaint() {
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaint.setColor(Color.rgb(247, 202, 42));
+        mPaint.setStrokeWidth(1);
+        mPaintShadow = new Paint();
+        mPaintShadow.setAntiAlias(true);
+        mPaintShadow.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintShadow.setColor(Color.rgb(0, 0, 0));
+        mPaintShadow.setStrokeWidth(1f);
+        mPaintLeft = new Paint();
+        mPaintLeft.setAntiAlias(true);
+        mPaintLeft.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintLeft.setColor(Color.rgb(227, 144, 11));
+        mPaintLeft.setStrokeWidth(1);
+        mPaintRight = new Paint();
+        mPaintRight.setAntiAlias(true);
+        mPaintRight.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintRight.setColor(Color.rgb(188, 91, 26));
+        mPaintRight.setStrokeWidth(1);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         if (getMeasuredWidth() > getHeight())
             mWidth = getMeasuredHeight();
         else
@@ -421,100 +542,5 @@ public class BlockLoadView extends BaseLoadView {
         p.lineTo(mWidth / 2 + -rhomboidsX + rhomboidsX - rhomboidsX / 2.0f - moveX, rhomboidsY * 13 + rhomboidsY - rhomboidsY / 2.0f - moveY);
         p.close();
         canvas.drawPath(p, mPaintShadow);
-    }
-
-    private void initPaint() {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaint.setColor(Color.rgb(247, 202, 42));
-        mPaint.setStrokeWidth(1);
-        mPaintShadow = new Paint();
-        mPaintShadow.setAntiAlias(true);
-        mPaintShadow.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintShadow.setColor(Color.rgb(0, 0, 0));
-        mPaintShadow.setStrokeWidth(1f);
-        mPaintLeft = new Paint();
-        mPaintLeft.setAntiAlias(true);
-        mPaintLeft.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintLeft.setColor(Color.rgb(227, 144, 11));
-        mPaintLeft.setStrokeWidth(1);
-        mPaintRight = new Paint();
-        mPaintRight.setAntiAlias(true);
-        mPaintRight.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintRight.setColor(Color.rgb(188, 91, 26));
-        mPaintRight.setStrokeWidth(1);
-    }
-
-
-    public void setViewColor(int color) {
-        mPaint.setColor(color);
-
-        int red = (color & 0xff0000) >> 16;
-        int green = (color & 0x00ff00) >> 8;
-        int blue = (color & 0x0000ff);
-
-        mPaintLeft.setColor(Color.rgb((red - 15) > 0 ? red - 15 : 0,
-                (green - 58) > 0 ? green - 58 : 0,
-                (blue - 31) > 0 ? blue - 31 : 0));
-        mPaintRight.setColor(Color.rgb((red - 59) > 0 ? red - 59 : 0,
-                (green - 111) > 0 ? green - 111 : 0,
-                (blue - 16) > 0 ? blue - 16 : 0));
-
-        postInvalidate();
-    }
-
-    public void setShadowColor(int color) {
-        mPaintShadow.setColor(color);
-        postInvalidate();
-
-        postInvalidate();
-    }
-
-    float mAnimatedValue = 0;
-
-    @Override
-    protected void InitPaint() {
-        initPaint();
-    }
-
-    @Override
-    protected void OnAnimationUpdate(ValueAnimator valueAnimator) {
-        mAnimatedValue = (float) valueAnimator.getAnimatedValue();
-        invalidate();
-    }
-
-    @Override
-    protected void OnAnimationRepeat(Animator animation) {
-
-    }
-
-    @Override
-    protected int OnStopAnim() {
-        mAnimatedValue = 0f;
-        postInvalidate();
-        return 1;
-    }
-
-    @Override
-    protected int SetAnimRepeatMode() {
-        return ValueAnimator.RESTART;
-    }
-
-    private boolean mShadow = true;
-
-    public void isShadow(boolean show) {
-        this.mShadow = show;
-        invalidate();
-    }
-
-    @Override
-    protected void AinmIsRunning() {
-
-    }
-
-    @Override
-    protected int SetAnimRepeatCount() {
-        return ValueAnimator.INFINITE;
     }
 }
