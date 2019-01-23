@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:2.3.2-beta01'
 //    Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'androidx.annotation:annotation:1.0.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 //    BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
