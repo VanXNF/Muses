@@ -10,7 +10,7 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.custom.header_view.BlockHeaderView;
+import com.victorxu.muses.custom.BlockHeaderView;
 import com.victorxu.muses.product.view.ProductContainerFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;

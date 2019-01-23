@@ -10,8 +10,6 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.view.MainFragment;
-import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
-import com.victorxu.muses.shopping_cart.presenter.ShoppingCartContainerPresenter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,7 +53,7 @@ public class EmptyShoppingCartFragment extends BaseFragment {
         mRefreshLayout.setEnableLoadmore(false);
 
         mGoButton.setOnClickListener((v)->{
-            ((MainFragment) mHomeFragment.getParentFragment()).getmBottomBar().setCurrentItem(0);
+            ((MainFragment) mHomeFragment.getParentFragment()).getBottomBar().setCurrentItem(0);
         });
     }
 }

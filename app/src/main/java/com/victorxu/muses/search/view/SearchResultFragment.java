@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.custom.search_view.SearchView;
+import com.victorxu.muses.custom.SearchView;
 import com.victorxu.muses.search.view.adapter.SearchResultPagerFragmentAdapter;
 
 import androidx.annotation.NonNull;

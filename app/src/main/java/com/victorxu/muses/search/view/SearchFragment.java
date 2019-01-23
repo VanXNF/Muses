@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.google.android.material.internal.FlowLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
-import com.victorxu.muses.custom.search_view.SearchView;
+import com.victorxu.muses.custom.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

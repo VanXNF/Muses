@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.custom.scroll_view.GradationScrollView;
+import com.victorxu.muses.custom.GradationScrollView;
 import com.victorxu.muses.product.view.adapter.EvaluationAdapter;
 import com.victorxu.muses.product.view.adapter.PromotionAdapter;
 import com.victorxu.muses.product.view.entity.EvaluationItem;

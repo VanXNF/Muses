@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.victorxu.muses.custom.search_view.SearchView
+    <com.victorxu.muses.custom.SearchView
         android:id="@+id/search_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

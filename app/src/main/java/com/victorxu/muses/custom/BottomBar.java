@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.bottom_bar;
+package com.victorxu.muses.custom;
 
 import android.content.Context;
 import android.graphics.Color;

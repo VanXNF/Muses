@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.search_view;
+package com.victorxu.muses.custom;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -101,5 +101,9 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
 
     public void setSearchViewText(String text) {
         mEtSearchView.setText(text);
+    }
+
+    public interface OnSearchViewClickListener {
+        void onClick(View view);
     }
 }

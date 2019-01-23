@@ -17,7 +17,7 @@
         android:layout_height="@dimen/dp_50"
         app:cardElevation="@dimen/dp_5">
 
-        <com.victorxu.muses.custom.bottom_bar.BottomBar
+        <com.victorxu.muses.custom.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50" />

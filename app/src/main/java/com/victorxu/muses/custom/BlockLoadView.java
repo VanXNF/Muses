@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.loading;
+package com.victorxu.muses.custom;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

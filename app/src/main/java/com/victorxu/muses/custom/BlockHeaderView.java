@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.header_view;
+package com.victorxu.muses.custom;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.view.View;
 import com.lcodecore.tkrefreshlayout.IHeaderView;
 import com.lcodecore.tkrefreshlayout.OnAnimEndListener;
 import com.victorxu.muses.R;
-import com.victorxu.muses.custom.loading_view.BlockLoadView;
+import com.victorxu.muses.custom.BlockLoadView;
 
 public class BlockHeaderView implements IHeaderView {
 
@@ -24,9 +24,9 @@ public class BlockHeaderView implements IHeaderView {
     private void initView() {
         rootView = LayoutInflater.from(context).inflate(R.layout.loading_header, null);
         loadView = rootView.findViewById(R.id.block_header);
-        loadView.setShadowColor(Color.GRAY);
-        loadView.isShadow(true);
+        loadView.setShadow(true);
         loadView.setViewColor(Color.RED);
+        loadView.setShadowColor(Color.GRAY);
     }
 
 
@@ -49,13 +49,12 @@ public class BlockHeaderView implements IHeaderView {
 
     @Override
     public void startAnim(float maxHeadHeight, float headHeight) {
-        loadView.startAnim();
-
+//        loadView.startAnim();
     }
 
     @Override
     public void onFinish(OnAnimEndListener animEndListener) {
-        loadView.stopAnim();
+//        loadView.stopAnim();
         animEndListener.onAnimEnd();
     }
 

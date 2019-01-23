@@ -1,4 +1,4 @@
-package com.victorxu.muses.custom.scroll_view;
+package com.victorxu.muses.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;

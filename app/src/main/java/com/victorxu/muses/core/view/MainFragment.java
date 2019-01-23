@@ -10,9 +10,9 @@ import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.contract.MainContract;
 import com.victorxu.muses.core.presenter.MainPresenter;
 import com.victorxu.muses.creation.view.CreationFragment;
-import com.victorxu.muses.custom.bottom_bar.BottomBar;
-import com.victorxu.muses.custom.bottom_bar.BottomBarTab;
-import com.victorxu.muses.custom.bottom_bar.TabSelectedEvent;
+import com.victorxu.muses.custom.BottomBar;
+import com.victorxu.muses.custom.BottomBarTab;
+import com.victorxu.muses.custom.BottomTabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.mine.view.MineFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
@@ -107,7 +107,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
             public void onTabReselected(int position) {
                 // 在FirstPagerFragment,FirstHomeFragment中接收, 因为是嵌套的Fragment
                 // 主要为了交互: 重选tab 如果列表不在顶部则移动到顶部,如果已经在顶部,则刷新
-                EventBusActivityScope.getDefault(mActivity).post(new TabSelectedEvent(position));
+                EventBusActivityScope.getDefault(mActivity).post(new BottomTabSelectedEvent(position));
             }
         });
     }
@@ -131,7 +131,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         start(targetFragment);
     }
 
-    public BottomBar getmBottomBar() {
+    public BottomBar getBottomBar() {
         return mBottomBar;
     }
 }

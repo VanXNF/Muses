@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.victorxu.muses.custom.scroll_view.GradationScrollView
+    <com.victorxu.muses.custom.GradationScrollView
         android:id="@+id/product_index_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -129,7 +129,7 @@
         </LinearLayout>
 
 
-    </com.victorxu.muses.custom.scroll_view.GradationScrollView>
+    </com.victorxu.muses.custom.GradationScrollView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
