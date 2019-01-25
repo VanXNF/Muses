@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.victorxu.muses.custom.loading_view.BlockLoadView
+    <com.victorxu.muses.custom.BlockLoadView
         android:id="@+id/block_header"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"

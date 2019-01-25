@@ -13,4 +13,48 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="gallery_commodity_image">
+        <item name="android:layout_width">@dimen/dp_158</item>
+        <item name="android:layout_height">@dimen/dp_158</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="gallery_commodity_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_2</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/title_text_default</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="gallery_commodity_tag">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_2</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/title_sub_text_default</item>
+        <item name="android:textSize">@dimen/sp_11</item>
+    </style>
+
+    <style name="gallery_commodity_price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_2</item>
+        <item name="android:drawableStart">@drawable/vector_drawable_yuan</item>
+        <item name="android:textColor">@color/price_text</item>
+        <item name="android:textSize">@dimen/sp_17</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="gallery_commodity_title_image">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_175</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/dp_9</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
 </resources>
