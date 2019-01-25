@@ -55,11 +55,7 @@
 
         <com.victorxu.muses.custom.AdvancedImageView
             android:id="@+id/image_new_product_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_175"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_9"
-            android:scaleType="centerCrop"
+            style="@style/gallery_commodity_title_image"
             android:src="@drawable/product_title"
             app:borderRadius="@dimen/dp_4_5"
             app:type="round" />
@@ -80,10 +76,7 @@
 
                 <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_product_1_image"
-                    android:layout_width="@dimen/dp_158"
-                    android:layout_height="@dimen/dp_158"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
+                    style="@style/gallery_commodity_image"
                     android:src="@drawable/product1"
                     app:borderRadius="@dimen/dp_4_5"
                     app:type="round" />
@@ -97,35 +90,18 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_1_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_1_title"
-                        android:textColor="@color/title_text_default"
-                        android:textSize="@dimen/sp_15"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_title"
+                        android:text="@string/product_1_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_1_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_1_tag"
-                        android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_11" />
+                        style="@style/gallery_commodity_tag"
+                        android:text="@string/product_1_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_1_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:drawableStart="@drawable/vector_drawable_yuan"
-                        android:text="@string/product_1_price"
-                        android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_price"
+                        android:text="@string/product_1_price" />
 
                 </LinearLayout>
 
@@ -141,10 +117,7 @@
 
                 <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_product_2_image"
-                    android:layout_width="@dimen/dp_158"
-                    android:layout_height="@dimen/dp_158"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
+                    style="@style/gallery_commodity_image"
                     android:src="@drawable/product2"
                     app:borderRadius="@dimen/dp_4_5"
                     app:type="round" />
@@ -158,35 +131,18 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_2_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_2_title"
-                        android:textColor="@color/title_text_default"
-                        android:textSize="@dimen/sp_15"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_title"
+                        android:text="@string/product_2_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_2_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_2_tag"
-                        android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_11" />
+                        style="@style/gallery_commodity_tag"
+                        android:text="@string/product_2_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_2_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:drawableStart="@drawable/vector_drawable_yuan"
-                        android:text="@string/product_2_price"
-                        android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_price"
+                        android:text="@string/product_2_price" />
 
                 </LinearLayout>
 
@@ -210,10 +166,7 @@
 
                 <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_product_3_image"
-                    android:layout_width="@dimen/dp_158"
-                    android:layout_height="@dimen/dp_158"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
+                    style="@style/gallery_commodity_image"
                     android:src="@drawable/product1"
                     app:borderRadius="@dimen/dp_4_5"
                     app:type="round" />
@@ -227,35 +180,18 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_3_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_1_title"
-                        android:textColor="@color/title_text_default"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_title"
+                        android:text="@string/product_1_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_3_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_1_tag"
-                        android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_11" />
+                        style="@style/gallery_commodity_tag"
+                        android:text="@string/product_1_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_3_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:drawableStart="@drawable/vector_drawable_yuan"
-                        android:text="@string/product_1_price"
-                        android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_price"
+                        android:text="@string/product_1_price" />
 
                 </LinearLayout>
 
@@ -271,10 +207,7 @@
 
                 <com.victorxu.muses.custom.AdvancedImageView
                     android:id="@+id/image_product_4_image"
-                    android:layout_width="@dimen/dp_158"
-                    android:layout_height="@dimen/dp_158"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
+                    style="@style/gallery_commodity_image"
                     android:src="@drawable/product2"
                     app:borderRadius="@dimen/dp_4_5"
                     app:type="round" />
@@ -288,35 +221,18 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_4_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_2_title"
-                        android:textColor="@color/title_text_default"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_title"
+                        android:text="@string/product_2_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_4_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:singleLine="true"
-                        android:text="@string/product_2_tag"
-                        android:textColor="@color/title_sub_text_default"
-                        android:textSize="@dimen/sp_11" />
+                        style="@style/gallery_commodity_tag"
+                        android:text="@string/product_2_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_product_4_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_2"
-                        android:drawableStart="@drawable/vector_drawable_yuan"
-                        android:text="@string/product_2_price"
-                        android:textColor="@color/price_text"
-                        android:textSize="@dimen/sp_17"
-                        android:textStyle="bold" />
+                        style="@style/gallery_commodity_price"
+                        android:text="@string/product_2_price" />
 
                 </LinearLayout>
 

@@ -28,7 +28,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_4_5"
-                    android:layout_marginEnd="@dimen/dp_4_5"
                     android:layout_marginBottom="@dimen/dp_4_5"
                     android:layout_weight="@integer/search_view_weight"
                     app:editable="false"

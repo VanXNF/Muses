@@ -5,8 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.victorxu.muses.custom.loading_view.LoadingView
-        android:layout_gravity="center"
+    <com.victorxu.muses.custom.BlockLoadView
         android:layout_centerInParent="true"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50" />

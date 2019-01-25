@@ -1,34 +1,38 @@
 package com.victorxu.muses.gallery.contract;
 
 import com.victorxu.muses.gson.Banner;
+import com.victorxu.muses.gson.ListCommodity;
 
 import java.util.ArrayList;
 
 public interface GalleryContract {
     interface Model {
-        ArrayList<Banner.BannerData> getBannerData();
-        void getRecommendData();
-        void getNewProductData();
-        void getHotProductData();
+        void resetFlags();
+        boolean checkFlags();
+        void getBannerData(okhttp3.Callback callback);
+        void getRecommendData(int count, okhttp3.Callback callback);
+        void getNewProductData(int count, okhttp3.Callback callback);
+        void getHotProductData(int count, okhttp3.Callback callback);
     }
 
     interface View {
         void initView(android.view.View view);
-        void showBanner();
-        void showRecommendSection();
-        void showNewSection();
-        void showHotSection();
+        void showBanner(ArrayList<Banner.BannerData> bannerData);
+        void showRecommendSection(ArrayList<ListCommodity.CommodityListModel> recommendData);
+        void showNewSection(ArrayList<ListCommodity.CommodityListModel> newProductData);
+        void showHotSection(ArrayList<ListCommodity.CommodityListModel> hotProductData);
         void showLoading();
         void hideLoading();
         void showLoadMore();
-        void hideLoadMore();
-        void showErrorPage();
-        void hideErrorPage();
+        void hideLoadMore(boolean isCompeted, boolean isEnd);
+        void showToast(Integer resId);
+        void showToast(CharSequence text);
     }
 
     interface Presenter {
-        void loadRootView();
+        void loadRootView(android.view.View view);
         void loadDataToView();
-        void refreshDataToView();
+        void loadMoreDataToView();
+        void reloadDataToView();
     }
 }

@@ -10,22 +10,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gallery.view.entity.ImageItem;
+import com.victorxu.muses.glide.GlideApp;
+import com.victorxu.muses.gson.ListCommodity;
 
 import java.util.List;
 
-public class RecommendAdapter extends BaseQuickAdapter<ImageItem, BaseViewHolder> {
+public class RecommendAdapter extends BaseQuickAdapter<ListCommodity.CommodityListModel, BaseViewHolder> {
 
-    public RecommendAdapter(int layoutResId, @Nullable List<ImageItem> data) {
-        super(layoutResId, data);
+
+    public RecommendAdapter(@Nullable List<ListCommodity.CommodityListModel> data) {
+        super(R.layout.item_recommend, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ImageItem item) {
-        RequestOptions options = RequestOptions
-                .bitmapTransform(new RoundedCorners(mContext.getResources().getInteger(R.integer.recommend_image_radius)));
-        Glide.with(mContext).load(item.getmImageUri() == null ? item.getmImageResId() : item.getmImageUri())
-                .apply(options)
+    protected void convert(BaseViewHolder helper, ListCommodity.CommodityListModel item) {
+        GlideApp.with(mContext)
+                .load(item.getCoverImage())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(
+                                mContext.getResources().getInteger(R.integer.recommend_image_radius))))
                 .into((AppCompatImageView) helper.getView(R.id.image_recommend));
     }
-
 }
