@@ -57,4 +57,13 @@
         <item name="android:scaleType">centerCrop</item>
     </style>
 
+    <style name="search_view">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_10</item>
+        <item name="android:layout_marginTop">@dimen/dp_4_5</item>
+        <item name="android:layout_marginBottom">@dimen/dp_4_5</item>
+        <item name="android:layout_weight">@integer/search_view_weight</item>
+    </style>
+
 </resources>

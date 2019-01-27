@@ -235,13 +235,13 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     @Override
     public void showLoading() {
         mRefreshLayout.autoRefresh();
-        mRefreshLayout.setEnableLoadMore(true);
-        mFooterView.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
         mRefreshLayout.finishRefresh(2000);
+        mRefreshLayout.setEnableLoadMore(true);
+        mFooterView.setVisibility(View.GONE);
     }
 
     @Override

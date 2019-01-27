@@ -24,15 +24,10 @@
 
                 <com.victorxu.muses.custom.SearchView
                     android:id="@+id/search_gallery"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_4_5"
-                    android:layout_marginBottom="@dimen/dp_4_5"
-                    android:layout_weight="@integer/search_view_weight"
                     app:editable="false"
                     app:focusableInTouchMode="false"
-                    app:hint="@string/default_search_hint" />
+                    app:hint="@string/default_search_hint"
+                    style="@style/search_view" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/button_customer_service"

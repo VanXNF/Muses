@@ -9,15 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.internal.FlowLayout;
+import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.custom.SearchView;
+import com.victorxu.muses.search.contract.SearchContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
-public class SearchFragment extends BaseSwipeBackFragment {
+public class SearchFragment extends BaseSwipeBackFragment implements SearchContract.View {
 
     private SearchView mSearchView;
     private FlowLayout mFlowLayout;
@@ -40,7 +42,9 @@ public class SearchFragment extends BaseSwipeBackFragment {
         return attachToSwipeBack(view);
     }
 
-    private void initView(View view) {
+
+    @Override
+    public void initView(View view) {
         mFlowLayout = view.findViewById(R.id.historical_search_flow_layout);
         mLinearLayout = view.findViewById(R.id.delete_all);
         mLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -64,4 +68,53 @@ public class SearchFragment extends BaseSwipeBackFragment {
 
     }
 
+    @Override
+    public void showHotKey() {
+
+    }
+
+    @Override
+    public void hideHotKey() {
+
+    }
+
+    @Override
+    public void showHistoryKey() {
+
+    }
+
+    @Override
+    public void hideHistoryKey() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showToast(Integer resId) {
+        showToast(getText(resId));
+    }
+
+    @Override
+    public void showToast(CharSequence text) {
+        Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity, this).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.search_page_bar;
+    }
 }

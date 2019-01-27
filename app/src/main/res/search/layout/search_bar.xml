@@ -7,26 +7,17 @@
 
     <com.victorxu.muses.custom.SearchView
         android:id="@+id/search_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_4_5"
-        android:layout_marginEnd="@dimen/dp_4_5"
-        android:layout_marginBottom="@dimen/dp_4_5"
-        android:layout_weight="@integer/search_view_weight"
         app:editable="true"
         app:focusableInTouchMode="true"
-        app:hint="@string/default_search_hint" />
+        app:hint="@string/default_search_hint"
+        style="@style/search_view" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_9"
-        android:layout_marginEnd="@dimen/dp_9"
-        android:layout_marginBottom="@dimen/dp_9"
+        android:layout_margin="@dimen/dp_9"
         android:text="@string/search"
         android:textSize="@dimen/sp_12" />
 

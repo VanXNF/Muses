@@ -6,7 +6,29 @@
     android:background="@color/background_white"
     android:orientation="vertical">
 
-    <include layout="@layout/search_bar" />
+    <LinearLayout
+        android:id="@+id/search_page_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.victorxu.muses.custom.SearchView
+            android:id="@+id/search_bar"
+            style="@style/search_view"
+            app:editable="true"
+            app:focusableInTouchMode="true"
+            app:hint="@string/default_search_hint" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_margin="@dimen/dp_9"
+            android:text="@string/search"
+            android:textSize="@dimen/sp_12" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,63 +50,72 @@
                 android:layout_centerVertical="true"
                 android:text="@string/popular_searches"
                 android:textColor="@color/title_text_default"
-                android:textSize="@dimen/sp_21"
+                android:textSize="@dimen/sp_24"
                 android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <com.google.android.material.internal.FlowLayout
-            android:id="@+id/popular_search_flow_layout"
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/popular_search_tag_flow_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_9"
-            android:layout_marginBottom="@dimen/dp_5"
-            app:itemSpacing="@dimen/dp_10"
-            app:lineSpacing="@dimen/dp_10">
+            android:layout_marginTop="@dimen/dp_20"
+            app:itemSpacing="@dimen/dp_5"
+            app:lineSpacing="@dimen/dp_10"
+            app:max_select="1" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="欧式"
-                android:textSize="@dimen/sp_13" />
+        <!--<com.google.android.material.internal.FlowLayout-->
+            <!--android:id="@+id/popular_search_flow_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/dp_9"-->
+            <!--android:layout_marginBottom="@dimen/dp_5"-->
+            <!--app:itemSpacing="@dimen/dp_10"-->
+            <!--app:lineSpacing="@dimen/dp_10">-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="水墨画"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="欧式"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="莫奈"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="水墨画"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="印象派"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="莫奈"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="梵高"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="印象派"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="超现实主义"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="梵高"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="水墨画"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="超现实主义"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-        </com.google.android.material.internal.FlowLayout>
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="水墨画"-->
+                <!--android:textSize="@dimen/sp_13" />-->
+
+        <!--</com.google.android.material.internal.FlowLayout>-->
 
 
         <RelativeLayout
@@ -126,58 +157,67 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.internal.FlowLayout
-            android:id="@+id/historical_search_flow_layout"
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/history_search_tag_flow_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_9"
-            android:layout_marginBottom="@dimen/dp_5"
-            app:itemSpacing="@dimen/dp_10"
-            app:lineSpacing="@dimen/dp_10">
+            android:layout_marginTop="@dimen/dp_20"
+            app:itemSpacing="@dimen/dp_5"
+            app:lineSpacing="@dimen/dp_10"
+            app:max_select="1" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="北欧风格"
-                android:textSize="@dimen/sp_13" />
+        <!--<com.google.android.material.internal.FlowLayout-->
+            <!--android:id="@+id/historical_search_flow_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/dp_9"-->
+            <!--android:layout_marginBottom="@dimen/dp_5"-->
+            <!--app:itemSpacing="@dimen/dp_10"-->
+            <!--app:lineSpacing="@dimen/dp_10">-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="现代简约"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="北欧风格"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="抽象"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="现代简约"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="蒙娜丽莎"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="抽象"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="新中式"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="蒙娜丽莎"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="餐厅装饰画"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="新中式"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="绿植"
-                android:textSize="@dimen/sp_13" />
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="餐厅装饰画"-->
+                <!--android:textSize="@dimen/sp_13" />-->
 
-        </com.google.android.material.internal.FlowLayout>
+            <!--<com.google.android.material.chip.Chip-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="绿植"-->
+                <!--android:textSize="@dimen/sp_13" />-->
+
+        <!--</com.google.android.material.internal.FlowLayout>-->
 
     </LinearLayout>
 
