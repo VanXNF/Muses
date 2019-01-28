@@ -1,5 +1,7 @@
 package com.victorxu.muses.db.service;
 
+import android.util.Log;
+
 import com.victorxu.muses.Muses;
 import com.victorxu.muses.db.entity.HistoryKey;
 import com.victorxu.muses.db.entity.HistoryKeyDao;
@@ -9,34 +11,39 @@ import java.util.List;
 
 public class SearchHistoryService {
 
-    /**
-     * 插入历史搜索
-     * @param historyKey
-     */
+    private static final String TAG = "SearchHistoryService";
+
     public static void addHistoryKey(HistoryKey historyKey) {
         Muses.getDaoInstant().getHistoryKeyDao().insert(historyKey);
     }
 
-    public static void addHistoryKeyByName(String name, long userId) {
+    public static void addHistoryKeyByName(String name) {
         HistoryKey historyKey = new HistoryKey();
         historyKey.setName(name);
         historyKey.setUpdateTime(new Date());
-        historyKey.setUserId(userId);
         addHistoryKey(historyKey);
     }
 
-    /**
-     * 删除数据
-     *
-     * @param id
-     */
+    public static void deleteHistoryKey(HistoryKey historyKey) {
+        Muses.getDaoInstant().getHistoryKeyDao().delete(historyKey);
+    }
+
     public static void deleteHistoryKeyById(long id) {
         Muses.getDaoInstant().getHistoryKeyDao().deleteByKey(id);
     }
 
-    public static void deleteHistoryKeyByName(String name, long userId) {
-        HistoryKey historyKey = getHistoryKeyByName(name, userId);
-        Muses.getDaoInstant().getHistoryKeyDao().delete(historyKey);
+    public static void deleteHistoryKeyByName(String name) {
+        HistoryKey historyKey = getHistoryKeyByName(name);
+        if (historyKey != null) {
+            deleteHistoryKey(historyKey);
+        } else {
+            Log.w(TAG, "deleteHistoryKeyByName: ERROR");
+        }
+
+    }
+
+    public static void deleteAllHistoryKeys() {
+        Muses.getDaoInstant().getHistoryKeyDao().deleteAll();
     }
 
     /**
@@ -48,19 +55,26 @@ public class SearchHistoryService {
         Muses.getDaoInstant().getHistoryKeyDao().update(key);
     }
 
-    public static void updateHistoryKeyByName(String name, long userId) {
-        HistoryKey key = getHistoryKeyByName(name, userId);
-        key.setUpdateTime(new Date());
-        Muses.getDaoInstant().getHistoryKeyDao().update(key);
+    public static void updateHistoryKeyByName(String name) {
+        HistoryKey key = getHistoryKeyByName(name);
+        if (key != null) {
+            key.setUpdateTime(new Date());
+            Muses.getDaoInstant().getHistoryKeyDao().update(key);
+        } else {
+            Log.e(TAG, "updateHistoryKeyByName: ERROR");
+        }
+
     }
 
-    /**
-     * 按历史记录值 查询数据
-     */
-    public static HistoryKey getHistoryKeyByName(String name, long userId) {
-        return Muses.getDaoInstant().getHistoryKeyDao().queryBuilder()
-                .where(HistoryKeyDao.Properties.Name.eq(name), HistoryKeyDao.Properties.UserId.eq(userId))
-                .list().get(0);
+    public static HistoryKey getHistoryKeyByName(String name) {
+        List<HistoryKey> list = Muses.getDaoInstant().getHistoryKeyDao().queryBuilder()
+                .where(HistoryKeyDao.Properties.Name.eq(name))
+                .list();
+        if (list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
     }
 
     public static HistoryKey getHistoryKeyById(long id) {
@@ -69,11 +83,11 @@ public class SearchHistoryService {
 
     /**
      * 查询全部数据
-     * 按优先级降序排列
+     * 按修改时间降序排列
      */
-    public static List<HistoryKey> queryAll(long userId) {
+    public static List<HistoryKey> getAllHistoryKeys() {
         return Muses.getDaoInstant().getHistoryKeyDao()
-                .queryBuilder().where(HistoryKeyDao.Properties.UserId.eq(userId))
+                .queryBuilder()
                 .orderDesc(HistoryKeyDao.Properties.UpdateTime)
                 .limit(30)
                 .list();

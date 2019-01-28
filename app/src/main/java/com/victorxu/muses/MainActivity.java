@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.base.BaseActivity;
 
@@ -17,6 +18,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImmersionBar.with(this).init();
         if (findFragment(MainFragment.class) == null) {
             loadRootFragment(R.id.frame_container, MainFragment.newInstance());
         }

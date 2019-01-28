@@ -14,26 +14,24 @@ import org.greenrobot.greendao.annotation.Generated;
 public class HistoryKey {
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
+    @Unique
     private String name;
     @NotNull
     private Date updateTime;
-    @NotNull
-    private long userId;
-    @Generated(hash = 341664257)
-    public HistoryKey(long id, String name, @NotNull Date updateTime, long userId) {
+    @Generated(hash = 1876917312)
+    public HistoryKey(Long id, String name, @NotNull Date updateTime) {
         this.id = id;
         this.name = name;
         this.updateTime = updateTime;
-        this.userId = userId;
     }
     @Generated(hash = 668397952)
     public HistoryKey() {
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -48,11 +46,5 @@ public class HistoryKey {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-    public long getUserId() {
-        return this.userId;
-    }
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
+   
 }

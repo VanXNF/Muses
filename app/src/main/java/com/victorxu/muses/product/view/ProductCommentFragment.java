@@ -68,6 +68,7 @@ public class ProductCommentFragment extends BaseFragment {
         mCommentRecycler = view.findViewById(R.id.product_comment_recycler_view);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mCommentAdapter = new CommentAdapter(initTestCommentData());
+        mCommentRecycler.setNestedScrollingEnabled(true);
         mCommentRecycler.setAdapter(mCommentAdapter);
     }
 

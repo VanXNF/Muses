@@ -66,4 +66,10 @@
         <item name="android:layout_weight">@integer/search_view_weight</item>
     </style>
 
+    <style name="Chip_TextAppearance">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/chip_text</item>
+    </style>
+
 </resources>
