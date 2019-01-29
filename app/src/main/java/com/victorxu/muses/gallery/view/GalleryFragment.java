@@ -239,9 +239,11 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
 
     @Override
     public void hideLoading() {
-        mRefreshLayout.finishRefresh(2000);
-        mRefreshLayout.setEnableLoadMore(true);
-        mFooterView.setVisibility(View.GONE);
+        post(()->{
+            mRefreshLayout.finishRefresh(2000);
+            mRefreshLayout.setEnableLoadMore(true);
+            mFooterView.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -270,11 +272,11 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
 
     @Override
     public void initImmersionBar() {
-        ImmersionBar.with(this).statusBarDarkFont(true).init();
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
     }
 
     @Override
     protected int setTitleBar() {
-        return R.id.search_gallery;
+        return R.id.gallery_page_bar;
     }
 }

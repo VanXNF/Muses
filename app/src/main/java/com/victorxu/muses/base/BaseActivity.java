@@ -25,7 +25,6 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-
     }
 
     @Override
@@ -46,6 +45,7 @@ public class BaseActivity extends AppCompatActivity implements ISupportActivity 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
+        ImmersionBar.with(this).init();
     }
 
     @Override

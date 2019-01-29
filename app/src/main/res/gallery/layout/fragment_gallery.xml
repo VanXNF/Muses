@@ -18,16 +18,17 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/gallery_page_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <com.victorxu.muses.custom.SearchView
                     android:id="@+id/search_gallery"
+                    style="@style/search_view"
                     app:editable="false"
                     app:focusableInTouchMode="false"
-                    app:hint="@string/default_search_hint"
-                    style="@style/search_view" />
+                    app:hint="@string/default_search_hint" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/button_customer_service"

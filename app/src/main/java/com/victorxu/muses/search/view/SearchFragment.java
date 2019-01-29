@@ -174,6 +174,11 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
     }
 
     @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
     protected int setTitleBar() {
         return R.id.search_page_bar;
     }

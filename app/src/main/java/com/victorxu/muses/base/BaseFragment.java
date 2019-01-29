@@ -450,7 +450,7 @@ public class BaseFragment extends Fragment implements ISupportFragment {
     }
 
     public void initImmersionBar() {
-        ImmersionBar.with(this).statusBarDarkFont(true).init();
+        ImmersionBar.with(mActivity).init();
     }
 
     protected boolean isImmersionBarEnabled() {
