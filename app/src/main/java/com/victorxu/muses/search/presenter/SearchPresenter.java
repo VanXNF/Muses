@@ -6,11 +6,13 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
+import com.victorxu.muses.db.entity.HistoryKey;
 import com.victorxu.muses.gson.HotKey;
 import com.victorxu.muses.search.contract.SearchContract;
 import com.victorxu.muses.search.model.SearchModel;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,7 +38,10 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void loadDataToView() {
         mView.hideHistoryKey();
-        mView.showHistoryKey(mModel.getHistoryKeyData());
+        List<HistoryKey> historyKeys = mModel.getHistoryKeyData();
+        if (historyKeys != null) {
+            mView.showHistoryKey(mModel.getHistoryKeyData());
+        }
         mView.hideHotKey();
         mView.showLoading();
         mModel.getHotKeyData(new Callback() {
@@ -83,7 +88,10 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void reloadHistoryDataToView() {
         mView.hideHistoryKey();
-        mView.showHistoryKey(mModel.getHistoryKeyData());
+        List<HistoryKey> historyKeys = mModel.getHistoryKeyData();
+        if (historyKeys != null) {
+            mView.showHistoryKey(mModel.getHistoryKeyData());
+        }
     }
 
     @Override

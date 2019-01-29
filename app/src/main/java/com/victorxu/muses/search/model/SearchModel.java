@@ -23,7 +23,11 @@ public class SearchModel implements SearchContract.Model {
 
     @Override
     public List<HistoryKey> getHistoryKeyData() {
-        return SearchHistoryService.getAllHistoryKeys();
+        List<HistoryKey> historyKeys = SearchHistoryService.getAllHistoryKeys();
+        if (historyKeys != null && historyKeys.size() != 0) {
+            return historyKeys;
+        }
+        return null;
     }
 
     @Override

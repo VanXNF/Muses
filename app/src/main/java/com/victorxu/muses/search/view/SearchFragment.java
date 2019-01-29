@@ -94,10 +94,7 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
                 mPresenter.goToSearch(mSearchView.getSearchViewText());
             }
         });
-        mTextSearch.setOnClickListener((View v) -> {
-            mPresenter.goToSearch(mSearchView.getSearchViewText());
-        });
-
+        mTextSearch.setOnClickListener((View v) -> mPresenter.goToSearch(mSearchView.getSearchViewText()));
     }
 
     @Override
@@ -109,9 +106,9 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
             mHotKeyFlowLayout.setAdapter(new TagAdapter<HotKey.Key>(mHotKeyData) {
                 @Override
                 public View getView(FlowLayout parent, int position, HotKey.Key key) {
-                    Chip chip = (Chip) LayoutInflater.from(mActivity).inflate(R.layout.item_tag, parent, false);
-                    chip.setText(key.getKeyword());
-                    return chip;
+                    AppCompatTextView tag = (AppCompatTextView) LayoutInflater.from(mActivity).inflate(R.layout.item_tag, parent, false);
+                    tag.setText(key.getKeyword());
+                    return tag;
                 }
             });
         });
@@ -135,9 +132,9 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
             mHistoryFlowLayout.setAdapter(new TagAdapter<HistoryKey>(mHistoryKeyData) {
                 @Override
                 public View getView(FlowLayout parent, int position, HistoryKey historyKey) {
-                    Chip chip = (Chip) LayoutInflater.from(mActivity).inflate(R.layout.item_tag, parent, false);
-                    chip.setText(historyKey.getName());
-                    return chip;
+                    AppCompatTextView tag = (AppCompatTextView) LayoutInflater.from(mActivity).inflate(R.layout.item_tag, parent, false);
+                    tag.setText(historyKey.getName());
+                    return tag;
                 }
             });
         });
