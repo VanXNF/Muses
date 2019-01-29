@@ -8,11 +8,13 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import android.text.Editable;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import android.widget.LinearLayout;
 import android.text.TextWatcher;
+import android.widget.TextView;
 
 import com.victorxu.muses.R;
 
@@ -20,6 +22,7 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
 
     private AppCompatEditText mEtSearchView;
     private OnSearchViewClickListener onSearchViewClickListener;
+    private OnEditorActionListener onEditorActionListener;
     private AppCompatImageButton mBtnClear;
 
     public SearchView(Context context, AttributeSet attrs) {
@@ -42,13 +45,13 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
         setSearchViewEditable(isEditable);
         setFocusableInTouchMode(isFocusableInTouchMode);
         if (!isEditable) {
-            mEtSearchView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onSearchViewClickListener.onClick(v);
-                }
-            });
+            mEtSearchView.setOnClickListener((v) -> onSearchViewClickListener.onClick(v));
         }
+        mEtSearchView.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
+            onEditorActionListener.onEditorAction(v, actionId, event);
+            return true;
+        });
+
     }
 
     @Override
@@ -83,6 +86,10 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
         this.onSearchViewClickListener = onSearchViewClickListener;
     }
 
+    public void setOnEditorActionListener(OnEditorActionListener onEditorActionListener) {
+        this.onEditorActionListener = onEditorActionListener;
+    }
+
     public void setSearchViewHint(String hint) {
         mEtSearchView.setHint(hint);
     }
@@ -105,5 +112,8 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
 
     public interface OnSearchViewClickListener {
         void onClick(View view);
+    }
+    public interface OnEditorActionListener {
+        void onEditorAction(TextView v, int actionId, KeyEvent event);
     }
 }

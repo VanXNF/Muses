@@ -1,5 +1,6 @@
 package com.victorxu.muses.search.presenter;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -87,7 +88,12 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void goToSearch(String key) {
-        mModel.addHistoryKeyData(key);
-        mView.goToSearch(key);
+        if (!TextUtils.isEmpty(key)) {
+            mModel.addHistoryKeyData(key);
+            mView.goToSearch(key);
+        } else {
+            mView.showToast(R.string.please_enter_keywords);
+        }
+
     }
 }

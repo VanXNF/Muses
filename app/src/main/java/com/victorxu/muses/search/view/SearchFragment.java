@@ -1,10 +1,12 @@
 package com.victorxu.muses.search.view;
 
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
@@ -87,12 +89,13 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
 
         mSearchView = view.findViewById(R.id.search_page_search_bar);
         mTextSearch = view.findViewById(R.id.search_page_search_button);
-        mTextSearch.setOnClickListener((View v) -> {
-            if (!TextUtils.isEmpty(mSearchView.getSearchViewText())) {
+        mSearchView.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
+            if(actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mPresenter.goToSearch(mSearchView.getSearchViewText());
-            } else {
-                showToast(R.string.please_enter_keywords);
             }
+        });
+        mTextSearch.setOnClickListener((View v) -> {
+            mPresenter.goToSearch(mSearchView.getSearchViewText());
         });
 
     }
@@ -169,6 +172,7 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
 
     @Override
     public void goToSearch(String key) {
+        hideSoftInput();
         mSearchView.setSearchViewText(key);
         start(SearchResultFragment.newInstance(key));
     }

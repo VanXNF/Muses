@@ -9,6 +9,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/search_bar_bg"
         android:backgroundTint="@color/background_grey_light"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
         android:paddingStart="@dimen/dp_40"
         android:paddingEnd="@dimen/dp_40"
         android:singleLine="true"
