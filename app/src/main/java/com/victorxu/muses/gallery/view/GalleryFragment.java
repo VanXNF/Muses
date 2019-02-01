@@ -267,7 +267,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
 
     @Override
     public void showToast(CharSequence text) {
-        Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
     @Override

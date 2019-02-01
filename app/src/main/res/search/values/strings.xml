@@ -5,4 +5,5 @@
     <string name="hottest">最热</string>
     <string name="price">价格</string>
     <string name="please_enter_keywords">请先输入关键词</string>
+    <string name="do_not_find_related_products">没找到相关商品，换个关键词再试试</string>
 </resources>

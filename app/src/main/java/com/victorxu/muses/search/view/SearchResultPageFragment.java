@@ -4,19 +4,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.impl.RefreshHeaderWrapper;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.custom.BlockHeaderView;
+import com.victorxu.muses.gson.PageCommodity;
 import com.victorxu.muses.product.view.ProductContainerFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
 import com.victorxu.muses.search.view.adapter.ProductAdapter;
 import com.victorxu.muses.search.view.entity.ProductItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -24,111 +32,153 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchResultPageFragment extends BaseFragment implements SearchResultContract.View{
+public class SearchResultPageFragment extends BaseFragment implements SearchResultContract.View {
 
+    private int index = 0;
+    private boolean isASC = false;
 
     private SearchResultContract.Presenter mPresenter;
-    private TwinklingRefreshLayout mRefreshLayout;
+    private SmartRefreshLayout mRefreshLayout;
     private RecyclerView mRecycler;
     private ProductAdapter mAdapter;
-    private List<ProductItem> mData;
+    private View mEmptyView;
+    private View mErrorView;
+    private List<PageCommodity.PageBean.CommodityListModel> mData = new ArrayList<>();
 
 
-    public static SearchResultPageFragment newInstance() {
+    public static SearchResultPageFragment newInstance(int index) {
         Bundle bundle = new Bundle();
-
+        bundle.putInt("INDEX", index);
         SearchResultPageFragment fragment = new SearchResultPageFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            index = bundle.getInt("INDEX");
+        } else {
+            index = 0;
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result_page, container, false);
-        mPresenter = new SearchResultPresenter(this);
-        initView(view);
+        mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this);
+        mPresenter.loadRootView(view);
+        mPresenter.loadProductToView();
         return view;
     }
 
-    private void initView(View view) {
+    @Override
+    public void initView(View view) {
         mRefreshLayout = view.findViewById(R.id.refresh_search_result);
+        mEmptyView = view.findViewById(R.id.search_empty_view);
+        mErrorView = view.findViewById(R.id.search_error_view);
         mRecycler = view.findViewById(R.id.page_recycler);
         mRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mPresenter.loadData();
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                try {
-                    ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductContainerFragment.newInstance());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-
+        mAdapter = new ProductAdapter(mData);
+        mAdapter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+            try {
+                ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductContainerFragment.newInstance(mData.get(position).getId()));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         });
+        mAdapter.setOnLoadMoreListener(() -> mPresenter.loadMoreProductToView(), mRecycler);
         mRecycler.setAdapter(mAdapter);
-        BlockHeaderView headerView = new BlockHeaderView(mActivity);
-        mRefreshLayout.setHeaderView(headerView);
-        mRefreshLayout.setMaxHeadHeight(140);
-//        mRefreshLayout.setEnableLoadmore(false);
-
-        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
-            @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                mRefreshLayout.postDelayed(()->{
-                    mPresenter.refreshData();
-                    mRefreshLayout.finishRefreshing();
-                },2000);
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                mRefreshLayout.postDelayed(() -> {
-                    mPresenter.loadMoreData();
-                    mRefreshLayout.finishLoadmore();
-                },2000);
-            }
-        });
+        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> mPresenter.reloadProductToView());
+        mRefreshLayout.setEnableAutoLoadMore(false);
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(mActivity));
     }
 
     @Override
-    public void showProductList(List<ProductItem> data) {
-        mData = data;
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        } else {
-            mAdapter = new ProductAdapter(mData);
-        }
+    public void showLoading() {
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
-    public void refreshProductList(List<ProductItem> data) {
-        mData = data;
-        mRecycler.post(()->{
+    public void showLoadingMore() {
+
+    }
+
+    @Override
+    public void showProductList(List<PageCommodity.PageBean.CommodityListModel> data) {
+        mData.clear();
+        mData.addAll(data);
+        mRecycler.post(() -> {
             mAdapter.setNewData(mData);
             mAdapter.notifyDataSetChanged();
         });
     }
 
     @Override
-    public void loadMoreProduct(List<ProductItem> data, boolean isCompleted) {
-        if (!isCompleted) {
-            mData.addAll(data);
-            mRecycler.post(()-> {
-                mAdapter.setNewData(mData);
-                mAdapter.notifyDataSetChanged();
-                mAdapter.loadMoreComplete();
-            });
-        } else {
-            mRefreshLayout.setEnableLoadmore(false);
-        }
+    public void showMoreProduct(List<PageCommodity.PageBean.CommodityListModel> data) {
+        mData.addAll(data);
+        mRecycler.post(() -> {
+            mAdapter.setNewData(mData);
+            mAdapter.notifyDataSetChanged();
+        });
     }
 
-//    @Override
-//    public void onLoadMoreRequested() {
-//        mPresenter.loadMoreData();
-//    }
+    @Override
+    public void hideLoading() {
+        mRefreshLayout.finishRefresh(500);
+    }
+
+    @Override
+    public void hideLoadingMore(boolean isCompeted, boolean isEnd) {
+        mRecycler.post(() -> {
+            if (!isEnd) {
+                if (isCompeted) {
+                    mAdapter.loadMoreComplete();
+                } else {
+                    mAdapter.loadMoreFail();
+                }
+            } else {
+                mAdapter.loadMoreEnd();
+            }
+        });
+    }
+
+    @Override
+    public void showToast(Integer resId) {
+        showToast(getText(resId));
+    }
+
+    @Override
+    public void showToast(CharSequence text) {
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void showEmptyPage() {
+        post(() -> mEmptyView.setVisibility(View.VISIBLE));
+    }
+
+    @Override
+    public void hideEmptyPage() {
+        post(() -> mEmptyView.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void showFailPage() {
+        post(() -> mErrorView.setVisibility(View.VISIBLE));
+    }
+
+    @Override
+    public void hideFailPage() {
+        post(() -> mErrorView.setVisibility(View.GONE));
+    }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
 }

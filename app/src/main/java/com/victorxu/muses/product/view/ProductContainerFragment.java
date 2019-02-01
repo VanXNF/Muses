@@ -30,10 +30,11 @@ public class ProductContainerFragment extends BaseSwipeBackFragment  {
     private ImmersionBar mImmersionBar;
     private AppCompatImageView mImageBackButton;
     private AppCompatImageView mImageShareButton;
+    private int id;
 
-    public static ProductContainerFragment newInstance() {
+    public static ProductContainerFragment newInstance(int id) {
         Bundle bundle = new Bundle();
-
+        bundle.putInt("ID", id);
         ProductContainerFragment fragment = new ProductContainerFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -44,6 +45,11 @@ public class ProductContainerFragment extends BaseSwipeBackFragment  {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Bundle bundle = getArguments();
+        if (bundle != null) {
+            id = bundle.getInt("ID");
+        } else {
+            id = 0;
+        }
     }
 
     @Override

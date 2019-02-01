@@ -1,30 +1,34 @@
 package com.victorxu.muses.search.view.adapter;
 
-import com.bumptech.glide.Glide;
+import android.widget.ImageView;
+
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
-import com.victorxu.muses.custom.AdvancedImageView;
-import com.victorxu.muses.search.view.entity.ProductItem;
+import com.victorxu.muses.glide.GlideApp;
+import com.victorxu.muses.gson.PageCommodity;
 
 import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class ProductAdapter extends BaseQuickAdapter<ProductItem, BaseViewHolder> {
+public class ProductAdapter extends BaseQuickAdapter<PageCommodity.PageBean.CommodityListModel, BaseViewHolder> {
 
-    public ProductAdapter(@Nullable List<ProductItem> data) {
+    public ProductAdapter(@Nullable List<PageCommodity.PageBean.CommodityListModel> data) {
         super(R.layout.item_product, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductItem item) {
-        helper.setText(R.id.text_product_title, item.getmTitle())
-                .setText(R.id.text_product_tag, item.getmTag())
-                .setText(R.id.text_product_price, item.getmPrice());
+    protected void convert(BaseViewHolder helper, PageCommodity.PageBean.CommodityListModel item) {
+        helper.setText(R.id.text_product_title, item.getName())
+                .setText(R.id.text_product_tag, item.getBrief())
+                .setText(R.id.text_product_price, String.valueOf(item.getDiscountPrice()));
 
-        Glide.with(mContext)
-                .load(item.getmImageUri())
-                .into((AdvancedImageView) helper.getView(R.id.image_product_image));
+        GlideApp.with(mContext)
+                .load(item.getCoverImage())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
+                .into((ImageView) helper.getView(R.id.image_product_image));
     }
 }

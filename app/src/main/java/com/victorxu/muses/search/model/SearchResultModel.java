@@ -1,62 +1,113 @@
 package com.victorxu.muses.search.model;
 
+import com.google.gson.Gson;
+import com.victorxu.muses.gson.PageCommodity;
+import com.victorxu.muses.gson.SearchModel;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.view.entity.ProductItem;
+import com.victorxu.muses.util.HttpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import okhttp3.Callback;
+
 public class SearchResultModel implements SearchResultContract.Model {
 
-    private int dataAmount = 30;
-    private int dataNum = 10;
-    private int pageSize = 6;
-    private boolean isEnd = false;
+    private final String API_PREFIX = "api/commodity/page/";
+    private int currentPage = 0;
+    private int allPages = 0;
+    private int index;
+    private String keyword;
+    private SearchModel searchModel;
+    private List<PageCommodity> pages = new ArrayList<>();
 
-    private List<ProductItem> mData;
-
-    public SearchResultModel() {
-        isEnd = dataNum >= dataAmount;
+    @Override
+    public int getCurrentPage() {
+        return currentPage;
     }
 
     @Override
-    public boolean getDataStatus() {
-        isEnd = dataNum >= dataAmount;
-        return isEnd;
-    }
-
-    @Override
-    public List<ProductItem> getProductData() {
-        mData = initTestData(dataNum);
-        return mData;
-    }
-
-    @Override
-    public List<ProductItem> getMoreData() {
-        if (!isEnd) {
-            mData = initTestData(pageSize);
-            dataNum += pageSize;
-        } else {
-            mData = null;
+    public int getAllPages() {
+        try {
+            return pages.get(currentPage).getPageData().getPageCount();
+        } catch (IndexOutOfBoundsException e) {
+            return allPages;
         }
-        return mData;
     }
 
-    private List<ProductItem> initTestData(int num) {
-        List<ProductItem> data = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < num; i++) {
-            if (random.nextBoolean()) {
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i3/2048829272/O1CN012IMcnFurWfqbAUN_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格玄关创意壁画挂画", "组合套装", "￥718"));
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i2/1779099327/TB24wCWpN9YBuNjy0FfXXXIsVXa_!!1779099327.jpg_430x430q90.jpg", "三联北欧创意油画大气壁画油画挂画", "现代简约 高档三联 风景挂画", "￥358"));
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i4/2122078663/O1CN012DrhaXqQtvjYMdJ_!!2122078663.jpg_430x430q90.jpg", "客厅装饰画沙发背景墙挂画新中式办公室", "独立 办公室 背景挂画", "￥418"));
-            } else {
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i3/2048829272/O1CN011U7MIo2IMcnnwObD0_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格现代简约组合挂画几何抽象画三联壁画", "几何抽象画 升级款", "￥220"));
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i1/1675711085/O1CN011JsyCTbDzUR7HRD_!!0-item_pic.jpg_430x430q90.jpg", "现代简约办公室餐厅墙面装饰壁画", "现代简约 装饰壁画", "￥286"));
-                data.add(new ProductItem(i, "https://img.alicdn.com/imgextra/i4/1675711085/O1CN011JsyCYkgbcobAxN_!!0-item_pic.jpg_430x430q90.jpg", "北欧风格装饰画麋鹿挂画三联画", "环保画材 艺术微喷工艺", "￥306"));
-            }
+    @Override
+    public List<PageCommodity> getPageList() {
+        return pages;
+    }
+
+    @Override
+    public void getProductData(Callback callback) {
+        getProductData(0, callback);
+    }
+
+    @Override
+    public void getProductData(int page, Callback callback) {
+        currentPage = page;
+        initSearchModel();
+        HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchModel), callback);
+    }
+
+    @Override
+    public void getMoreProductData(Callback callback) {
+        if (searchModel == null) {
+            initSearchModel();
         }
-        return data;
+        HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchModel), callback);
+    }
+
+    @Override
+    public void setAllPages(int allPages) {
+        this.allPages = allPages;
+    }
+
+    @Override
+    public void addPage(PageCommodity page) {
+        pages.add(page);
+    }
+
+    @Override
+    public void setPageList(List<PageCommodity> data) {
+        pages.clear();
+        pages = data;
+    }
+
+    @Override
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    @Override
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    private void initSearchModel() {
+        searchModel = new SearchModel();
+        switch (index) {
+            case 0:
+                searchModel.setSortType(SearchModel.SEARCH_DEFAULT);
+                break;
+            case 1:
+                searchModel.setSortType(SearchModel.SEARCH_TIME);
+                searchModel.setAsc(false);
+                break;
+            case 2:
+                searchModel.setSortType(SearchModel.SEARCH_VOLUME);
+                searchModel.setAsc(false);
+                break;
+            case 3:
+                searchModel.setSortType(SearchModel.SEARCH_PRICE);
+                searchModel.setAsc(true);
+                break;
+        }
+        searchModel.setSize(6);
+        searchModel.setKeyword(keyword);
     }
 }

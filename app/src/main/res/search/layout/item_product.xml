@@ -7,12 +7,10 @@
     android:layout_marginTop="@dimen/dp_10"
     android:orientation="vertical">
 
-    <com.victorxu.muses.custom.AdvancedImageView
+    <ImageView
         android:id="@+id/image_product_image"
         style="@style/gallery_commodity_image"
-        android:src="@drawable/product1"
-        app:borderRadius="@dimen/dp_4_5"
-        app:type="round" />
+        android:src="@drawable/product1" />
 
     <LinearLayout
         android:layout_width="@dimen/dp_158"

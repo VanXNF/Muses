@@ -19,13 +19,13 @@ public class SearchResultPagerFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return SearchResultPageFragment.newInstance();
+                return SearchResultPageFragment.newInstance(0);
             case 1:
-                return SearchResultPageFragment.newInstance();
+                return SearchResultPageFragment.newInstance(1);
             case 2:
-                return SearchResultPageFragment.newInstance();
+                return SearchResultPageFragment.newInstance(2);
             case 3:
-                return SearchResultPageFragment.newInstance();
+                return SearchResultPageFragment.newInstance(3);
             default:
                 break;
         }

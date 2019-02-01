@@ -5,7 +5,7 @@
     android:background="@color/background_white"
     android:orientation="vertical">
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_search_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,9 +13,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/page_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:overScrollMode="never" />
+            android:layout_height="match_parent" />
 
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include
+        android:id="@+id/search_empty_view"
+        layout="@layout/search_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/search_error_view"
+        layout="@layout/search_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </FrameLayout>

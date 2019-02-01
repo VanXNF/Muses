@@ -11,11 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/search_bar"
+        <LinearLayout
+            android:id="@+id/result_page_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="snap|enterAlways|scroll" />
+            android:orientation="horizontal"
+            app:layout_scrollFlags="snap|enterAlways|scroll">
+
+            <com.victorxu.muses.custom.SearchView
+                android:id="@+id/search_result_bar"
+                style="@style/search_view"
+                app:editable="false"
+                app:focusableInTouchMode="false" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/result_text_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_margin="@dimen/dp_9"
+                android:text="@string/search"
+                android:textSize="@dimen/sp_12" />
+
+        </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_search_result"
