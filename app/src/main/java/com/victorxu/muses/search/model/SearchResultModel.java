@@ -16,7 +16,7 @@ import okhttp3.Callback;
 public class SearchResultModel implements SearchResultContract.Model {
 
     private final String API_PREFIX = "api/commodity/page/";
-    private int currentPage = 0;
+    private int currentPage = 1;
     private int allPages = 0;
     private int index;
     private String keyword;
@@ -44,7 +44,7 @@ public class SearchResultModel implements SearchResultContract.Model {
 
     @Override
     public void getProductData(Callback callback) {
-        getProductData(0, callback);
+        getProductData(1, callback);
     }
 
     @Override
@@ -93,6 +93,7 @@ public class SearchResultModel implements SearchResultContract.Model {
         switch (index) {
             case 0:
                 searchModel.setSortType(SearchModel.SEARCH_DEFAULT);
+                searchModel.setAsc(true);
                 break;
             case 1:
                 searchModel.setSortType(SearchModel.SEARCH_TIME);

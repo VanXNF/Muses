@@ -76,7 +76,7 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
     @Override
     public void loadMoreProductToView() {
         mView.showLoadingMore();
-        if (mModel.getAllPages() != 0 && mModel.getCurrentPage() + 1 < mModel.getAllPages()) {
+        if (mModel.getAllPages() != 0 && mModel.getCurrentPage() < mModel.getAllPages()) {
             mModel.getMoreProductData(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
