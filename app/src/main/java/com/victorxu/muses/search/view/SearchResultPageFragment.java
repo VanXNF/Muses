@@ -10,19 +10,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.impl.RefreshHeaderWrapper;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.gson.PageCommodity;
-import com.victorxu.muses.product.view.ProductContainerFragment;
+import com.victorxu.muses.product.view.ProductFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
 import com.victorxu.muses.search.view.adapter.ProductAdapter;
-import com.victorxu.muses.search.view.entity.ProductItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +79,7 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         mAdapter = new ProductAdapter(mData);
         mAdapter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) -> {
             try {
-                ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductContainerFragment.newInstance(mData.get(position).getId()));
+                ((SearchResultFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(mData.get(position).getId()));
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
