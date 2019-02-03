@@ -65,8 +65,14 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         View view = inflater.inflate(R.layout.fragment_search_result_page, container, false);
         mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this);
         mPresenter.loadRootView(view);
-        mPresenter.loadProductToView();
         return view;
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        if (mPresenter != null) {
+            mPresenter.loadProductToView();
+        }
     }
 
     @Override
