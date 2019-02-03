@@ -76,8 +76,14 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         mPresenter = new GalleryPresenter(this);
         mPresenter.loadRootView(view);
-        mPresenter.loadDataToView();
         return view;
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        if (mPresenter != null) {
+            mPresenter.loadDataToView();
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

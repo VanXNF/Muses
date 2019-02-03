@@ -62,10 +62,15 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         mPresenter = new SearchPresenter(this);
         mPresenter.loadRootView(view);
-        mPresenter.loadDataToView();
         return attachToSwipeBack(view);
     }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        if (mPresenter != null) {
+            mPresenter.loadDataToView();
+        }
+    }
 
     @Override
     public void initView(View view) {
