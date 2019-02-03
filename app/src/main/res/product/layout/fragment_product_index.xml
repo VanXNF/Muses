@@ -73,9 +73,9 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/product_index_parameter_part" />
+            <include layout="@layout/product_parameter_part" />
 
-            <include layout="@layout/product_index_style_part" />
+            <include layout="@layout/product_style_part" />
 
             <LinearLayout
                 android:layout_width="match_parent"

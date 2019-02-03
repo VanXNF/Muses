@@ -1,5 +1,10 @@
 package com.victorxu.muses.product.contract;
 
+import com.victorxu.muses.gson.Commodity;
+import com.victorxu.muses.gson.PageComment;
+
+import java.util.List;
+
 public interface ProductContract {
     interface Model {
         void getProductData(okhttp3.Callback callback);
@@ -9,9 +14,12 @@ public interface ProductContract {
 
     interface View {
         void initRootView(android.view.View view);
-        void showBanner();
+        void showBaseInfo(Commodity.CommodityDetail data);
+        void showBanner(List<String> imageUrls);
         void showProductDetail(String htmlData);
-        void showComment();
+        void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData);
+        void showToast(int resId);
+        void showToast(CharSequence text);
     }
 
     interface Presenter {

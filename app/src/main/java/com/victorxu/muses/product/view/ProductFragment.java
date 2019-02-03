@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +16,27 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabItem;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.custom.GradationScrollView;
 import com.victorxu.muses.glide.GlideApp;
+import com.victorxu.muses.gson.Commodity;
+import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.presenter.ProductPresenter;
+import com.victorxu.muses.product.view.adapter.EvaluationAdapter;
+import com.victorxu.muses.product.view.adapter.PromotionAdapter;
+import com.victorxu.muses.product.view.entity.PromotionItem;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -38,6 +44,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProductFragment extends BaseSwipeBackFragment implements ProductContract.View {
 
@@ -49,8 +57,19 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private TabLayout mTabLayout;
     private GradationScrollView mScrollView;
     private Banner mBanner;
+    private AppCompatTextView mProductTitle;
+    private AppCompatTextView mProductBrief;
     private AppCompatTextView mDiscountPrice;
     private AppCompatTextView mOriginPrice;
+    private RecyclerView mPromotionRecycler;
+    private View mAttrView;
+    private View mStyleView;
+    private AppCompatImageView mEvaluationUserAvatar;
+    private AppCompatTextView mEvaluationUserName;
+    private AppCompatTextView mEvaluationDate;
+    private AppCompatTextView mEvaluationContent;
+    private AppCompatTextView mEvaluationOrderInfo;
+    private View mSeeMoreEvaluationView;
     private View mSideDetail;
     private View mSideEvaluation;
     private WebView mWebView;
@@ -58,6 +77,9 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
 
     private int id;
     private boolean isUp = true;
+    private List<String> mBannerData = new ArrayList<>();
+    private Commodity.CommodityDetail mCommodityData;
+    private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
 
     public static ProductFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -83,10 +105,14 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        mPresenter = new ProductPresenter(this);
+        mPresenter = new ProductPresenter(this, id);
         mPresenter.loadRootView(view);
-        mPresenter.loadDataToView();
         return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        mPresenter.loadDataToView();
     }
 
     @Override
@@ -96,19 +122,42 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mProductShare = view.findViewById(R.id.product_share);
         mTabLayout = view.findViewById(R.id.product_tab_layout);
         mBanner = view.findViewById(R.id.product_banner);
+        mProductTitle = view.findViewById(R.id.product_title);
+        mProductBrief = view.findViewById(R.id.product_brief);
         mDiscountPrice = view.findViewById(R.id.product_price);
         mOriginPrice = view.findViewById(R.id.product_price_origin);
+        mPromotionRecycler = view.findViewById(R.id.product_promotion_recycler_view);
+        mAttrView = view.findViewById(R.id.product_text_attr);
+        mStyleView = view.findViewById(R.id.product_text_style);
+        mEvaluationUserAvatar = view.findViewById(R.id.product_evaluation_image_avatar);
+        mEvaluationUserName = view.findViewById(R.id.product_evaluation_text_username);
+        mEvaluationDate = view.findViewById(R.id.product_evaluation_text_comment_date);
+        mEvaluationContent = view.findViewById(R.id.product_evaluation_text_comment);
+        mEvaluationOrderInfo = view.findViewById(R.id.product_evaluation_text_order_info);
+        mSeeMoreEvaluationView = view.findViewById(R.id.product_evaluation_see_more_reviews);
         mSideDetail = view.findViewById(R.id.product_side_detail);
         mSideEvaluation = view.findViewById(R.id.product_side_evaluation);
         mWebView = view.findViewById(R.id.product_web_detail);
         mScrollView = view.findViewById(R.id.product_scrollview);
 
         mToolBar.setBackgroundColor(Color.argb(0, 255,255,255));
+        mProductBack.setOnClickListener((v -> mActivity.onBackPressed()));
 
         mTabLayout.setAlpha(0);
         setTabClickListener();
 
         mOriginPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+        // TODO: 2019/2/4 add Bottomsheet
+        mSeeMoreEvaluationView.setOnClickListener((v) -> {});
+        mAttrView.setOnClickListener((v) -> {});
+        mStyleView.setOnClickListener((v) -> {});
+
+        mPromotionRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        ArrayList<PromotionItem> promotionItems = new ArrayList<>();
+        promotionItems.add(new PromotionItem("全场满188包邮", false));
+        PromotionAdapter mPromotionAdapter = new PromotionAdapter(promotionItems);
+        mPromotionRecycler.setAdapter(mPromotionAdapter);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setUseWideViewPort(true);
@@ -119,9 +168,25 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
-    public void showBanner() {
+    public void showBaseInfo(Commodity.CommodityDetail data) {
+        mCommodityData = data;
+        post(() -> {
+            mProductTitle.setText(mCommodityData.getName());
+            mProductBrief.setText(mCommodityData.getBrief());
+            mDiscountPrice.setText(String.valueOf(mCommodityData.getDiscountPrice()));
+            mOriginPrice.setText(String.valueOf(mCommodityData.getOriginalPrice()));
+            if (mCommodityData.getDiscountPrice() == mCommodityData.getOriginalPrice()) {
+                mOriginPrice.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    @Override
+    public void showBanner(List<String> imageUrls) {
+        mBannerData.clear();
+        mBannerData.addAll(imageUrls);
         post(() ->
-                mBanner.setImages(initDefaultBannerData())
+                mBanner.setImages(mBannerData)
                         .setImageLoader(new ImageLoader() {
                             @Override
                             public void displayImage(Context context, Object path, ImageView imageView) {
@@ -142,8 +207,31 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
-    public void showComment() {
+    public void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData) {
+        mCommentData.clear();
+        mCommentData.addAll(commentData);
+        PageComment.PageCommentData.CommentModel model = mCommentData.get((int)(Math.random() * mCommentData.size()));
+        post(() -> {
+            GlideApp.with(mActivity)
+                    .load(model.getHead())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(mEvaluationUserAvatar);
+            mEvaluationUserName.setText(model.getUsername());
+            SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+            mEvaluationDate.setText(sdf.format(new Date(model.getDate())));
+            mEvaluationContent.setText(model.getContent());
+            mEvaluationOrderInfo.setText(model.getCommodityInfo().split(" ")[0]);
+        });
+    }
 
+    @Override
+    public void showToast(int resId) {
+        showToast(getText(resId));
+    }
+
+    @Override
+    public void showToast(CharSequence text) {
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -208,16 +296,16 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 mProductShare.setBackgroundResource(R.color.background_transparent);
                 mToolBar.setBackgroundColor(Color.argb( 255, 255,255,255));
             }
-
-            if (y < mSideDetail.getTop() - mToolBar.getHeight()) {
+//            根据位置自动改变 tab 选中状态
+            if (y < mSideEvaluation.getTop() - mToolBar.getHeight()) {
                 if (mTabLayout.getSelectedTabPosition() != 0) {
                     mTabLayout.getTabAt(0).select();
                 }
-            } else if (y > mSideDetail.getTop() - mToolBar.getHeight() && y < mSideEvaluation.getTop() - mToolBar.getHeight()) {
+            } else if (y >= mSideEvaluation.getTop() - mToolBar.getHeight() && y < mSideDetail.getTop() - mToolBar.getHeight()) {
                 if (mTabLayout.getSelectedTabPosition() != 1) {
                     mTabLayout.getTabAt(1).select();
                 }
-            } else if (y > mSideEvaluation.getTop() - mToolBar.getHeight()) {
+            } else if (y >= mSideDetail.getTop() - mToolBar.getHeight()) {
                 if (mTabLayout.getSelectedTabPosition() != 2) {
                     mTabLayout.getTabAt(2).select();
                 }
@@ -228,8 +316,8 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private void setTabClickListener() {
         List<Integer> tabTitles = new ArrayList<>();
         tabTitles.add(R.string.product);
-        tabTitles.add(R.string.detail);
         tabTitles.add(R.string.comment);
+        tabTitles.add(R.string.detail);
 
         for (int i = 0; i < 3; i++) {
             mTabLayout.addTab(mTabLayout.newTab());
@@ -253,10 +341,10 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                                 mScrollView.fullScroll(ScrollView.FOCUS_UP);
                                 break;
                             case 1:
-                                mScrollView.smoothScrollTo(0, mSideDetail.getTop() - mToolBar.getHeight());
+                                mScrollView.smoothScrollTo(0, mSideEvaluation.getTop() - mToolBar.getHeight());
                                 break;
                             case 2:
-                                mScrollView.smoothScrollTo(0, mSideEvaluation.getTop() - mToolBar.getHeight());
+                                mScrollView.smoothScrollTo(0, mSideDetail.getTop() - mToolBar.getHeight());
                                 break;
                         }
                     });

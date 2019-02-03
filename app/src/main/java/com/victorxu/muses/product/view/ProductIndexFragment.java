@@ -91,11 +91,11 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
                 .setIndicatorGravity(BannerConfig.RIGHT)
                 .start();
 
-        mPromotionRecycler = view.findViewById(R.id.product_index_promotion_recycler_view);
+        mPromotionRecycler = view.findViewById(R.id.product_promotion_recycler_view);
         mPromotionRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         ArrayList<PromotionItem> promotionItems = new ArrayList<>();
-        promotionItems.add(new PromotionItem("10元现金券满·200减30"));
-        promotionItems.add(new PromotionItem("全场满188包邮"));
+        promotionItems.add(new PromotionItem("10元现金券满·200减30", true));
+        promotionItems.add(new PromotionItem("全场满188包邮", false));
         mPromotionAdapter = new PromotionAdapter(promotionItems);
         mPromotionRecycler.setAdapter(mPromotionAdapter);
 
@@ -103,7 +103,7 @@ public class ProductIndexFragment extends BaseFragment implements GradationScrol
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mEvaluationRecycler.setLayoutManager(linearLayoutManager);
-        mEvaluationAdapter = new EvaluationAdapter(initTestEvaluationData());
+//        mEvaluationAdapter = new EvaluationAdapter(initTestEvaluationData());
         mEvaluationRecycler.setAdapter(mEvaluationAdapter);
 
     }
