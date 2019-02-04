@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -33,6 +34,7 @@ import com.victorxu.muses.gallery.view.entity.ProductItem;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.ListCommodity;
 import com.victorxu.muses.message.view.MessageListFragment;
+import com.victorxu.muses.product.view.ProductFragment;
 import com.victorxu.muses.search.view.SearchFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -199,6 +201,9 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     public void showRecommendSection(ArrayList<ListCommodity.CommodityListModel> recommendData) {
         mRecommendData.clear();
         mRecommendData.addAll(recommendData);
+        mRecommendAdapter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(mRecommendData.get(position).getId()))
+        );
         mRecommendRecycler.post(() -> {
             mRecommendAdapter.setNewData(mRecommendData);
             mRecommendAdapter.notifyDataSetChanged();
@@ -219,6 +224,12 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                 }
             }
         });
+        for (int i = 0; i < mNewProductViews.size(); i++) {
+            int id = mNewProductData.get(i).getId();
+            mNewProductViews.get(i).getImageView().setOnClickListener((v) ->
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
+            );
+        }
     }
 
     @Override
@@ -235,7 +246,12 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                 }
             }
         });
-
+        for (int i = 0; i < mHotProductViews.size(); i++) {
+            int id = mHotProductData.get(i).getId();
+            mHotProductViews.get(i).getImageView().setOnClickListener((v) ->
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
+            );
+        }
     }
 
     @Override
