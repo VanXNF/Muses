@@ -222,14 +222,13 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                     mNewProductViews.get(i).getTagText().setText(mNewProductData.get(i).getBrief());
                     mNewProductViews.get(i).getPriceText().setText(String.valueOf(mNewProductData.get(i).getDiscountPrice()));
                 }
+                int id = mNewProductData.get(i).getId();
+                mNewProductViews.get(i).getImageView().setOnClickListener((v) ->
+                        ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
+                );
             }
         });
-        for (int i = 0; i < mNewProductViews.size(); i++) {
-            int id = mNewProductData.get(i).getId();
-            mNewProductViews.get(i).getImageView().setOnClickListener((v) ->
-                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
-            );
-        }
+
     }
 
     @Override
@@ -244,14 +243,12 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                     mHotProductViews.get(i).getTagText().setText(mHotProductData.get(i).getBrief());
                     mHotProductViews.get(i).getPriceText().setText(String.valueOf(mHotProductData.get(i).getDiscountPrice()));
                 }
+                int id = mHotProductData.get(i).getId();
+                mHotProductViews.get(i).getImageView().setOnClickListener((v) ->
+                        ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
+                );
             }
         });
-        for (int i = 0; i < mHotProductViews.size(); i++) {
-            int id = mHotProductData.get(i).getId();
-            mHotProductViews.get(i).getImageView().setOnClickListener((v) ->
-                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(id))
-            );
-        }
     }
 
     @Override

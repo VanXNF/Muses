@@ -17,17 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
+import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.custom.GradationScrollView;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.presenter.ProductPresenter;
-import com.victorxu.muses.product.view.adapter.EvaluationAdapter;
 import com.victorxu.muses.product.view.adapter.PromotionAdapter;
 import com.victorxu.muses.product.view.entity.PromotionItem;
 import com.youth.banner.Banner;
@@ -63,7 +64,9 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private AppCompatTextView mOriginPrice;
     private RecyclerView mPromotionRecycler;
     private View mAttrView;
+    private AdvancedBottomSheetDialog mAttrDialog;
     private View mStyleView;
+    private BottomSheetDialog mStyleDialog;
     private AppCompatImageView mEvaluationUserAvatar;
     private AppCompatTextView mEvaluationUserName;
     private AppCompatTextView mEvaluationDate;
@@ -149,9 +152,20 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mOriginPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         // TODO: 2019/2/4 add Bottomsheet
-        mSeeMoreEvaluationView.setOnClickListener((v) -> {});
-        mAttrView.setOnClickListener((v) -> {});
-        mStyleView.setOnClickListener((v) -> {});
+        mSeeMoreEvaluationView.setOnClickListener((v) -> {start(ProductCommentFragment.newInstance());});
+        mAttrDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+        BottomSheetDialog dialog = new BottomSheetDialog(mActivity);
+        View view1 = getLayoutInflater().inflate(R.layout.bottom_dialog_attribute, null);
+        View view2 = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
+        mAttrDialog.setContentView(view2);
+//        dialog.setContentView(view2);
+        mAttrView.setOnClickListener((v) -> {
+            mAttrDialog.show();
+        });
+        mStyleView.setOnClickListener((v) -> {
+//            dialog.show();
+        });
+
 
         mPromotionRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         ArrayList<PromotionItem> promotionItems = new ArrayList<>();

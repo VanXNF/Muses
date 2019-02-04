@@ -37,20 +37,20 @@ public class ProductCommentFragment extends BaseFragment {
         return fragment;
     }
 
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        mImmersionBar = ImmersionBar.with(this).transparentStatusBar().fitsSystemWindows(false);
-        mImmersionBar.init();
+//    @Override
+//    public void onSupportVisible() {
+//        super.onSupportVisible();
+//        mImmersionBar = ImmersionBar.with(this).transparentStatusBar().fitsSystemWindows(false);
+//        mImmersionBar.init();
+//
+//    }
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mImmersionBar != null)
-            mImmersionBar.destroy();
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (mImmersionBar != null)
+//            mImmersionBar.destroy();
+//    }
 
     @Nullable
     @Override
@@ -61,10 +61,10 @@ public class ProductCommentFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-        mParentToolbar = ((ProductContainerFragment) getParentFragment()).getToolbar();
-        mParentToolbar.setBackgroundColor(Color.argb( 255, 255,255,255));
-        mParentTabLayout = ((ProductContainerFragment) getParentFragment()).getTabLayout();
-        mParentTabLayout.setAlpha(1);
+//        mParentToolbar = ((ProductContainerFragment) getParentFragment()).getToolbar();
+//        mParentToolbar.setBackgroundColor(Color.argb( 255, 255,255,255));
+//        mParentTabLayout = ((ProductContainerFragment) getParentFragment()).getTabLayout();
+//        mParentTabLayout.setAlpha(1);
         mCommentRecycler = view.findViewById(R.id.product_comment_recycler_view);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mCommentAdapter = new CommentAdapter(initTestCommentData());

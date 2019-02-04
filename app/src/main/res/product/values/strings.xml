@@ -9,6 +9,7 @@
     <string name="buy_now">立即购买</string>
     <string name="promotion">促销</string>
     <string name="parameter">参数</string>
+    <string name="view_product_related_attribute">查看产品相关参数</string>
     <string name="view_product_related_information">查看产品相关信息</string>
     <string name="product_style">款式</string>
     <string name="seven_days_no_reason_to_return">7天无理由退货</string>
@@ -19,4 +20,5 @@
     <string name="product_customer_service">客服</string>
     <string name="product_comment">用户评论</string>
     <string name="praise_of_product">好评度</string>
+    <string name="please_choose_product">请选择商品</string>
 </resources>
