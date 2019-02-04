@@ -21,4 +21,5 @@
     <string name="product_comment">用户评论</string>
     <string name="praise_of_product">好评度</string>
     <string name="please_choose_product">请选择商品</string>
+    <string name="purchase_quantity">购买数量</string>
 </resources>

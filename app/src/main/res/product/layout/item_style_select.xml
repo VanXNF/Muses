@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_style_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="颜色分类"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_13" />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/item_style_tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemSpacing="@dimen/dp_10"
+        app:lineSpacing="@dimen/dp_10"
+        app:max_select="1" />
+
+</LinearLayout>
