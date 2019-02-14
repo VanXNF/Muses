@@ -6,6 +6,7 @@ import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.victorxu.muses.util.HttpUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Callback;
@@ -39,5 +40,13 @@ public class ProductModel implements ProductContract.Model {
         }
         styleSelectItems.add(new StyleSelectItem(1));
         return styleSelectItems;
+    }
+
+    @Override
+    public List<String> getAttributeInfoData(String information) {
+        List<String> attributeInfo = new ArrayList<>();
+        String data = information.substring(information.indexOf('{') + 1, information.lastIndexOf('}'));
+        attributeInfo.addAll(Arrays.asList(data.split(",")));
+        return attributeInfo;
     }
 }

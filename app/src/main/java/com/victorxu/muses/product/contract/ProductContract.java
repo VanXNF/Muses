@@ -11,6 +11,7 @@ public interface ProductContract {
         void getProductData(okhttp3.Callback callback);
         void getCommentData(okhttp3.Callback callback);
         List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans);
+        List<String> getAttributeInfoData(String information);
     }
 
     interface View {
@@ -19,7 +20,7 @@ public interface ProductContract {
         void showBanner(List<String> imageUrls);
         void showProductDetail(String htmlData);
         void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData);
-        void showAttributeBottomSheet();
+        void showAttributeBottomSheet(List<String> data);
         void showStyleBottomSheet(List<StyleSelectItem> data);
         void showToast(int resId);
         void showToast(CharSequence text);

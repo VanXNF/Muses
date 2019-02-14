@@ -314,7 +314,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/product_index_add_to_cart"
+                    android:id="@+id/product_add_to_cart"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_30"
                     android:background="@drawable/left_button_bg"
@@ -323,7 +323,7 @@
                     android:textSize="@dimen/sp_12" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/product_index_buy_now"
+                    android:id="@+id/product_buy_now"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_30"
                     android:background="@drawable/right_button_bg"

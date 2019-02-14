@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.presenter.ProductPresenter;
+import com.victorxu.muses.product.view.adapter.AttributeInfoAdapter;
 import com.victorxu.muses.product.view.adapter.PromotionAdapter;
 import com.victorxu.muses.product.view.adapter.StyleSelectAdapter;
 import com.victorxu.muses.product.view.entity.PromotionItem;
@@ -37,6 +39,8 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 
+import org.w3c.dom.Attr;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +48,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
@@ -67,12 +72,18 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private RecyclerView mPromotionRecycler;
     private View mAttrView;
     private AdvancedBottomSheetDialog mAttrDialog;
+    private RecyclerView mAttrRecycler;
+    private AttributeInfoAdapter mAttrAdapter;
+    private AppCompatButton mAttrConfirmButton;
     private View mStyleView;
     private BottomSheetDialog mStyleDialog;
     private AppCompatImageView mStylePreviewImage;
     private AppCompatTextView mStylePreviewPriceText;
     private RecyclerView mStyleRecycler;
     private StyleSelectAdapter mStyleAdapter;
+    private AppCompatButton mStyleConfirmButton;
+    private AppCompatButton mStyleAddToCartButton;
+    private AppCompatButton mStyleBuyNowButton;
     private AppCompatImageView mEvaluationUserAvatar;
     private AppCompatTextView mEvaluationUserName;
     private AppCompatTextView mEvaluationDate;
@@ -82,14 +93,19 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private View mSideDetail;
     private View mSideEvaluation;
     private WebView mWebView;
+    private AppCompatButton mAddToCartButton;
+    private AppCompatButton mBuyNowButton;
+
     private ProductPresenter mPresenter;
 
     private int id;
     private boolean isUp = true;
+    private boolean isBuy = true;
     private List<String> mBannerData = new ArrayList<>();
     private Commodity.CommodityDetail mCommodityData;
     private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
+    private List<String> mAttributeData = new ArrayList<>();
     private int mProductNumber = 1;
 
     public static ProductFragment newInstance(int id) {
@@ -150,6 +166,8 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mSideEvaluation = view.findViewById(R.id.product_side_evaluation);
         mWebView = view.findViewById(R.id.product_web_detail);
         mScrollView = view.findViewById(R.id.product_scrollview);
+        mAddToCartButton = view.findViewById(R.id.product_add_to_cart);
+        mBuyNowButton = view.findViewById(R.id.product_buy_now);
 
         mToolBar.setBackgroundColor(Color.argb(0, 255, 255, 255));
         mProductBack.setOnClickListener((v -> mActivity.onBackPressed()));
@@ -159,17 +177,16 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
 
         mOriginPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        // TODO: 2019/2/4 add Bottomsheet
-        mSeeMoreEvaluationView.setOnClickListener((v) -> {
-            start(ProductCommentFragment.newInstance());
-        });
-        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+        mSeeMoreEvaluationView.setOnClickListener((v) -> start(ProductCommentFragment.newInstance()));
 
-//        View view1 = getLayoutInflater().inflate(R.layout.bottom_dialog_attribute, null);
+        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
         View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
         mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
         mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
         mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
+        mStyleConfirmButton = styleView.findViewById(R.id.bottom_sheet_product_style_confirm);
+        mStyleAddToCartButton = styleView.findViewById(R.id.bottom_sheet_product_style_add_to_cart);
+        mStyleBuyNowButton = styleView.findViewById(R.id.bottom_sheet_product_style_buy_now);
         mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
         mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
@@ -191,18 +208,45 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                     );
                 }
             }
-
         });
         mStyleAdapter.setOnNumberSelectListener((int number) -> mProductNumber = number);
         mStyleRecycler.setAdapter(mStyleAdapter);
         mStyleDialog.setContentView(styleView);
-        mAttrView.setOnClickListener((v) -> {
-//            mAttrDialog.show();
+        mStyleAddToCartButton.setOnClickListener((v) -> {
+            // TODO: 2019/2/14 加入购物车 
         });
+        mStyleBuyNowButton.setOnClickListener((v) -> {
+            // TODO: 2019/2/14 直接购买商品 
+        });
+        mStyleConfirmButton.setOnClickListener((v -> {
+            // TODO: 2019/2/14 判断属性是否选择完毕
+            if (isBuy) {
+                // TODO: 2019/2/14 直接购买商品
+            } else {
+                // TODO: 2019/2/14 加入购物车
+            }
+            mStyleDialog.cancel();
+        }));
         mStyleView.setOnClickListener((v) -> {
+            styleView.post(() -> {
+               mStyleConfirmButton.setVisibility(View.GONE);
+               mStyleAddToCartButton.setVisibility(View.VISIBLE);
+               mStyleBuyNowButton.setVisibility(View.VISIBLE);
+            });
             mStyleDialog.show();
         });
 
+        mAttrDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+
+        View attrView = getLayoutInflater().inflate(R.layout.bottom_dialog_attribute, null);
+        mAttrRecycler = attrView.findViewById(R.id.bottom_sheet_product_attribute_recycler_view);
+        mAttrConfirmButton = attrView.findViewById(R.id.bottom_sheet_product_attribute_confirm);
+        mAttrRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mAttrAdapter = new AttributeInfoAdapter(mAttributeData);
+        mAttrRecycler.setAdapter(mAttrAdapter);
+        mAttrDialog.setContentView(attrView);
+        mAttrConfirmButton.setOnClickListener((v -> mAttrDialog.cancel()));
+        mAttrView.setOnClickListener((v) -> mAttrDialog.show());
 
         mPromotionRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         ArrayList<PromotionItem> promotionItems = new ArrayList<>();
@@ -215,6 +259,26 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         webSettings.setLoadWithOverviewMode(true);
 
         setScrollViewListener();
+
+        mAddToCartButton.setOnClickListener((v) -> {
+            isBuy = false;
+            styleView.post(() -> {
+                mStyleConfirmButton.setVisibility(View.VISIBLE);
+                mStyleAddToCartButton.setVisibility(View.GONE);
+                mStyleBuyNowButton.setVisibility(View.GONE);
+            });
+            mStyleDialog.show();
+        });
+
+        mBuyNowButton.setOnClickListener((v -> {
+            isBuy = true;
+            styleView.post(() -> {
+                mStyleConfirmButton.setVisibility(View.VISIBLE);
+                mStyleAddToCartButton.setVisibility(View.GONE);
+                mStyleBuyNowButton.setVisibility(View.GONE);
+            });
+            mStyleDialog.show();
+        }));
 
     }
 
@@ -276,7 +340,15 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
-    public void showAttributeBottomSheet() {
+    public void showAttributeBottomSheet(List<String> data) {
+        mAttributeData.clear();
+        mAttributeData = data;
+        mAttrRecycler.post(() -> {
+            if (mCommodityData != null) {
+                mAttrAdapter.setNewData(mAttributeData);
+                mAttrAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
