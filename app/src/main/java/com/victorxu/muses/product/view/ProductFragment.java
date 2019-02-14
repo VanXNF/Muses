@@ -30,7 +30,9 @@ import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.presenter.ProductPresenter;
 import com.victorxu.muses.product.view.adapter.PromotionAdapter;
+import com.victorxu.muses.product.view.adapter.StyleSelectAdapter;
 import com.victorxu.muses.product.view.entity.PromotionItem;
+import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
@@ -67,6 +69,10 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private AdvancedBottomSheetDialog mAttrDialog;
     private View mStyleView;
     private BottomSheetDialog mStyleDialog;
+    private AppCompatImageView mStylePreviewImage;
+    private AppCompatTextView mStylePreviewPriceText;
+    private RecyclerView mStyleRecycler;
+    private StyleSelectAdapter mStyleAdapter;
     private AppCompatImageView mEvaluationUserAvatar;
     private AppCompatTextView mEvaluationUserName;
     private AppCompatTextView mEvaluationDate;
@@ -83,6 +89,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private List<String> mBannerData = new ArrayList<>();
     private Commodity.CommodityDetail mCommodityData;
     private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
+    private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
 
     public static ProductFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -143,7 +150,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mWebView = view.findViewById(R.id.product_web_detail);
         mScrollView = view.findViewById(R.id.product_scrollview);
 
-        mToolBar.setBackgroundColor(Color.argb(0, 255,255,255));
+        mToolBar.setBackgroundColor(Color.argb(0, 255, 255, 255));
         mProductBack.setOnClickListener((v -> mActivity.onBackPressed()));
 
         mTabLayout.setAlpha(0);
@@ -152,18 +159,30 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mOriginPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         // TODO: 2019/2/4 add Bottomsheet
-        mSeeMoreEvaluationView.setOnClickListener((v) -> {start(ProductCommentFragment.newInstance());});
-        mAttrDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
-        BottomSheetDialog dialog = new BottomSheetDialog(mActivity);
-        View view1 = getLayoutInflater().inflate(R.layout.bottom_dialog_attribute, null);
-        View view2 = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
-        mAttrDialog.setContentView(view2);
-//        dialog.setContentView(view2);
+        mSeeMoreEvaluationView.setOnClickListener((v) -> {
+            start(ProductCommentFragment.newInstance());
+        });
+        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+
+//        View view1 = getLayoutInflater().inflate(R.layout.bottom_dialog_attribute, null);
+        View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
+        mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
+        mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
+        mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
+        mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
+        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter) -> {
+            if (parameter.getImage() != null) {
+                post(() -> GlideApp.with(mActivity).load(parameter.getImage()).apply(RequestOptions.centerCropTransform()).into(mStylePreviewImage));
+            }
+        });
+        mStyleRecycler.setAdapter(mStyleAdapter);
+        mStyleDialog.setContentView(styleView);
         mAttrView.setOnClickListener((v) -> {
-            mAttrDialog.show();
+//            mAttrDialog.show();
         });
         mStyleView.setOnClickListener((v) -> {
-//            dialog.show();
+            mStyleDialog.show();
         });
 
 
@@ -217,24 +236,46 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
 
     @Override
     public void showProductDetail(String htmlData) {
-        post(() -> mWebView.loadData(htmlData,"text/html", "UTF-8"));
+        post(() -> mWebView.loadData(htmlData, "text/html", "UTF-8"));
     }
 
     @Override
     public void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData) {
         mCommentData.clear();
         mCommentData.addAll(commentData);
-        PageComment.PageCommentData.CommentModel model = mCommentData.get((int)(Math.random() * mCommentData.size()));
+        PageComment.PageCommentData.CommentModel model = mCommentData.get((int) (Math.random() * mCommentData.size()));
         post(() -> {
             GlideApp.with(mActivity)
                     .load(model.getHead())
                     .apply(RequestOptions.circleCropTransform())
                     .into(mEvaluationUserAvatar);
             mEvaluationUserName.setText(model.getUsername());
-            SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             mEvaluationDate.setText(sdf.format(new Date(model.getDate())));
             mEvaluationContent.setText(model.getContent());
             mEvaluationOrderInfo.setText(model.getCommodityInfo().split(" ")[0]);
+        });
+    }
+
+    @Override
+    public void showAttributeBottomSheet() {
+
+    }
+
+    @Override
+    public void showStyleBottomSheet(List<StyleSelectItem> data) {
+        mStyleSelectData.clear();
+        mStyleSelectData = data;
+        mStyleRecycler.post(() -> {
+            if (mCommodityData != null) {
+                GlideApp.with(mActivity)
+                        .load(mCommodityData.getCoverImage())
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(mStylePreviewImage);
+                mStylePreviewPriceText.setText(String.valueOf(mCommodityData.getDiscountPrice()));
+            }
+            mStyleAdapter.setNewData(mStyleSelectData);
+            mStyleAdapter.notifyDataSetChanged();
         });
     }
 
@@ -261,12 +302,12 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private void setScrollViewListener() {
         mScrollView.setScrollViewListener((GradationScrollView scrollView, int x, int y, int oldX, int oldY) -> {
             if (y <= 0) {   //设置标题的背景颜色
-                mToolBar.setBackgroundColor(Color.argb( 0, 255,255,255));
+                mToolBar.setBackgroundColor(Color.argb(0, 255, 255, 255));
                 mTabLayout.setAlpha(0);
                 mProductBack.setAlpha(1.0f);
                 mProductShare.setAlpha(1.0f);
-                mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.white)));
-                mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.white)));
+                mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.white)));
+                mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.white)));
                 mProductBack.setBackgroundResource(R.drawable.icon_bg);
                 mProductShare.setBackgroundResource(R.drawable.icon_bg);
             } else if (y <= mBanner.getHeight() - mToolBar.getHeight()) {
@@ -276,8 +317,8 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                     mProductShare.setAlpha(1.0f - scaleIcon);
                     if (scaleIcon > 0.9f) {
                         if (!isUp) {
-                            mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.white)));
-                            mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.white)));
+                            mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.white)));
+                            mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.white)));
                             mProductBack.setBackgroundResource(R.drawable.icon_bg);
                             mProductShare.setBackgroundResource(R.drawable.icon_bg);
                             isUp = true;
@@ -289,8 +330,8 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                     mProductShare.setAlpha(scaleIcon);
                     if (scaleIcon < 0.1f) {
                         if (isUp) {
-                            mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.black)));
-                            mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.black)));
+                            mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.black)));
+                            mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.black)));
                             mProductBack.setBackgroundResource(R.color.background_transparent);
                             mProductShare.setBackgroundResource(R.color.background_transparent);
                             isUp = false;
@@ -300,15 +341,15 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 float scale = (float) y / (mBanner.getHeight() - mToolBar.getHeight());
                 mTabLayout.setAlpha(scale);
                 float alpha = (255 * scale);
-                mToolBar.setBackgroundColor(Color.argb((int) alpha, 255,255,255));
+                mToolBar.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
             } else {
                 mProductBack.setAlpha(1.0f);
                 mProductShare.setAlpha(1.0f);
-                mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.black)));
-                mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity,R.color.black)));
+                mProductBack.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.black)));
+                mProductShare.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(mActivity, R.color.black)));
                 mProductBack.setBackgroundResource(R.color.background_transparent);
                 mProductShare.setBackgroundResource(R.color.background_transparent);
-                mToolBar.setBackgroundColor(Color.argb( 255, 255,255,255));
+                mToolBar.setBackgroundColor(Color.argb(255, 255, 255, 255));
             }
 //            根据位置自动改变 tab 选中状态
             if (y < mSideEvaluation.getTop() - mToolBar.getHeight()) {

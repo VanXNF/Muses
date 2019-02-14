@@ -49,6 +49,7 @@ public class ProductPresenter implements ProductContract.Presenter {
                     mView.showBaseInfo(commodity.getData());
                     mView.showBanner(commodity.getData().getImageUrls());
                     mView.showProductDetail(commodity.getData().getDescription());
+                    mView.showStyleBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
                 } else {
                     Log.w(TAG, "onResponse: getProductData DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
