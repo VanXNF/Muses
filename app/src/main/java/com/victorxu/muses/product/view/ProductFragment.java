@@ -177,7 +177,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
 
         mOriginPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        mSeeMoreEvaluationView.setOnClickListener((v) -> start(ProductCommentFragment.newInstance()));
+        mSeeMoreEvaluationView.setOnClickListener((v) -> start(ProductCommentFragment.newInstance(id)));
 
         mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
         View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
@@ -496,15 +496,5 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 }
             }
         }
-    }
-
-    private List<Integer> initDefaultBannerData() {
-        List<Integer> mDefaultBannerData = new ArrayList<>();
-        mDefaultBannerData.add(R.drawable.test_index_1);
-        mDefaultBannerData.add(R.drawable.banner_guide);
-        mDefaultBannerData.add(R.drawable.banner_dew);
-        mDefaultBannerData.add(R.drawable.banner_cubism);
-        mDefaultBannerData.add(R.drawable.banner_institute);
-        return mDefaultBannerData;
     }
 }

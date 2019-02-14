@@ -1,138 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:scrollbars="none">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/dp_85">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/product_comment_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_130">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/product_comment_text_user_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/product_comment"
-                android:textColor="@color/light_gray"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_5"
-                android:layout_toStartOf="@id/product_comment_text_rate"
-                android:text="@string/praise_of_product"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="none">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/product_comment_text_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/dp_15"
-                android:text="99%"
-                android:textColor="@color/light_red"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_15"
+            android:paddingEnd="@dimen/dp_15">
 
-            <com.google.android.material.internal.FlowLayout
-                android:id="@+id/popular_search_flow_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_30"
-                android:layout_marginEnd="@dimen/dp_15"
-                android:layout_marginBottom="@dimen/dp_5"
-                app:itemSpacing="@dimen/dp_20"
-                app:lineSpacing="@dimen/dp_10">
+                android:layout_height="wrap_content">
 
-                <com.google.android.material.chip.Chip
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_comment_text_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部"
+                    android:layout_centerVertical="true"
+                    android:text="@string/product_comment"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:layout_toStartOf="@id/product_comment_text_rate"
+                    android:text="@string/praise_of_product"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_comment_text_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="99%"
                     android:textColor="@color/light_red"
                     android:textSize="@dimen/sp_13"
-                    app:chipBackgroundColor="@color/red_transparent"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10"
-                    app:chipStrokeColor="@color/light_red"
-                    app:chipStrokeWidth="@dimen/dp_1_5" />
+                    android:textStyle="bold" />
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最新"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10" />
+            </RelativeLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最热"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="图片"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="美观大气 305"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="质量不错 225"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:chipEndPadding="@dimen/dp_10"
-                    app:chipStartPadding="@dimen/dp_10" />
-
-            </com.google.android.material.internal.FlowLayout>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/arrow_down" />
-
-        </RelativeLayout>
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/product_comment_flow_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemSpacing="@dimen/dp_15"
+                app:lineSpacing="@dimen/dp_15" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/product_comment_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_30" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/product_comment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

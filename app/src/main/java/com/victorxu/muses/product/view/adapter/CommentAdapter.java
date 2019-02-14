@@ -1,6 +1,5 @@
 package com.victorxu.muses.product.view.adapter;
 
-import android.content.res.Resources;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
