@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_40"
+    android:layout_marginBottom="@dimen/dp_10"
     android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,6 +12,7 @@
         android:layout_centerVertical="true"
         android:gravity="start|center_vertical"
         android:paddingTop="@dimen/dp_10"
+        android:textStyle="bold"
         android:paddingBottom="@dimen/dp_10"
         android:text="@string/purchase_quantity"
         android:textColor="@color/black"
@@ -58,11 +60,5 @@
             android:src="@drawable/item_add" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0_5"
-        android:layout_alignParentBottom="true"
-        android:background="@color/light_white" />
 
 </RelativeLayout>

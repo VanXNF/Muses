@@ -37,7 +37,7 @@ public class ProductModel implements ProductContract.Model {
         for (int i = 0; i < attributesBeans.size(); i++) {
             styleSelectItems.add(new StyleSelectItem(attributesBeans.get(i)));
         }
-        styleSelectItems.add(new StyleSelectItem(0));
+        styleSelectItems.add(new StyleSelectItem(1));
         return styleSelectItems;
     }
 }

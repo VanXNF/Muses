@@ -1,5 +1,6 @@
 package com.victorxu.muses.product.view.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,13 +14,17 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class StyleSelectAdapter extends BaseMultiItemQuickAdapter<StyleSelectItem, BaseViewHolder> {
 
+    private static final String TAG = "StyleSelectAdapter";
+
     private OnTagItemClickListener onTagItemClickListener;
+    private onNumberSelectListener onNumberSelectListener;
 
     public StyleSelectAdapter(@Nullable List<StyleSelectItem> data) {
         super(data);
@@ -54,13 +59,34 @@ public class StyleSelectAdapter extends BaseMultiItemQuickAdapter<StyleSelectIte
                     }
                 });
                 flowLayout.setOnTagClickListener((View view, int position, FlowLayout parent) -> {
-                    onTagItemClickListener.onClick(position, item.getAttribute().getParameters().get(position));
+                    Set<Integer> pos = flowLayout.getSelectedList();
+                    onTagItemClickListener.onClick(position, item.getAttribute().getParameters().get(position), pos.contains(position));
                     return false;
-
                 });
                 break;
             case StyleSelectItem.NUM:
-
+                AppCompatTextView textNumber = helper.getView(R.id.item_text_product_number);
+                textNumber.setText(String.valueOf(item.getSelectNum()));
+                helper.getView(R.id.item_image_add).setOnClickListener((v) -> {
+                    int number = Integer.parseInt(textNumber.getText().toString());
+                    if (number < 999) {
+                        number++;
+                        textNumber.setText(String.valueOf(number));
+                        onNumberSelectListener.onClick(number);
+                    } else {
+                        onNumberSelectListener.onClick(number);
+                    }
+                });
+                helper.getView(R.id.item_image_remove).setOnClickListener((v) -> {
+                    int number = Integer.parseInt(textNumber.getText().toString());
+                    if (number > 1) {
+                        number--;
+                        textNumber.setText(String.valueOf(number));
+                        onNumberSelectListener.onClick(number);
+                    } else {
+                        onNumberSelectListener.onClick(number);
+                    }
+                });
                 break;
         }
     }
@@ -69,7 +95,15 @@ public class StyleSelectAdapter extends BaseMultiItemQuickAdapter<StyleSelectIte
         this.onTagItemClickListener = onTagItemClickListener;
     }
 
+    public void setOnNumberSelectListener(StyleSelectAdapter.onNumberSelectListener onNumberSelectListener) {
+        this.onNumberSelectListener = onNumberSelectListener;
+    }
+
     public interface OnTagItemClickListener {
-        void onClick(int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter);
+        void onClick(int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected);
+    }
+
+    public interface onNumberSelectListener {
+        void onClick(int number);
     }
 }

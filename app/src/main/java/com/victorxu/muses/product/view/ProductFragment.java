@@ -90,6 +90,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private Commodity.CommodityDetail mCommodityData;
     private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
+    private int mProductNumber = 1;
 
     public static ProductFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -171,11 +172,28 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
         mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
-        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter) -> {
-            if (parameter.getImage() != null) {
-                post(() -> GlideApp.with(mActivity).load(parameter.getImage()).apply(RequestOptions.centerCropTransform()).into(mStylePreviewImage));
+        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
+            if (isSelected) {
+                if (parameter.getImage() != null) {
+                    post(() -> GlideApp.with(mActivity)
+                            .load(parameter.getImage())
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(mStylePreviewImage)
+                    );
+                }
+            } else {
+                if (parameter.getImage() != null) {
+                    post(() ->
+                            GlideApp.with(mActivity)
+                                    .load(mCommodityData.getCoverImage())
+                                    .apply(RequestOptions.centerCropTransform())
+                                    .into(mStylePreviewImage)
+                    );
+                }
             }
+
         });
+        mStyleAdapter.setOnNumberSelectListener((int number) -> mProductNumber = number);
         mStyleRecycler.setAdapter(mStyleAdapter);
         mStyleDialog.setContentView(styleView);
         mAttrView.setOnClickListener((v) -> {

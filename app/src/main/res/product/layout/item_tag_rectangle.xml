@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_5"
     android:background="@drawable/tag_rectangle_selector"
-    android:padding="@dimen/dp_5"
-    android:text="123135154645"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingBottom="@dimen/dp_5"
+    android:paddingStart="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10"
     android:textColor="@color/black" />
