@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
@@ -14,12 +15,16 @@ import com.victorxu.muses.product.contract.ProductCommentContract;
 import com.victorxu.muses.product.presenter.ProductCommentPresenter;
 import com.victorxu.muses.product.view.adapter.CommentAdapter;
 import com.victorxu.muses.product.view.entity.EvaluationItem;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,12 +32,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProductCommentFragment extends BaseSwipeBackFragment implements ProductCommentContract.View {
 
     private Toolbar mToolbar;
+    private TagFlowLayout mCommentFlowLayout;
     private RecyclerView mCommentRecycler;
     private CommentAdapter mCommentAdapter;
     private ProductCommentPresenter mPresenter;
 
     private int id;
-//    private
+    private List<String> mTagData = new ArrayList<>();
+    private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
 
     public static ProductCommentFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -63,20 +70,52 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     }
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
         mPresenter.loadDataToView();
     }
 
     @Override
     public void initRootView(View view) {
         mToolbar = view.findViewById(R.id.product_comment_toolbar);
+        mCommentFlowLayout = view.findViewById(R.id.product_comment_flow_layout);
         mCommentRecycler = view.findViewById(R.id.product_comment_recycler_view);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-        mCommentAdapter = new CommentAdapter(initTestCommentData());
-        mCommentRecycler.setNestedScrollingEnabled(true);
+        mCommentAdapter = new CommentAdapter(mCommentData);
+        mCommentAdapter.setOnLoadMoreListener(() -> mPresenter.loadMoreDataToView(), mCommentRecycler);
         mCommentRecycler.setAdapter(mCommentAdapter);
 
         mToolbar.setNavigationOnClickListener((v) -> mActivity.onBackPressed());
+
+    }
+
+    @Override
+    public void showTag(List<String> data) {
+        mTagData.clear();
+        mTagData = data;
+        post(() -> {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(mTagData) {
+                @Override
+                public View getView(FlowLayout parent, int position, String s) {
+                    AppCompatTextView tag = (AppCompatTextView) getLayoutInflater().inflate(R.layout.item_tag_oval, null);
+                    tag.setText(s);
+                    return tag;
+                }
+
+                @Override
+                public void onSelected(int position, View view) {
+                    super.onSelected(position, view);
+                    ((AppCompatTextView) view).setTextColor(mActivity.getResources().getColor(R.color.dark_red));
+                }
+
+                @Override
+                public void unSelected(int position, View view) {
+                    super.unSelected(position, view);
+                    ((AppCompatTextView) view).setTextColor(mActivity.getResources().getColor(R.color.black));
+                }
+            };
+            tagAdapter.setSelectedList(0);
+            mCommentFlowLayout.setAdapter(tagAdapter);
+        });
     }
 
     @Override
@@ -91,12 +130,18 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
 
     @Override
     public void showComment(List<PageComment.PageCommentData.CommentModel> data) {
-
+        mCommentData.clear();
+        mCommentData = data;
+        post(() -> {
+            mCommentAdapter.setNewData(mCommentData);
+            mCommentAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override
     public void showMoreComment(List<PageComment.PageCommentData.CommentModel> moreData) {
-
+        mCommentData.addAll(moreData);
+        post(() -> mCommentAdapter.addData(moreData));
     }
 
     @Override
@@ -106,6 +151,17 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
 
     @Override
     public void hideLoadingMore(boolean isCompeted, boolean isEnd) {
+        post(() -> {
+            if (isEnd) {
+                mCommentAdapter.loadMoreEnd();
+            } else {
+                if (isCompeted) {
+                    mCommentAdapter.loadMoreComplete();
+                } else {
+                    mCommentAdapter.loadMoreFail();
+                }
+            }
+        });
 
     }
 
@@ -128,8 +184,6 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     protected int setTitleBar() {
         return R.id.product_comment_toolbar;
     }
-
-
 
     private ArrayList<EvaluationItem> initTestCommentData() {
         ArrayList<EvaluationItem> evaluationItems = new ArrayList<>();

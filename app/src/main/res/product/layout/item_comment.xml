@@ -14,14 +14,13 @@
         android:gravity="center|start"
         android:orientation="horizontal">
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_avatar"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/logo"
-            app:type="circle" />
+            android:src="@drawable/logo" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -40,16 +39,14 @@
                 android:textSize="@dimen/sp_13"
                 android:textStyle="bold" />
 
-            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/product_comment_rating_bar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_15"
                 android:layout_marginTop="@dimen/dp_5"
-                app:srb_borderColor="@color/light_red"
-                app:srb_fillColor="@color/light_red"
-                app:srb_numberOfStars="5"
-                app:srb_rating="5"
-                app:srb_starSize="@dimen/dp_10" />
+                android:numStars="5"
+                android:stepSize="0.5" />
 
         </LinearLayout>
 
@@ -62,7 +59,7 @@
             android:layout_centerVertical="true"
             android:text="2018-3-21"
             android:textColor="@color/light_gray"
-            android:textSize="@dimen/sp_12" />
+            android:textSize="@dimen/sp_11" />
 
     </RelativeLayout>
 
@@ -75,7 +72,7 @@
         android:maxLines="5"
         android:text="这款北欧风情装饰画质量很不错，图案比较美观，印刷质感也很好。发货迅速，下次还到这里购买。"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_13" />
 
     <RelativeLayout
         android:id="@+id/product_comment_relative_image_container"
@@ -85,59 +82,53 @@
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center">
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_1"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_alignParentStart="true"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_2"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_3"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_alignParentEnd="true"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_4"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_below="@id/product_comment_image_comment_image_1"
             android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/dp_7"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_5"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_below="@id/product_comment_image_comment_image_2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_7"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
-        <com.victorxu.muses.custom.AdvancedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/product_comment_image_comment_image_6"
             android:layout_width="@dimen/dp_105"
             android:layout_height="@dimen/dp_105"
             android:layout_below="@id/product_comment_image_comment_image_3"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/dp_7"
-            android:scaleType="centerCrop"
-            app:type="normal" />
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 
@@ -155,7 +146,7 @@
             android:layout_centerVertical="true"
             android:text="北欧装饰画 三联"
             android:textColor="@color/light_gray"
-            android:textSize="@dimen/sp_12" />
+            android:textSize="@dimen/sp_11" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -183,7 +174,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
-                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_20"
                 android:src="@drawable/comment"
                 android:tint="@color/light_gray" />
 

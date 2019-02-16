@@ -3,9 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_5"
-    android:background="@drawable/tag_bg_oval"
-    android:paddingStart="@dimen/dp_10"
+    android:background="@drawable/tag_oval_selector"
     android:paddingTop="@dimen/dp_5"
-    android:paddingEnd="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_5"
-    android:textAppearance="@style/Chip_TextAppearance" />
+    android:paddingStart="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10"
+    android:textColor="@color/black" />

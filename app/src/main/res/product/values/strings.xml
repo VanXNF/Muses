@@ -24,4 +24,5 @@
     <string name="please_choose_product">请选择商品</string>
     <string name="purchase_quantity">购买数量</string>
     <string name="confirm">确定</string>
+    <string name="all_comments">全部评价</string>
 </resources>

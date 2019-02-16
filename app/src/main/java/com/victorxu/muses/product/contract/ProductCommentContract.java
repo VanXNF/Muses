@@ -9,6 +9,7 @@ public interface ProductCommentContract {
         int getCurrentPage();
         int getAllPages();
         List<PageComment> getPageList();
+        List<String> getTagData();
         void getCommentData(okhttp3.Callback callback);
         void getCommentData(int page, okhttp3.Callback callback);
         void getMoreCommentData(okhttp3.Callback callback);
@@ -21,6 +22,7 @@ public interface ProductCommentContract {
         void initRootView(android.view.View view);
         void showLoading();
         void hideLoading();
+        void showTag(List<String> data);
         void showComment(List<PageComment.PageCommentData.CommentModel> data);
         void showMoreComment(List<PageComment.PageCommentData.CommentModel> moreData);
         void showLoadingMore();
@@ -32,5 +34,6 @@ public interface ProductCommentContract {
     interface Presenter {
         void loadRootView(android.view.View view);
         void loadDataToView();
+        void loadMoreDataToView();
     }
 }
