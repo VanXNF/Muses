@@ -2,14 +2,12 @@ package com.victorxu.muses.search.model;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.gson.PageCommodity;
-import com.victorxu.muses.gson.SearchModel;
+import com.victorxu.muses.search.model.entity.SearchEntity;
 import com.victorxu.muses.search.contract.SearchResultContract;
-import com.victorxu.muses.search.view.entity.ProductItem;
 import com.victorxu.muses.util.HttpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import okhttp3.Callback;
 
@@ -20,7 +18,7 @@ public class SearchResultModel implements SearchResultContract.Model {
     private int allPages = 0;
     private int index;
     private String keyword;
-    private SearchModel searchModel;
+    private SearchEntity searchEntity;
     private List<PageCommodity> pages = new ArrayList<>();
 
     @Override
@@ -51,15 +49,15 @@ public class SearchResultModel implements SearchResultContract.Model {
     public void getProductData(int page, Callback callback) {
         currentPage = page;
         initSearchModel();
-        HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchModel), callback);
+        HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchEntity), callback);
     }
 
     @Override
     public void getMoreProductData(Callback callback) {
-        if (searchModel == null) {
+        if (searchEntity == null) {
             initSearchModel();
         }
-        HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchModel), callback);
+        HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -89,26 +87,26 @@ public class SearchResultModel implements SearchResultContract.Model {
     }
 
     private void initSearchModel() {
-        searchModel = new SearchModel();
+        searchEntity = new SearchEntity();
         switch (index) {
             case 0:
-                searchModel.setSortType(SearchModel.SEARCH_DEFAULT);
-                searchModel.setAsc(true);
+                searchEntity.setSortType(SearchEntity.SEARCH_DEFAULT);
+                searchEntity.setAsc(true);
                 break;
             case 1:
-                searchModel.setSortType(SearchModel.SEARCH_TIME);
-                searchModel.setAsc(false);
+                searchEntity.setSortType(SearchEntity.SEARCH_TIME);
+                searchEntity.setAsc(false);
                 break;
             case 2:
-                searchModel.setSortType(SearchModel.SEARCH_VOLUME);
-                searchModel.setAsc(false);
+                searchEntity.setSortType(SearchEntity.SEARCH_VOLUME);
+                searchEntity.setAsc(false);
                 break;
             case 3:
-                searchModel.setSortType(SearchModel.SEARCH_PRICE);
-                searchModel.setAsc(true);
+                searchEntity.setSortType(SearchEntity.SEARCH_PRICE);
+                searchEntity.setAsc(true);
                 break;
         }
-        searchModel.setSize(6);
-        searchModel.setKeyword(keyword);
+        searchEntity.setSize(6);
+        searchEntity.setKeyword(keyword);
     }
 }

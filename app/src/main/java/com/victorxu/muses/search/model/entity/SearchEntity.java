@@ -1,6 +1,6 @@
-package com.victorxu.muses.gson;
+package com.victorxu.muses.search.model.entity;
 
-public class SearchModel {
+public class SearchEntity {
 
     private int size;
     private int sortType;

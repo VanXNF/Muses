@@ -15,4 +15,13 @@
     <string name="login_by_password">密码登录</string>
     <string name="login_by_verification_code">验证码登录</string>
     <string name="register_account">注册账户</string>
+    <!--tips-->
+    <string name="please_input_phone">请输入手机号</string>
+    <string name="please_input_code">请输入验证码</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="code_error">验证码错误，请重试</string>
+    <string name="data_store_error_please_login_again">数据异常，请重新登录</string>
+    <string name="account_failure_network_error">网络异常，请稍后重试</string>
+    <string name="account_failure_data_error">获取返回数据异常，请稍后重试</string>
+    <string name="login_success">登录成功</string>
 </resources>

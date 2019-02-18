@@ -1,11 +1,17 @@
 package com.victorxu.muses.core.view;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.victorxu.muses.MainActivity;
 import com.victorxu.muses.R;
+import com.victorxu.muses.account.contract.AccountContract;
+import com.victorxu.muses.account.view.LoginByPWDFragment;
+import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.contract.MainContract;
 import com.victorxu.muses.core.presenter.MainPresenter;
@@ -16,6 +22,7 @@ import com.victorxu.muses.custom.BottomTabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.mine.view.MineFragment;
 import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
+import com.victorxu.muses.util.SharedPreferencesUtil;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,6 +78,9 @@ public class MainFragment extends BaseFragment implements MainContract.View {
             mFragments[THIRD] = findChildFragment(ShoppingCartContainerFragment.class);
             mFragments[FORTH] = findChildFragment(MineFragment.class);
         }
+        if (!TextUtils.isEmpty((String) SharedPreferencesUtil.get(mActivity, "UserToken", ""))) {
+            startToAccountFragment();
+        }
     }
 
     private void initView(View view) {
@@ -123,7 +133,15 @@ public class MainFragment extends BaseFragment implements MainContract.View {
 
     @Override
     public void startToAccountFragment() {
-
+//        RegisterFragment fragment = RegisterFragment.newInstance();
+        LoginByPWDFragment  fragment = LoginByPWDFragment.newInstance();
+        fragment.addLoginListener(new AccountContract.LoginListener() {
+            @Override
+            public void onLoginSuccess() {
+                post(() -> Toast.makeText(mActivity, "Welcome Victor Xu", Toast.LENGTH_SHORT).show());
+            }
+        });
+        startBrotherFragment(fragment);
     }
 
     @Override

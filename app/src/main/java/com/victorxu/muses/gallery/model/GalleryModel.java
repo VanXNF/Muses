@@ -3,8 +3,7 @@ package com.victorxu.muses.gallery.model;
 import com.google.gson.Gson;
 import com.victorxu.muses.gallery.contract.GalleryContract;
 
-import com.victorxu.muses.gson.Banner;
-import com.victorxu.muses.gson.SearchModel;
+import com.victorxu.muses.search.model.entity.SearchEntity;
 import com.victorxu.muses.util.HttpUtil;
 
 
@@ -34,31 +33,31 @@ public class GalleryModel implements GalleryContract.Model {
     @Override
     public void getRecommendData(int count, Callback callback) {
         setFlag(RECOMMEND_INDEX);
-        SearchModel searchModel = new SearchModel();
-        searchModel.setSize(count);
-        searchModel.setAsc(false);
-        searchModel.setSortType(SearchModel.SEARCH_DEFAULT);
-        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchModel), callback);
+        SearchEntity searchEntity = new SearchEntity();
+        searchEntity.setSize(count);
+        searchEntity.setAsc(false);
+        searchEntity.setSortType(SearchEntity.SEARCH_DEFAULT);
+        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
     @Override
     public void getNewProductData(int count, Callback callback) {
         setFlag(NEW_INDEX);
-        SearchModel searchModel = new SearchModel();
-        searchModel.setSize(count);
-        searchModel.setAsc(false);
-        searchModel.setSortType(SearchModel.SEARCH_TIME);
-        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchModel), callback);
+        SearchEntity searchEntity = new SearchEntity();
+        searchEntity.setSize(count);
+        searchEntity.setAsc(false);
+        searchEntity.setSortType(SearchEntity.SEARCH_TIME);
+        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
     @Override
     public void getHotProductData(int count, Callback callback) {
         setFlag(HOT_INDEX);
-        SearchModel searchModel = new SearchModel();
-        searchModel.setSize(count);
-        searchModel.setAsc(false);
-        searchModel.setSortType(SearchModel.SEARCH_VOLUME);
-        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchModel), callback);
+        SearchEntity searchEntity = new SearchEntity();
+        searchEntity.setSize(count);
+        searchEntity.setAsc(false);
+        searchEntity.setSortType(SearchEntity.SEARCH_VOLUME);
+        HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
 

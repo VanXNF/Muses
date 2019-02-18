@@ -11,6 +11,7 @@ import okhttp3.RequestBody;
 
 public class HttpUtil {
 //    "http://192.168.2.225:8080/"
+//    "http://120.79.162.134:7010/"
     private static final String BASE_API = "http://120.79.162.134:7010/";
 
     /**
