@@ -1,22 +1,23 @@
 package com.victorxu.muses.shopping_cart.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
-import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.base.BaseMainFragment;
+import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.product.view.ProductFragment;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.presenter.ShoppingCartPresenter;
 import com.victorxu.muses.shopping_cart.view.adapter.ShoppingCartAdapter;
@@ -28,6 +29,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -37,53 +39,96 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-public class ShoppingCartFragment extends BaseFragment implements ShoppingCartContract.View {
+public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCartContract.View {
 
-    private boolean mCartMode = false;
+    private boolean cartMode = false;
     private AppCompatTextView mCartModeToggle;
-    private TwinklingRefreshLayout mRefreshLayout;
+    private SmartRefreshLayout mRefreshLayout;
     private ShoppingCartAdapter mAdapter;
-    private ShoppingCartPresenter mPresenter;
     private CheckBox mCheckAll;
-    private AppCompatTextView mPrice;
-    private AppCompatButton mSettleButton;
-    private AppCompatButton mDeleteButton;
-    private AppCompatButton mCollectButton;
+    private AppCompatTextView mTextPrice;
+    private AppCompatButton mBtnSettle;
+    private AppCompatButton mBtnDelete;
+    private AppCompatButton mBtnCollect;
     private SwipeMenuRecyclerView mRecycler;
-    private LinearLayout mNormalModeContainer;
-    private LinearLayout mEditModeContainer;
-    private List<ShoppingCartProduct> mData;
+    private AppCompatButton mBtnEmptyGo;
+    private View mNormalModeSettleView;
+    private View mEditModeSettleView;
+    private View mCartBottomView;
+    private View mEmptyView;
 
+    private List<ShoppingCartProduct> mCartData = new ArrayList<>();
+
+    private ShoppingCartPresenter mPresenter;
+    
     public static ShoppingCartFragment newInstance() {
-        Bundle bundle = new Bundle();
-        ShoppingCartFragment fragment = new ShoppingCartFragment();
-        fragment.setArguments(bundle);
-        return fragment;
+        return new ShoppingCartFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
-        mPresenter = new ShoppingCartPresenter(this);
-        initView(view);
+        mPresenter = new ShoppingCartPresenter(this, mActivity);
+        mPresenter.loadRootView(view);
         return view;
     }
 
-    private void initView(View view) {
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        mPresenter.loadDataToView(false);
+    }
+
+    @Override
+    public void initRootView(View view) {
         mRecycler = view.findViewById(R.id.cart_recycler_product_cart);
         mRefreshLayout = view.findViewById(R.id.cart_refresh_container);
         mCheckAll = view.findViewById(R.id.cart_check_all);
-        mPrice = view.findViewById(R.id.cart_text_total_price);
-        mSettleButton = view.findViewById(R.id.cart_button_settle);
-        mDeleteButton = view.findViewById(R.id.cart_button_delete);
-        mCollectButton = view.findViewById(R.id.cart_button_collect);
+        mTextPrice = view.findViewById(R.id.cart_text_total_price);
+        mBtnSettle = view.findViewById(R.id.cart_button_settle);
+        mBtnDelete = view.findViewById(R.id.cart_button_delete);
+        mBtnCollect = view.findViewById(R.id.cart_button_collect);
+        mBtnEmptyGo = view.findViewById(R.id.empty_cart_button_go);
         mCartModeToggle = view.findViewById(R.id.cart_text_toggle);
-        mNormalModeContainer = view.findViewById(R.id.cart_normal_mode_container);
-        mEditModeContainer = view.findViewById(R.id.cart_edit_mode_container);
+        mNormalModeSettleView = view.findViewById(R.id.cart_normal_mode_container);
+        mEditModeSettleView = view.findViewById(R.id.cart_edit_mode_container);
+        mCartBottomView = view.findViewById(R.id.cart_bottom_container);
+        mEmptyView = view.findViewById(R.id.cart_empty_container);
 
-        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableLoadMore(false);
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(mActivity));
+        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> {
+            mPresenter.reloadDataToView(cartMode);
+        });
 
+        mAdapter = new ShoppingCartAdapter(mCartData);
+        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+            int id = v.getId();
+            ShoppingCartProduct item = mCartData.get(position);
+            switch (id) {
+                case R.id.cart_image_add:
+                    if (item.getData().getNumber() < 999) {
+                        mPresenter.updateData(position, item.getData().getNumber() + 1);
+                    }
+                    break;
+                case R.id.cart_image_remove:
+                    if (item.getData().getNumber() > 1) {
+                        mPresenter.updateData(position, item.getData().getNumber() - 1);
+                    }
+                    break;
+                case R.id.cart_check_item:
+                    mPresenter.updateData(position, !item.isChecked());
+                    break;
+                case R.id.cart_image_item:
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
+                    break;
+                case R.id.cart_attr_container_edit_mode:
+                    // TODO: 18-10-31 弹出属性选择面板
+                    break;
+            }
+        });
+        
         mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
@@ -107,127 +152,162 @@ public class ShoppingCartFragment extends BaseFragment implements ShoppingCartCo
             int adapterPosition = menuBridge.getAdapterPosition();
             int menuPosition = menuBridge.getPosition();
             if (menuPosition == 1) {
-                mData.remove(adapterPosition);
-                mPresenter.refreshPrice(mData);
+                mCartData.remove(adapterPosition);
+                // TODO: 2019/2/19 删除数据 
+//                mPresenter.removeDataFromView();
+//                mPresenter.reloadDataToView();
+            } else if (menuPosition == 0) {
+                showToast("敬请期待");
             }
         });
         mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT,5));
         mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-    }
-
-    @Override
-    public void onEnterAnimationEnd(Bundle savedInstanceState) {
-        onLazyInitView(savedInstanceState);
-    }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        mCartModeToggle.setOnClickListener((v) -> {
-            mCartMode = !mCartMode;
-            mPresenter.changeCartMode(mCartMode);
-        });
-
-        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
-            @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                mPresenter.refreshProduct();
-                mPresenter.refreshPrice(mData);
-                mCheckAll.setChecked(false);
-                mRefreshLayout.finishRefreshing();
-            }
-        });
-
-        mPresenter.loadProduct();
-        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
-            boolean isNeedUpdateData = false;
-            int id = v.getId();
-            ShoppingCartProduct item = mData.get(position);
-            switch (id) {
-                case R.id.cart_image_add:
-                    item.setNumber(item.getNumber() + 1);
-                    isNeedUpdateData = true;
-                    break;
-                case R.id.cart_image_remove:
-                    item.setNumber(item.getNumber() >= 2 ? item.getNumber() - 1 : 1);
-                    isNeedUpdateData = true;
-                    break;
-                case R.id.cart_check_item:
-                    item.setChecked(!item.isChecked());
-                    isNeedUpdateData = true;
-                    break;
-                case R.id.cart_image_item:
-                    // TODO: 18-10-31 跳转商品详情
-                    break;
-                case R.id.cart_attr_container_edit_mode:
-                    // TODO: 18-10-31 弹出属性选择面板
-                    break;
-            }
-            if (isNeedUpdateData) {
-                mPresenter.refreshPrice(mData);
-            }
-        });
         mRecycler.setAdapter(mAdapter);
-        mCheckAll.setOnClickListener((v) -> {
-            mPresenter.refreshPrice(mData, mCheckAll.isChecked());
+
+        mRecycler.setAutoLoadMore(false);
+
+        mCartModeToggle.setOnClickListener((v) -> {
+            cartMode = !cartMode;
+            mPresenter.changeCartMode(cartMode);
         });
-        mDeleteButton.setOnClickListener((v)->{
-            mPresenter.removeCheckedProduct(mData);
-            mPresenter.refreshPrice(mData);
+
+        mCheckAll.setOnClickListener((v) -> mPresenter.checkAllData(mCheckAll.isChecked()));
+        mBtnDelete.setOnClickListener((v) -> {
+//            mPresenter.removeDataFromView();
             mCheckAll.setChecked(false);
         });
-        mSettleButton.setOnClickListener((v)->{
+        mBtnSettle.setOnClickListener((v) -> {
             // TODO: 18-10-31 结算金额
         });
-        mCollectButton.setOnClickListener((v)->{
+        mBtnCollect.setOnClickListener((v) -> {
             // TODO: 18-10-31 收藏商品
         });
-    }
-
-    @Override
-    public void loadCartItem(List<ShoppingCartProduct> data) {
-        mData = data;
-        mAdapter = new ShoppingCartAdapter(mData);
-    }
-
-    @Override
-    public Context getViewContext() {
-        return mActivity;
-    }
-
-    @Override
-    public void refreshCartTotalPrice(String price) {
-        mPrice.setText(price);
-        refreshCartItem(mData);
-    }
-
-    @Override
-    public void refreshCartItem(List<ShoppingCartProduct> data) {
-        if (data.size() != 0) {
-            mData = data;
-            if (mAdapter != null) {
-                post(()->{
-                    mAdapter.setNewData(mData);
-                    mAdapter.notifyDataSetChanged();
-                });
-            }
-        } else {
-            ((ShoppingCartContainerFragment) getParentFragment()).showEmptyFragment();
-        }
 
     }
 
     @Override
-    public void changeCartMode(List<ShoppingCartProduct> data) {
-        mData = data;
-        post(()->{
-            mCartModeToggle.setText(mCartMode ? R.string.save : R.string.edit);
-            mEditModeContainer.setVisibility(mCartMode ? View.VISIBLE : View.GONE);
-            mNormalModeContainer.setVisibility(mCartMode ? View.GONE : View.VISIBLE);
+    public void showLoading() {
+        mRefreshLayout.autoRefreshAnimationOnly();
+    }
+
+    @Override
+    public void hideLoading() {
+        mRefreshLayout.finishRefresh();
+    }
+
+    @Override
+    public void showCartItem(List<ShoppingCartProduct> data) {
+        mCartData.clear();
+        mCartData.addAll(data);
+        post(() -> {
+            mAdapter.setNewData(mCartData);
+            mAdapter.notifyDataSetChanged();
         });
-        refreshCartItem(mData);
     }
 
-    public ShoppingCartPresenter getmPresenter() {
-        return mPresenter;
+    @Override
+    public void showPrice(String price) {
+        post(() -> mTextPrice.setText(price));
+    }
+
+    @Override
+    public void showShoppingCart() {
+        post(() -> {
+            mCartModeToggle.setVisibility(View.VISIBLE);
+            mRecycler.setVisibility(View.VISIBLE);
+            mCartBottomView.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void switchCartMode(boolean isEditMode) {
+        post(() -> {
+            mCartModeToggle.setText(isEditMode ? R.string.save : R.string.edit);
+            mEditModeSettleView.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
+            mNormalModeSettleView.setVisibility(isEditMode ? View.GONE : View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void hideShoppingCart() {
+        post(() -> {
+            mCartModeToggle.setVisibility(View.GONE);
+            mRecycler.setVisibility(View.GONE);
+            mCartBottomView.setVisibility(View.GONE);
+        });
+    }
+
+    @Override
+    public void showEmptyView() {
+        post(() -> mEmptyView.setVisibility(View.VISIBLE));
+    }
+
+    @Override
+    public void hideEmptyView() {
+        post(() -> mEmptyView.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void showToast(int resId) {
+        showToast(getText(resId));
+    }
+
+    @Override
+    public void showToast(CharSequence text) {
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
+    }
+
+    //    @Override
+//    public void loadCartItem(List<ShoppingCartProduct> data) {
+//        mCartData = data;
+//        mAdapter = new ShoppingCartAdapter(mCartData);
+//    }
+//
+//    @Override
+//    public Context getViewContext() {
+//        return mActivity;
+//    }
+//
+//    @Override
+//    public void refreshCartTotalPrice(String price) {
+//        mTextPrice.setText(price);
+//        refreshCartItem(mCartData);
+//    }
+//
+//    @Override
+//    public void refreshCartItem(List<ShoppingCartProduct> data) {
+//        if (data.size() != 0) {
+//            mCartData = data;
+//            if (mAdapter != null) {
+//                post(()->{
+//                    mAdapter.setNewData(mCartData);
+//                    mAdapter.notifyDataSetChanged();
+//                });
+//            }
+//        } else {
+//            ((ShoppingCartContainerFragment) getParentFragment()).showEmptyFragment();
+//        }
+//
+//    }
+//
+//    @Override
+//    public void changeCartMode(List<ShoppingCartProduct> data) {
+//        mCartData = data;
+//        post(()->{
+//            mCartModeToggle.setText(cartMode ? R.string.save : R.string.edit);
+//            mEditModeSettleView.setVisibility(cartMode ? View.VISIBLE : View.GONE);
+//            mNormalModeSettleView.setVisibility(cartMode ? View.GONE : View.VISIBLE);
+//        });
+//        refreshCartItem(mCartData);
+//    }
+//
+//    public ShoppingCartPresenter getmPresenter() {
+//        return mPresenter;
+//    }
+
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
     }
 }

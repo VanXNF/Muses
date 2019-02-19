@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 public class EmptyShoppingCartFragment extends BaseFragment {
 
-    private ShoppingCartContainerFragment mHomeFragment;
+//    private ShoppingCartContainerFragment mHomeFragment;
     private AppCompatButton mGoButton;
     private TwinklingRefreshLayout mRefreshLayout;
 
@@ -32,28 +32,28 @@ public class EmptyShoppingCartFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_cart_empty, container, false);
-        initView(view);
+//        initView(view);
         return view;
     }
 
-    private void initView(View view) {
-        mGoButton = view.findViewById(R.id.empty_cart_button_go);
-        mRefreshLayout = view.findViewById(R.id.empty_cart_refresh_layout);
-        mHomeFragment = (ShoppingCartContainerFragment) getParentFragment();
-        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
-            @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                if (!mHomeFragment.getmPresenter().getCartStatus()) {
-                    mHomeFragment.showCartFragment();
-                    mHomeFragment.findChildFragment(ShoppingCartFragment.class).getmPresenter().refreshProduct();
-                }
-                mRefreshLayout.finishRefreshing();
-            }
-        });
-        mRefreshLayout.setEnableLoadmore(false);
-
-        mGoButton.setOnClickListener((v)->{
-            ((MainFragment) mHomeFragment.getParentFragment()).getBottomBar().setCurrentItem(0);
-        });
-    }
+//    private void initView(View view) {
+//        mGoButton = view.findViewById(R.id.empty_cart_button_go);
+//        mRefreshLayout = view.findViewById(R.id.empty_cart_refresh_layout);
+//        mHomeFragment = (ShoppingCartContainerFragment) getParentFragment();
+//        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+//            @Override
+//            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+//                if (!mHomeFragment.getmPresenter().getCartStatus()) {
+//                    mHomeFragment.showCartFragment();
+//                    mHomeFragment.findChildFragment(ShoppingCartFragment.class).getmPresenter().refreshProduct();
+//                }
+//                mRefreshLayout.finishRefreshing();
+//            }
+//        });
+//        mRefreshLayout.setEnableLoadmore(false);
+//
+//        mGoButton.setOnClickListener((v)->{
+//            ((MainFragment) mHomeFragment.getParentFragment()).getBottomBar().setCurrentItem(0);
+//        });
+//    }
 }

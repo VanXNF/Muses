@@ -1,93 +1,109 @@
 package com.victorxu.muses.shopping_cart.model;
 
+
 import android.content.Context;
 
-import com.victorxu.muses.R;
+import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.util.HttpUtil;
+import com.victorxu.muses.util.SharedPreferencesUtil;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Callback;
+
 public class ShoppingCartModel implements ShoppingCartContract.Model {
 
-    private List<ShoppingCartProduct> data;
+    private final String SHOPPING_CART_API = "api/cart/list/";
+    private final String DELETE_SHOPPING_CART_ITEM_API = "/api/cart/";
+
     private Context context;
+    private int userId;
+    private List<ShoppingCartProduct> mData = new ArrayList<>();
 
     public ShoppingCartModel(Context context) {
         this.context = context;
     }
 
     @Override
-    public List<ShoppingCartProduct> loadData() {
-        data = initTestData();
-        return data;
+    public int getUserId() {
+        userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
+        return userId;
     }
 
     @Override
-    public List<ShoppingCartProduct> refreshData() {
-        return initTestData();
+    public void getCartData(Callback callback) {
+        HttpUtil.getRequest(SHOPPING_CART_API + String.valueOf(userId), callback);
     }
 
     @Override
-    public List<ShoppingCartProduct> removeCheckedData() {
-        List<ShoppingCartProduct> newData = new ArrayList<>();
-        for (ShoppingCartProduct product : data) {
-            if (!product.isChecked()) {
-                newData.add(product);
+    public void deleteCartData(int cartId, Callback callback) {
+        HttpUtil.deleteRequest(DELETE_SHOPPING_CART_ITEM_API + String.valueOf(cartId), callback);
+    }
+
+    @Override
+    public void updateCartData(int cartId, int position, Callback callback) {
+
+    }
+
+    @Override
+    public void updateData(int position, boolean isChecked) {
+        mData.get(position).setChecked(isChecked);
+    }
+
+    @Override
+    public void updateData(int position, int number) {
+        mData.get(position).getData().setNumber(number);
+    }
+
+    @Override
+    public void updateData(int position, String detail) {
+        mData.get(position).getData().setDetail(detail);
+    }
+
+    @Override
+    public int getTotalPrice() {
+        int sum = 0;
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).isChecked()) {
+                sum += mData.get(i).getData().getCommodity().getDiscountPrice() * mData.get(i).getData().getNumber();
             }
         }
-        data.clear();
-        data.addAll(newData);
-        return data;
+        return sum;
     }
 
+    @Override
+    public boolean checkDataStatus() {
+        return mData.size() != 0;
+    }
 
     @Override
-    public List<ShoppingCartProduct> changeDataMode(boolean isEditMode) {
-        for (ShoppingCartProduct product : data) {
-            product.setEditedMode(isEditMode);
+    public void changeCartMode(boolean isEditMode) {
+        for (int i = 0; i < mData.size(); i++) {
+            mData.get(i).setEditedMode(isEditMode);
         }
-        return data;
     }
 
     @Override
-    public void getDataFromPresenter(List<ShoppingCartProduct> data) {
-        this.data = data;
-    }
-
-    @Override
-    public String getTotalPrice() {
-        double totalPrice = 0;
-        for (ShoppingCartProduct product : data) {
-            if (product.isChecked()) {
-                totalPrice += Double.parseDouble(product.getPrice()) * product.getNumber();
-            }
+    public void checkAllData(boolean isCheckedAll) {
+        for (int i = 0; i < mData.size(); i++) {
+            mData.get(i).setChecked(isCheckedAll);
         }
-        return totalPrice == 0 ? context.getResources().getString(R.string.zero) : String.valueOf(totalPrice);
     }
 
     @Override
-    public String getTotalPrice(boolean isChooseAll) {
-        double totalPrice = 0;
-        for (ShoppingCartProduct product : data) {
-            product.setChecked(isChooseAll);
-            if (product.isChecked()) {
-                totalPrice += Double.parseDouble(product.getPrice()) * product.getNumber();
-            }
+    public void setShoppingCartData(List<ShoppingCart.CartItemBean> data) {
+        mData.clear();
+        for (int i = 0; i < data.size(); i++) {
+            mData.add(new ShoppingCartProduct(data.get(i)));
         }
-        return totalPrice == 0 ? context.getResources().getString(R.string.zero) : String.valueOf(totalPrice);
     }
 
-    private List<ShoppingCartProduct> initTestData() {
-        List<ShoppingCartProduct> testData = new ArrayList<>();
-        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i2/1779099327/TB24wCWpN9YBuNjy0FfXXXIsVXa_!!1779099327.jpg_430x430q90.jpg", "三联北欧创意油画大气壁画油画挂画", "麻棉油画布肌理+环保画框", "358.00", 2));
-        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i4/2122078663/O1CN012DrhaXqQtvjYMdJ_!!2122078663.jpg_430x430q90.jpg", "客厅装饰画沙发背景墙挂画新中式办公室", "独立", "418.00", 1));
-        testData.add(new ShoppingCartProduct("https://img.alicdn.com/imgextra/i1/1675711085/O1CN011JsyCTbDzUR7HRD_!!0-item_pic.jpg_430x430q90.jpg", "现代简约餐厅墙面装饰壁画", "多尺寸组合 深色木框", "286.00", 2));
-
-//        for (int i = 0; i < 5 ; i++) {
-//            testData.add(new ShoppingCartProduct("https://s1.ax1x.com/2018/04/02/CSWxf0.jpg", "便携保温杯", "银色 旋转波纹", "999", 1));
-//        }
-        return testData;
+    @Override
+    public List<ShoppingCartProduct> getShoppingCartData() {
+        return mData;
     }
 }

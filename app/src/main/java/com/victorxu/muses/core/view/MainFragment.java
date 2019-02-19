@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.victorxu.muses.MainActivity;
+import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.view.LoginByPWDFragment;
-import com.victorxu.muses.account.view.RegisterFragment;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.contract.MainContract;
 import com.victorxu.muses.core.presenter.MainPresenter;
@@ -21,7 +20,7 @@ import com.victorxu.muses.custom.BottomBarTab;
 import com.victorxu.muses.custom.BottomTabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.mine.view.MineFragment;
-import com.victorxu.muses.shopping_cart.view.ShoppingCartContainerFragment;
+import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
 import androidx.annotation.NonNull;
@@ -63,7 +62,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         if (firstFragment == null) {
             mFragments[FIRST] = GalleryFragment.newInstance();
             mFragments[SECOND] = CreationFragment.newInstance();
-            mFragments[THIRD] = ShoppingCartContainerFragment.newInstance();
+            mFragments[THIRD] = ShoppingCartFragment.newInstance();
             mFragments[FORTH] = MineFragment.newInstance();
 
             loadMultipleRootFragment(R.id.tab_container, FIRST,
@@ -75,10 +74,11 @@ public class MainFragment extends BaseFragment implements MainContract.View {
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
             mFragments[SECOND] = findChildFragment(CreationFragment.class);
-            mFragments[THIRD] = findChildFragment(ShoppingCartContainerFragment.class);
+            mFragments[THIRD] = findChildFragment(ShoppingCartFragment.class);
             mFragments[FORTH] = findChildFragment(MineFragment.class);
         }
-        if (!TextUtils.isEmpty((String) SharedPreferencesUtil.get(mActivity, "UserToken", ""))) {
+        if (TextUtils.isEmpty((String) SharedPreferencesUtil.get(mActivity, "UserToken", "")) ||
+                (int) SharedPreferencesUtil.get(mActivity, "UserId", 0) == 0) {
             startToAccountFragment();
         }
     }

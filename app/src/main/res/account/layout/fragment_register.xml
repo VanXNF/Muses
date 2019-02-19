@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -51,9 +52,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_40"
                     android:layout_gravity="end|bottom"
+                    android:layout_marginBottom="@dimen/dp_10"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginBottom="@dimen/dp_10"
                     android:text="@string/get_verification_code"
                     android:textColor="@color/tip_text_white" />
 
@@ -92,7 +93,7 @@
 
         </LinearLayout>
 
-        <!--<include layout="@layout/footer_account" />-->
+        <!--<include layout="@layout/footer_account"/>-->
 
     </LinearLayout>
 

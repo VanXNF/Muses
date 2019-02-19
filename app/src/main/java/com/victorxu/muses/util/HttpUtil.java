@@ -19,7 +19,7 @@ public class HttpUtil {
      * @param address Api 地址
      * @param callback 回调方法
      */
-    public static void getRequest(String address, Callback callback) {
+    public static void getRequest(String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(BASE_API + address).build();
         client.newCall(request).enqueue(callback);
@@ -33,7 +33,7 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     @SuppressWarnings("ConstantConditions")
-    public static void postRequest(String address, Map<String, String> map, Callback callback) {
+    public static void postRequest(String address, Map<String, String> map, okhttp3.Callback callback) {
         OkHttpClient okHttpClient = new OkHttpClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         for (String key : map.keySet()) {
@@ -61,5 +61,19 @@ public class HttpUtil {
                 .post(requestBody)
                 .build();
         okHttpClient.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * Delete 方法
+     * @param address api地址
+     * @param callback 回调方法
+     */
+    public static void deleteRequest(String address, okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .delete()
+                .url(BASE_API + address)
+                .build();
+        client.newCall(request).enqueue(callback);
     }
 }

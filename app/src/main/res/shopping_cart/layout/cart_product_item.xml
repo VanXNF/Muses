@@ -27,9 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_toEndOf="@id/cart_image_item"
-        android:singleLine="true"
         android:paddingStart="@dimen/dp_0"
         android:paddingEnd="@dimen/dp_40"
+        android:singleLine="true"
         android:text="@string/product_1_title"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
@@ -63,11 +63,11 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
-            android:padding="@dimen/dp_3"
-            android:layout_marginEnd="@dimen/dp_3"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_3"
             android:background="@color/light_white"
+            android:padding="@dimen/dp_3"
             android:src="@drawable/cart_arrow_down" />
 
     </RelativeLayout>
@@ -78,38 +78,33 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cart_text_product_title"
         android:layout_marginTop="@dimen/dp_8"
-        android:paddingEnd="@dimen/dp_50"
-        android:paddingStart="@dimen/dp_0"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_toEndOf="@id/cart_image_item"
+        android:maxLines="1"
+        android:paddingStart="@dimen/dp_0"
+        android:paddingEnd="@dimen/dp_50"
+        android:singleLine="true"
         android:text="@string/product_1_tag"
         android:textColor="@color/light_gray"
         android:textSize="@dimen/sp_11" />
 
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dp_40"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/cart_text_product_title"
+        android:layout_marginTop="@dimen/dp_40"
         android:layout_toEndOf="@id/cart_image_item"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rmb"
-            android:textColor="@color/dark_red"
-            android:textSize="@dimen/sp_13"
-            android:textStyle="bold" />
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cart_text_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/yuan_red_small"
             android:text="@string/zero"
             android:textColor="@color/dark_red"
-            android:textSize="@dimen/sp_13"
+            android:textSize="@dimen/sp_14"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -140,7 +135,7 @@
             android:gravity="center"
             android:text="1"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_11" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cart_image_remove"
