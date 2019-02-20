@@ -60,7 +60,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private List<ShoppingCartProduct> mCartData = new ArrayList<>();
 
     private ShoppingCartPresenter mPresenter;
-    
+
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
     }
@@ -119,6 +119,19 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                     break;
                 case R.id.cart_check_item:
                     mPresenter.updateData(position, !item.isChecked());
+                    if (mCheckAll.isChecked()) {
+                       mCheckAll.setChecked(false);
+                    } else {
+                        int count = 0;
+                        for (int i = 0; i < mCartData.size(); i++) {
+                            if (mCartData.get(i).isChecked()) {
+                                count++;
+                            }
+                        }
+                        if (count == mCartData.size()) {
+                            mCheckAll.setChecked(true);
+                        }
+                    }
                     break;
                 case R.id.cart_image_item:
                     ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
@@ -128,7 +141,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                     break;
             }
         });
-        
+
         mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
@@ -152,15 +165,12 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
             int adapterPosition = menuBridge.getAdapterPosition();
             int menuPosition = menuBridge.getPosition();
             if (menuPosition == 1) {
-                mCartData.remove(adapterPosition);
-                // TODO: 2019/2/19 删除数据 
-//                mPresenter.removeDataFromView();
-//                mPresenter.reloadDataToView();
+                mPresenter.removeDataFromView(adapterPosition);
             } else if (menuPosition == 0) {
                 showToast("敬请期待");
             }
         });
-        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT,5));
+        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT, 5));
         mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecycler.setAdapter(mAdapter);
 
@@ -173,7 +183,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
         mCheckAll.setOnClickListener((v) -> mPresenter.checkAllData(mCheckAll.isChecked()));
         mBtnDelete.setOnClickListener((v) -> {
-//            mPresenter.removeDataFromView();
+            mPresenter.removeDataFromView();
             mCheckAll.setChecked(false);
         });
         mBtnSettle.setOnClickListener((v) -> {

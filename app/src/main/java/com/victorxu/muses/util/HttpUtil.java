@@ -53,14 +53,14 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     public static void postRequest(String address, String json, okhttp3.Callback callback) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(BASE_API + address)
                 .post(requestBody)
                 .build();
-        okHttpClient.newCall(request).enqueue(callback);
+        client.newCall(request).enqueue(callback);
     }
 
     /**
@@ -73,6 +73,23 @@ public class HttpUtil {
         Request request = new Request.Builder()
                 .delete()
                 .url(BASE_API + address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * Put 传 json
+     * @param address api地址
+     * @param json json 数据
+     * @param callback 回调方法
+     */
+    public static void putRequest(String address, String json, okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(BASE_API + address)
+                .put(body)
                 .build();
         client.newCall(request).enqueue(callback);
     }

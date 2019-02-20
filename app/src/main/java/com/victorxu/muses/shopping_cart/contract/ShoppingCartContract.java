@@ -11,15 +11,16 @@ public interface ShoppingCartContract {
     interface Model {
         int getUserId();
         void getCartData(okhttp3.Callback callback);
-        void deleteCartData(int cartId, okhttp3.Callback callback);
-        void updateCartData(int cartId, int position, okhttp3.Callback callback);
+        void deleteCartData(okhttp3.Callback callback);
+        void deleteCartData(int position, okhttp3.Callback callback);
+        void updateCartData(int position, okhttp3.Callback callback);
         void updateData(int position, boolean isChecked);
         void updateData(int position, int number);
         void updateData(int position, String detail);
-        int getTotalPrice();
-        boolean checkDataStatus();
         void changeCartMode(boolean isEditMode);
         void checkAllData(boolean isCheckedAll);
+        int getTotalPrice();
+        boolean checkDataStatus();
         void setShoppingCartData(List<ShoppingCart.CartItemBean> data);
         List<ShoppingCartProduct> getShoppingCartData();
     }
@@ -46,8 +47,8 @@ public interface ShoppingCartContract {
         void updateData(int position, boolean isChecked);
         void updateData(int position, int number);
         void updateData(int position, String detail);
-        void removeDataFromView(int cartId);
-        void removeDataFromView(List<Integer> cartIds);
+        void removeDataFromView();
+        void removeDataFromView(int position);
         void changeCartMode(boolean isEditMode);
         void checkAllData(boolean isCheckedAll);
     }

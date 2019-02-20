@@ -7,6 +7,7 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.ShoppingCart;
+import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.model.ShoppingCartModel;
 import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
@@ -89,13 +90,53 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     }
 
     @Override
-    public void removeDataFromView(int cartId) {
+    public void removeDataFromView() {
+        mModel.deleteCartData(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: delete all checked");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+        mView.showCartItem(mModel.getShoppingCartData());
+        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
     }
 
     @Override
-    public void removeDataFromView(List<Integer> cartIds) {
+    public void removeDataFromView(int position) {
+        mModel.deleteCartData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: delete");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+        mView.showCartItem(mModel.getShoppingCartData());
+        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
     }
 
     @Override
@@ -110,6 +151,25 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
         mModel.updateData(position, number);
         mView.showCartItem(mModel.getShoppingCartData());
         mView.showPrice(String.valueOf(mModel.getTotalPrice()));
+        mModel.updateCartData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: update number");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 
     @Override
@@ -117,6 +177,25 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
         mModel.updateData(position, detail);
         mView.showCartItem(mModel.getShoppingCartData());
         mView.showPrice(String.valueOf(mModel.getTotalPrice()));
+        mModel.updateCartData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: detail");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 
     @Override

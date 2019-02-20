@@ -3,6 +3,7 @@ package com.victorxu.muses.shopping_cart.model;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
@@ -18,7 +19,7 @@ import okhttp3.Callback;
 public class ShoppingCartModel implements ShoppingCartContract.Model {
 
     private final String SHOPPING_CART_API = "api/cart/list/";
-    private final String DELETE_SHOPPING_CART_ITEM_API = "/api/cart/";
+    private final String SHOPPING_CART_ITEM_API = "/api/cart/";
 
     private Context context;
     private int userId;
@@ -40,13 +41,32 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     }
 
     @Override
-    public void deleteCartData(int cartId, Callback callback) {
-        HttpUtil.deleteRequest(DELETE_SHOPPING_CART_ITEM_API + String.valueOf(cartId), callback);
+    public void deleteCartData(Callback callback) {
+        boolean flag;
+        do {
+            flag = false;
+            for (int i = 0; i < mData.size(); i++) {
+                if (mData.get(i).isChecked()) {
+                    deleteCartData(i, callback);
+                    flag = true;
+                    break;
+                }
+            }
+        } while (flag);
     }
 
     @Override
-    public void updateCartData(int cartId, int position, Callback callback) {
+    public void deleteCartData(int position, Callback callback) {
+        int cartId = mData.get(position).getData().getId();
+        mData.remove(position);
+        HttpUtil.deleteRequest(SHOPPING_CART_ITEM_API + String.valueOf(cartId), callback);
+    }
 
+    @Override
+    public void updateCartData(int position, Callback callback) {
+        int cartId = mData.get(position).getData().getId();
+        String json = new Gson().toJson(mData.get(position).getData());
+        HttpUtil.putRequest(SHOPPING_CART_ITEM_API + String.valueOf(cartId), json, callback);
     }
 
     @Override
