@@ -1,5 +1,6 @@
 package com.victorxu.muses.product.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -7,6 +8,7 @@ import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.PageComment;
+import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.model.ProductModel;
 
@@ -23,9 +25,9 @@ public class ProductPresenter implements ProductContract.Presenter {
     private ProductContract.View mView;
     private ProductContract.Model mModel;
 
-    public ProductPresenter(ProductContract.View mView, int id) {
+    public ProductPresenter(ProductContract.View mView, int id, Context context) {
         this.mView = mView;
-        mModel = new ProductModel(id);
+        mModel = new ProductModel(id, context);
     }
 
     @Override
@@ -76,5 +78,49 @@ public class ProductPresenter implements ProductContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public void addToCart() {
+        if (mModel.checkUserStatus()) {
+            mModel.addProductDataToCart(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: delete");
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String json = response.body().string();
+                    Log.d(TAG, "onResponse: " + json);
+                    Status status = new Gson().fromJson(json, Status.class);
+                    if (status != null) {
+                        if (status.getCode().equals("OK")) {
+                            mView.showToast(R.string.add_shopping_cart_success);
+                        } else {
+                            mView.showToast(status.getMessage());
+                        }
+                    } else {
+                        mView.showToast(R.string.data_error_please_try_again);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void updateStyleSelectNumber(int number) {
+        mModel.updateStyleSelectNumber(number);
+    }
+
+    @Override
+    public void updateStyleSelectDetail(String key, String value, boolean isSelected, boolean isCompleted) {
+        mModel.updateStyleSelectDetail(key, value, isSelected);
+        if (isCompleted) {
+            mView.showSelectDetail("已选择 " + mModel.getSelectDetail());
+        } else {
+            mView.showSelectDetail("选择 尺寸、颜色分类");
+        }
     }
 }

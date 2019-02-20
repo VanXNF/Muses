@@ -21,8 +21,9 @@
     <string name="product_customer_service">客服</string>
     <string name="product_comment">用户评论</string>
     <string name="praise_of_product">好评度</string>
-    <string name="please_choose_product">请选择商品</string>
+    <string name="please_choose_product">选择 尺寸、颜色分类</string>
     <string name="purchase_quantity">购买数量</string>
     <string name="confirm">确定</string>
     <string name="all_comments">全部评价</string>
+    <string name="add_shopping_cart_success">添加购物车成功</string>
 </resources>

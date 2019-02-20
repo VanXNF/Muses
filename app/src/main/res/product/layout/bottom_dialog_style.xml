@@ -38,10 +38,11 @@
             android:id="@+id/bottom_sheet_product_preview_select_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottom_sheet_product_preview_image"
+            android:layout_below="@id/bottom_sheet_product_preview_price"
             android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_toEndOf="@id/bottom_sheet_product_preview_image"
+            android:maxLines="2"
             android:paddingStart="@dimen/dp_0"
             android:paddingEnd="@dimen/dp_20"
             android:text="@string/please_choose_product" />
@@ -95,19 +96,19 @@
                 android:background="@drawable/left_button_bg"
                 android:text="@string/add_to_cart"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                android:textSize="@dimen/sp_12" />
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bottom_sheet_product_style_buy_now"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_35"
                 android:layout_weight="1"
-                android:visibility="gone"
                 android:background="@drawable/right_button_bg"
                 android:text="@string/buy_now"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_12" />
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
 
         </LinearLayout>
 

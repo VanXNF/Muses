@@ -10,8 +10,13 @@ public interface ProductContract {
     interface Model {
         void getProductData(okhttp3.Callback callback);
         void getCommentData(okhttp3.Callback callback);
+        void addProductDataToCart(okhttp3.Callback callback);
         List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans);
         List<String> getAttributeInfoData(String information);
+        String getSelectDetail();
+        void updateStyleSelectNumber(int number);
+        void updateStyleSelectDetail(String key, String value, boolean isSelected);
+        boolean checkUserStatus();
     }
 
     interface View {
@@ -22,6 +27,7 @@ public interface ProductContract {
         void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData);
         void showAttributeBottomSheet(List<String> data);
         void showStyleBottomSheet(List<StyleSelectItem> data);
+        void showSelectDetail(String detail);
         void showToast(int resId);
         void showToast(CharSequence text);
     }
@@ -29,5 +35,8 @@ public interface ProductContract {
     interface Presenter {
         void loadRootView(android.view.View view);
         void loadDataToView();
+        void addToCart();
+        void updateStyleSelectNumber(int number);
+        void updateStyleSelectDetail(String key, String value, boolean isSelected, boolean isCompleted);
     }
 }

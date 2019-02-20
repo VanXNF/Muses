@@ -44,7 +44,9 @@ import org.w3c.dom.Attr;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,6 +81,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private BottomSheetDialog mStyleDialog;
     private AppCompatImageView mStylePreviewImage;
     private AppCompatTextView mStylePreviewPriceText;
+    private AppCompatTextView mStyleTipText;
     private RecyclerView mStyleRecycler;
     private StyleSelectAdapter mStyleAdapter;
     private AppCompatButton mStyleConfirmButton;
@@ -106,7 +109,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
     private List<String> mAttributeData = new ArrayList<>();
-    private int mProductNumber = 1;
+    private Map<String, Boolean> mSelectFlag = new HashMap<>();
 
     public static ProductFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -132,7 +135,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        mPresenter = new ProductPresenter(this, id);
+        mPresenter = new ProductPresenter(this, id, mActivity);
         mPresenter.loadRootView(view);
         return attachToSwipeBack(view);
     }
@@ -169,6 +172,9 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mAddToCartButton = view.findViewById(R.id.product_add_to_cart);
         mBuyNowButton = view.findViewById(R.id.product_buy_now);
 
+        mSelectFlag.put("尺寸", false);
+        mSelectFlag.put("颜色分类", false);
+
         mToolBar.setBackgroundColor(Color.argb(0, 255, 255, 255));
         mProductBack.setOnClickListener((v -> mActivity.onBackPressed()));
 
@@ -183,6 +189,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
         mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
         mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
+        mStyleTipText = styleView.findViewById(R.id.bottom_sheet_product_preview_select_info);
         mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
         mStyleConfirmButton = styleView.findViewById(R.id.bottom_sheet_product_style_confirm);
         mStyleAddToCartButton = styleView.findViewById(R.id.bottom_sheet_product_style_add_to_cart);
@@ -190,16 +197,14 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
         mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
-            if (isSelected) {
-                if (parameter.getImage() != null) {
+            if (parameter.getImage() != null) {
+                if (isSelected) {
                     post(() -> GlideApp.with(mActivity)
                             .load(parameter.getImage())
                             .apply(RequestOptions.centerCropTransform())
                             .into(mStylePreviewImage)
                     );
-                }
-            } else {
-                if (parameter.getImage() != null) {
+                } else {
                     post(() ->
                             GlideApp.with(mActivity)
                                     .load(mCommodityData.getCoverImage())
@@ -207,25 +212,46 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                                     .into(mStylePreviewImage)
                     );
                 }
+                mSelectFlag.put("颜色分类", isSelected);
+                mPresenter.updateStyleSelectDetail("颜色分类", parameter.getValue(), isSelected, checkSelectFlag());
+            } else {
+                mSelectFlag.put("尺寸", isSelected);
+                mPresenter.updateStyleSelectDetail("尺寸", parameter.getValue(), isSelected, checkSelectFlag());
             }
         });
-        mStyleAdapter.setOnNumberSelectListener((int number) -> mProductNumber = number);
+        mStyleAdapter.setOnNumberSelectListener((int number) -> mPresenter.updateStyleSelectNumber(number));
         mStyleRecycler.setAdapter(mStyleAdapter);
         mStyleDialog.setContentView(styleView);
         mStyleAddToCartButton.setOnClickListener((v) -> {
-            // TODO: 2019/2/14 加入购物车 
+            if (checkSelectFlag()) {
+                mPresenter.addToCart();
+                mStyleDialog.cancel();
+            } else {
+                if (mSelectFlag.get("尺寸")) {
+                    showToast("请选择颜色分类");
+                } else {
+                    showToast("请选择尺寸");
+                }
+            }
         });
         mStyleBuyNowButton.setOnClickListener((v) -> {
             // TODO: 2019/2/14 直接购买商品 
         });
         mStyleConfirmButton.setOnClickListener((v -> {
-            // TODO: 2019/2/14 判断属性是否选择完毕
-            if (isBuy) {
-                // TODO: 2019/2/14 直接购买商品
+            if (checkSelectFlag()) {
+                if (isBuy) {
+                    // TODO: 2019/2/14 直接购买商品
+                } else {
+                    mPresenter.addToCart();
+                }
+                mStyleDialog.cancel();
             } else {
-                // TODO: 2019/2/14 加入购物车
+                if (mSelectFlag.get("尺寸")) {
+                    showToast("请选择颜色分类");
+                } else {
+                    showToast("请选择尺寸");
+                }
             }
-            mStyleDialog.cancel();
         }));
         mStyleView.setOnClickListener((v) -> {
             styleView.post(() -> {
@@ -370,6 +396,11 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
+    public void showSelectDetail(String detail) {
+        post(() -> mStyleTipText.setText(detail));
+    }
+
+    @Override
     public void showToast(int resId) {
         showToast(getText(resId));
     }
@@ -496,5 +527,9 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 }
             }
         }
+    }
+
+    private boolean checkSelectFlag() {
+        return !mSelectFlag.containsValue(false);
     }
 }

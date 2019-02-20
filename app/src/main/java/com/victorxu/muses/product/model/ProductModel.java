@@ -1,25 +1,43 @@
 package com.victorxu.muses.product.model;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.victorxu.muses.gson.Commodity;
+import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.product.contract.ProductContract;
 import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.victorxu.muses.util.HttpUtil;
+import com.victorxu.muses.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Callback;
 
 public class ProductModel implements ProductContract.Model {
 
-    private int id;
+    private static final String TAG = "ProductModel";
+
     private final String COMMODITY_API_PREFIX = "api/commodity/";
     private final String COMMENT_API_PREFIX = "api/comment/";
     private final String COMMENT_API_SUFFIX = "/1/";
+    private final String SHOPPING_CART_API = "api/cart/";
 
-    public ProductModel(int id) {
+    private int id;
+    private int userId = 0;
+    private int number = 1;
+    private Map<String, String> detail = new HashMap<>();
+
+    private Context context;
+
+    public ProductModel(int id, Context context) {
         this.id = id;
+        this.context = context;
     }
 
     @Override
@@ -30,6 +48,18 @@ public class ProductModel implements ProductContract.Model {
     @Override
     public void getCommentData(Callback callback) {
         HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_API_SUFFIX, callback);
+    }
+
+    @Override
+    public void addProductDataToCart(Callback callback) {
+        ShoppingCart.CartItemBean entity = new ShoppingCart.CartItemBean();
+        entity.setId(1);
+        entity.setParameterId(1);
+        entity.setUserId(userId);
+        entity.setCommodityId(id);
+        entity.setDetail(getSelectDetail());
+        entity.setNumber(number);
+        HttpUtil.postRequest(SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -48,5 +78,35 @@ public class ProductModel implements ProductContract.Model {
         String data = information.substring(information.indexOf('{') + 1, information.lastIndexOf('}'));
         attributeInfo.addAll(Arrays.asList(data.split(",")));
         return attributeInfo;
+    }
+
+    @Override
+    public void updateStyleSelectNumber(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public void updateStyleSelectDetail(String key, String value, boolean isSelected) {
+        if (isSelected) {
+            detail.put(key, value);
+        } else {
+            detail.remove(key);
+        }
+
+    }
+
+    @Override
+    public String getSelectDetail() {
+        String s = detail.toString();
+        s = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
+        s = s.replace('=', ':');
+        s = s.replace(", ", ";");
+        return s;
+    }
+
+    @Override
+    public boolean checkUserStatus() {
+        userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
+        return userId != 0;
     }
 }
