@@ -11,7 +11,8 @@
         android:layout_height="@dimen/dp_24"
         android:layout_toStartOf="@id/mine_button_notify"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_15"
         android:src="@drawable/mine_setting"/>
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -20,7 +21,8 @@
         android:layout_height="@dimen/dp_24"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_10"
         android:src="@drawable/mine_notification"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -32,7 +34,7 @@
         android:textSize="@dimen/sp_30"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:text="夏朗拿度"/>
+        android:text="@string/click_to_login"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mine_text_user_id"
@@ -41,18 +43,16 @@
         android:layout_below="@id/mine_text_username"
         android:layout_marginStart="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_5"
-        android:textColor="@color/light_gray"
-        android:text="ID:17828139375"/>
+        android:textColor="@color/light_gray" />
 
-    <com.victorxu.muses.custom.AdvancedImageView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/mine_image_avatar"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_65"
         android:scaleType="centerCrop"
-        app:borderWidth="@dimen/dp_0"
-        app:type="circle"
         android:src="@drawable/logo"/>
 
     <LinearLayout
