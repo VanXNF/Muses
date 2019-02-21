@@ -7,6 +7,10 @@ import java.util.List;
 public interface CollectionContract {
     interface Model {
         void getCollectionData(okhttp3.Callback callback);
+        void removeFromFavorite(int position, okhttp3.Callback callback);
+//        void removeAllFromFavorite(okhttp3.Callback callback);
+        void setCollectionData(List<Collection.CollectionBean> data);
+        List<Collection.CollectionBean> getCollectionData();
     }
 
     interface View {
@@ -22,5 +26,7 @@ public interface CollectionContract {
         void loadRootView(android.view.View view);
         void loadDataToView();
         void reloadDataToView();
+        void removeFavorite(int position);
+//        void removeAllFavorite();
     }
 }

@@ -7,10 +7,13 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Collection;
+import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.mine.contract.CollectionContract;
 import com.victorxu.muses.mine.model.CollectionModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,6 +53,7 @@ public class CollectionPresenter implements CollectionContract.Presenter {
                 Collection collection = new Gson().fromJson(response.body().string(), Collection.class);
                 if (collection != null) {
                     if (collection.getCode().equals("OK")) {
+                        mModel.setCollectionData(collection.getData());
                         mView.showCollection(collection.getData());
                     } else {
                         mView.showToast(collection.getMessage());
@@ -65,5 +69,35 @@ public class CollectionPresenter implements CollectionContract.Presenter {
     @Override
     public void reloadDataToView() {
         loadDataToView();
+    }
+
+    @Override
+    public void removeFavorite(int position) {
+        mModel.removeFromFavorite(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: removeFromFavorite");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("ERROR")) {
+                        mView.showToast(status.getMessage());
+                    } else {
+                        List<Collection.CollectionBean> data = new ArrayList<>();
+                        data.addAll(mModel.getCollectionData());
+                        data.remove(position);
+                        mModel.setCollectionData(data);
+                        mView.showCollection(data);
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: removeFromFavorite DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 }

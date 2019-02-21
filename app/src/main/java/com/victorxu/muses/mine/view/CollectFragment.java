@@ -15,6 +15,11 @@ import com.victorxu.muses.mine.contract.CollectionContract;
 import com.victorxu.muses.mine.presenter.CollectionPresenter;
 import com.victorxu.muses.mine.view.adapter.CollectionAdapter;
 import com.victorxu.muses.product.view.ProductFragment;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CollectFragment extends BaseFragment implements CollectionContract.View {
 
     private Toolbar mToolbar;
     private SwipeRefreshLayout mRefresh;
-    private RecyclerView mRecycler;
+    private SwipeMenuRecyclerView mRecycler;
     private CollectionAdapter mAdapter;
 
     private List<Collection.CollectionBean> mCollectionData = new ArrayList<>();
@@ -66,15 +70,35 @@ public class CollectFragment extends BaseFragment implements CollectionContract.
         mRefresh.setOnRefreshListener(() -> mPresenter.reloadDataToView());
 
         mAdapter = new CollectionAdapter(mCollectionData);
-//        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) ->
-//            start(ProductFragment.newInstance(mCollectionData.get(position).getCommodityId()))
-//        );
+
         mAdapter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) ->
                 start(ProductFragment.newInstance(mCollectionData.get(position).getCommodityId()))
         );
 
+        mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            SwipeMenuItem deleteItem = new SwipeMenuItem(mActivity)
+                    .setText(getResources().getString(R.string.delete))
+                    .setHeight(height)
+                    .setWidth(width)
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setBackgroundColor(getResources().getColor(R.color.dark_red));
+            rightMenu.addMenuItem(deleteItem);
+        });
+        mRecycler.setSwipeMenuItemClickListener((SwipeMenuBridge menuBridge) -> {
+            menuBridge.closeMenu();
+            int adapterPosition = menuBridge.getAdapterPosition();
+            int menuPosition = menuBridge.getPosition();
+            if (menuPosition == 0) {
+                mPresenter.removeFavorite(adapterPosition);
+            }
+        });
+        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT, 5));
         mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecycler.setAdapter(mAdapter);
+
+        mRecycler.setAutoLoadMore(false);
     }
 
     @Override
