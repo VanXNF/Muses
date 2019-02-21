@@ -276,6 +276,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     public void changeCartMode(boolean isEditMode) {
         mModel.changeCartMode(isEditMode);
         mView.switchCartMode(isEditMode);
+        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
         mView.showCartItem(mModel.getShoppingCartData());
     }
 

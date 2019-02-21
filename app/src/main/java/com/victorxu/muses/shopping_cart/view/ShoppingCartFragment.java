@@ -121,94 +121,14 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setRefreshHeader(new MaterialHeader(mActivity));
-        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> mPresenter.reloadDataToView(cartMode));
+        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> {
+            mPresenter.reloadDataToView(cartMode);
+            mCheckAll.setChecked(false);
+        });
 
         initBottomSheet();
 
-        mAdapter = new ShoppingCartAdapter(mCartData);
-        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
-            int id = v.getId();
-            ShoppingCartProduct item = mCartData.get(position);
-            switch (id) {
-                case R.id.cart_image_add:
-                    if (item.getData().getNumber() < 999) {
-                        mPresenter.updateData(position, item.getData().getNumber() + 1);
-                    }
-                    break;
-                case R.id.cart_image_remove:
-                    if (item.getData().getNumber() > 1) {
-                        mPresenter.updateData(position, item.getData().getNumber() - 1);
-                    }
-                    break;
-                case R.id.cart_check_item:
-                    mPresenter.updateData(position, !item.isChecked());
-                    if (mCheckAll.isChecked()) {
-                       mCheckAll.setChecked(false);
-                    } else {
-                        int count = 0;
-                        for (int i = 0; i < mCartData.size(); i++) {
-                            if (mCartData.get(i).isChecked()) {
-                                count++;
-                            }
-                        }
-                        if (count == mCartData.size()) {
-                            mCheckAll.setChecked(true);
-                        }
-                    }
-                    break;
-                case R.id.cart_image_item:
-                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
-                    break;
-                case R.id.cart_text_product_title:
-                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
-                    break;
-                case R.id.cart_attr_container_edit_mode:
-                    mLastPosition = mPosition;
-                    mPosition = position;
-                    if (mLastPosition != mPosition) {
-                        mPresenter.loadStyleSelectData(mPosition);
-                        mSelectData.clear();
-                        mSelectFlag.put("尺寸", false);
-                        mSelectFlag.put("颜色分类", false);
-                    }
-                    mStyleDialog.show();
-                    break;
-            }
-        });
-
-        mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
-            SwipeMenuItem collectItem = new SwipeMenuItem(mActivity)
-                    .setText(getResources().getString(R.string.collect))
-                    .setHeight(height)
-                    .setWidth(width)
-                    .setTextColor(getResources().getColor(R.color.white))
-                    .setBackgroundColor(getResources().getColor(R.color.dark_gray));
-            rightMenu.addMenuItem(collectItem);
-            SwipeMenuItem deleteItem = new SwipeMenuItem(mActivity)
-                    .setText(getResources().getString(R.string.delete))
-                    .setHeight(height)
-                    .setWidth(width)
-                    .setTextColor(getResources().getColor(R.color.white))
-                    .setBackgroundColor(getResources().getColor(R.color.dark_red));
-            rightMenu.addMenuItem(deleteItem);
-        });
-        mRecycler.setSwipeMenuItemClickListener((SwipeMenuBridge menuBridge) -> {
-            menuBridge.closeMenu();
-            int adapterPosition = menuBridge.getAdapterPosition();
-            int menuPosition = menuBridge.getPosition();
-            if (menuPosition == 1) {
-                mPresenter.removeDataFromView(adapterPosition);
-            } else if (menuPosition == 0) {
-                mPresenter.collectDataFromView(adapterPosition);
-            }
-        });
-        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT, 5));
-        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecycler.setAdapter(mAdapter);
-
-        mRecycler.setAutoLoadMore(false);
+        initRecyclerView();
 
         mCartModeToggle.setOnClickListener((v) -> {
             cartMode = !cartMode;
@@ -322,6 +242,91 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
     }
 
+    private void initRecyclerView() {
+        mAdapter = new ShoppingCartAdapter(mCartData);
+        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+            int id = v.getId();
+            ShoppingCartProduct item = mCartData.get(position);
+            switch (id) {
+                case R.id.cart_image_add:
+                    if (item.getData().getNumber() < 999) {
+                        mPresenter.updateData(position, item.getData().getNumber() + 1);
+                    }
+                    break;
+                case R.id.cart_image_remove:
+                    if (item.getData().getNumber() > 1) {
+                        mPresenter.updateData(position, item.getData().getNumber() - 1);
+                    }
+                    break;
+                case R.id.cart_check_item:
+                    mPresenter.updateData(position, !item.isChecked());
+                    if (mCheckAll.isChecked()) {
+                        mCheckAll.setChecked(false);
+                    } else {
+                        int count = 0;
+                        for (int i = 0; i < mCartData.size(); i++) {
+                            if (mCartData.get(i).isChecked()) {
+                                count++;
+                            }
+                        }
+                        if (count == mCartData.size()) {
+                            mCheckAll.setChecked(true);
+                        }
+                    }
+                    break;
+                case R.id.cart_image_item:
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
+                    break;
+                case R.id.cart_text_product_title:
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
+                    break;
+                case R.id.cart_attr_container_edit_mode:
+                    mLastPosition = mPosition;
+                    mPosition = position;
+                    if (mLastPosition != mPosition) {
+                        mPresenter.loadStyleSelectData(mPosition);
+                        mSelectData.clear();
+                        mSelectFlag.put("尺寸", false);
+                        mSelectFlag.put("颜色分类", false);
+                    }
+                    mStyleDialog.show();
+                    break;
+            }
+        });
+        mRecycler.setSwipeMenuCreator((SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) -> {
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            SwipeMenuItem collectItem = new SwipeMenuItem(mActivity)
+                    .setText(getResources().getString(R.string.collect))
+                    .setHeight(height)
+                    .setWidth(width)
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setBackgroundColor(getResources().getColor(R.color.dark_gray));
+            rightMenu.addMenuItem(collectItem);
+            SwipeMenuItem deleteItem = new SwipeMenuItem(mActivity)
+                    .setText(getResources().getString(R.string.delete))
+                    .setHeight(height)
+                    .setWidth(width)
+                    .setTextColor(getResources().getColor(R.color.white))
+                    .setBackgroundColor(getResources().getColor(R.color.dark_red));
+            rightMenu.addMenuItem(deleteItem);
+        });
+        mRecycler.setSwipeMenuItemClickListener((SwipeMenuBridge menuBridge) -> {
+            menuBridge.closeMenu();
+            int adapterPosition = menuBridge.getAdapterPosition();
+            int menuPosition = menuBridge.getPosition();
+            if (menuPosition == 1) {
+                mPresenter.removeDataFromView(adapterPosition);
+            } else if (menuPosition == 0) {
+                mPresenter.collectDataFromView(adapterPosition);
+            }
+        });
+        mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT, 5));
+        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecycler.setAdapter(mAdapter);
+        mRecycler.setAutoLoadMore(false);
+    }
+
     private void initBottomSheet() {
         mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
         View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
@@ -365,12 +370,10 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                 mStyleTipText.setText("请选择 尺寸、颜色分类");
             }
         });
-//        mStyleAdapter.setOnNumberSelectListener((int number) -> mNumber = number);
         mStyleRecycler.setAdapter(mStyleAdapter);
         mStyleDialog.setContentView(styleView);
         mStyleConfirmButton.setOnClickListener((v -> {
             if (checkSelectFlag()) {
-//                mPresenter.updateData(mPosition, mNumber);
                 mPresenter.updateData(mPosition, getSelectDetail());
                 mStyleDialog.cancel();
             } else {
