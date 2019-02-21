@@ -187,7 +187,14 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
     @Override
     public void showPrice(String price) {
-        post(() -> mTextPrice.setText(price));
+        post(() -> {
+            mTextPrice.setText(price);
+            if (mTextPrice.getText().toString().equals("0")) {
+                mBtnSettle.setVisibility(View.GONE);
+            } else {
+                mBtnSettle.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
