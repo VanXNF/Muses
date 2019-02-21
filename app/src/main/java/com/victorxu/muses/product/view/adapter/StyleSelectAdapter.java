@@ -72,8 +72,8 @@ public class StyleSelectAdapter extends BaseMultiItemQuickAdapter<StyleSelectIte
                     if (number < 999) {
                         number++;
                         textNumber.setText(String.valueOf(number));
-                        onNumberSelectListener.onClick(number);
-                    } else {
+                    }
+                    if (onNumberSelectListener != null) {
                         onNumberSelectListener.onClick(number);
                     }
                 });
@@ -82,8 +82,8 @@ public class StyleSelectAdapter extends BaseMultiItemQuickAdapter<StyleSelectIte
                     if (number > 1) {
                         number--;
                         textNumber.setText(String.valueOf(number));
-                        onNumberSelectListener.onClick(number);
-                    } else {
+                    }
+                    if (onNumberSelectListener != null) {
                         onNumberSelectListener.onClick(number);
                     }
                 });

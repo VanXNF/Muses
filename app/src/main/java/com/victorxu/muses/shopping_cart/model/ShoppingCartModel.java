@@ -4,7 +4,9 @@ package com.victorxu.muses.shopping_cart.model;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
+import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
 import com.victorxu.muses.util.HttpUtil;
@@ -20,6 +22,7 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
 
     private final String SHOPPING_CART_API = "api/cart/list/";
     private final String SHOPPING_CART_ITEM_API = "/api/cart/";
+    private final String COMMODITY_API_PREFIX = "api/commodity/";
 
     private Context context;
     private int userId;
@@ -38,6 +41,12 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     @Override
     public void getCartData(Callback callback) {
         HttpUtil.getRequest(SHOPPING_CART_API + String.valueOf(userId), callback);
+    }
+
+    @Override
+    public void getProductData(int position, Callback callback) {
+        int id = mData.get(position).getData().getCommodityId();
+        HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override
@@ -125,5 +134,14 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     @Override
     public List<ShoppingCartProduct> getShoppingCartData() {
         return mData;
+    }
+
+    @Override
+    public List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans) {
+        List<StyleSelectItem> styleSelectItems = new ArrayList<>();
+        for (int i = 0; i < attributesBeans.size(); i++) {
+            styleSelectItems.add(new StyleSelectItem(attributesBeans.get(i)));
+        }
+        return styleSelectItems;
     }
 }

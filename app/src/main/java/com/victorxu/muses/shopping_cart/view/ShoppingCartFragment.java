@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -17,7 +19,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
+import com.victorxu.muses.glide.GlideApp;
+import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.product.view.ProductFragment;
+import com.victorxu.muses.product.view.adapter.StyleSelectAdapter;
+import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
 import com.victorxu.muses.shopping_cart.presenter.ShoppingCartPresenter;
 import com.victorxu.muses.shopping_cart.view.adapter.ShoppingCartAdapter;
@@ -30,13 +37,17 @@ import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCartContract.View {
@@ -56,8 +67,21 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private View mEditModeSettleView;
     private View mCartBottomView;
     private View mEmptyView;
+    private BottomSheetDialog mStyleDialog;
+    private AppCompatImageView mStylePreviewImage;
+    private AppCompatTextView mStylePreviewPriceText;
+    private AppCompatTextView mStyleTipText;
+    private RecyclerView mStyleRecycler;
+    private StyleSelectAdapter mStyleAdapter;
+    private AppCompatButton mStyleConfirmButton;
 
     private List<ShoppingCartProduct> mCartData = new ArrayList<>();
+    private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
+    private Map<String, Boolean> mSelectFlag = new HashMap<>();
+    private Map<String, String> mSelectData = new HashMap<>();
+    private int mNumber = 1;
+    private int mLastPosition = -1;
+    private int mPosition = -1;
 
     private ShoppingCartPresenter mPresenter;
 
@@ -98,9 +122,9 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setRefreshHeader(new MaterialHeader(mActivity));
-        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> {
-            mPresenter.reloadDataToView(cartMode);
-        });
+        mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> mPresenter.reloadDataToView(cartMode));
+
+        initBottomSheet();
 
         mAdapter = new ShoppingCartAdapter(mCartData);
         mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
@@ -137,7 +161,15 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                     ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
                     break;
                 case R.id.cart_attr_container_edit_mode:
-                    // TODO: 18-10-31 弹出属性选择面板
+                    mLastPosition = mPosition;
+                    mPosition = position;
+                    if (mLastPosition != mPosition) {
+                        mPresenter.loadStyleSelectData(mPosition);
+                        mSelectData.clear();
+                        mSelectFlag.put("尺寸", false);
+                        mSelectFlag.put("颜色分类", false);
+                    }
+                    mStyleDialog.show();
                     break;
             }
         });
@@ -216,6 +248,24 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     }
 
     @Override
+    public void showBottomSheet(List<StyleSelectItem> data) {
+        mStyleSelectData.clear();
+        mStyleSelectData.addAll(data);
+        mStyleRecycler.post(() -> {
+            if (mCartData != null) {
+                GlideApp.with(mActivity)
+                        .load(mCartData.get(mPosition).getData().getCommodity().getCoverImage())
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(mStylePreviewImage);
+                mStylePreviewPriceText.setText(String.valueOf(mCartData.get(mPosition).getData().getCommodity().getDiscountPrice()));
+                mStyleTipText.setText("选择 尺寸、颜色分类");
+            }
+            mStyleAdapter.setNewData(mStyleSelectData);
+            mStyleAdapter.notifyDataSetChanged();
+        });
+    }
+
+    @Override
     public void showPrice(String price) {
         post(() -> mTextPrice.setText(price));
     }
@@ -267,57 +317,81 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
-    //    @Override
-//    public void loadCartItem(List<ShoppingCartProduct> data) {
-//        mCartData = data;
-//        mAdapter = new ShoppingCartAdapter(mCartData);
-//    }
-//
-//    @Override
-//    public Context getViewContext() {
-//        return mActivity;
-//    }
-//
-//    @Override
-//    public void refreshCartTotalPrice(String price) {
-//        mTextPrice.setText(price);
-//        refreshCartItem(mCartData);
-//    }
-//
-//    @Override
-//    public void refreshCartItem(List<ShoppingCartProduct> data) {
-//        if (data.size() != 0) {
-//            mCartData = data;
-//            if (mAdapter != null) {
-//                post(()->{
-//                    mAdapter.setNewData(mCartData);
-//                    mAdapter.notifyDataSetChanged();
-//                });
-//            }
-//        } else {
-//            ((ShoppingCartContainerFragment) getParentFragment()).showEmptyFragment();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void changeCartMode(List<ShoppingCartProduct> data) {
-//        mCartData = data;
-//        post(()->{
-//            mCartModeToggle.setText(cartMode ? R.string.save : R.string.edit);
-//            mEditModeSettleView.setVisibility(cartMode ? View.VISIBLE : View.GONE);
-//            mNormalModeSettleView.setVisibility(cartMode ? View.GONE : View.VISIBLE);
-//        });
-//        refreshCartItem(mCartData);
-//    }
-//
-//    public ShoppingCartPresenter getmPresenter() {
-//        return mPresenter;
-//    }
-
-
     @Override
     public void initImmersionBar() {
         ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    private void initBottomSheet() {
+        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+        View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
+        mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
+        mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
+        mStyleTipText = styleView.findViewById(R.id.bottom_sheet_product_preview_select_info);
+        mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
+        mStyleConfirmButton = styleView.findViewById(R.id.bottom_sheet_product_style_confirm);
+        mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
+        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
+            String key;
+            if (parameter.getImage() != null) {
+                key = "颜色分类";
+                if (isSelected) {
+                    post(() -> GlideApp.with(mActivity)
+                            .load(parameter.getImage())
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(mStylePreviewImage)
+                    );
+                } else {
+                    post(() ->
+                            GlideApp.with(mActivity)
+                                    .load(mCartData.get(mPosition).getData().getCommodity().getCoverImage())
+                                    .apply(RequestOptions.centerCropTransform())
+                                    .into(mStylePreviewImage)
+                    );
+                }
+            } else {
+                key = "尺寸";
+            }
+            mSelectFlag.put(key, isSelected);
+            if (isSelected) {
+                mSelectData.put(key, parameter.getValue());
+            } else {
+                mSelectData.remove(key);
+            }
+            if (checkSelectFlag()) {
+                mStyleTipText.setText("已选择 " + getSelectDetail());
+            } else {
+                mStyleTipText.setText("请选择 尺寸、颜色分类");
+            }
+        });
+//        mStyleAdapter.setOnNumberSelectListener((int number) -> mNumber = number);
+        mStyleRecycler.setAdapter(mStyleAdapter);
+        mStyleDialog.setContentView(styleView);
+        mStyleConfirmButton.setOnClickListener((v -> {
+            if (checkSelectFlag()) {
+//                mPresenter.updateData(mPosition, mNumber);
+                mPresenter.updateData(mPosition, getSelectDetail());
+                mStyleDialog.cancel();
+            } else {
+                if (mSelectFlag.get("尺寸")) {
+                    showToast("请选择颜色分类");
+                } else {
+                    showToast("请选择尺寸");
+                }
+            }
+        }));
+    }
+
+    private boolean checkSelectFlag() {
+        return !mSelectFlag.containsValue(false);
+    }
+
+    private String getSelectDetail() {
+        String s = mSelectData.toString();
+        s = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
+        s = s.replace('=', ':');
+        s = s.replace(", ", ";");
+        return s;
     }
 }

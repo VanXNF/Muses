@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
+import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
@@ -64,8 +65,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                             mModel.setShoppingCartData(cart.getData());
                             mView.hideEmptyView();
                             mView.showShoppingCart();
-                            mView.showCartItem(mModel.getShoppingCartData());
-                            mView.switchCartMode(isEditMode);
+                            changeCartMode(isEditMode);
                             Log.d(TAG, "onResponse: getCartData");
                         } else {
                             if (!mModel.checkDataStatus()) {
@@ -87,6 +87,28 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     @Override
     public void reloadDataToView(boolean isEditMode) {
         loadDataToView(isEditMode);
+    }
+
+    @Override
+    public void loadStyleSelectData(int position) {
+        mModel.getProductData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: getProductData");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
+                if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
+                    mView.showBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
+                } else {
+                    Log.w(TAG, "onResponse: getProductData DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 
     @Override
