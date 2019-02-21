@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.product.contract.ProductContract;
@@ -27,11 +28,13 @@ public class ProductModel implements ProductContract.Model {
     private final String COMMENT_API_PREFIX = "api/comment/";
     private final String COMMENT_API_SUFFIX = "/1/";
     private final String SHOPPING_CART_API = "api/cart/";
+    private final String FAVORITE_API = "api/favorite/commodity/";
 
     private int id;
     private int userId = 0;
     private int number = 1;
     private Map<String, String> detail = new HashMap<>();
+    private int favId = 0;
 
     private Context context;
 
@@ -60,6 +63,25 @@ public class ProductModel implements ProductContract.Model {
         entity.setDetail(getSelectDetail());
         entity.setNumber(number);
         HttpUtil.postRequest(SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
+    }
+
+    @Override
+    public void checkFavoriteStatus(Callback callback) {
+        userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
+        HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId) + "/" + String.valueOf(id), callback);
+    }
+
+    @Override
+    public void removeProductDataFromFavorite(Callback callback) {
+        HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+    }
+
+    @Override
+    public void addProductDataToFavorite(Callback callback) {
+        Collection.CollectionBean entity = new Collection.CollectionBean();
+        entity.setUserId(userId);
+        entity.setCommodityId(id);
+        HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -108,5 +130,10 @@ public class ProductModel implements ProductContract.Model {
     public boolean checkUserStatus() {
         userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
         return userId != 0;
+    }
+
+    @Override
+    public void setFavoriteId(int id) {
+        favId = id;
     }
 }

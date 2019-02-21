@@ -11,12 +11,16 @@ public interface ProductContract {
         void getProductData(okhttp3.Callback callback);
         void getCommentData(okhttp3.Callback callback);
         void addProductDataToCart(okhttp3.Callback callback);
+        void checkFavoriteStatus(okhttp3.Callback callback);
+        void addProductDataToFavorite(okhttp3.Callback callback);
+        void removeProductDataFromFavorite(okhttp3.Callback callback);
         List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans);
         List<String> getAttributeInfoData(String information);
         String getSelectDetail();
         void updateStyleSelectNumber(int number);
         void updateStyleSelectDetail(String key, String value, boolean isSelected);
         boolean checkUserStatus();
+        void setFavoriteId(int id);
     }
 
     interface View {
@@ -28,6 +32,7 @@ public interface ProductContract {
         void showAttributeBottomSheet(List<String> data);
         void showStyleBottomSheet(List<StyleSelectItem> data);
         void showSelectDetail(String detail);
+        void showFavorite(boolean isFavorite);
         void showToast(int resId);
         void showToast(CharSequence text);
     }
@@ -36,6 +41,8 @@ public interface ProductContract {
         void loadRootView(android.view.View view);
         void loadDataToView();
         void addToCart();
+        void addToFavorite();
+        void removeFromFavorite();
         void updateStyleSelectNumber(int number);
         void updateStyleSelectDetail(String key, String value, boolean isSelected, boolean isCompleted);
     }

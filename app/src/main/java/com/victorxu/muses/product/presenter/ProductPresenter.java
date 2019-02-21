@@ -78,6 +78,32 @@ public class ProductPresenter implements ProductContract.Presenter {
 
             }
         });
+        mModel.checkFavoriteStatus(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: checkFavoriteStatus");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("ERROR") && status.getData() != null) {
+                        mModel.setFavoriteId(((Double) status.getData()).intValue());
+                        mView.showFavorite(true);
+//                        Log.d(TAG, "onResponse: ALREADY COLLECT");
+                    } else {
+                        mView.showFavorite(false);
+//                        Log.d(TAG, "onResponse: CAN COLLECT");
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -102,6 +128,62 @@ public class ProductPresenter implements ProductContract.Presenter {
                             mView.showToast(status.getMessage());
                         }
                     } else {
+                        mView.showToast(R.string.data_error_please_try_again);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void addToFavorite() {
+        if (mModel.checkUserStatus()) {
+            mModel.addProductDataToFavorite(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: getCollectionCountData");
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    if (status != null) {
+                        if (status.getCode().equals("OK") && status.getData() != null) {
+                            mModel.setFavoriteId(((Double) status.getData()).intValue());
+                            mView.showFavorite(true);
+                        }
+                    } else {
+                        Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                        mView.showToast(R.string.data_error_please_try_again);
+                    }
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void removeFromFavorite() {
+        if (mModel.checkUserStatus()) {
+            mModel.removeProductDataFromFavorite(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: removeProductDataFromFavorite");
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    if (status != null) {
+                        if (status.getCode().equals("ERROR")) {
+                            mView.showToast(status.getMessage());
+                        } else {
+                            mView.showFavorite(false);
+                        }
+                    } else {
+                        Log.w(TAG, "onResponse: removeProductDataFromFavorite DATA ERROR");
                         mView.showToast(R.string.data_error_please_try_again);
                     }
                 }

@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,6 +99,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private WebView mWebView;
     private AppCompatButton mAddToCartButton;
     private AppCompatButton mBuyNowButton;
+    private AppCompatTextView mTextCollect;
 
     private ProductPresenter mPresenter;
 
@@ -171,6 +173,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mScrollView = view.findViewById(R.id.product_scrollview);
         mAddToCartButton = view.findViewById(R.id.product_add_to_cart);
         mBuyNowButton = view.findViewById(R.id.product_buy_now);
+        mTextCollect = view.findViewById(R.id.product_action_collect);
 
         mSelectFlag.put("尺寸", false);
         mSelectFlag.put("颜色分类", false);
@@ -306,6 +309,13 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
             mStyleDialog.show();
         }));
 
+        mTextCollect.setOnClickListener(v -> {
+            if (mTextCollect.getText().toString().equals("收藏")) {
+                mPresenter.addToFavorite();
+            } else {
+                mPresenter.removeFromFavorite();
+            }
+        });
     }
 
     @Override
@@ -398,6 +408,23 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     @Override
     public void showSelectDetail(String detail) {
         post(() -> mStyleTipText.setText(detail));
+    }
+
+    @Override
+    public void showFavorite(boolean isFavorite) {
+        post(() -> {
+            if (isFavorite) {
+                mTextCollect.setText("已收藏");
+                Drawable drawable = getResources().getDrawable(R.drawable.favorite, null);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mTextCollect.setCompoundDrawables(null, drawable, null, null);
+            } else {
+                mTextCollect.setText("收藏");
+                Drawable drawable = getResources().getDrawable(R.drawable.favorite_border, null);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mTextCollect.setCompoundDrawables(null, drawable, null, null);
+            }
+        });
     }
 
     @Override
