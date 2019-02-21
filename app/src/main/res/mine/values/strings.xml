@@ -3,6 +3,7 @@
     <string name="integral">积分</string>
     <string name="voucher">抵用券</string>
     <string name="collection">收藏</string>
+    <string name="collection_dir">收藏夹</string>
     <string name="footprint">足迹</string>
     <string name="pending_payment">待付款</string>
     <string name="to_be_delivered">待发货</string>

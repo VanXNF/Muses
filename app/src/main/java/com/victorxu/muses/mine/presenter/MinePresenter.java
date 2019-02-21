@@ -1,12 +1,24 @@
 package com.victorxu.muses.mine.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.victorxu.muses.R;
+import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.mine.contract.MineContract;
 import com.victorxu.muses.mine.model.MineModel;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class MinePresenter implements MineContract.Presenter {
+
+    private static final String TAG = "MinePresenter";
 
     private MineContract.View mView;
     private MineContract.Model mModel;
@@ -25,6 +37,28 @@ public class MinePresenter implements MineContract.Presenter {
     public void loadDataToView() {
         if (mModel.checkUserStatus()) {
             mView.showBaseUserInfo(mModel.getUserData());
+            mModel.getCollectionCountData(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: getCollectionCountData");
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    if (status != null) {
+                        if (status.getCode().equals("OK") && status.getData() != null) {
+                            mView.showCollectionCount(((Double) status.getData()).intValue());
+                        } else {
+                            mView.showToast(status.getMessage());
+                        }
+                    } else {
+                        Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                        mView.showToast(R.string.data_error_please_try_again);
+                    }
+                }
+            });
         }
     }
 

@@ -75,7 +75,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="1259"/>
+                android:text="0"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="5"/>
+                android:text="0"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -113,6 +113,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/mine_view_collection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -125,7 +126,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="289"/>
+                android:text="0"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -150,7 +151,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="520"/>
+                android:text="0"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"

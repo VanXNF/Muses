@@ -1,6 +1,7 @@
 package com.victorxu.muses.mine.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,8 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     private AppCompatTextView mTextName;
     private AppCompatTextView mTextId;
     private AppCompatImageView mImgAvatar;
-
+    private AppCompatTextView mTextCollectionCount;
+    private View mViewCollection;
 
     private MinePresenter mPresenter;
 
@@ -44,7 +46,8 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     }
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+    public void onSupportVisible() {
+        super.onSupportVisible();
         mPresenter.loadDataToView();
     }
 
@@ -53,9 +56,14 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mTextName = view.findViewById(R.id.mine_text_username);
         mTextId = view.findViewById(R.id.mine_text_user_id);
         mImgAvatar = view.findViewById(R.id.mine_image_avatar);
+        mTextCollectionCount = view.findViewById(R.id.mine_text_collection);
+        mViewCollection = view.findViewById(R.id.mine_view_collection);
 
         mTextName.setOnClickListener(v -> mPresenter.goToAccount());
         mImgAvatar.setOnClickListener(v -> mPresenter.goToAccount());
+        mViewCollection.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(CollectFragment.newInstance())
+        );
     }
 
     @Override
@@ -68,6 +76,11 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
                     .apply(RequestOptions.circleCropTransform())
                     .into(mImgAvatar);
         });
+    }
+
+    @Override
+    public void showCollectionCount(int count) {
+        post(() -> mTextCollectionCount.setText(String.valueOf(count)));
     }
 
     @Override
