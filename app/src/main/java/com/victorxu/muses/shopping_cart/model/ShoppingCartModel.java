@@ -4,6 +4,7 @@ package com.victorxu.muses.shopping_cart.model;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.product.view.entity.StyleSelectItem;
@@ -23,6 +24,7 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     private final String SHOPPING_CART_API = "api/cart/list/";
     private final String SHOPPING_CART_ITEM_API = "/api/cart/";
     private final String COMMODITY_API_PREFIX = "api/commodity/";
+    private final String FAVORITE_API = "api/favorite/commodity/";
 
     private Context context;
     private int userId;
@@ -76,6 +78,25 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
         int cartId = mData.get(position).getData().getId();
         String json = new Gson().toJson(mData.get(position).getData());
         HttpUtil.putRequest(SHOPPING_CART_ITEM_API + String.valueOf(cartId), json, callback);
+    }
+
+    @Override
+    public void addCartDataToFavorite(Callback callback) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).isChecked()) {
+                addCartDataToFavorite(i, callback);
+            }
+        }
+    }
+
+    @Override
+    public void addCartDataToFavorite(int position, Callback callback) {
+        int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
+        int commodityId = mData.get(position).getData().getCommodityId();
+        Collection.CollectionBean entity = new Collection.CollectionBean();
+        entity.setUserId(userId);
+        entity.setCommodityId(commodityId);
+        HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
     }
 
     @Override

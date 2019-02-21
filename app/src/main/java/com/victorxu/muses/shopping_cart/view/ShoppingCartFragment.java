@@ -79,7 +79,6 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
     private Map<String, Boolean> mSelectFlag = new HashMap<>();
     private Map<String, String> mSelectData = new HashMap<>();
-    private int mNumber = 1;
     private int mLastPosition = -1;
     private int mPosition = -1;
 
@@ -160,6 +159,9 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                 case R.id.cart_image_item:
                     ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
                     break;
+                case R.id.cart_text_product_title:
+                    ((MainFragment) getParentFragment()).startBrotherFragment(ProductFragment.newInstance(item.getData().getCommodityId()));
+                    break;
                 case R.id.cart_attr_container_edit_mode:
                     mLastPosition = mPosition;
                     mPosition = position;
@@ -199,7 +201,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
             if (menuPosition == 1) {
                 mPresenter.removeDataFromView(adapterPosition);
             } else if (menuPosition == 0) {
-                showToast("敬请期待");
+                mPresenter.collectDataFromView(adapterPosition);
             }
         });
         mRecycler.addItemDecoration(new DefaultItemDecoration(getResources().getColor(R.color.light_white), ViewGroup.LayoutParams.MATCH_PARENT, 5));
@@ -221,9 +223,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mBtnSettle.setOnClickListener((v) -> {
             // TODO: 18-10-31 结算金额
         });
-        mBtnCollect.setOnClickListener((v) -> {
-            // TODO: 18-10-31 收藏商品
-        });
+        mBtnCollect.setOnClickListener((v) -> mPresenter.collectDataFromView());
 
     }
 

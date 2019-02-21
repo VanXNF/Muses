@@ -17,6 +17,8 @@ public interface ShoppingCartContract {
         void deleteCartData(okhttp3.Callback callback);
         void deleteCartData(int position, okhttp3.Callback callback);
         void updateCartData(int position, okhttp3.Callback callback);
+        void addCartDataToFavorite(okhttp3.Callback callback);
+        void addCartDataToFavorite(int position, okhttp3.Callback callback);
         void updateData(int position, boolean isChecked);
         void updateData(int position, int number);
         void updateData(int position, String detail);
@@ -55,6 +57,8 @@ public interface ShoppingCartContract {
         void updateData(int position, String detail);
         void removeDataFromView();
         void removeDataFromView(int position);
+        void collectDataFromView();
+        void collectDataFromView(int position);
         void changeCartMode(boolean isEditMode);
         void checkAllData(boolean isCheckedAll);
     }

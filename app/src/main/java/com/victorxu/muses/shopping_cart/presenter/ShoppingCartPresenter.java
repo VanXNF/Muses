@@ -162,6 +162,58 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     }
 
     @Override
+    public void collectDataFromView() {
+        mModel.addCartDataToFavorite(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: addCartDataToFavorite");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("OK") && status.getData() != null) {
+                        mView.showToast(status.getMessage());
+                    } else {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void collectDataFromView(int position) {
+        mModel.addCartDataToFavorite(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: addCartDataToFavorite");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("OK") && status.getData() != null) {
+                        mView.showToast(status.getMessage());
+                    } else {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+    }
+
+    @Override
     public void updateData(int position, boolean isChecked) {
         mModel.updateData(position, isChecked);
         mView.showCartItem(mModel.getShoppingCartData());
