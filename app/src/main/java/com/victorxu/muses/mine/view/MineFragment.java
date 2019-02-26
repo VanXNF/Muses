@@ -1,7 +1,6 @@
 package com.victorxu.muses.mine.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
+import com.victorxu.muses.account.view.UserInfoFragment;
 import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.glide.GlideApp;
@@ -62,7 +62,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mTextName.setOnClickListener(v -> mPresenter.goToAccount());
         mImgAvatar.setOnClickListener(v -> mPresenter.goToAccount());
         mViewCollection.setOnClickListener(v ->
-                ((MainFragment) getParentFragment()).startBrotherFragment(CollectFragment.newInstance())
+                ((MainFragment) getParentFragment()).startBrotherFragment(CollectionFragment.newInstance())
         );
     }
 
@@ -90,7 +90,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
 
     @Override
     public void goToProfilePage() {
-
+        ((MainFragment) getParentFragment()).startBrotherFragment(UserInfoFragment.newInstance());
     }
 
     @Override

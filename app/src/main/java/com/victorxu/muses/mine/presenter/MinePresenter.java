@@ -65,9 +65,9 @@ public class MinePresenter implements MineContract.Presenter {
     @Override
     public void goToAccount() {
         if (mModel.checkUserStatus()) {
-            // TODO: 2019/2/20 跳转个人详情页
+            mView.goToProfilePage();
         } else {
-            // TODO: 2019/2/20 跳转登录页
+            mView.goToLoginPage();
         }
     }
 }

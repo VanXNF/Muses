@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
-import com.victorxu.muses.base.BaseFragment;
+import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.mine.contract.CollectionContract;
 import com.victorxu.muses.mine.presenter.CollectionPresenter;
@@ -30,7 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class CollectFragment extends BaseFragment implements CollectionContract.View {
+public class CollectionFragment extends BaseSwipeBackFragment implements CollectionContract.View {
 
     private Toolbar mToolbar;
     private SwipeRefreshLayout mRefresh;
@@ -41,8 +41,8 @@ public class CollectFragment extends BaseFragment implements CollectionContract.
 
     private CollectionPresenter mPresenter;
 
-    public static CollectFragment newInstance() {
-        return new CollectFragment();
+    public static CollectionFragment newInstance() {
+        return new CollectionFragment();
     }
 
     @Nullable
@@ -51,11 +51,12 @@ public class CollectFragment extends BaseFragment implements CollectionContract.
         View view = inflater.inflate(R.layout.fragment_collect, container, false);
         mPresenter = new CollectionPresenter(this, mActivity);
         mPresenter.loadRootView(view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
         mPresenter.loadDataToView();
     }
 
