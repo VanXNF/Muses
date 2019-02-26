@@ -82,4 +82,10 @@
         <item name="android:textSize">@dimen/sp_19</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="Product_Comment_Image">
+        <item name="android:layout_width">@dimen/dp_98</item>
+        <item name="android:layout_height">@dimen/dp_98</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
 </resources>

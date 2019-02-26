@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
@@ -36,10 +35,11 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     private RecyclerView mCommentRecycler;
     private CommentAdapter mCommentAdapter;
     private ProductCommentPresenter mPresenter;
+    private View mCommentEmptyView;
 
     private int id;
     private List<String> mTagData = new ArrayList<>();
-    private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
+    private List<PageComment.PageCommentData.CommentBean> mCommentData = new ArrayList<>();
 
     public static ProductCommentFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -79,11 +79,11 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
         mToolbar = view.findViewById(R.id.product_comment_toolbar);
         mCommentFlowLayout = view.findViewById(R.id.product_comment_flow_layout);
         mCommentRecycler = view.findViewById(R.id.product_comment_recycler_view);
+        mCommentEmptyView = view.findViewById(R.id.comment_empty_view);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mCommentAdapter = new CommentAdapter(mCommentData);
         mCommentAdapter.setOnLoadMoreListener(() -> mPresenter.loadMoreDataToView(), mCommentRecycler);
         mCommentRecycler.setAdapter(mCommentAdapter);
-
         mToolbar.setNavigationOnClickListener((v) -> mActivity.onBackPressed());
 
     }
@@ -115,6 +115,10 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
             };
             tagAdapter.setSelectedList(0);
             mCommentFlowLayout.setAdapter(tagAdapter);
+            mCommentFlowLayout.setOnTagClickListener((View view, int position, FlowLayout parent) -> {
+                mPresenter.switchDataFilterMode(position);
+                return false;
+            });
         });
     }
 
@@ -129,7 +133,7 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     }
 
     @Override
-    public void showComment(List<PageComment.PageCommentData.CommentModel> data) {
+    public void showComment(List<PageComment.PageCommentData.CommentBean> data) {
         mCommentData.clear();
         mCommentData = data;
         post(() -> {
@@ -139,7 +143,7 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     }
 
     @Override
-    public void showMoreComment(List<PageComment.PageCommentData.CommentModel> moreData) {
+    public void showMoreComment(List<PageComment.PageCommentData.CommentBean> moreData) {
         mCommentData.addAll(moreData);
         post(() -> mCommentAdapter.addData(moreData));
     }
@@ -162,7 +166,16 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
                 }
             }
         });
+    }
 
+    @Override
+    public void showEmptyPage() {
+        post(() -> mCommentEmptyView.setVisibility(View.VISIBLE));
+    }
+
+    @Override
+    public void hideEmptyPage() {
+        post(() -> mCommentEmptyView.setVisibility(View.GONE));
     }
 
     @Override

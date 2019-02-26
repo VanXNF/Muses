@@ -25,5 +25,6 @@
     <string name="purchase_quantity">购买数量</string>
     <string name="confirm">确定</string>
     <string name="all_comments">全部评价</string>
+    <string name="do_not_find_comment">未找到相关评价</string>
     <string name="add_shopping_cart_success">添加购物车成功</string>
 </resources>

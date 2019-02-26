@@ -26,7 +26,7 @@ public class ProductModel implements ProductContract.Model {
 
     private final String COMMODITY_API_PREFIX = "api/commodity/";
     private final String COMMENT_API_PREFIX = "api/comment/";
-    private final String COMMENT_API_SUFFIX = "/1/";
+    private final String COMMENT_API_SUFFIX = "/1/none";
     private final String SHOPPING_CART_API = "api/cart/";
     private final String FAVORITE_API = "api/favorite/commodity/";
 

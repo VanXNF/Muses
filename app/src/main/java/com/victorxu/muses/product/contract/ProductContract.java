@@ -28,7 +28,7 @@ public interface ProductContract {
         void showBaseInfo(Commodity.CommodityDetail data);
         void showBanner(List<String> imageUrls);
         void showProductDetail(String htmlData);
-        void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData);
+        void showEvaluation(List<PageComment.PageCommentData.CommentBean> commentData);
         void showAttributeBottomSheet(List<String> data);
         void showStyleBottomSheet(List<StyleSelectItem> data);
         void showSelectDetail(String detail);

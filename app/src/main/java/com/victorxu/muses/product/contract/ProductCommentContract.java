@@ -16,6 +16,7 @@ public interface ProductCommentContract {
         void setAllPages(int allPages);
         void addPage(PageComment page);
         void setPageList(List<PageComment> data);
+        void setFilter(int filterId);
     }
 
     interface View {
@@ -23,10 +24,12 @@ public interface ProductCommentContract {
         void showLoading();
         void hideLoading();
         void showTag(List<String> data);
-        void showComment(List<PageComment.PageCommentData.CommentModel> data);
-        void showMoreComment(List<PageComment.PageCommentData.CommentModel> moreData);
+        void showComment(List<PageComment.PageCommentData.CommentBean> data);
+        void showMoreComment(List<PageComment.PageCommentData.CommentBean> moreData);
         void showLoadingMore();
         void hideLoadingMore(boolean isCompeted, boolean isEnd);
+        void showEmptyPage();
+        void hideEmptyPage();
         void showToast(int resId);
         void showToast(CharSequence text);
     }
@@ -35,5 +38,6 @@ public interface ProductCommentContract {
         void loadRootView(android.view.View view);
         void loadDataToView();
         void loadMoreDataToView();
+        void switchDataFilterMode(int filterId);
     }
 }

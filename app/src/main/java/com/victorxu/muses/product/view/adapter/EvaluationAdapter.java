@@ -1,15 +1,6 @@
 package com.victorxu.muses.product.view.adapter;
 
-
-import android.graphics.drawable.Drawable;
-import android.view.ViewGroup;
-
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
@@ -25,14 +16,14 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
-public class EvaluationAdapter extends BaseQuickAdapter<PageComment.PageCommentData.CommentModel, BaseViewHolder> {
+public class EvaluationAdapter extends BaseQuickAdapter<PageComment.PageCommentData.CommentBean, BaseViewHolder> {
 
-    public EvaluationAdapter(@Nullable List<PageComment.PageCommentData.CommentModel> data) {
+    public EvaluationAdapter(@Nullable List<PageComment.PageCommentData.CommentBean> data) {
         super(R.layout.item_evaluation, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PageComment.PageCommentData.CommentModel item) {
+    protected void convert(BaseViewHolder helper, PageComment.PageCommentData.CommentBean item) {
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         helper.setText(R.id.product_evaluation_text_username, item.getUsername())
                 .setText(R.id.product_evaluation_text_comment_date, sdf.format(new Date(item.getDate())))

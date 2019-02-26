@@ -20,14 +20,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRatingBar;
 
-public class CommentAdapter extends BaseQuickAdapter <PageComment.PageCommentData.CommentModel, BaseViewHolder> {
+public class CommentAdapter extends BaseQuickAdapter <PageComment.PageCommentData.CommentBean, BaseViewHolder> {
 
-    public CommentAdapter(@Nullable List<PageComment.PageCommentData.CommentModel> data) {
+    public CommentAdapter(@Nullable List<PageComment.PageCommentData.CommentBean> data) {
         super(R.layout.item_comment, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PageComment.PageCommentData.CommentModel item) {
+    protected void convert(BaseViewHolder helper, PageComment.PageCommentData.CommentBean item) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         helper.setText(R.id.product_comment_text_username, item.getUsername())
                 .setText(R.id.product_comment_text_comment_date, sdf.format(new Date(item.getDate())))
@@ -46,12 +46,8 @@ public class CommentAdapter extends BaseQuickAdapter <PageComment.PageCommentDat
         if (item.getImages() == null || item.getImages().size() == 0) {
             helper.getView(R.id.product_comment_relative_image_container).setVisibility(View.GONE);
         } else {
-            if (item.getImages().size() <= 3) {
-                helper.getView(R.id.product_comment_image_comment_image_4).setVisibility(View.GONE);
-                helper.getView(R.id.product_comment_image_comment_image_5).setVisibility(View.GONE);
-                helper.getView(R.id.product_comment_image_comment_image_6).setVisibility(View.GONE);
-            }
-            ArrayList<AdvancedImageView> images = new ArrayList<>();
+            helper.getView(R.id.product_comment_relative_image_container).setVisibility(View.VISIBLE);
+            ArrayList<AppCompatImageView> images = new ArrayList<>();
             images.add(helper.getView(R.id.product_comment_image_comment_image_1));
             images.add(helper.getView(R.id.product_comment_image_comment_image_2));
             images.add(helper.getView(R.id.product_comment_image_comment_image_3));
@@ -59,11 +55,23 @@ public class CommentAdapter extends BaseQuickAdapter <PageComment.PageCommentDat
             images.add(helper.getView(R.id.product_comment_image_comment_image_5));
             images.add(helper.getView(R.id.product_comment_image_comment_image_6));
 
-            for (int i = 0; i < item.getImages().size(); ++i) {
+            if (item.getImages().size() <= 3) {
+                for (int i = 3; i < 6; i++) {
+                    images.get(i).setVisibility(View.GONE);
+                }
+            } else {
+                for (int i = 3; i < 6; i++) {
+                    images.get(i).setVisibility(View.VISIBLE);
+                }
+            }
+
+            int size = item.getImages().size() > images.size() ? images.size() : item.getImages().size();
+            for (int i = 0; i < size; ++i) {
                 GlideApp.with(mContext)
                         .load(item.getImages().get(i))
                         .apply(new RequestOptions().centerCrop())
                         .into(images.get(i));
+                images.get(i).setVisibility(View.VISIBLE);
             }
         }
     }

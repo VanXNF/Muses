@@ -40,8 +40,6 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 
-import org.w3c.dom.Attr;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,7 +106,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private boolean isBuy = true;
     private List<String> mBannerData = new ArrayList<>();
     private Commodity.CommodityDetail mCommodityData;
-    private List<PageComment.PageCommentData.CommentModel> mCommentData = new ArrayList<>();
+    private List<PageComment.PageCommentData.CommentBean> mCommentData = new ArrayList<>();
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
     private List<String> mAttributeData = new ArrayList<>();
     private Map<String, Boolean> mSelectFlag = new HashMap<>();
@@ -358,10 +356,10 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
-    public void showEvaluation(List<PageComment.PageCommentData.CommentModel> commentData) {
+    public void showEvaluation(List<PageComment.PageCommentData.CommentBean> commentData) {
         mCommentData.clear();
         mCommentData.addAll(commentData);
-        PageComment.PageCommentData.CommentModel model = mCommentData.get((int) (Math.random() * mCommentData.size()));
+        PageComment.PageCommentData.CommentBean model = mCommentData.get((int) (Math.random() * mCommentData.size()));
         post(() -> {
             GlideApp.with(mActivity)
                     .load(model.getHead())
