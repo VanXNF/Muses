@@ -33,6 +33,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/user_info_line_avatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -64,6 +65,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -93,6 +95,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_update_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -122,6 +125,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -151,6 +155,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -180,6 +185,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_birthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -209,6 +215,7 @@
         android:background="@color/light_white" />
 
     <RelativeLayout
+        android:id="@+id/user_info_line_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

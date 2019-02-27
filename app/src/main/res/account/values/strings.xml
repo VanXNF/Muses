@@ -28,6 +28,15 @@
     <string name="quit">退出登录</string>
     <string name="add">添加</string>
     <string name="choose">选择</string>
+    <string name="are_you_sure_to_quit">确认退出账号？</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="chinese_character_english_character_only">仅支持中、英文输入</string>
+    <string name="nickname_can_not_be_null">昵称不可为空</string>
+    <string name="old_password">原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="please_input_old_password">请输入原密码</string>
+    <string name="please_input_new_password">请输入新密码</string>
     <!--tips-->
     <string name="please_input_phone">请输入手机号</string>
     <string name="please_input_code">请输入验证码</string>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_15">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_2"
+        android:text="@string/woman"
+        android:textSize="@dimen/sp_14" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dialog_sex_woman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:src="@drawable/ic_woman" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dialog_sex_man"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:src="@drawable/ic_man" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_2"
+        android:text="@string/man"
+        android:textSize="@dimen/sp_14" />
+
+</LinearLayout>
