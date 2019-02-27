@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_80"
-        android:textSize="@dimen/sp_30"
+        android:textSize="@dimen/sp_25"
+        android:maxLines="1"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:text="@string/click_to_login"/>

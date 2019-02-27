@@ -69,6 +69,11 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     @Override
     public void showBaseUserInfo(UserStatus.UserBean data) {
         post(() -> {
+            if (data.getUsername().length() > 8) {
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_8));
+            } else {
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_15));
+            }
             mTextName.setText(data.getUsername());
             mTextId.setText("ID: " + data.getUserId());
             GlideApp.with(mActivity)
