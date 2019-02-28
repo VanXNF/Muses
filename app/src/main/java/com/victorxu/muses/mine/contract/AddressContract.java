@@ -14,8 +14,6 @@ public interface AddressContract {
 
     interface View {
         void initRootView(android.view.View view);
-        void showLoading();
-        void hideLoading();
         void showAddress(List<Address.AddressBean> data);
         void showToast(int resId);
         void showToast(CharSequence text);
@@ -24,7 +22,6 @@ public interface AddressContract {
     interface Presenter {
         void loadRootView(android.view.View view);
         void loadDataToView();
-        void reloadDataToView();
         void addAddress();
         void deleteAddress(int position);
         void updateAddress(int position);

@@ -7,7 +7,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
-import com.victorxu.muses.custom.AdvancedImageView;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.PageComment;
 
@@ -31,7 +30,7 @@ public class CommentAdapter extends BaseQuickAdapter <PageComment.PageCommentDat
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         helper.setText(R.id.product_comment_text_username, item.getUsername())
                 .setText(R.id.product_comment_text_comment_date, sdf.format(new Date(item.getDate())))
-//                .setText(R.id.product_comment_text_like_num, item.getLikeNum())
+                .setText(R.id.product_comment_text_like_num, String.valueOf(item.getPraise()))
 //                .setText(R.id.product_comment_text_comment_num, item.getCommentNum())
                 .setText(R.id.product_comment_text_comment, item.getContent())
                 .setText(R.id.product_comment_text_model, item.getCommodityInfo().split(" ")[0]);

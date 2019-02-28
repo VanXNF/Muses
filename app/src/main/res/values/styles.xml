@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="address_toolbar_text_appearance">
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="address_edit_item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginTop">@dimen/dp_15</item>
+        <item name="android:layout_marginBottom">@dimen/dp_15</item>
+        <item name="android:layout_marginStart">@dimen/dp_15</item>
+        <item name="android:layout_marginEnd">@dimen/dp_15</item>
+    </style>
+</resources>

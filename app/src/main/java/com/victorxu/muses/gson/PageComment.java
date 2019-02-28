@@ -106,20 +106,18 @@ public class PageComment {
              * star : 5
              * orderCommodityId : null
              * userId : null
-             * commentId : null
              */
 
             private int id;
             private String head;
             private String username;
             private long date;
-            private Object praise;
+            private int praise;
             private String content;
             private String commodityInfo;
             private int star;
-            private Object orderCommodityId;
-            private Object userId;
-            private Object commentId;
+            private int orderCommodityId;
+            private int userId;
             private List<?> images;
 
             public int getId() {
@@ -154,11 +152,11 @@ public class PageComment {
                 this.date = date;
             }
 
-            public Object getPraise() {
+            public int getPraise() {
                 return praise;
             }
 
-            public void setPraise(Object praise) {
+            public void setPraise(int praise) {
                 this.praise = praise;
             }
 
@@ -186,28 +184,20 @@ public class PageComment {
                 this.star = star;
             }
 
-            public Object getOrderCommodityId() {
+            public int getOrderCommodityId() {
                 return orderCommodityId;
             }
 
-            public void setOrderCommodityId(Object orderCommodityId) {
+            public void setOrderCommodityId(int orderCommodityId) {
                 this.orderCommodityId = orderCommodityId;
             }
 
-            public Object getUserId() {
+            public int getUserId() {
                 return userId;
             }
 
-            public void setUserId(Object userId) {
+            public void setUserId(int userId) {
                 this.userId = userId;
-            }
-
-            public Object getCommentId() {
-                return commentId;
-            }
-
-            public void setCommentId(Object commentId) {
-                this.commentId = commentId;
             }
 
             public List<?> getImages() {

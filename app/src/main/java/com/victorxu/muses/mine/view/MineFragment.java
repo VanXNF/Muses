@@ -29,6 +29,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     private AppCompatImageView mImgAvatar;
     private AppCompatTextView mTextCollectionCount;
     private View mViewCollection;
+    private View mViewAddress;
 
     private MinePresenter mPresenter;
 
@@ -58,12 +59,12 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mImgAvatar = view.findViewById(R.id.mine_image_avatar);
         mTextCollectionCount = view.findViewById(R.id.mine_text_collection);
         mViewCollection = view.findViewById(R.id.mine_view_collection);
+        mViewAddress = view.findViewById(R.id.mine_relative_address_management);
 
         mTextName.setOnClickListener(v -> mPresenter.goToAccount());
         mImgAvatar.setOnClickListener(v -> mPresenter.goToAccount());
-        mViewCollection.setOnClickListener(v ->
-                ((MainFragment) getParentFragment()).startBrotherFragment(CollectionFragment.newInstance())
-        );
+        mViewCollection.setOnClickListener(v -> ((MainFragment) getParentFragment()).startBrotherFragment(CollectionFragment.newInstance()));
+        mViewAddress.setOnClickListener(v -> ((MainFragment) getParentFragment()).startBrotherFragment(AddressFragment.newInstance()));
     }
 
     @Override
@@ -71,8 +72,10 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         post(() -> {
             if (data.getUsername().length() > 8) {
                 mTextName.setTextSize(getResources().getDimension(R.dimen.sp_8));
+            } else if (data.getUsername().length() > 4) {
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_11));
             } else {
-                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_15));
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_14));
             }
             mTextName.setText(data.getUsername());
             mTextId.setText("ID: " + data.getUserId());

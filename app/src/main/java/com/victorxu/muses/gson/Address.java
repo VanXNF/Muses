@@ -7,7 +7,7 @@ public class Address {
     /**
      * code : OK
      * message : 获取地址列表成功
-     * data : [{"id":391,"province":"浙江省","city":"杭州市","district":"西湖区","address":"浙江科技学院","signerName":"维克多","signerMobile":"12345678910","userId":122},{"id":392,"province":"浙江省","city":"绍兴市","district":"上虞区","address":"小区","signerName":"维克多","signerMobile":"12345678910","userId":122}]
+     * data : [{"id":391,"province":"浙江省","city":"杭州市","district":"西湖区","address":"浙江科技学院","signerName":"维克多","signerMobile":"12345678910","userId":122,"defaultAddress":true},{"id":392,"province":"浙江省","city":"绍兴市","district":"上虞区","address":"小区","signerName":"维克多","signerMobile":"12345678910","userId":122,"defaultAddress":false}]
      */
 
     private String code;
@@ -48,6 +48,7 @@ public class Address {
          * signerName : 维克多
          * signerMobile : 12345678910
          * userId : 122
+         * defaultAddress : true
          */
 
         private int id;
@@ -58,6 +59,7 @@ public class Address {
         private String signerName;
         private String signerMobile;
         private int userId;
+        private boolean defaultAddress;
 
         public int getId() {
             return id;
@@ -121,6 +123,14 @@ public class Address {
 
         public void setUserId(int userId) {
             this.userId = userId;
+        }
+
+        public boolean isDefaultAddress() {
+            return defaultAddress;
+        }
+
+        public void setDefaultAddress(boolean defaultAddress) {
+            this.defaultAddress = defaultAddress;
         }
     }
 }
