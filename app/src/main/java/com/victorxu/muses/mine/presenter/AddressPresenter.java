@@ -12,6 +12,7 @@ import com.victorxu.muses.mine.contract.AddressContract;
 import com.victorxu.muses.mine.model.AddressModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,7 +54,8 @@ public class AddressPresenter implements AddressContract.Presenter {
                         if (address.getData() != null) {
                             mView.showAddress(address.getData());
                         } else {
-                            throw new IOException();
+                            mView.showAddress(new ArrayList<>());
+                            mView.showToast(R.string.do_not_have_address);
                         }
                     }
                 } catch (IOException e) {

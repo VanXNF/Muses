@@ -139,6 +139,7 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
         });
         Bundle bundle = new Bundle();
         mTextSave.setOnClickListener(v -> {
+            hideSoftInput();
             if (checkAddressData()) {
                 if (type == TYPE_ADD) {
                     bundle.putString("TYPE", "add");
@@ -153,6 +154,7 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
             }
         });
         mTextDelete.setOnClickListener(v -> {
+            hideSoftInput();
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
             builder.setMessage(getString(R.string.are_you_sure_delete_address))
                     .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> {

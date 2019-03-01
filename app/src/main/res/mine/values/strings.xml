@@ -32,4 +32,5 @@
     <string name="please_choose_location">请选择所在地区</string>
     <string name="please_input_location_detail">请填写详细地址</string>
     <string name="are_you_sure_delete_address">确认删除收货地址？</string>
+    <string name="do_not_have_address">当前地址列表为空，请点击右上角添加地址</string>
 </resources>
