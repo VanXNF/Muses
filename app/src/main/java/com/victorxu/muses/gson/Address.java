@@ -1,5 +1,6 @@
 package com.victorxu.muses.gson;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Address {
@@ -38,7 +39,7 @@ public class Address {
         this.data = data;
     }
 
-    public static class AddressBean {
+    public static class AddressBean implements Serializable {
         /**
          * id : 391
          * province : 浙江省

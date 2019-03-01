@@ -20,11 +20,16 @@
     <string name="add_new_address">添加新地址</string>
     <string name="default_address">默认</string>
     <string name="receiver">收货人</string>
-    <string name="phone_number">手机号码</string>
+    <string name="phone_number">联系号码</string>
     <string name="location">所在地区</string>
-    <string name="location_detail">详细地址：如道路、门牌号、小区、楼栋号、单元室等</string>
+    <string name="location_detail">详细地址：如镇、道路、门牌号、小区、楼栋号、单元室等</string>
     <string name="set_default_address">设为默认地址</string>
     <string name="save_address">保存收货地址</string>
     <string name="edit_address">编辑收货地址</string>
     <string name="delete_address">删除收货地址</string>
+    <string name="please_input_receiver">请填写收件人</string>
+    <string name="please_input_mobile">请填写联系号码</string>
+    <string name="please_choose_location">请选择所在地区</string>
+    <string name="please_input_location_detail">请填写详细地址</string>
+    <string name="are_you_sure_delete_address">确认删除收货地址？</string>
 </resources>

@@ -67,7 +67,7 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
         mToolbar.setOnMenuItemClickListener((MenuItem item) -> {
             int id = item.getItemId();
             if (id == R.id.menu_address_new) {
-                startForResult(EditAddressFragment.newInstance(EditAddressFragment.TYPE_ADD), REQUEST_ADD);
+                startForResult(EditAddressFragment.newInstance(), REQUEST_ADD);
             }
             return false;
         });
@@ -76,7 +76,7 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
         mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
             int id = v.getId();
             if (id == R.id.item_address_edit) {
-                startForResult(EditAddressFragment.newInstance(EditAddressFragment.TYPE_EDIT), REQUEST_EDIT);
+                startForResult(EditAddressFragment.newInstance(mAddressData.get(position)), REQUEST_EDIT);
             }
         });
         mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -107,14 +107,22 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            String type = data.getString("TYPE");
             switch (requestCode) {
                 case REQUEST_ADD:
-                    // TODO: 2019/2/28 presenter to add new address;
-                    showToast(data.getString("Type"));
+                    if (type.equals("add")) {
+                        Address.AddressBean addressBean = (Address.AddressBean) data.getSerializable("DATA");
+                        mPresenter.addAddress(addressBean);
+                    }
                     break;
                 case REQUEST_EDIT:
-                    // TODO: 2019/2/28 presenter to update address;
-                    showToast(data.getString("Type"));
+                    if (type.equals("edit")) {
+                        Address.AddressBean addressBean = (Address.AddressBean) data.getSerializable("DATA");
+                        mPresenter.updateAddress(addressBean);
+                    } else if (type.equals("delete")) {
+                        int addressId = data.getInt("ADDRESS_ID");
+                        mPresenter.deleteAddress(addressId);
+                    }
                     break;
             }
         }

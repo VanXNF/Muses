@@ -56,6 +56,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/address_edit_location_detail"
         style="@style/address_edit_item_style"
+        android:gravity="start|top"
         android:hint="@string/location_detail"
         android:maxLines="5" />
 

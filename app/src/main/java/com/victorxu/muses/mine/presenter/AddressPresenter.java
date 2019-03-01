@@ -65,17 +65,80 @@ public class AddressPresenter implements AddressContract.Presenter {
     }
 
     @Override
-    public void addAddress() {
+    public void addAddress(Address.AddressBean data) {
+        mModel.addAddressData(data, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: addAddress");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    mView.showToast(status.getMessage());
+                    if (status.getCode().equals("OK")) {
+                        loadDataToView();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.w(TAG, "onResponse: addAddress");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 
     @Override
-    public void deleteAddress(int position) {
+    public void deleteAddress(int id) {
+        mModel.deleteAddressData(id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: deleteAddress");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    mView.showToast(status.getMessage());
+                    if (status.getCode().equals("OK")) {
+                        loadDataToView();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.w(TAG, "onResponse: deleteAddress");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 
     @Override
-    public void updateAddress(int position) {
+    public void updateAddress(Address.AddressBean data) {
+        mModel.updateAddressData(data, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: updateAddress");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    mView.showToast(status.getMessage());
+                    if (status.getCode().equals("OK")) {
+                        loadDataToView();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.w(TAG, "onResponse: updateAddress");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
     }
 }

@@ -40,3 +40,6 @@
 - 导入开源库 SmartRefreshHeader 1.1.0-andx-2
 - 导入开源库 flowlayout-lib 1.1.2
 - 导入开源库 okhttp 3.12.0
+
+## 2019-03-01
+- 导入开源库 citypickerview 4.1.0
