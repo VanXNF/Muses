@@ -1,13 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <com.victorxu.muses.custom.BlockLoadView
-        android:layout_centerInParent="true"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50" />
+    <LinearLayout
+        android:id="@+id/creation_page_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/creation_text_my_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/empty_button_bg"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_5"
+                android:text="@string/my_filter"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/creation"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/creation_new_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_bg_dark_red"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_5"
+                android:text="@string/create_filter"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12" />
+
+        </RelativeLayout>
+
+        <com.victorxu.muses.custom.SearchView
+            android:id="@+id/creation_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:editable="true"
+            app:focusableInTouchMode="true"
+            app:hint="@string/search_filter" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/creation_filter_class_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/popular_search_filter"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/creation_popular_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

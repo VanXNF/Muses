@@ -45,10 +45,16 @@ public class SearchView extends LinearLayout implements TextWatcher, View.OnClic
         setSearchViewEditable(isEditable);
         setFocusableInTouchMode(isFocusableInTouchMode);
         if (!isEditable) {
-            mEtSearchView.setOnClickListener((v) -> onSearchViewClickListener.onClick(v));
+            mEtSearchView.setOnClickListener((v) -> {
+                if (onSearchViewClickListener != null) {
+                    onSearchViewClickListener.onClick(v);
+                }
+            });
         }
         mEtSearchView.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
-            onEditorActionListener.onEditorAction(v, actionId, event);
+            if (onEditorActionListener != null) {
+                onEditorActionListener.onEditorAction(v, actionId, event);
+            }
             return true;
         });
 
