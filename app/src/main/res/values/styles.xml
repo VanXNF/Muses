@@ -15,4 +15,15 @@
         <item name="android:layout_marginStart">@dimen/dp_15</item>
         <item name="android:layout_marginEnd">@dimen/dp_15</item>
     </style>
+
+    <style name="filter_apply_bottom_item_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
 </resources>

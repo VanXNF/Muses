@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.victorxu.muses.custom.PinchImageView
+        android:id="@+id/filter_apply_display_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/filter_bottom_container"
+        android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:id="@+id/filter_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/filter_apply_cancel"
+            style="@style/filter_apply_bottom_item_style"
+            android:text="@string/cancel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/filter_apply_choose_pic"
+            style="@style/filter_apply_bottom_item_style"
+            android:text="@string/choose_pic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/filter_apply_tweaker"
+            style="@style/filter_apply_bottom_item_style"
+            android:text="@string/tweaker" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/filter_apply_export"
+            style="@style/filter_apply_bottom_item_style"
+            android:text="@string/export" />
+
+    </LinearLayout>
+
+</RelativeLayout>

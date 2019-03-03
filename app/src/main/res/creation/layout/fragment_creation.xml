@@ -67,18 +67,20 @@
             android:id="@+id/creation_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:editable="true"
-            app:focusableInTouchMode="true"
+            app:editable="false"
+            app:focusableInTouchMode="false"
             app:hint="@string/search_filter" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/creation_filter_class_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -86,16 +88,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/popular_search_filter"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp_15"
+                android:textSize="@dimen/sp_17"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/creation_popular_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>

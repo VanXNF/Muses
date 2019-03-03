@@ -10,9 +10,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
+import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.creation.contract.CreationContract;
 import com.victorxu.muses.creation.presenter.CreationPresenter;
 import com.victorxu.muses.creation.view.adapter.FilterClassAdapter;
+import com.victorxu.muses.creation.view.adapter.PopularSearchAdapter;
+import com.victorxu.muses.creation.view.entity.PopularSearchItem;
 import com.victorxu.muses.custom.SearchView;
 import com.victorxu.muses.gson.FilterClass;
 
@@ -34,8 +37,10 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
     private RecyclerView mRecyclerClass;
     private FilterClassAdapter mAdapterClass;
     private RecyclerView mRecyclerPopular;
+    private PopularSearchAdapter mAdapterPopular;
 
     private List<FilterClass.FilterClassBean> mFilterClassData = new ArrayList<>();
+    private List<PopularSearchItem> mPopularSearchData = new ArrayList<>();
     private CreationPresenter mPresenter;
 
     public static CreationFragment newInstance() {
@@ -72,12 +77,18 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
         mRecyclerClass.setLayoutManager(layoutManager);
         mAdapterClass = new FilterClassAdapter(mFilterClassData);
         mAdapterClass.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) -> {
-            // TODO: 2019/3/2 jump to filter class detail page
+            ((MainFragment) getParentFragment()).startBrotherFragment(FilterClassFragment.newInstance(
+                    mFilterClassData.get(position).getCategoryName(),
+                    FilterClassFragment.CATEGORY, mFilterClassData.get(position).getId()));
         });
         mRecyclerClass.setAdapter(mAdapterClass);
 
         mRecyclerPopular.setLayoutManager(new LinearLayoutManager(mActivity));
-
+        mAdapterPopular = new PopularSearchAdapter(mPopularSearchData);
+        mAdapterPopular.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(FilterApplyFragment.newInstance(mPopularSearchData.get(position).getId()))
+        );
+        mRecyclerPopular.setAdapter(mAdapterPopular);
     }
 
     @Override
@@ -91,8 +102,13 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
     }
 
     @Override
-    public void showPopularSearch() {
-
+    public void showPopularSearch(List<PopularSearchItem> data) {
+        mPopularSearchData.clear();
+        mPopularSearchData.addAll(data);
+        post(() -> {
+            mAdapterPopular.setNewData(mPopularSearchData);
+            mAdapterPopular.notifyDataSetChanged();
+        });
     }
 
     @Override

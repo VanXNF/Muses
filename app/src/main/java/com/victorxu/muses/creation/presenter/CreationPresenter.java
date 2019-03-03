@@ -56,5 +56,6 @@ public class CreationPresenter implements CreationContract.Presenter {
                 }
             }
         });
+        mView.showPopularSearch(mModel.getPopularSearchData());
     }
 }

@@ -5,4 +5,10 @@
     <string name="search_history">历史搜索</string>
     <string name="my_filter">我的滤镜</string>
     <string name="create_filter">创作滤镜</string>
+    <string name="choose_pic">选择图像</string>
+    <string name="tweaker">调整</string>
+    <string name="export">导出</string>
+    <string name="share_to_other_people">与他人分享图片</string>
+    <string name="save_change">保存</string>
+    <string name="create_copy_for_your_pic">为您的图片创建副本</string>
 </resources>
