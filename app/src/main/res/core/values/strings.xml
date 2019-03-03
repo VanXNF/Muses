@@ -7,4 +7,5 @@
     <string name="press_again_exit">再点击一次退出</string>
     <string name="data_error_please_try_again">数据异常，请稍后重试</string>
     <string name="network_error_please_try_again">网络异常，请稍后重试</string>
+    <string name="there_is_nothing_here">这里什么都没有</string>
 </resources>
