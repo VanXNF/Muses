@@ -1,9 +1,5 @@
 package com.victorxu.muses.creation.view.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.MaskFilter;
-
-import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,7 +12,8 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class PopularSearchAdapter extends BaseQuickAdapter<PopularSearchItem, BaseViewHolder> {
 
@@ -31,7 +28,7 @@ public class PopularSearchAdapter extends BaseQuickAdapter<PopularSearchItem, Ba
         GlideApp.with(mContext)
                 .load(item.getCoverImg())
                 .apply(RequestOptions.centerCropTransform())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
+                .apply(bitmapTransform(new RoundedCorners(20)))
                 .into((AppCompatImageView) helper.getView(R.id.item_popular_search_image));
     }
 }
