@@ -34,12 +34,20 @@
 - 导入开源库 simpleratingbar 0.1.5
 
 ## 2019-01-22
-- 更新开源库 BaseRecyclerViewAdapterHelper 2.9.44
-- 导入开源库 Gson 2.8.5
-- 导入开源库 SmartRefreshLayout 1.1.0-andx-2
-- 导入开源库 SmartRefreshHeader 1.1.0-andx-2
-- 导入开源库 flowlayout-lib 1.1.2
-- 导入开源库 okhttp 3.12.0
+- 更新开源库 `BaseRecyclerViewAdapterHelper 2.9.44`
+- 导入开源库 `Gson 2.8.5`
+- 导入开源库 `SmartRefreshLayout 1.1.0-andx-2`
+- 导入开源库 `SmartRefreshHeader 1.1.0-andx-2`
+- 导入开源库 `flowlayout-lib 1.1.2`
+- 导入开源库 `okhttp 3.12.0`
 
 ## 2019-03-01
-- 导入开源库 citypickerview 4.1.0
+- 导入开源库 `citypickerview 4.1.0`
+
+## 2019-03-03
+- 导入开源库 `glide-transformations 4.0.1`
+
+## 2019-03-04
+- 导入开源库 `tedbottompicker 2.0.0-alpha1'`
+- 导入开源库 `tedpermission 2.2.2`
+- 移除开源库 `tkrefreshlayout 1.0.7`

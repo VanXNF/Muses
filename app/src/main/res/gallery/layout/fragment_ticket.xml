@@ -65,11 +65,10 @@
 
     </LinearLayout>
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/ticket_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:tr_autoLoadMore="false">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ticket_recycler_view"
@@ -79,6 +78,6 @@
             android:layout_height="match_parent"
             android:overScrollMode="never" />
 
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

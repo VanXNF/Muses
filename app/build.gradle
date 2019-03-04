@@ -72,8 +72,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
 //    BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
-//    tkrefreshlayout
-    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 //    recyclerview-swipe
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
 //    simpleratingbar
@@ -91,6 +89,10 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
 //    citypickerview
     implementation 'liji.library.dev:citypickerview:4.1.0'
+//    tedbottompicker
+    implementation 'gun0912.ted:tedbottompicker:2.0.0-alpha1'
+//    tedpermission
+    implementation 'gun0912.ted:tedpermission:2.2.2'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
