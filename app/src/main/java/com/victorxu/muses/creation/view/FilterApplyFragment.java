@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.gyf.barlibrary.ImmersionBar;
@@ -63,7 +64,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter_apply, container, false);
-        mPresenter = new FilterApplyPresenter(this);
+        mPresenter = new FilterApplyPresenter(this, id);
         mPresenter.loadRootView(view);
         return view;
     }
@@ -102,18 +103,29 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         mTextCancel.setOnClickListener(v -> mActivity.onBackPressed());
         mTextChoosePic.setOnClickListener(v ->
             mBottomPicker.show((Uri uri) -> {
+                Log.d("PIC", "initRootView: " + uri.toString());
+                mPresenter.uploadData(uri);
                 showImage(uri.toString());
+
             })
         );
         mTextTweaker.setOnClickListener(v -> {});
-        mTextExport.setOnClickListener(v -> {});
+
+        View exportView = getLayoutInflater().inflate(R.layout.filter_apply_bottom_export, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(mActivity);
+        dialog.setContentView(exportView);
+        mTextExport.setOnClickListener(v -> {
+            dialog.show();
+        });
     }
 
     @Override
     public void showImage(String url) {
-        GlideApp.with(mActivity)
-                .load(url)
-                .into(mImgDisplay);
+        post(() -> {
+            GlideApp.with(mActivity)
+                    .load(url)
+                    .into(mImgDisplay);
+        });
     }
 
     @Override
@@ -139,5 +151,10 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     @Override
     public void initImmersionBar() {
         ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.filter_apply_display_image;
     }
 }

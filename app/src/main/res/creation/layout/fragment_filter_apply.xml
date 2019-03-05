@@ -6,7 +6,7 @@
     <com.victorxu.muses.custom.PinchImageView
         android:id="@+id/filter_apply_display_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/filter_bottom_container"
         android:layout_centerInParent="true" />
 
