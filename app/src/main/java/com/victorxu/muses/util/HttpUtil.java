@@ -2,7 +2,6 @@ package com.victorxu.muses.util;
 
 import java.util.Map;
 
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -12,7 +11,9 @@ import okhttp3.RequestBody;
 public class HttpUtil {
 //    "http://192.168.2.225:8080/"
 //    "http://120.79.162.134:7010/"
-    private static final String BASE_API = "http://muses.deepicecream.com:7010/";
+    public static final String WEB_SERVER = "http://muses.deepicecream.com:7010/";
+    public static final String FILTER_TRANSFER_SERVER = "http://art.deepiceream:7004/";
+    public static final String FILTER_TRAIN_SERVER = "http://art.deepiceream:7003/";
 
     /**
      * Get 方法
@@ -20,8 +21,12 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     public static void getRequest(String address, okhttp3.Callback callback) {
+        getRequest(WEB_SERVER, address, callback);
+    }
+
+    public static void getRequest(String server, String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(BASE_API + address).build();
+        Request request = new Request.Builder().url(server + address).build();
         client.newCall(request).enqueue(callback);
     }
 
@@ -34,6 +39,10 @@ public class HttpUtil {
      */
     @SuppressWarnings("ConstantConditions")
     public static void postRequest(String address, Map<String, String> map, okhttp3.Callback callback) {
+        postRequest(WEB_SERVER, address, map, callback);
+    }
+
+    public static void postRequest(String server, String address, Map<String, String> map, okhttp3.Callback callback) {
         OkHttpClient okHttpClient = new OkHttpClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         for (String key : map.keySet()) {
@@ -41,7 +50,7 @@ public class HttpUtil {
         }
         Request request = new Request.Builder()
                 .post(bodyBuilder.build())
-                .url(BASE_API + address)
+                .url(server + address)
                 .build();
         okHttpClient.newCall(request).enqueue(callback);
     }
@@ -53,11 +62,15 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     public static void postRequest(String address, String json, okhttp3.Callback callback) {
+        postRequest(WEB_SERVER, address, json, callback);
+    }
+
+    public static void postRequest(String server, String address, String json, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(BASE_API + address)
+                .url(server + address)
                 .post(requestBody)
                 .build();
         client.newCall(request).enqueue(callback);
@@ -69,10 +82,14 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     public static void deleteRequest(String address, okhttp3.Callback callback) {
+        deleteRequest(WEB_SERVER, address, callback);
+    }
+
+    public static void deleteRequest(String server, String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .delete()
-                .url(BASE_API + address)
+                .url(server + address)
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -84,11 +101,15 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     public static void putRequest(String address, String json, okhttp3.Callback callback) {
+        putRequest(WEB_SERVER, address, json, callback);
+    }
+
+    public static void putRequest(String server, String address, String json, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(BASE_API + address)
+                .url(server + address)
                 .put(body)
                 .build();
         client.newCall(request).enqueue(callback);

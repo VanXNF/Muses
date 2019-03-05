@@ -102,7 +102,6 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         mTextCancel.setOnClickListener(v -> mActivity.onBackPressed());
         mTextChoosePic.setOnClickListener(v ->
             mBottomPicker.show((Uri uri) -> {
-                Log.d("CHOOSE_IMG", "initRootView: " + uri.toString());
                 showImage(uri.toString());
             })
         );
