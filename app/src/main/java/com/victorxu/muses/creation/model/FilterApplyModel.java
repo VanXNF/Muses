@@ -1,6 +1,7 @@
 package com.victorxu.muses.creation.model;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.victorxu.muses.creation.contract.FilterApplyContract;
 import com.victorxu.muses.util.HttpUtil;
@@ -17,6 +18,8 @@ public class FilterApplyModel implements FilterApplyContract.Model {
 
     private int id;
 
+    private String filterUrl = "";
+
     public FilterApplyModel(int id) {
         this.id = id;
     }
@@ -27,5 +30,19 @@ public class FilterApplyModel implements FilterApplyContract.Model {
         Map<String, String> map = new HashMap<>();
         map.put("upload_id", String.valueOf(id));
         HttpUtil.postRequest(HttpUtil.FILTER_TRANSFER_SERVER, TRANSFER_API, file, map, callback);
+    }
+
+    @Override
+    public void setFilterUrl(String url) {
+        filterUrl = url;
+    }
+
+    @Override
+    public String getFilterUrl() {
+        if (!TextUtils.isEmpty(filterUrl)) {
+            return filterUrl;
+        } else {
+            return "";
+        }
     }
 }

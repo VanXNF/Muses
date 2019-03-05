@@ -9,11 +9,9 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.creation.contract.FilterApplyContract;
 import com.victorxu.muses.creation.model.FilterApplyModel;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,16 +35,29 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
     }
 
     @Override
-    public void loadDataToView() {
+    public void setListener() {
+        mView.initListener();
+    }
 
+    @Override
+    public void saveData() {
+        if (!TextUtils.isEmpty(mModel.getFilterUrl())) {
+            mView.saveFilterImage();
+        } else {
+            mView.showToast(R.string.please_choose_pic_first);
+        }
     }
 
     @Override
     public void uploadData(Uri uri) {
+        mView.showFilterImage(uri.getPath());
+        mView.showLoading();
         mModel.uploadImageData(uri, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: uploadImageData");
+                mView.hideLoading();
+                mView.showToast(R.string.network_error_please_try_again);
             }
 
             @Override
@@ -54,15 +65,18 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
                 try {
                     String data = response.body().string();
                     JSONObject jsonObject = new JSONObject(data);
-                    if (!TextUtils.isEmpty(jsonObject.getString("image"))) {
-                        mView.showImage(jsonObject.getString("image"));
+                    String url = jsonObject.getString("image");
+                    if (!TextUtils.isEmpty(url)) {
+                        mModel.setFilterUrl(url);
+                        mView.showFilterImage(url);
                     } else {
-                        mView.showToast(R.string.data_error_please_try_again);
+                        throw new Exception();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    mView.showToast(R.string.data_error_please_try_again);
+                } finally {
+                    mView.hideLoading();
                 }
             }
         });

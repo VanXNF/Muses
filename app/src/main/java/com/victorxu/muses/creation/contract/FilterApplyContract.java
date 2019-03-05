@@ -5,11 +5,15 @@ import android.net.Uri;
 public interface FilterApplyContract {
     interface Model {
         void uploadImageData(Uri uri, okhttp3.Callback callback);
+        void setFilterUrl(String url);
+        String getFilterUrl();
     }
 
     interface View {
         void initRootView(android.view.View view);
-        void showImage(String url);
+        void initListener();
+        void showFilterImage(String url);
+        void saveFilterImage();
         void showLoading();
         void hideLoading();
         void showToast(int resId);
@@ -18,7 +22,8 @@ public interface FilterApplyContract {
 
     interface Presenter {
         void loadRootView(android.view.View view);
-        void loadDataToView();
+        void setListener();
+        void saveData();
         void uploadData(Uri uri);
     }
 }

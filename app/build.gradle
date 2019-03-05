@@ -90,12 +90,12 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
 //    citypickerview
     implementation 'liji.library.dev:citypickerview:4.1.0'
-//    tedbottompicker
-//    implementation 'gun0912.ted:tedbottompicker:2.0.0-alpha1'
 //    tedpermission
     implementation 'gun0912.ted:tedpermission:2.2.2'
-
+//    tedactivityresult
     implementation 'gun0912.ted:tedonactivityresult:1.0.6'
+//    ucrop
+    implementation 'com.github.yalantis:ucrop:2.2.2-native'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
