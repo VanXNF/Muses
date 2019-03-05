@@ -14,10 +14,10 @@ import com.gun0912.tedpermission.TedPermission;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
-//import com.victorxu.muses.bottomImagepicker.BottomPicker;
 import com.victorxu.muses.creation.contract.FilterApplyContract;
 import com.victorxu.muses.creation.presenter.FilterApplyPresenter;
 import com.victorxu.muses.custom.PinchImageView;
+import com.victorxu.muses.custom.bottompicker.BottomPicker;
 import com.victorxu.muses.glide.GlideApp;
 
 import java.util.List;
@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
+
 public class FilterApplyFragment extends BaseFragment implements FilterApplyContract.View {
 
     private PinchImageView mImgDisplay;
@@ -33,7 +34,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     private AppCompatTextView mTextChoosePic;
     private AppCompatTextView mTextTweaker;
     private AppCompatTextView mTextExport;
-//    private BottomPicker.Builder mBottomPicker;
+    private BottomPicker.Builder mBottomPicker;
     private FilterApplyPresenter mPresenter;
 
     private int id;
@@ -74,6 +75,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
             @Override
             public void onPermissionGranted() {
                 mPresenter.loadDataToView();
+                mTextChoosePic.callOnClick();
             }
 
             @Override
@@ -96,20 +98,16 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         mTextChoosePic = view.findViewById(R.id.filter_apply_choose_pic);
         mTextTweaker = view.findViewById(R.id.filter_apply_tweaker);
         mTextExport = view.findViewById(R.id.filter_apply_export);
-//        mBottomPicker = BottomPicker.with(mActivity);
+        mBottomPicker = BottomPicker.with(mActivity);
         mTextCancel.setOnClickListener(v -> mActivity.onBackPressed());
-        mTextChoosePic.setOnClickListener(v -> {}
-//            mBottomPicker.show((Uri uri) -> {
-//                Log.d("CHOOSE_IMG", "initRootView: " + uri.toString());
-//                showImage(uri.toString());
-//            })
+        mTextChoosePic.setOnClickListener(v ->
+            mBottomPicker.show((Uri uri) -> {
+                Log.d("CHOOSE_IMG", "initRootView: " + uri.toString());
+                showImage(uri.toString());
+            })
         );
         mTextTweaker.setOnClickListener(v -> {});
         mTextExport.setOnClickListener(v -> {});
-//        mBottomPicker.show((Uri uri) -> {
-//            Log.d("CHOOSE_IMG", "initRootView: " + uri.toString());
-//            showImage(uri.toString());
-//        });
     }
 
     @Override

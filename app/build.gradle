@@ -33,7 +33,8 @@ android {
                     'src/main/res/shopping_cart',
                     'src/main/res/custom/search_view',
                     'src/main/res/custom/advanced_image_view',
-                    'src/main/res/custom/bottom_bar'
+                    'src/main/res/custom/bottom_bar',
+                    'src/main/res/custom/bottom_picker'
             ]
         }
     }
@@ -90,9 +91,11 @@ dependencies {
 //    citypickerview
     implementation 'liji.library.dev:citypickerview:4.1.0'
 //    tedbottompicker
-    implementation 'gun0912.ted:tedbottompicker:2.0.0-alpha1'
+//    implementation 'gun0912.ted:tedbottompicker:2.0.0-alpha1'
 //    tedpermission
     implementation 'gun0912.ted:tedpermission:2.2.2'
+
+    implementation 'gun0912.ted:tedonactivityresult:1.0.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
