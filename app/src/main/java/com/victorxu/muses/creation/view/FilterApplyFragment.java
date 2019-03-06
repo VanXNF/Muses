@@ -131,10 +131,13 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         });
 
         View exportView = getLayoutInflater().inflate(R.layout.filter_apply_bottom_export, null);
-        mViewExportSave = exportView.findViewById(R.id.filter_apply_bottom_save);
-        mViewExportSave.setOnClickListener(v -> mPresenter.saveData());
         BottomSheetDialog dialog = new BottomSheetDialog(mActivity);
         dialog.setContentView(exportView);
+        mViewExportSave = exportView.findViewById(R.id.filter_apply_bottom_save);
+        mViewExportSave.setOnClickListener(v -> {
+            mPresenter.saveData();
+            dialog.dismiss();
+        });
         mTextExport.setOnClickListener(v -> dialog.show());
         mTextChoosePic.callOnClick();
     }
@@ -158,7 +161,11 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
 
     @Override
     public void saveFilterImage() {
-        FileUtil.saveImageToGallery(mActivity, mBitmapData);
+        if (FileUtil.saveImageToGallery(mActivity, mBitmapData)) {
+            showToast(R.string.save_success);
+        } else {
+            showToast(R.string.save_fail);
+        }
     }
 
     @Override
