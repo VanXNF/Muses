@@ -15,10 +15,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
+import com.victorxu.muses.MainActivity;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.InfoContract;
 import com.victorxu.muses.account.presenter.InfoPresenter;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
+import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.UserInfo;
 
@@ -104,7 +106,12 @@ public class UserInfoFragment extends BaseSwipeBackFragment implements InfoContr
         mTxtQuit.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
             builder.setMessage(getString(R.string.are_you_sure_to_quit))
-                    .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> mPresenter.quit())
+                    .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> {
+                        mPresenter.quit();
+                        LoginByPWDFragment fragment = LoginByPWDFragment.newInstance();
+                        fragment.addLoginListener((MainActivity) getActivity());
+                        startWithPop(fragment);
+                    })
                     .setNegativeButton(getString(R.string.cancel), (DialogInterface dialog, int id) -> {
                     });
             builder.show();

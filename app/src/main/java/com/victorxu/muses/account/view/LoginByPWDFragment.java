@@ -10,7 +10,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.presenter.AccountPresenter;
-import com.victorxu.muses.base.BaseFragment;
+import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.core.view.MainFragment;
 
 import androidx.annotation.NonNull;
@@ -20,7 +20,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
-public class LoginByPWDFragment extends BaseFragment implements AccountContract.View {
+public class LoginByPWDFragment extends BaseMainFragment implements AccountContract.View {
 
     private AppCompatTextView mTextSkip;
     private AppCompatEditText mEditMobile;
@@ -95,6 +95,8 @@ public class LoginByPWDFragment extends BaseFragment implements AccountContract.
         mBtnQQ.setOnClickListener(v -> showToast("敬请期待"));
         mBtnWeChat.setOnClickListener(v -> showToast("敬请期待"));
         mBtnWeiBo.setOnClickListener(v -> showToast("敬请期待"));
+
+        mTextSkip.setVisibility(View.GONE);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.victorxu.muses.MainActivity;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.view.LoginByPWDFragment;
@@ -135,12 +136,7 @@ public class MainFragment extends BaseFragment implements MainContract.View {
     public void startToAccountFragment() {
 //        RegisterFragment fragment = RegisterFragment.newInstance();
         LoginByPWDFragment  fragment = LoginByPWDFragment.newInstance();
-        fragment.addLoginListener(new AccountContract.LoginListener() {
-            @Override
-            public void onLoginSuccess() {
-                post(() -> Toast.makeText(mActivity, "Welcome Victor Xu", Toast.LENGTH_SHORT).show());
-            }
-        });
+        fragment.addLoginListener((MainActivity) getActivity());
         startBrotherFragment(fragment);
     }
 

@@ -1,7 +1,8 @@
 package com.victorxu.muses;
 
 import android.os.Bundle;
-
+import android.text.TextUtils;
+import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
@@ -9,10 +10,12 @@ import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.base.BaseActivity;
+import com.victorxu.muses.util.SharedPreferencesUtil;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements AccountContract.LoginListener{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,8 +28,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressedSupport() {
-        super.onBackPressedSupport();
+    public void onLoginSuccess() {
+        String userName = (String) SharedPreferencesUtil.get(this, "UserName", "");
+        if (!TextUtils.isEmpty(userName)) {
+            post(() -> Toast.makeText(this,getText(R.string.welcome) + userName, Toast.LENGTH_SHORT).show());
+        }
     }
 
     @Override
