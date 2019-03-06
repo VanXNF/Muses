@@ -16,4 +16,12 @@
     <string name="please_choose_pic_first">请先选择图像</string>
     <string name="save_fail">保存失败</string>
     <string name="save_success">保存成功</string>
+    <string name="filter_name">滤镜名称</string>
+    <string name="brush_size">笔刷大小</string>
+    <string name="style_pic">风格图片</string>
+    <string name="brush_intensity">风格强度</string>
+    <string name="smooth">平滑度</string>
+    <string name="upload_success_please_check_it_in_my_filter_page">提交成功，请从[我的滤镜]页面查看滤镜训练状态</string>
+    <string name="upload_failed_please_try_again">提交失败，请稍后重试</string>
+    <string name="please_input_filter_name_first">请输入滤镜名称</string>
 </resources>

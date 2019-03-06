@@ -89,6 +89,10 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
                 ((MainFragment) getParentFragment()).startBrotherFragment(FilterApplyFragment.newInstance(mPopularSearchData.get(position).getId()))
         );
         mRecyclerPopular.setAdapter(mAdapterPopular);
+
+        mTextNewFilter.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(CreateFilterFragment.newInstance())
+        );
     }
 
     @Override
