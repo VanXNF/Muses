@@ -58,27 +58,29 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    ShoppingCart cart = new Gson().fromJson(response.body().string(), ShoppingCart.class);
-                    if (cart != null) {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        ShoppingCart cart = new Gson().fromJson(response.body().string(), ShoppingCart.class);
                         if (cart.getCode().equals("OK")) {
                             mModel.setShoppingCartData(cart.getData());
+                        } else {
+                            mView.showToast(cart.getMessage());
+                        }
+                        if (!mModel.checkDataStatus()) {
+                            mView.hideShoppingCart();
+                            mView.showEmptyView();
+                        } else {
                             mView.hideEmptyView();
                             mView.showShoppingCart();
                             changeCartMode(isEditMode);
-                            Log.d(TAG, "onResponse: getCartData");
-                        } else {
-                            if (!mModel.checkDataStatus()) {
-                                mView.hideShoppingCart();
-                                mView.showEmptyView();
-                            }
-                            mView.showToast(cart.getMessage());
                         }
-                    } else {
+                    } catch (IOException e) {
                         Log.w(TAG, "onResponse: getCartData DATA ERROR");
                         mView.showToast(R.string.data_store_error_please_login_again);
+                        e.printStackTrace();
+                    } finally {
+                        mView.hideLoading();
                     }
-                    mView.hideLoading();
                 }
             });
         }
@@ -105,108 +107,6 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                     mView.showBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
                 } else {
                     Log.w(TAG, "onResponse: getProductData DATA ERROR");
-                    mView.showToast(R.string.data_error_please_try_again);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void removeDataFromView() {
-        mModel.deleteCartData(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: delete all checked");
-                mView.showToast(R.string.network_error_please_try_again);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (!status.getCode().equals("OK")) {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
-                    mView.showToast(R.string.data_error_please_try_again);
-                }
-            }
-        });
-        mView.showCartItem(mModel.getShoppingCartData());
-        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
-    }
-
-    @Override
-    public void removeDataFromView(int position) {
-        mModel.deleteCartData(position, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: delete");
-                mView.showToast(R.string.network_error_please_try_again);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (!status.getCode().equals("OK")) {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
-                    mView.showToast(R.string.data_error_please_try_again);
-                }
-            }
-        });
-        mView.showCartItem(mModel.getShoppingCartData());
-        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
-    }
-
-    @Override
-    public void collectDataFromView() {
-        mModel.addCartDataToFavorite(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: addCartDataToFavorite");
-                mView.showToast(R.string.network_error_please_try_again);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (status.getCode().equals("OK") && status.getData() != null) {
-                        mView.showToast(status.getMessage());
-                    } else {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
-                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
-                    mView.showToast(R.string.data_error_please_try_again);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void collectDataFromView(int position) {
-        mModel.addCartDataToFavorite(position, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: addCartDataToFavorite");
-                mView.showToast(R.string.network_error_please_try_again);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (status.getCode().equals("OK") && status.getData() != null) {
-                        mView.showToast(status.getMessage());
-                    } else {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
-                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
                 }
             }
@@ -266,6 +166,116 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         mView.showToast(status.getMessage());
                     }
                 } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void removeDataFromView() {
+        mModel.deleteCartData(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: delete all checked");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                    if (!mModel.checkDataStatus()) {
+                        mView.hideShoppingCart();
+                        mView.showEmptyView();
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+        mView.showCartItem(mModel.getShoppingCartData());
+        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
+    }
+
+    @Override
+    public void removeDataFromView(int position) {
+        mModel.deleteCartData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: delete");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (!status.getCode().equals("OK")) {
+                        mView.showToast(status.getMessage());
+                    }
+                    if (!mModel.checkDataStatus()) {
+                        mView.hideShoppingCart();
+                        mView.showEmptyView();
+                    }
+                } else {
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+        mView.showCartItem(mModel.getShoppingCartData());
+        mView.showPrice(String.valueOf(mModel.getTotalPrice()));
+    }
+
+    @Override
+    public void collectDataFromView() {
+        mModel.addCartDataToFavorite(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: addCartDataToFavorite");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("OK") && status.getData() != null) {
+                        mView.showToast(status.getMessage());
+                    } else {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
+                    mView.showToast(R.string.data_error_please_try_again);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void collectDataFromView(int position) {
+        mModel.addCartDataToFavorite(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: addCartDataToFavorite");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Status status = new Gson().fromJson(response.body().string(), Status.class);
+                if (status != null) {
+                    if (status.getCode().equals("OK") && status.getData() != null) {
+                        mView.showToast(status.getMessage());
+                    } else {
+                        mView.showToast(status.getMessage());
+                    }
+                } else {
+                    Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
                 }
             }

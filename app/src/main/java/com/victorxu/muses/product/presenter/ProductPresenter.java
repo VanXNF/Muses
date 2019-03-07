@@ -117,18 +117,17 @@ public class ProductPresenter implements ProductContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String json = response.body().string();
-                    Log.d(TAG, "onResponse: " + json);
-                    Status status = new Gson().fromJson(json, Status.class);
-                    if (status != null) {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        Status status = new Gson().fromJson(response.body().string(), Status.class);
                         if (status.getCode().equals("OK")) {
                             mView.showToast(R.string.add_shopping_cart_success);
                         } else {
                             mView.showToast(status.getMessage());
                         }
-                    } else {
+                    } catch (IOException e) {
                         mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
                     }
                 }
             });

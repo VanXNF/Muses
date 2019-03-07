@@ -98,8 +98,14 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     }
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+    public void onSupportVisible() {
+        super.onSupportVisible();
         mPresenter.loadDataToView(false);
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
     }
 
     @Override
@@ -244,9 +250,63 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    private void initBottomSheet() {
+        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+        View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
+        mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
+        mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
+        mStyleTipText = styleView.findViewById(R.id.bottom_sheet_product_preview_select_info);
+        mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
+        mStyleConfirmButton = styleView.findViewById(R.id.bottom_sheet_product_style_confirm);
+        mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
+        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
+            String key;
+            if (parameter.getImage() != null) {
+                key = "颜色分类";
+                if (isSelected) {
+                    post(() -> GlideApp.with(mActivity)
+                            .load(parameter.getImage())
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(mStylePreviewImage)
+                    );
+                } else {
+                    post(() ->
+                            GlideApp.with(mActivity)
+                                    .load(mCartData.get(mPosition).getData().getCommodity().getCoverImage())
+                                    .apply(RequestOptions.centerCropTransform())
+                                    .into(mStylePreviewImage)
+                    );
+                }
+            } else {
+                key = "尺寸";
+            }
+            mSelectFlag.put(key, isSelected);
+            if (isSelected) {
+                mSelectData.put(key, parameter.getValue());
+            } else {
+                mSelectData.remove(key);
+            }
+            if (checkSelectFlag()) {
+                mStyleTipText.setText("已选择 " + getSelectDetail());
+            } else {
+                mStyleTipText.setText("请选择 尺寸、颜色分类");
+            }
+        });
+        mStyleRecycler.setAdapter(mStyleAdapter);
+        mStyleDialog.setContentView(styleView);
+        mStyleConfirmButton.setOnClickListener((v -> {
+            if (checkSelectFlag()) {
+                mPresenter.updateData(mPosition, getSelectDetail());
+                mStyleDialog.cancel();
+            } else {
+                if (mSelectFlag.get("尺寸")) {
+                    showToast("请选择颜色分类");
+                } else {
+                    showToast("请选择尺寸");
+                }
+            }
+        }));
     }
 
     private void initRecyclerView() {
@@ -332,65 +392,6 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecycler.setAdapter(mAdapter);
         mRecycler.setAutoLoadMore(false);
-    }
-
-    private void initBottomSheet() {
-        mStyleDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
-        View styleView = getLayoutInflater().inflate(R.layout.bottom_dialog_style, null);
-        mStylePreviewImage = styleView.findViewById(R.id.bottom_sheet_product_preview_image);
-        mStylePreviewPriceText = styleView.findViewById(R.id.bottom_sheet_product_preview_price);
-        mStyleTipText = styleView.findViewById(R.id.bottom_sheet_product_preview_select_info);
-        mStyleRecycler = styleView.findViewById(R.id.bottom_sheet_product_style_recycler_view);
-        mStyleConfirmButton = styleView.findViewById(R.id.bottom_sheet_product_style_confirm);
-        mStyleRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-        mStyleAdapter = new StyleSelectAdapter(mStyleSelectData);
-        mStyleAdapter.setOnTagItemClickListener((int index, Commodity.CommodityDetail.AttributesBean.ParametersBean parameter, boolean isSelected) -> {
-            String key;
-            if (parameter.getImage() != null) {
-                key = "颜色分类";
-                if (isSelected) {
-                    post(() -> GlideApp.with(mActivity)
-                            .load(parameter.getImage())
-                            .apply(RequestOptions.centerCropTransform())
-                            .into(mStylePreviewImage)
-                    );
-                } else {
-                    post(() ->
-                            GlideApp.with(mActivity)
-                                    .load(mCartData.get(mPosition).getData().getCommodity().getCoverImage())
-                                    .apply(RequestOptions.centerCropTransform())
-                                    .into(mStylePreviewImage)
-                    );
-                }
-            } else {
-                key = "尺寸";
-            }
-            mSelectFlag.put(key, isSelected);
-            if (isSelected) {
-                mSelectData.put(key, parameter.getValue());
-            } else {
-                mSelectData.remove(key);
-            }
-            if (checkSelectFlag()) {
-                mStyleTipText.setText("已选择 " + getSelectDetail());
-            } else {
-                mStyleTipText.setText("请选择 尺寸、颜色分类");
-            }
-        });
-        mStyleRecycler.setAdapter(mStyleAdapter);
-        mStyleDialog.setContentView(styleView);
-        mStyleConfirmButton.setOnClickListener((v -> {
-            if (checkSelectFlag()) {
-                mPresenter.updateData(mPosition, getSelectDetail());
-                mStyleDialog.cancel();
-            } else {
-                if (mSelectFlag.get("尺寸")) {
-                    showToast("请选择颜色分类");
-                } else {
-                    showToast("请选择尺寸");
-                }
-            }
-        }));
     }
 
     private boolean checkSelectFlag() {
