@@ -4,13 +4,21 @@ import android.net.Uri;
 
 public interface FilterCreateContract {
     interface Model {
-        void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth, Uri uri, okhttp3.Callback callback);
+        Uri getFilterUri();
+
+        void setFilterUri(Uri uri);
+
+        void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth, okhttp3.Callback callback);
     }
 
     interface View {
         void initRootView(android.view.View view);
 
         void initListener();
+
+        void showImage(String url);
+
+        void showPicker();
 
         void quit();
 
@@ -24,6 +32,8 @@ public interface FilterCreateContract {
 
         void loadListener();
 
-        void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth, Uri uri);
+        void updateImageUri(Uri uri);
+
+        void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth);
     }
 }

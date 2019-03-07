@@ -1,14 +1,19 @@
 package com.victorxu.muses.creation.view;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
@@ -20,6 +25,8 @@ import com.victorxu.muses.util.CropUtil;
 import com.victorxu.muses.util.FileUtil;
 import com.xw.repo.BubbleSeekBar;
 import com.yalantis.ucrop.UCrop;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +43,6 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
     private AppCompatImageView mImgBack;
     private FloatingActionButton mFABtnAction;
     private FilterCreatePresenter mPresenter;
-
-    private Uri mImageUri = null;
 
     public static CreateFilterFragment newInstance() {
         return new CreateFilterFragment();
@@ -63,24 +68,35 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
         mFABtnAction.setOnClickListener(v -> {
             mEditFilterName.clearFocus();
             hideSoftInput();
-            if (mImageUri != null) {
-                mPresenter.uploadFilter(mEditFilterName.getText().toString(),
-                        mSeekerBrushSize.getProgress(), mSeekerBrushIntensity.getProgress(),
-                        mSeekerSmooth.getProgress(), mImageUri);
-            } else {
-                BottomPicker.with(mActivity)
-                        .show((Uri uri) -> CropUtil.startUCrop(mActivity, this, uri.getPath(),
-                                CropUtil.CROP_CODE, CropUtil.MAX_WIDTH, CropUtil.MAX_HEIGHT));
-            }
+            mPresenter.uploadFilter(mEditFilterName.getText().toString(),
+                    mSeekerBrushSize.getProgress(), mSeekerBrushIntensity.getProgress(),
+                    mSeekerSmooth.getProgress());
         });
         mImgDisplay.setOnClickListener(v -> {
             mEditFilterName.clearFocus();
             hideSoftInput();
-            BottomPicker.with(mActivity)
-                    .show((Uri uri) -> CropUtil.startUCrop(mActivity, this, uri.getPath(),
-                            CropUtil.CROP_CODE, CropUtil.MAX_WIDTH, CropUtil.MAX_HEIGHT));
+            showPicker();
         });
 
+    }
+
+    @Override
+    public void showImage(String url) {
+        post(() -> {
+            GlideApp.with(mActivity)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(mImgDisplay);
+            mFABtnAction.setImageResource(R.drawable.ic_cloud_upload_white_24dp);
+        });
+    }
+
+    @Override
+    public void showPicker() {
+        BottomPicker.with(mActivity)
+                .show((Uri uri) -> CropUtil.startUCrop(mActivity, this, uri.getPath(),
+                        CropUtil.CROP_CODE, CropUtil.MAX_WIDTH, CropUtil.MAX_HEIGHT));
     }
 
     @Override
@@ -108,7 +124,23 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
     @Override
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
-        mPresenter.loadListener();
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                mPresenter.loadListener();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                showToast(R.string.can_not_use_this_function_without_permission);
+                pop();
+            }
+        };
+        TedPermission.with(mActivity)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage(getString(R.string.if_you_reject_permission_you_can_not_use_this_service_please_turn_on_permissions_at_Setting_Permission))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
     }
 
     @Override
@@ -124,13 +156,8 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropUtil.CROP_CODE && resultCode == RESULT_OK) {
-            mImageUri = UCrop.getOutput(data);
-            post(() -> {
-                GlideApp.with(mActivity).load(mImageUri).into(mImgDisplay);
-                mFABtnAction.setImageResource(R.drawable.ic_cloud_upload_white_24dp);
-            });
+            mPresenter.updateImageUri(UCrop.getOutput(data));
         }
-
     }
 
     @Nullable

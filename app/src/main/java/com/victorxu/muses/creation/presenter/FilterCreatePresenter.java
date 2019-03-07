@@ -39,26 +39,36 @@ public class FilterCreatePresenter implements FilterCreateContract.Presenter {
     }
 
     @Override
-    public void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth, Uri uri) {
-        if (!TextUtils.isEmpty(filterName)) {
-            mModel.uploadFilter(filterName, brushSize, brushIntensity, smooth, uri, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "onFailure: uploadFilter");
-                    mView.showToast(R.string.network_error_please_try_again);
-                }
+    public void updateImageUri(Uri uri) {
+        mModel.setFilterUri(uri);
+        mView.showImage(uri.getPath());
+    }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    int code = response.code();
-                    if (code == 200) {
-                        mView.showToast(R.string.upload_success_please_check_it_in_my_filter_page);
-                        mView.quit();
-                    } else {
-                        mView.showToast(R.string.upload_failed_please_try_again);
+    @Override
+    public void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth) {
+        if (!TextUtils.isEmpty(filterName)) {
+            if (mModel.getFilterUri() != null) {
+                mModel.uploadFilter(filterName, brushSize, brushIntensity, smooth, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "onFailure: uploadFilter");
+                        mView.showToast(R.string.network_error_please_try_again);
                     }
-                }
-            });
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        int code = response.code();
+                        if (code == 200) {
+                            mView.showToast(R.string.upload_success_please_check_it_in_my_filter_page);
+                            mView.quit();
+                        } else {
+                            mView.showToast(R.string.upload_failed_please_try_again);
+                        }
+                    }
+                });
+            } else {
+                mView.showPicker();
+            }
         } else {
             mView.showToast(R.string.please_input_filter_name_first);
         }

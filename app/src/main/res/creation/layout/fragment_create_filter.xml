@@ -79,7 +79,7 @@
                     app:bsb_bubble_text_color="@color/white"
                     app:bsb_max="768"
                     app:bsb_min="256"
-                    app:bsb_progress="256"
+                    app:bsb_progress="512"
                     app:bsb_second_track_color="@color/red"
                     app:bsb_section_count="2"
                     app:bsb_section_text_position="bottom_sides"
