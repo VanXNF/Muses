@@ -46,8 +46,8 @@ public class FilterCreatePresenter implements FilterCreateContract.Presenter {
 
     @Override
     public void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth) {
-        if (!TextUtils.isEmpty(filterName)) {
-            if (mModel.getFilterUri() != null) {
+        if (mModel.getFilterUri() != null) {
+            if (!TextUtils.isEmpty(filterName)) {
                 mModel.uploadFilter(filterName, brushSize, brushIntensity, smooth, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -67,10 +67,11 @@ public class FilterCreatePresenter implements FilterCreateContract.Presenter {
                     }
                 });
             } else {
-                mView.showPicker();
+                mView.showToast(R.string.please_input_filter_name_first);
             }
         } else {
-            mView.showToast(R.string.please_input_filter_name_first);
+            mView.showPicker();
         }
+
     }
 }
