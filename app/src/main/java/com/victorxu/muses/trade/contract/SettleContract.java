@@ -42,6 +42,8 @@ public interface SettleContract {
 
         void loadDefaultAddress();
 
+        void loadAddress(Address.AddressBean data);
+
         void loadCartItemOfCart(List<ShoppingCart.CartItemBean> data);
 
         void updateAddressId(int addressId);

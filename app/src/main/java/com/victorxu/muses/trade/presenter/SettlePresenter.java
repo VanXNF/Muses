@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
+import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.gson.Status;
@@ -50,6 +51,7 @@ public class SettlePresenter implements SettleContract.Presenter {
                 try {
                     DefaultAddress address = new Gson().fromJson(response.body().string(), DefaultAddress.class);
                     if (address.getCode().equals("OK")) {
+                        mModel.updateAddressId(address.getData().getId());
                         mView.showAddress(address.getData());
                     }
                 } catch (IOException e) {
@@ -58,6 +60,11 @@ public class SettlePresenter implements SettleContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void loadAddress(Address.AddressBean data) {
+        mView.showAddress(data);
     }
 
     @Override

@@ -36,9 +36,27 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     private AddressPresenter mPresenter;
 
     private List<Address.AddressBean> mAddressData = new ArrayList<>();
+    private boolean isChooseMode = false;
 
     public static AddressFragment newInstance() {
         return new AddressFragment();
+    }
+
+    public static AddressFragment newInstance(boolean isChooseMode) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("MODE", isChooseMode);
+        AddressFragment fragment = new AddressFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isChooseMode = bundle.getBoolean("MODE");
+        }
     }
 
     @Nullable
@@ -54,53 +72,6 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenter.loadDataToView();
-    }
-
-    @Override
-    public void initRootView(View view) {
-        mToolbar = view.findViewById(R.id.address_toolbar);
-        mRecycler = view.findViewById(R.id.address_recycler_view);
-        
-        mToolbar.inflateMenu(R.menu.menu_address);
-        mToolbar.setNavigationOnClickListener((v) -> mActivity.onBackPressed());
-
-        mToolbar.setOnMenuItemClickListener((MenuItem item) -> {
-            int id = item.getItemId();
-            if (id == R.id.menu_address_new) {
-                startForResult(EditAddressFragment.newInstance(), REQUEST_ADD);
-            }
-            return false;
-        });
-
-        mAdapter = new AddressAdapter(mAddressData);
-        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
-            int id = v.getId();
-            if (id == R.id.item_address_edit) {
-                startForResult(EditAddressFragment.newInstance(mAddressData.get(position)), REQUEST_EDIT);
-            }
-        });
-        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecycler.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void showAddress(List<Address.AddressBean> data) {
-        mAddressData.clear();
-        mAddressData.addAll(data);
-        post(() -> {
-            mAdapter.setNewData(mAddressData);
-            mAdapter.notifyDataSetChanged();
-        });
-    }
-
-    @Override
-    public void showToast(int resId) {
-        showToast(getText(resId));
-    }
-
-    @Override
-    public void showToast(CharSequence text) {
-        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -136,5 +107,61 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     @Override
     protected int setTitleBar() {
         return R.id.address_toolbar;
+    }
+
+    @Override
+    public void initRootView(View view) {
+        mToolbar = view.findViewById(R.id.address_toolbar);
+        mRecycler = view.findViewById(R.id.address_recycler_view);
+
+        mToolbar.inflateMenu(R.menu.menu_address);
+        mToolbar.setNavigationOnClickListener((v) -> mActivity.onBackPressed());
+
+        mToolbar.setOnMenuItemClickListener((MenuItem item) -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_address_new) {
+                startForResult(EditAddressFragment.newInstance(), REQUEST_ADD);
+            }
+            return false;
+        });
+
+        mAdapter = new AddressAdapter(mAddressData);
+        if (isChooseMode) {
+            mAdapter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("DATA", mAddressData.get(position));
+                setFragmentResult(RESULT_OK, bundle);
+                pop();
+            });
+        }
+
+        mAdapter.setOnItemChildClickListener((BaseQuickAdapter adapter, View v, int position) -> {
+            int id = v.getId();
+            if (id == R.id.item_address_edit) {
+                startForResult(EditAddressFragment.newInstance(mAddressData.get(position)), REQUEST_EDIT);
+            }
+        });
+        mRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecycler.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showAddress(List<Address.AddressBean> data) {
+        mAddressData.clear();
+        mAddressData.addAll(data);
+        post(() -> {
+            mAdapter.setNewData(mAddressData);
+            mAdapter.notifyDataSetChanged();
+        });
+    }
+
+    @Override
+    public void showToast(int resId) {
+        showToast(getText(resId));
+    }
+
+    @Override
+    public void showToast(CharSequence text) {
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 }

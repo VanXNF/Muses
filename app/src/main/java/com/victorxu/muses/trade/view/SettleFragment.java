@@ -13,6 +13,7 @@ import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
 import com.victorxu.muses.gson.ShoppingCart;
+import com.victorxu.muses.mine.view.AddressFragment;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.presenter.SettlePresenter;
 import com.victorxu.muses.trade.view.adapter.SettleAdapter;
@@ -30,6 +31,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SettleFragment extends BaseFragment implements SettleContract.View {
+
+    private final int REQUEST_CHOOSE = -1;
 
     private Toolbar mToolbarSettle;
     private View mViewAddressPicker;
@@ -70,6 +73,16 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenterSettle.loadDefaultAddress();
         mPresenterSettle.loadCartItemOfCart(mOrderData.getOrderData());
+        mPresenterSettle.updateCartIds(mOrderData.getCartIds());
+    }
+
+    @Override
+    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        if (requestCode == REQUEST_CHOOSE && resultCode == RESULT_OK) {
+            Address.AddressBean address = (Address.AddressBean) data.getSerializable("DATA");
+            mPresenterSettle.loadAddress(address);
+            mPresenterSettle.updateAddressId(address.getId());
+        }
     }
 
     @Override
@@ -104,9 +117,10 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         mRecyclerSettle = view.findViewById(R.id.settle_order_recycler_view);
 
         mToolbarSettle.setNavigationOnClickListener(v -> mActivity.onBackPressed());
-        mViewAddressPicker.setOnClickListener(v -> {
-        });
+        mViewAddressPicker.setOnClickListener(v ->
+                startForResult(AddressFragment.newInstance(true), REQUEST_CHOOSE));
         mTextSubmit.setOnClickListener(v -> {
+//            mPresenterSettle.submitOrder();
         });
 
         mRecyclerSettle.setLayoutManager(new LinearLayoutManager(mActivity));
