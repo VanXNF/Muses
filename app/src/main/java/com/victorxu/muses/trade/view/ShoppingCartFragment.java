@@ -1,7 +1,6 @@
-package com.victorxu.muses.shopping_cart.view;
+package com.victorxu.muses.trade.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.core.view.MainFragment;
@@ -25,10 +23,10 @@ import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.product.view.ProductFragment;
 import com.victorxu.muses.product.view.adapter.StyleSelectAdapter;
 import com.victorxu.muses.product.view.entity.StyleSelectItem;
-import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
-import com.victorxu.muses.shopping_cart.presenter.ShoppingCartPresenter;
-import com.victorxu.muses.shopping_cart.view.adapter.ShoppingCartAdapter;
-import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.trade.contract.ShoppingCartContract;
+import com.victorxu.muses.trade.presenter.ShoppingCartPresenter;
+import com.victorxu.muses.trade.view.adapter.ShoppingCartAdapter;
+import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
@@ -160,7 +158,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
     @Override
     public void hideLoading() {
-        mRefreshLayout.finishRefresh();
+        mRefreshLayout.finishRefresh(1000);
     }
 
     @Override

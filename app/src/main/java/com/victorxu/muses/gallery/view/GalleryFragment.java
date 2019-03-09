@@ -65,11 +65,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     private ArrayList<ListCommodity.CommodityListModel> mHotProductData = new ArrayList<>();
 
     public static GalleryFragment newInstance() {
-        Bundle args = new Bundle();
-//        args.putParcelable();
-        GalleryFragment fragment = new GalleryFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new GalleryFragment();
     }
 
     @Nullable
@@ -86,6 +82,16 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         if (mPresenter != null) {
             mPresenter.loadDataToView();
         }
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.gallery_page_bar;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -158,7 +164,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
 
         mImageButton = view.findViewById(R.id.button_customer_service);
         mImageButton.setOnClickListener((v) ->
-            ((MainFragment) getParentFragment()).startBrotherFragment(MessageListFragment.newInstance())
+                ((MainFragment) getParentFragment()).startBrotherFragment(MessageListFragment.newInstance())
         );
 
         mRefreshLayout = view.findViewById(R.id.refresh_gallery);
@@ -258,8 +264,8 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
 
     @Override
     public void hideLoading() {
-        post(()->{
-            mRefreshLayout.finishRefresh(2000);
+        post(() -> {
+            mRefreshLayout.finishRefresh(1000);
             mRefreshLayout.setEnableLoadMore(true);
             mFooterView.setVisibility(View.GONE);
         });
@@ -275,7 +281,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         mRefreshLayout.finishLoadMore(500);
         if (isEnd) {
             mFooterView.setVisibility(View.VISIBLE);
-            mRefreshLayout.postDelayed(()->mRefreshLayout.setEnableLoadMore(false),500);
+            mRefreshLayout.postDelayed(() -> mRefreshLayout.setEnableLoadMore(false), 500);
         }
     }
 
@@ -287,15 +293,5 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.gallery_page_bar;
     }
 }

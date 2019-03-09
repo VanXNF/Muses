@@ -1,4 +1,4 @@
-package com.victorxu.muses.shopping_cart.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
 import com.victorxu.muses.glide.GlideApp;
-import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class ShoppingCartAdapter extends BaseQuickAdapter<ShoppingCartProduct, B
                 .into((AppCompatImageView) helper.getView(R.id.cart_image_item));
 
 
-        helper.getView(R.id.cart_item_number_control).setVisibility(item.isEditedMode()? View.GONE : View.VISIBLE);
+        helper.getView(R.id.cart_item_number_control).setVisibility(item.isEditedMode() ? View.GONE : View.VISIBLE);
 
         helper.getView(R.id.cart_attr_container_edit_mode).setVisibility(item.isEditedMode() ? View.VISIBLE : View.GONE);
 

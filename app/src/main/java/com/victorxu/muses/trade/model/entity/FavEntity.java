@@ -1,4 +1,4 @@
-package com.victorxu.muses.shopping_cart.model.entity;
+package com.victorxu.muses.trade.model.entity;
 
 public class FavEntity {
     private String src; // 图片地址

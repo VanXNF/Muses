@@ -5,12 +5,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.MainActivity;
 import com.victorxu.muses.R;
-import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.view.LoginByPWDFragment;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.core.contract.MainContract;
@@ -21,7 +18,7 @@ import com.victorxu.muses.custom.BottomBarTab;
 import com.victorxu.muses.custom.BottomTabSelectedEvent;
 import com.victorxu.muses.gallery.view.GalleryFragment;
 import com.victorxu.muses.mine.view.MineFragment;
-import com.victorxu.muses.shopping_cart.view.ShoppingCartFragment;
+import com.victorxu.muses.trade.view.ShoppingCartFragment;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
 import androidx.annotation.NonNull;

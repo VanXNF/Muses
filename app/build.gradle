@@ -30,7 +30,7 @@ android {
                     'src/main/res/custom',
                     'src/main/res/search',
                     'src/main/res/product',
-                    'src/main/res/shopping_cart',
+                    'src/main/res/trade',
                     'src/main/res/custom/search_view',
                     'src/main/res/custom/advanced_image_view',
                     'src/main/res/custom/bottom_bar',

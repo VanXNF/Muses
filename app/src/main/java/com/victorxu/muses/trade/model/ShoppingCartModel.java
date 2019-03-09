@@ -1,4 +1,4 @@
-package com.victorxu.muses.shopping_cart.model;
+package com.victorxu.muses.trade.model;
 
 
 import android.content.Context;
@@ -8,8 +8,8 @@ import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.product.view.entity.StyleSelectItem;
-import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
-import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.trade.contract.ShoppingCartContract;
+import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
@@ -115,6 +115,20 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     }
 
     @Override
+    public void changeCartMode(boolean isEditMode) {
+        for (int i = 0; i < mData.size(); i++) {
+            mData.get(i).setEditedMode(isEditMode);
+        }
+    }
+
+    @Override
+    public void checkAllData(boolean isCheckedAll) {
+        for (int i = 0; i < mData.size(); i++) {
+            mData.get(i).setChecked(isCheckedAll);
+        }
+    }
+
+    @Override
     public int getTotalPrice() {
         int sum = 0;
         for (int i = 0; i < mData.size(); i++) {
@@ -131,17 +145,8 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     }
 
     @Override
-    public void changeCartMode(boolean isEditMode) {
-        for (int i = 0; i < mData.size(); i++) {
-            mData.get(i).setEditedMode(isEditMode);
-        }
-    }
-
-    @Override
-    public void checkAllData(boolean isCheckedAll) {
-        for (int i = 0; i < mData.size(); i++) {
-            mData.get(i).setChecked(isCheckedAll);
-        }
+    public List<ShoppingCartProduct> getShoppingCartData() {
+        return mData;
     }
 
     @Override
@@ -150,11 +155,6 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
         for (int i = 0; i < data.size(); i++) {
             mData.add(new ShoppingCartProduct(data.get(i)));
         }
-    }
-
-    @Override
-    public List<ShoppingCartProduct> getShoppingCartData() {
-        return mData;
     }
 
     @Override

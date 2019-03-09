@@ -1,4 +1,4 @@
-package com.victorxu.muses.shopping_cart.view.entity;
+package com.victorxu.muses.trade.view.entity;
 
 import com.victorxu.muses.gson.ShoppingCart;
 

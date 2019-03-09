@@ -1,4 +1,4 @@
-package com.victorxu.muses.shopping_cart.presenter;
+package com.victorxu.muses.trade.presenter;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,13 +9,10 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.gson.Status;
-import com.victorxu.muses.shopping_cart.contract.ShoppingCartContract;
-import com.victorxu.muses.shopping_cart.model.ShoppingCartModel;
-import com.victorxu.muses.shopping_cart.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.trade.contract.ShoppingCartContract;
+import com.victorxu.muses.trade.model.ShoppingCartModel;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
