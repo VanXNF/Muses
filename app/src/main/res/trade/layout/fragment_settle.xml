@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/settle_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+            app:title="@string/confirm_order">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/settle_address_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:padding="@dimen/dp_15">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/settle_address_icon_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_gray_24dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settle_address_text_consignee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_toEndOf="@id/settle_address_icon_location"
+                android:paddingStart="@dimen/dp_0"
+                android:paddingEnd="@dimen/dp_5"
+                android:text="@string/consignee_with_colon"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settle_address_text_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/settle_address_text_consignee"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_toStartOf="@id/settle_address_image_right"
+                android:layout_toEndOf="@id/settle_address_text_consignee"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settle_address_text_shipping_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settle_address_text_consignee"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_toStartOf="@id/settle_address_image_right"
+                android:layout_toEndOf="@id/settle_address_icon_location"
+                android:paddingStart="@dimen/dp_0"
+                android:paddingEnd="@dimen/dp_5"
+                android:text="@string/shipping_address_with_colon"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/settle_address_image_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_keyboard_arrow_right_gray_24dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settle_address_text_choose_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/settle_address_image_right"
+                android:layout_toEndOf="@id/settle_address_icon_location"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15"
+                android:text="@string/click_to_choose_address"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_15" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/settle_order_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/settle_order_view"
+            android:layout_below="@id/settle_address_view" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settle_order_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="@dimen/dp_5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total"
+                    android:textSize="@dimen/sp_13" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settle_order_text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:drawableStart="@drawable/yuan_red_small"
+                    android:textColor="@color/dark_red"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settle_order_text_submit_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dark_red"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingEnd="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="@string/submit_order"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</LinearLayout>

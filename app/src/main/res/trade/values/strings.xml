@@ -12,4 +12,14 @@
     <string name="zero">0</string>
     <string name="shopping_cart_is_empty">购物车空空如也</string>
     <string name="go">去逛逛</string>
+    <string name="confirm_order">确认订单</string>
+    <string name="consignee_with_colon">收货人：</string>
+    <string name="shipping_address_with_colon">收货地址：</string>
+    <string name="click_to_choose_address">点击选择地址</string>
+    <string name="submit_order">提交订单</string>
+    <string name="x">x</string>
+    <string name="buyer_message_with_colon">买家留言：</string>
+    <string name="option_content_must_to_confirm_with_seller">选填：内容需与卖方确认</string>
+    <string name="delivery_method">配送方式</string>
+    <string name="express_delivery">快递</string>
 </resources>

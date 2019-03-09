@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_15"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_5">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_white"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_5">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_settle_image_order"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:layout_centerVertical="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_settle_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_toEndOf="@id/item_settle_image_order"
+            android:maxLines="3"
+            android:text="这是一个商品名称样字段，这个商品样例名称最长为三行文字，以下部分为重复填充字数测试部分。"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_settle_text_attr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_settle_text_title"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toEndOf="@id/item_settle_image_order"
+            android:maxLines="2"
+            android:text="这是一个商品所选属性的样例字段，所选属性字段最长为两行"
+            android:textColor="@color/light_gray" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_settle_text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_settle_text_attr"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toEndOf="@id/item_settle_image_order"
+            android:drawableStart="@drawable/yuan_red_small"
+            android:textColor="@color/dark_red"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_settle_text_price"
+            android:layout_toStartOf="@id/item_settle_text_number"
+            android:text="@string/x"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_14" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_settle_text_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_settle_text_price"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dp_5"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_10">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="@string/delivery_method"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_13" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_settle_text_delivery_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/express_delivery"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_13" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/light_white"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_10">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buyer_message_with_colon"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_13" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/item_settle_edit_buyer_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="@string/option_content_must_to_confirm_with_seller"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/sp_13" />
+    </LinearLayout>
+
+</LinearLayout>

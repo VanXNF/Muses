@@ -98,14 +98,20 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
-                    mView.showBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
+                    if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
+                        mView.showBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
+                    } else {
+                        throw new IOException();
+                    }
+                } catch (IOException e) {
                     Log.w(TAG, "onResponse: getProductData DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -130,15 +136,17 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
-                } else {
+                } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -156,13 +164,13 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
-                } else {
+                } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
                 }
             }
@@ -180,8 +188,8 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
@@ -189,9 +197,11 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         mView.hideShoppingCart();
                         mView.showEmptyView();
                     }
-                } else {
+                } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
         mView.showCartItem(mModel.getShoppingCartData());
@@ -208,9 +218,9 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
@@ -218,9 +228,11 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         mView.hideShoppingCart();
                         mView.showEmptyView();
                     }
-                } else {
+                } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
         mView.showCartItem(mModel.getShoppingCartData());
@@ -238,17 +250,15 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (status.getCode().equals("OK") && status.getData() != null) {
-                        mView.showToast(status.getMessage());
-                    } else {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    mView.showToast(status.getMessage());
+                } catch (IOException e) {
                     Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -263,18 +273,16 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
-                    if (status.getCode().equals("OK") && status.getData() != null) {
-                        mView.showToast(status.getMessage());
-                    } else {
-                        mView.showToast(status.getMessage());
-                    }
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    mView.showToast(status.getMessage());
+                } catch (IOException e) {
                     Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -292,5 +300,10 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
         mModel.checkAllData(isCheckedAll);
         mView.showCartItem(mModel.getShoppingCartData());
         mView.showPrice(String.valueOf(mModel.getTotalPrice()));
+    }
+
+    @Override
+    public void settleShoppingCart() {
+        mView.showSettleFragment(mModel.getCheckedData());
     }
 }

@@ -44,6 +44,8 @@ public interface ShoppingCartContract {
         void setShoppingCartData(List<ShoppingCart.CartItemBean> data);
 
         List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans);
+
+        List<ShoppingCart.CartItemBean> getCheckedData();
     }
 
     interface View {
@@ -68,6 +70,8 @@ public interface ShoppingCartContract {
         void showEmptyView();
 
         void hideEmptyView();
+
+        void showSettleFragment(List<ShoppingCart.CartItemBean> data);
 
         void showToast(int resId);
 
@@ -100,5 +104,7 @@ public interface ShoppingCartContract {
         void changeCartMode(boolean isEditMode);
 
         void checkAllData(boolean isCheckedAll);
+
+        void settleShoppingCart();
     }
 }

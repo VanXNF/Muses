@@ -20,12 +20,14 @@ import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.Commodity;
+import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.product.view.ProductFragment;
 import com.victorxu.muses.product.view.adapter.StyleSelectAdapter;
 import com.victorxu.muses.product.view.entity.StyleSelectItem;
 import com.victorxu.muses.trade.contract.ShoppingCartContract;
 import com.victorxu.muses.trade.presenter.ShoppingCartPresenter;
 import com.victorxu.muses.trade.view.adapter.ShoppingCartAdapter;
+import com.victorxu.muses.trade.view.entity.SettleOrderBean;
 import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -144,11 +146,8 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
             mPresenter.removeDataFromView();
             mCheckAll.setChecked(false);
         });
-        mBtnSettle.setOnClickListener((v) -> {
-            // TODO: 18-10-31 结算金额
-        });
+        mBtnSettle.setOnClickListener((v) -> mPresenter.settleShoppingCart());
         mBtnCollect.setOnClickListener((v) -> mPresenter.collectDataFromView());
-
     }
 
     @Override
@@ -236,6 +235,11 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     @Override
     public void hideEmptyView() {
         post(() -> mEmptyView.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void showSettleFragment(List<ShoppingCart.CartItemBean> data) {
+        ((MainFragment) getParentFragment()).startBrotherFragment(SettleFragment.newInstance(new SettleOrderBean(data)));
     }
 
     @Override

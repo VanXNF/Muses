@@ -165,4 +165,15 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
         }
         return styleSelectItems;
     }
+
+    @Override
+    public List<ShoppingCart.CartItemBean> getCheckedData() {
+        List<ShoppingCart.CartItemBean> checkedData = new ArrayList<>();
+        for (ShoppingCartProduct data : mData) {
+            if (data.isChecked()) {
+                checkedData.add(data.getData());
+            }
+        }
+        return checkedData;
+    }
 }
