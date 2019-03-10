@@ -85,27 +85,32 @@ public class SettlePresenter implements SettleContract.Presenter {
 
     @Override
     public void submitOrder() {
-        mModel.updateOrderData(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: updateOrderData");
-                mView.showToast(R.string.network_error_please_try_again);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    Status status = new Gson().fromJson(response.body().string(), Status.class);
-                    if (status.getCode().equals("OK")) {
-                        mView.showPayPage();
-                    } else {
-                        mView.showToast(status.getMessage());
-                    }
-                } catch (IOException e) {
-                    mView.showToast(R.string.data_error_please_try_again);
-                    e.printStackTrace();
+        if (mModel.checkAddressStatus()) {
+            mModel.updateOrderData(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: updateOrderData");
+                    mView.showToast(R.string.network_error_please_try_again);
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) {
+                    try {
+                        Status status = new Gson().fromJson(response.body().string(), Status.class);
+                        if (status.getCode().equals("OK")) {
+                            mView.showPayPage();
+                        } else {
+                            mView.showToast(status.getMessage());
+                        }
+                    } catch (IOException e) {
+                        mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            mView.showToast(R.string.please_choose_address_first);
+        }
+
     }
 }

@@ -129,7 +129,6 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mRefreshLayout.setRefreshHeader(new MaterialHeader(mActivity));
         mRefreshLayout.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> {
             mPresenter.reloadDataToView(cartMode);
-            mCheckAll.setChecked(false);
         });
 
         initBottomSheet();
@@ -152,7 +151,8 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
     @Override
     public void showLoading() {
-        mRefreshLayout.autoRefreshAnimationOnly();
+        mRefreshLayout.autoRefresh(100, 500, 1.2f, true);
+        mCheckAll.setChecked(false);
     }
 
     @Override

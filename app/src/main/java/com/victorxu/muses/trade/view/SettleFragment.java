@@ -1,5 +1,7 @@
 package com.victorxu.muses.trade.view;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 
+import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
 import com.victorxu.muses.gson.ShoppingCart;
@@ -20,11 +24,16 @@ import com.victorxu.muses.trade.view.adapter.SettleAdapter;
 import com.victorxu.muses.trade.view.entity.SettleOrderBean;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +52,13 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     private RecyclerView mRecyclerSettle;
     private AppCompatTextView mTextTotalPrice;
     private AppCompatTextView mTextSubmit;
+    private AdvancedBottomSheetDialog mBottomSheetDialog;
+    private View mViewPay;
+    private AppCompatTextView mTextOrderTime;
+    private AppCompatTextView mTextOrderPrice;
+    private AppCompatTextView mTextOrderSigner;
+    private AppCompatTextView mTextOrderPhone;
+    private AppCompatButton mBtnPayOrder;
 
     private SettleAdapter mAdapterSettle;
     private SettleOrderBean mOrderData;
@@ -119,9 +135,7 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         mToolbarSettle.setNavigationOnClickListener(v -> mActivity.onBackPressed());
         mViewAddressPicker.setOnClickListener(v ->
                 startForResult(AddressFragment.newInstance(true), REQUEST_CHOOSE));
-        mTextSubmit.setOnClickListener(v -> {
-//            mPresenterSettle.submitOrder();
-        });
+        mTextSubmit.setOnClickListener(v -> mPresenterSettle.submitOrder());
 
         mRecyclerSettle.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapterSettle = new SettleAdapter(new ArrayList<>());
@@ -173,7 +187,40 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
 
     @Override
     public void showPayPage() {
+        post(() -> {
+            AtomicBoolean isPay = new AtomicBoolean(false);
+            mBottomSheetDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+            mViewPay = getLayoutInflater().inflate(R.layout.bottom_pay, null);
+            mTextOrderTime = mViewPay.findViewById(R.id.pay_order_text_time);
+            mTextOrderSigner = mViewPay.findViewById(R.id.pay_order_text_signer_person);
+            mTextOrderPhone = mViewPay.findViewById(R.id.pay_order_text_phone);
+            mTextOrderPrice = mViewPay.findViewById(R.id.pay_order_text_price);
+            mBtnPayOrder = mViewPay.findViewById(R.id.pay_order_button_pay);
 
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mTextOrderTime.setText(sdf.format(new Date()));
+            String consignee = mTextConsignee.getText().toString();
+            mTextOrderSigner.setText(consignee.substring(consignee.indexOf('：') + 1));
+            mTextOrderPhone.setText(mTextPhone.getText());
+            mTextOrderPrice.setText(mTextTotalPrice.getText());
+
+            mBtnPayOrder.setOnClickListener(v -> {
+                isPay.set(true);
+                mBottomSheetDialog.dismiss();
+
+            });
+            mBottomSheetDialog.setContentView(mViewPay);
+
+            mBottomSheetDialog.setOnDismissListener((DialogInterface dialog) -> {
+                if (isPay.get()) {
+                    showToast(R.string.order_pay_success);
+                } else {
+                    showToast(R.string.order_do_not_finish_please_check_in_my_order_page);
+                }
+                popTo(MainFragment.class, false);
+            });
+            mBottomSheetDialog.show();
+        });
     }
 
     @Override

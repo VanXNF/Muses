@@ -1,6 +1,7 @@
 package com.victorxu.muses.trade.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.gson.ShoppingCart;
@@ -20,8 +21,8 @@ public class SettleModel implements SettleContract.Model {
     private final String ORDER_API = "api/order/";
 
     private Context context;
-    private int addressId;
-    private List<Integer> cartIds;
+    private int addressId = 0;
+    private List<Integer> cartIds = new ArrayList<>();
 
     public SettleModel(Context context) {
         this.context = context;
@@ -39,6 +40,7 @@ public class SettleModel implements SettleContract.Model {
         entity.setUserId((int) SharedPreferencesUtil.get(context, "UserId", 0));
         entity.setAddressId(addressId);
         entity.setCartIds(cartIds);
+        Log.d("CART_ORDER", new Gson().toJson(entity));
         HttpUtil.postRequest(ORDER_API, new Gson().toJson(entity), callback);
     }
 
@@ -49,7 +51,7 @@ public class SettleModel implements SettleContract.Model {
 
     @Override
     public void updateCartIds(List<Integer> cartIds) {
-        this.cartIds = new ArrayList<>();
+        this.cartIds.clear();
         this.cartIds.addAll(cartIds);
     }
 
@@ -60,5 +62,10 @@ public class SettleModel implements SettleContract.Model {
             sum += (item.getCommodity().getDiscountPrice() * item.getNumber());
         }
         return String.valueOf(sum);
+    }
+
+    @Override
+    public boolean checkAddressStatus() {
+        return addressId != 0;
     }
 }

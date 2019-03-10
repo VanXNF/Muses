@@ -17,6 +17,8 @@ public interface SettleContract {
         void updateCartIds(List<Integer> cartIds);
 
         String getOrderPrice(List<ShoppingCart.CartItemBean> data);
+
+        boolean checkAddressStatus();
     }
 
     interface View {
