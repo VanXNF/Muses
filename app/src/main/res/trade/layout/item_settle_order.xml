@@ -27,6 +27,7 @@
             android:id="@+id/item_settle_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_12"
             android:layout_marginStart="@dimen/dp_15"
             android:layout_toEndOf="@id/item_settle_image_order"
             android:maxLines="3"
@@ -42,6 +43,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:layout_toEndOf="@id/item_settle_image_order"
             android:maxLines="2"
+            android:textSize="@dimen/sp_10"
             android:text="这是一个商品所选属性的样例字段，所选属性字段最长为两行"
             android:textColor="@color/light_gray" />
 
