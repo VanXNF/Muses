@@ -18,7 +18,7 @@ public interface ProductContract {
         List<String> getAttributeInfoData(String information);
         String getSelectDetail();
         void updateStyleSelectNumber(int number);
-        void updateStyleSelectDetail(String key, String value, boolean isSelected);
+        void updateStyleSelectDetail(String key, String value, int parameterId, boolean isSelected);
         boolean checkUserStatus();
         void setFavoriteId(int id);
     }
@@ -44,6 +44,6 @@ public interface ProductContract {
         void addToFavorite();
         void removeFromFavorite();
         void updateStyleSelectNumber(int number);
-        void updateStyleSelectDetail(String key, String value, boolean isSelected, boolean isCompleted);
+        void updateStyleSelectDetail(String key, String value, int parameterId, boolean isSelected, boolean isCompleted);
     }
 }

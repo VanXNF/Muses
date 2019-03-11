@@ -38,7 +38,7 @@ public class ShoppingCartAdapter extends BaseQuickAdapter<ShoppingCartProduct, B
                 .addOnClickListener(R.id.cart_attr_container_edit_mode);
 
         GlideApp.with(mContext)
-                .load(item.getData().getCommodity().getCoverImage())
+                .load(item.getData().getImage())
                 .apply(RequestOptions.centerCropTransform())
                 .into((AppCompatImageView) helper.getView(R.id.cart_image_item));
 

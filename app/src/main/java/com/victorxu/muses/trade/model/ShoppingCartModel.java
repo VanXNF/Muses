@@ -110,8 +110,9 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     }
 
     @Override
-    public void updateData(int position, String detail) {
+    public void updateData(int position, String detail, String parameter) {
         mData.get(position).getData().setDetail(detail);
+        mData.get(position).getData().setParameter(parameter);
     }
 
     @Override

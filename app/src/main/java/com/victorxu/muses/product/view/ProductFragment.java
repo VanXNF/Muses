@@ -214,10 +214,10 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                     );
                 }
                 mSelectFlag.put("颜色分类", isSelected);
-                mPresenter.updateStyleSelectDetail("颜色分类", parameter.getValue(), isSelected, checkSelectFlag());
+                mPresenter.updateStyleSelectDetail("颜色分类", parameter.getValue(), parameter.getId(), isSelected, checkSelectFlag());
             } else {
                 mSelectFlag.put("尺寸", isSelected);
-                mPresenter.updateStyleSelectDetail("尺寸", parameter.getValue(), isSelected, checkSelectFlag());
+                mPresenter.updateStyleSelectDetail("尺寸", parameter.getValue(), parameter.getId(), isSelected, checkSelectFlag());
             }
         });
         mStyleAdapter.setOnNumberSelectListener((int number) -> mPresenter.updateStyleSelectNumber(number));

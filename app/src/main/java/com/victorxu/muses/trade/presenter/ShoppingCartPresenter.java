@@ -152,8 +152,8 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     }
 
     @Override
-    public void updateData(int position, String detail) {
-        mModel.updateData(position, detail);
+    public void updateData(int position, String detail, String parameter) {
+        mModel.updateData(position, detail, parameter);
         mView.showCartItem(mModel.getShoppingCartData());
         mView.showPrice(String.valueOf(mModel.getTotalPrice()));
         mModel.updateCartData(position, new Callback() {

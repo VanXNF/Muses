@@ -78,6 +78,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private List<ShoppingCartProduct> mCartData = new ArrayList<>();
     private List<StyleSelectItem> mStyleSelectData = new ArrayList<>();
     private Map<String, Boolean> mSelectFlag = new HashMap<>();
+    private Map<String, Integer> mSelectParameter = new HashMap<>();
     private Map<String, String> mSelectData = new HashMap<>();
     private int mLastPosition = -1;
     private int mPosition = -1;
@@ -286,8 +287,10 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
             mSelectFlag.put(key, isSelected);
             if (isSelected) {
                 mSelectData.put(key, parameter.getValue());
+                mSelectParameter.put(key, parameter.getId());
             } else {
                 mSelectData.remove(key);
+                mSelectParameter.remove(key);
             }
             if (checkSelectFlag()) {
                 mStyleTipText.setText("已选择 " + getSelectDetail());
@@ -299,7 +302,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mStyleDialog.setContentView(styleView);
         mStyleConfirmButton.setOnClickListener((v -> {
             if (checkSelectFlag()) {
-                mPresenter.updateData(mPosition, getSelectDetail());
+                mPresenter.updateData(mPosition, getSelectDetail(), getSelectParameter());
                 mStyleDialog.cancel();
             } else {
                 if (mSelectFlag.get("尺寸")) {
@@ -355,6 +358,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
                     if (mLastPosition != mPosition) {
                         mPresenter.loadStyleSelectData(mPosition);
                         mSelectData.clear();
+                        mSelectParameter.clear();
                         mSelectFlag.put("尺寸", false);
                         mSelectFlag.put("颜色分类", false);
                     }
@@ -406,5 +410,16 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         s = s.replace('=', ':');
         s = s.replace(", ", ";");
         return s;
+    }
+
+    private String getSelectParameter() {
+        StringBuilder builder = new StringBuilder();
+        for (Integer value : mSelectParameter.values()) {
+            builder.append(value);
+            builder.append(',');
+        }
+        String s = builder.toString();
+        return s.substring(0, s.lastIndexOf(','));
+
     }
 }

@@ -2,6 +2,8 @@ package com.victorxu.muses.product.model;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.gson.Collection;
@@ -33,6 +35,7 @@ public class ProductModel implements ProductContract.Model {
     private int id;
     private int userId = 0;
     private int number = 1;
+    private Map<String, Integer> parameter = new HashMap<>();
     private Map<String, String> detail = new HashMap<>();
     private int favId = 0;
 
@@ -56,8 +59,7 @@ public class ProductModel implements ProductContract.Model {
     @Override
     public void addProductDataToCart(Callback callback) {
         ShoppingCart.CartItemBean entity = new ShoppingCart.CartItemBean();
-        entity.setId(1);
-        entity.setParameterId(1);
+        entity.setParameter(getParameterId());
         entity.setUserId(userId);
         entity.setCommodityId(id);
         entity.setDetail(getSelectDetail());
@@ -72,16 +74,16 @@ public class ProductModel implements ProductContract.Model {
     }
 
     @Override
-    public void removeProductDataFromFavorite(Callback callback) {
-        HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
-    }
-
-    @Override
     public void addProductDataToFavorite(Callback callback) {
         Collection.CollectionBean entity = new Collection.CollectionBean();
         entity.setUserId(userId);
         entity.setCommodityId(id);
         HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
+    }
+
+    @Override
+    public void removeProductDataFromFavorite(Callback callback) {
+        HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
     }
 
     @Override
@@ -103,27 +105,29 @@ public class ProductModel implements ProductContract.Model {
     }
 
     @Override
-    public void updateStyleSelectNumber(int number) {
-        this.number = number;
-    }
-
-    @Override
-    public void updateStyleSelectDetail(String key, String value, boolean isSelected) {
-        if (isSelected) {
-            detail.put(key, value);
-        } else {
-            detail.remove(key);
-        }
-
-    }
-
-    @Override
     public String getSelectDetail() {
         String s = detail.toString();
         s = s.substring(s.indexOf('{') + 1, s.lastIndexOf('}'));
         s = s.replace('=', ':');
         s = s.replace(", ", ";");
         return s;
+    }
+
+    @Override
+    public void updateStyleSelectNumber(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public void updateStyleSelectDetail(String key, String value, int parameterId, boolean isSelected) {
+        if (isSelected) {
+            detail.put(key, value);
+            parameter.put(key, parameterId);
+        } else {
+            detail.remove(key);
+            parameter.remove(key);
+        }
+
     }
 
     @Override
@@ -135,5 +139,15 @@ public class ProductModel implements ProductContract.Model {
     @Override
     public void setFavoriteId(int id) {
         favId = id;
+    }
+
+    private String getParameterId() {
+        StringBuilder builder = new StringBuilder();
+        for (Integer value : parameter.values()) {
+            builder.append(value);
+            builder.append(',');
+        }
+        String s = builder.toString();
+        return s.substring(0, s.lastIndexOf(','));
     }
 }

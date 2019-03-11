@@ -196,8 +196,8 @@ public class ProductPresenter implements ProductContract.Presenter {
     }
 
     @Override
-    public void updateStyleSelectDetail(String key, String value, boolean isSelected, boolean isCompleted) {
-        mModel.updateStyleSelectDetail(key, value, isSelected);
+    public void updateStyleSelectDetail(String key, String value, int parameterId, boolean isSelected, boolean isCompleted) {
+        mModel.updateStyleSelectDetail(key, value, parameterId, isSelected);
         if (isCompleted) {
             mView.showSelectDetail("已选择 " + mModel.getSelectDetail());
         } else {

@@ -45,7 +45,8 @@ public class ShoppingCart {
          * commodity : {"id":15,"name":"纯手绘油画玫瑰花餐厅玄关装饰画书房客厅壁画手工定制挂画大尺寸","discountPrice":478,"brief":"玫瑰花开 喜气自来 情投意合 举案齐眉","coverImage":"https://img.alicdn.com/imgextra/i4/2114401509/TB10PFMm4HI8KJjy1zbXXaxdpXa_!!0-item_pic.jpg"}
          * commodityId : 15
          * detail : 尺寸:90*150;颜色分类:B款白色PU;
-         * parameterId : 1
+         * parameter : 1
+         * image: *****
          */
 
         private int id;
@@ -54,7 +55,8 @@ public class ShoppingCart {
         private CommodityBean commodity;
         private int commodityId;
         private String detail;
-        private int parameterId;
+        private String parameter;
+        private String image;
 
         public int getId() {
             return id;
@@ -104,12 +106,20 @@ public class ShoppingCart {
             this.detail = detail;
         }
 
-        public int getParameterId() {
-            return parameterId;
+        public String getParameter() {
+            return parameter;
         }
 
-        public void setParameterId(int parameterId) {
-            this.parameterId = parameterId;
+        public void setParameter(String parameter) {
+            this.parameter = parameter;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
         }
 
         public static class CommodityBean {

@@ -29,7 +29,7 @@ public interface ShoppingCartContract {
 
         void updateData(int position, int number);
 
-        void updateData(int position, String detail);
+        void updateData(int position, String detail, String parameter);
 
         void changeCartMode(boolean isEditMode);
 
@@ -91,7 +91,7 @@ public interface ShoppingCartContract {
 
         void updateData(int position, int number);
 
-        void updateData(int position, String detail);
+        void updateData(int position, String detail, String parameter);
 
         void removeDataFromView();
 
