@@ -1,15 +1,18 @@
 package com.victorxu.muses.trade.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import com.victorxu.muses.trade.presenter.ProductPresenter;
 import com.victorxu.muses.trade.view.adapter.AttributeInfoAdapter;
 import com.victorxu.muses.trade.view.adapter.PromotionAdapter;
 import com.victorxu.muses.trade.view.adapter.StyleSelectAdapter;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 import com.victorxu.muses.trade.view.entity.PromotionItem;
 import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.youth.banner.Banner;
@@ -145,6 +149,17 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.product_page_bar;
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
     public void initRootView(View view) {
         mToolBar = view.findViewById(R.id.product_page_bar);
         mProductBack = view.findViewById(R.id.product_back);
@@ -204,6 +219,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                             .apply(RequestOptions.centerCropTransform())
                             .into(mStylePreviewImage)
                     );
+                    mPresenter.updateProductImage(parameter.getImage());
                 } else {
                     post(() ->
                             GlideApp.with(mActivity)
@@ -235,12 +251,21 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
             }
         });
         mStyleBuyNowButton.setOnClickListener((v) -> {
-            // TODO: 2019/2/14 直接购买商品 
+            if (checkSelectFlag()) {
+                mPresenter.buyNow();
+                mStyleDialog.cancel();
+            } else {
+                if (mSelectFlag.get("尺寸")) {
+                    showToast("请选择颜色分类");
+                } else {
+                    showToast("请选择尺寸");
+                }
+            }
         });
         mStyleConfirmButton.setOnClickListener((v -> {
             if (checkSelectFlag()) {
                 if (isBuy) {
-                    // TODO: 2019/2/14 直接购买商品
+                    mPresenter.buyNow();
                 } else {
                     mPresenter.addToCart();
                 }
@@ -255,9 +280,9 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         }));
         mStyleView.setOnClickListener((v) -> {
             styleView.post(() -> {
-               mStyleConfirmButton.setVisibility(View.GONE);
-               mStyleAddToCartButton.setVisibility(View.VISIBLE);
-               mStyleBuyNowButton.setVisibility(View.VISIBLE);
+                mStyleConfirmButton.setVisibility(View.GONE);
+                mStyleAddToCartButton.setVisibility(View.VISIBLE);
+                mStyleBuyNowButton.setVisibility(View.VISIBLE);
             });
             mStyleDialog.show();
         });
@@ -313,6 +338,8 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 mPresenter.removeFromFavorite();
             }
         });
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override
@@ -365,7 +392,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                     .apply(RequestOptions.circleCropTransform())
                     .into(mEvaluationUserAvatar);
             mEvaluationUserName.setText(model.getUsername());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             mEvaluationDate.setText(sdf.format(new Date(model.getDate())));
             mEvaluationContent.setText(model.getContent());
             mEvaluationOrderInfo.setText(model.getCommodityInfo().split(" ")[0]);
@@ -425,6 +452,11 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     }
 
     @Override
+    public void showSettleFragment(ProductSettleOrderBean data) {
+        start(SettleFragment.newInstance(data));
+    }
+
+    @Override
     public void showToast(int resId) {
         showToast(getText(resId));
     }
@@ -434,14 +466,48 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    private void setTabClickListener() {
+        List<Integer> tabTitles = new ArrayList<>();
+        tabTitles.add(R.string.product);
+        tabTitles.add(R.string.comment);
+        tabTitles.add(R.string.detail);
+
+        for (int i = 0; i < 3; i++) {
+            mTabLayout.addTab(mTabLayout.newTab());
+        }
+
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null) {
+                TextView textView = new TextView(mActivity);
+                textView.setText(tabTitles.get(i));
+                textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                textView.setTextColor(getResources().getColor(R.color.black));
+                tab.setCustomView(textView);
+                if (tab.getCustomView() != null) {
+                    View tabView = (View) tab.getCustomView().getParent();
+                    tabView.setTag(i);
+                    tabView.setOnClickListener((v) -> {
+                        int position = (int) tabView.getTag();
+                        switch (position) {
+                            case 0:
+                                mScrollView.fullScroll(ScrollView.FOCUS_UP);
+                                break;
+                            case 1:
+                                mScrollView.smoothScrollTo(0, mSideEvaluation.getTop() - mToolBar.getHeight());
+                                break;
+                            case 2:
+                                mScrollView.smoothScrollTo(0, mSideDetail.getTop() - mToolBar.getHeight());
+                                break;
+                        }
+                    });
+                }
+            }
+        }
     }
 
-    @Override
-    protected int setTitleBar() {
-        return R.id.product_page_bar;
+    private boolean checkSelectFlag() {
+        return !mSelectFlag.containsValue(false);
     }
 
     private void setScrollViewListener() {
@@ -511,49 +577,5 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
                 }
             }
         });
-    }
-
-    private void setTabClickListener() {
-        List<Integer> tabTitles = new ArrayList<>();
-        tabTitles.add(R.string.product);
-        tabTitles.add(R.string.comment);
-        tabTitles.add(R.string.detail);
-
-        for (int i = 0; i < 3; i++) {
-            mTabLayout.addTab(mTabLayout.newTab());
-        }
-
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            if (tab != null) {
-                TextView textView = new TextView(mActivity);
-                textView.setText(tabTitles.get(i));
-                textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textView.setTextColor(getResources().getColor(R.color.black));
-                tab.setCustomView(textView);
-                if (tab.getCustomView() != null) {
-                    View tabView = (View) tab.getCustomView().getParent();
-                    tabView.setTag(i);
-                    tabView.setOnClickListener((v) -> {
-                        int position = (int) tabView.getTag();
-                        switch (position) {
-                            case 0:
-                                mScrollView.fullScroll(ScrollView.FOCUS_UP);
-                                break;
-                            case 1:
-                                mScrollView.smoothScrollTo(0, mSideEvaluation.getTop() - mToolBar.getHeight());
-                                break;
-                            case 2:
-                                mScrollView.smoothScrollTo(0, mSideDetail.getTop() - mToolBar.getHeight());
-                                break;
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    private boolean checkSelectFlag() {
-        return !mSelectFlag.containsValue(false);
     }
 }

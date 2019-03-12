@@ -26,7 +26,7 @@ import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.trade.contract.ShoppingCartContract;
 import com.victorxu.muses.trade.presenter.ShoppingCartPresenter;
 import com.victorxu.muses.trade.view.adapter.ShoppingCartAdapter;
-import com.victorxu.muses.trade.view.entity.SettleOrderBean;
+import com.victorxu.muses.trade.view.entity.CartSettleOrderBean;
 import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -239,7 +239,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
 
     @Override
     public void showSettleFragment(List<ShoppingCart.CartItemBean> data) {
-        ((MainFragment) getParentFragment()).startBrotherFragment(SettleFragment.newInstance(new SettleOrderBean(data)));
+        ((MainFragment) getParentFragment()).startBrotherFragment(SettleFragment.newInstance(new CartSettleOrderBean(data)));
     }
 
     @Override

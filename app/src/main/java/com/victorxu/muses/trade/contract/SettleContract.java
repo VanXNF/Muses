@@ -2,7 +2,8 @@ package com.victorxu.muses.trade.contract;
 
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
-import com.victorxu.muses.gson.ShoppingCart;
+import com.victorxu.muses.trade.view.entity.CartSettleOrderBean;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ public interface SettleContract {
 
         void updateOrderStatus(okhttp3.Callback callback);
 
-        void updateOrderData(okhttp3.Callback callback);
+        void updateCartOrderData(okhttp3.Callback callback);
+
+        void updateProductOrderData(okhttp3.Callback callback);
 
         void updateAddressId(int addressId);
 
@@ -20,7 +23,11 @@ public interface SettleContract {
 
         void updateOrderId(int orderId);
 
-        String getOrderPrice(List<ShoppingCart.CartItemBean> data);
+        void updateProductInfo(ProductSettleOrderBean data);
+
+        String getOrderPrice(List<ProductSettleOrderBean> data);
+
+        String getOrderPrice(ProductSettleOrderBean data);
 
         boolean checkAddressStatus();
     }
@@ -28,7 +35,9 @@ public interface SettleContract {
     interface View {
         void initRootView(android.view.View view);
 
-        void showCartItemOfOrder(List<ShoppingCart.CartItemBean> data);
+        void showCartItemOfOrder(List<ProductSettleOrderBean> data);
+
+        void showProductItemOfOrder(ProductSettleOrderBean data);
 
         void showAddress(Address.AddressBean data);
 
@@ -52,13 +61,17 @@ public interface SettleContract {
 
         void loadAddress(Address.AddressBean data);
 
-        void loadCartItemOfCart(List<ShoppingCart.CartItemBean> data);
+        void loadCartItemOfCart(List<ProductSettleOrderBean> data);
+
+        void loadCartItemOfCart(ProductSettleOrderBean data);
 
         void updateAddressId(int addressId);
 
         void updateCartIds(List<Integer> cartIds);
 
-        void submitOrder();
+        void submitCartOrder();
+
+        void submitProductOrder();
 
         void payOrder();
     }

@@ -276,7 +276,7 @@ public class Commodity {
 
                 private int id;
                 private String value;
-                private Object image;
+                private String image;
 
                 public int getId() {
                     return id;
@@ -294,11 +294,11 @@ public class Commodity {
                     this.value = value;
                 }
 
-                public Object getImage() {
+                public String getImage() {
                     return image;
                 }
 
-                public void setImage(Object image) {
+                public void setImage(String image) {
                     this.image = image;
                 }
             }

@@ -48,6 +48,7 @@ public class ProductPresenter implements ProductContract.Presenter {
             public void onResponse(Call call, Response response) throws IOException {
                 Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
                 if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
+                    mModel.setCommodityData(commodity.getData());
                     mView.showBaseInfo(commodity.getData());
                     mView.showBanner(commodity.getData().getImageUrls());
                     mView.showProductDetail(commodity.getData().getDescription());
@@ -135,6 +136,13 @@ public class ProductPresenter implements ProductContract.Presenter {
     }
 
     @Override
+    public void buyNow() {
+        if (mModel.checkUserStatus()) {
+            mView.showSettleFragment(mModel.getProductSettleData());
+        }
+    }
+
+    @Override
     public void addToFavorite() {
         if (mModel.checkUserStatus()) {
             mModel.addProductDataToFavorite(new Callback() {
@@ -203,5 +211,10 @@ public class ProductPresenter implements ProductContract.Presenter {
         } else {
             mView.showSelectDetail("选择 尺寸、颜色分类");
         }
+    }
+
+    @Override
+    public void updateProductImage(String image) {
+        mModel.setProductOrderImage(image);
     }
 }

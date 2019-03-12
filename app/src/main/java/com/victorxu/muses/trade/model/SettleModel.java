@@ -5,13 +5,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.model.entity.SettleOrderEntity;
+import com.victorxu.muses.trade.view.entity.CartSettleOrderBean;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,13 @@ public class SettleModel implements SettleContract.Model {
 
     private final String DEFAULT_ADDRESS_API = "api/address/default/";
     private final String ORDER_API = "api/order/";
+    private final String ORDER_DIRECT_API = "api/order/addDirectly";
 
     private Context context;
     private int addressId = 0;
     private List<Integer> cartIds = new ArrayList<>();
     private int orderId = 0;
+    private ProductSettleOrderBean productInfo;
 
     public SettleModel(Context context) {
         this.context = context;
@@ -46,13 +47,26 @@ public class SettleModel implements SettleContract.Model {
     }
 
     @Override
-    public void updateOrderData(Callback callback) {
+    public void updateCartOrderData(Callback callback) {
         SettleOrderEntity entity = new SettleOrderEntity();
         entity.setUserId((int) SharedPreferencesUtil.get(context, "UserId", 0));
         entity.setAddressId(addressId);
         entity.setCartIds(cartIds);
         Log.d("CART_ORDER", new Gson().toJson(entity));
         HttpUtil.postRequest(ORDER_API, new Gson().toJson(entity), callback);
+    }
+
+    @Override
+    public void updateProductOrderData(Callback callback) {
+        JsonObject object = new JsonObject();
+        object.addProperty("addressId", addressId);
+        object.addProperty("parameter", productInfo.getParameter());
+        object.addProperty("commodityId", productInfo.getCommodityId());
+        object.addProperty("userId", (int) SharedPreferencesUtil.get(context, "UserId", 0));
+        object.addProperty("number", productInfo.getNumber());
+        object.addProperty("message", "");
+        object.addProperty("detail", productInfo.getDetail());
+        HttpUtil.postRequest(ORDER_DIRECT_API, object.toString(), callback);
     }
 
     @Override
@@ -72,11 +86,22 @@ public class SettleModel implements SettleContract.Model {
     }
 
     @Override
-    public String getOrderPrice(List<ShoppingCart.CartItemBean> data) {
+    public void updateProductInfo(ProductSettleOrderBean data) {
+        productInfo = data;
+    }
+
+    @Override
+    public String getOrderPrice(List<ProductSettleOrderBean> data) {
         int sum = 0;
-        for (ShoppingCart.CartItemBean item : data) {
-            sum += (item.getCommodity().getDiscountPrice() * item.getNumber());
+        for (ProductSettleOrderBean item : data) {
+            sum += Integer.parseInt(getOrderPrice(item));
         }
+        return String.valueOf(sum);
+    }
+
+    @Override
+    public String getOrderPrice(ProductSettleOrderBean data) {
+        int sum = (Integer.parseInt(data.getPrice()) * Integer.parseInt(data.getNumber()));
         return String.valueOf(sum);
     }
 

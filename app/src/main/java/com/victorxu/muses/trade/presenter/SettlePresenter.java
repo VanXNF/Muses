@@ -8,10 +8,10 @@ import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
-import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.model.SettleModel;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,9 +71,16 @@ public class SettlePresenter implements SettleContract.Presenter {
     }
 
     @Override
-    public void loadCartItemOfCart(List<ShoppingCart.CartItemBean> data) {
+    public void loadCartItemOfCart(List<ProductSettleOrderBean> data) {
         mView.showTotalPrice(mModel.getOrderPrice(data));
         mView.showCartItemOfOrder(data);
+    }
+
+    @Override
+    public void loadCartItemOfCart(ProductSettleOrderBean data) {
+        mModel.updateProductInfo(data);
+        mView.showTotalPrice(mModel.getOrderPrice(data));
+        mView.showProductItemOfOrder(data);
     }
 
     @Override
@@ -87,12 +94,12 @@ public class SettlePresenter implements SettleContract.Presenter {
     }
 
     @Override
-    public void submitOrder() {
+    public void submitCartOrder() {
         if (mModel.checkAddressStatus()) {
-            mModel.updateOrderData(new Callback() {
+            mModel.updateCartOrderData(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "onFailure: updateOrderData");
+                    Log.e(TAG, "onFailure: updateCartOrderData");
                     mView.showToast(R.string.network_error_please_try_again);
                 }
 
@@ -122,6 +129,43 @@ public class SettlePresenter implements SettleContract.Presenter {
             mView.showToast(R.string.please_choose_address_first);
         }
 
+    }
+
+    @Override
+    public void submitProductOrder() {
+        if (mModel.checkAddressStatus()) {
+            mModel.updateProductOrderData(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "onFailure: updateProductOrderData");
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) {
+                    try {
+                        Status status = new Gson().fromJson(response.body().string(), Status.class);
+                        if (status.getCode().equals("OK")) {
+                            JSONObject object = new JSONObject(status.getData().toString());
+                            int orderId = object.getInt("id");
+                            mModel.updateOrderId(orderId);
+                            String orderSN = object.getString("orderSN");
+                            mView.showPayPage(orderSN);
+                        } else {
+                            mView.showToast(status.getMessage());
+                        }
+                    } catch (IOException e) {
+                        mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            mView.showToast(R.string.please_choose_address_first);
+        }
     }
 
     @Override

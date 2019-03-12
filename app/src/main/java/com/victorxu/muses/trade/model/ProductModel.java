@@ -7,6 +7,7 @@ import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.trade.contract.ProductContract;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
@@ -35,6 +36,9 @@ public class ProductModel implements ProductContract.Model {
     private Map<String, Integer> parameter = new HashMap<>();
     private Map<String, String> detail = new HashMap<>();
     private int favId = 0;
+    private String image;
+
+    private Commodity.CommodityDetail mCommodityData;
 
     private Context context;
 
@@ -56,7 +60,7 @@ public class ProductModel implements ProductContract.Model {
     @Override
     public void addProductDataToCart(Callback callback) {
         ShoppingCart.CartItemBean entity = new ShoppingCart.CartItemBean();
-        entity.setParameter(getParameterId());
+        entity.setParameter(getParameter());
         entity.setUserId(userId);
         entity.setCommodityId(id);
         entity.setDetail(getSelectDetail());
@@ -124,7 +128,6 @@ public class ProductModel implements ProductContract.Model {
             detail.remove(key);
             parameter.remove(key);
         }
-
     }
 
     @Override
@@ -138,7 +141,30 @@ public class ProductModel implements ProductContract.Model {
         favId = id;
     }
 
-    private String getParameterId() {
+    @Override
+    public void setProductOrderImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public void setCommodityData(Commodity.CommodityDetail data) {
+        mCommodityData = data;
+    }
+
+    @Override
+    public ProductSettleOrderBean getProductSettleData() {
+        ProductSettleOrderBean data = new ProductSettleOrderBean();
+        data.setCommodityId(mCommodityData.getId());
+        data.setDetail(getSelectDetail());
+        data.setNumber(String.valueOf(number));
+        data.setParameter(getParameter());
+        data.setTitle(mCommodityData.getName());
+        data.setPrice(String.valueOf(mCommodityData.getDiscountPrice()));
+        data.setImage(image);
+        return data;
+    }
+
+    private String getParameter() {
         StringBuilder builder = new StringBuilder();
         for (Integer value : parameter.values()) {
             builder.append(value);

@@ -16,20 +16,18 @@ import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
-import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.mine.view.AddressFragment;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.presenter.SettlePresenter;
 import com.victorxu.muses.trade.view.adapter.SettleAdapter;
-import com.victorxu.muses.trade.view.entity.SettleOrderBean;
+import com.victorxu.muses.trade.view.entity.CartSettleOrderBean;
+import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +39,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SettleFragment extends BaseFragment implements SettleContract.View {
 
+    private static final int TYPE_CART = 0;
+    private static final int TYPE_PRODUCT = 1;
     private final int REQUEST_CHOOSE = -1;
 
     private Toolbar mToolbarSettle;
@@ -62,11 +62,26 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     private AppCompatButton mBtnPayOrder;
 
     private SettleAdapter mAdapterSettle;
-    private SettleOrderBean mOrderData;
+    private CartSettleOrderBean mCartOrderData;
+    private ProductSettleOrderBean mProductOrderData;
     private SettlePresenter mPresenterSettle;
 
-    public static SettleFragment newInstance(SettleOrderBean data) {
+    private int type = TYPE_CART;
+
+    private boolean isPay = false;
+
+    public static SettleFragment newInstance(CartSettleOrderBean data) {
         Bundle bundle = new Bundle();
+        bundle.putInt("TYPE", TYPE_CART);
+        bundle.putSerializable("DATA", data);
+        SettleFragment fragment = new SettleFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static SettleFragment newInstance(ProductSettleOrderBean data) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("TYPE", TYPE_PRODUCT);
         bundle.putSerializable("DATA", data);
         SettleFragment fragment = new SettleFragment();
         fragment.setArguments(bundle);
@@ -78,7 +93,15 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mOrderData = (SettleOrderBean) bundle.getSerializable("DATA");
+            type = bundle.getInt("TYPE");
+            switch (type) {
+                case TYPE_CART:
+                    mCartOrderData = (CartSettleOrderBean) bundle.getSerializable("DATA");
+                    break;
+                case TYPE_PRODUCT:
+                    mProductOrderData = (ProductSettleOrderBean) bundle.getSerializable("DATA");
+                    break;
+            }
         } else {
             showToast(R.string.data_error_please_try_again);
             pop();
@@ -89,8 +112,15 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenterSettle.loadDefaultAddress();
-        mPresenterSettle.loadCartItemOfCart(mOrderData.getOrderData());
-        mPresenterSettle.updateCartIds(mOrderData.getCartIds());
+        switch (type) {
+            case TYPE_CART:
+                mPresenterSettle.loadCartItemOfCart(mCartOrderData.getOrderData());
+                mPresenterSettle.updateCartIds(mCartOrderData.getCartIds());
+                break;
+            case TYPE_PRODUCT:
+                mPresenterSettle.loadCartItemOfCart(mProductOrderData);
+                break;
+        }
     }
 
     @Override
@@ -136,7 +166,16 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         mToolbarSettle.setNavigationOnClickListener(v -> mActivity.onBackPressed());
         mViewAddressPicker.setOnClickListener(v ->
                 startForResult(AddressFragment.newInstance(true), REQUEST_CHOOSE));
-        mTextSubmit.setOnClickListener(v -> mPresenterSettle.submitOrder());
+        mTextSubmit.setOnClickListener(v -> {
+            switch (type) {
+                case TYPE_CART:
+                    mPresenterSettle.submitCartOrder();
+                    break;
+                case TYPE_PRODUCT:
+                    mPresenterSettle.submitProductOrder();
+                    break;
+            }
+        });
 
         mRecyclerSettle.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapterSettle = new SettleAdapter(new ArrayList<>());
@@ -144,11 +183,18 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     }
 
     @Override
-    public void showCartItemOfOrder(List<ShoppingCart.CartItemBean> data) {
+    public void showCartItemOfOrder(List<ProductSettleOrderBean> data) {
         post(() -> {
             mAdapterSettle.setNewData(data);
             mAdapterSettle.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void showProductItemOfOrder(ProductSettleOrderBean data) {
+        List<ProductSettleOrderBean> newData = new ArrayList<>();
+        newData.add(data);
+        showCartItemOfOrder(newData);
     }
 
     @Override
@@ -206,8 +252,24 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
             mTextOrderPhone.setText(mTextPhone.getText());
             mTextOrderPrice.setText(mTextTotalPrice.getText());
 
-            mBtnPayOrder.setOnClickListener(v -> mPresenterSettle.payOrder());
+            mBtnPayOrder.setOnClickListener(v -> {
+                mPresenterSettle.payOrder();
+                isPay = true;
+            });
             mBottomSheetDialog.setContentView(mViewPay);
+            mBottomSheetDialog.setOnDismissListener((DialogInterface dialog) -> {
+                if (!isPay) {
+                    showToast(R.string.order_do_not_finish_please_check_in_my_order_page);
+                }
+                switch (type) {
+                    case TYPE_CART:
+                        popTo(MainFragment.class, false);
+                        break;
+                    case TYPE_PRODUCT:
+                        popTo(ProductFragment.class, false);
+                        break;
+                }
+            });
             mBottomSheetDialog.show();
         });
     }
@@ -215,7 +277,6 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     @Override
     public void hidePayPage() {
         mBottomSheetDialog.dismiss();
-        popTo(MainFragment.class, false);
     }
 
     @Override
