@@ -23,6 +23,7 @@
     <string name="delivery_method">配送方式</string>
     <string name="express_delivery">快递</string>
     <string name="pay_order">支付订单</string>
+    <string name="order_sn_with_colon">订单编号：</string>
     <string name="order_time_with_colon">订单时间：</string>
     <string name="order_price_with_colon_yuan">订单价格（元）：</string>
     <string name="order_signer_with_colon">下单人：</string>

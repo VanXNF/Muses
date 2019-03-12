@@ -10,11 +10,15 @@ public interface SettleContract {
     interface Model {
         void getDefaultAddressData(okhttp3.Callback callback);
 
+        void updateOrderStatus(okhttp3.Callback callback);
+
         void updateOrderData(okhttp3.Callback callback);
 
         void updateAddressId(int addressId);
 
         void updateCartIds(List<Integer> cartIds);
+
+        void updateOrderId(int orderId);
 
         String getOrderPrice(List<ShoppingCart.CartItemBean> data);
 
@@ -32,7 +36,9 @@ public interface SettleContract {
 
         void showTotalPrice(String price);
 
-        void showPayPage();
+        void showPayPage(String orderSN);
+
+        void hidePayPage();
 
         void showToast(int resId);
 
@@ -53,5 +59,7 @@ public interface SettleContract {
         void updateCartIds(List<Integer> cartIds);
 
         void submitOrder();
+
+        void payOrder();
     }
 }

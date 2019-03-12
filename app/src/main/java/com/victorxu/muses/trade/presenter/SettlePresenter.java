@@ -13,6 +13,9 @@ import com.victorxu.muses.gson.Status;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.model.SettleModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -98,11 +101,18 @@ public class SettlePresenter implements SettleContract.Presenter {
                     try {
                         Status status = new Gson().fromJson(response.body().string(), Status.class);
                         if (status.getCode().equals("OK")) {
-                            mView.showPayPage();
+                            JSONObject object = new JSONObject(status.getData().toString());
+                            int orderId = object.getInt("id");
+                            mModel.updateOrderId(orderId);
+                            String orderSN = object.getString("orderSN");
+                            mView.showPayPage(orderSN);
                         } else {
                             mView.showToast(status.getMessage());
                         }
                     } catch (IOException e) {
+                        mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
+                    } catch (JSONException e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();
                     }
@@ -112,5 +122,33 @@ public class SettlePresenter implements SettleContract.Presenter {
             mView.showToast(R.string.please_choose_address_first);
         }
 
+    }
+
+    @Override
+    public void payOrder() {
+        mModel.updateOrderStatus(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: updateOrderStatus");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    if (status.getCode().equals("OK")) {
+                        mView.showToast(R.string.order_pay_success);
+                    } else {
+                        mView.showToast(R.string.order_do_not_finish_please_check_in_my_order_page);
+                    }
+                } catch (IOException e) {
+                    mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
+                } finally {
+                    mView.hidePayPage();
+                }
+            }
+        });
     }
 }

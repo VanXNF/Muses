@@ -26,7 +26,7 @@ public class SettleAdapter extends BaseQuickAdapter<ShoppingCart.CartItemBean, B
                 .setText(R.id.item_settle_text_number, String.valueOf(item.getNumber()));
 
         GlideApp.with(mContext)
-                .load(item.getCommodity().getCoverImage())
+                .load(item.getImage())
                 .apply(RequestOptions.centerCropTransform())
                 .into((AppCompatImageView) helper.getView(R.id.item_settle_image_order));
     }

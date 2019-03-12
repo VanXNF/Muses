@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.victorxu.muses.gson.ShoppingCart;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.model.entity.SettleOrderEntity;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ public class SettleModel implements SettleContract.Model {
     private Context context;
     private int addressId = 0;
     private List<Integer> cartIds = new ArrayList<>();
+    private int orderId = 0;
 
     public SettleModel(Context context) {
         this.context = context;
@@ -32,6 +36,13 @@ public class SettleModel implements SettleContract.Model {
     public void getDefaultAddressData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
         HttpUtil.getRequest(DEFAULT_ADDRESS_API + String.valueOf(userId), callback);
+    }
+
+    @Override
+    public void updateOrderStatus(Callback callback) {
+        JsonObject object = new JsonObject();
+        object.addProperty("status", 1);
+        HttpUtil.putRequest(ORDER_API + String.valueOf(orderId), object.toString(), callback);
     }
 
     @Override
@@ -53,6 +64,11 @@ public class SettleModel implements SettleContract.Model {
     public void updateCartIds(List<Integer> cartIds) {
         this.cartIds.clear();
         this.cartIds.addAll(cartIds);
+    }
+
+    @Override
+    public void updateOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     @Override

@@ -54,6 +54,7 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     private AppCompatTextView mTextSubmit;
     private AdvancedBottomSheetDialog mBottomSheetDialog;
     private View mViewPay;
+    private AppCompatTextView mTextOrderSN;
     private AppCompatTextView mTextOrderTime;
     private AppCompatTextView mTextOrderPrice;
     private AppCompatTextView mTextOrderSigner;
@@ -186,17 +187,18 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     }
 
     @Override
-    public void showPayPage() {
+    public void showPayPage(String orderSN) {
         post(() -> {
-            AtomicBoolean isPay = new AtomicBoolean(false);
             mBottomSheetDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
             mViewPay = getLayoutInflater().inflate(R.layout.bottom_pay, null);
+            mTextOrderSN = mViewPay.findViewById(R.id.pay_order_text_sn);
             mTextOrderTime = mViewPay.findViewById(R.id.pay_order_text_time);
             mTextOrderSigner = mViewPay.findViewById(R.id.pay_order_text_signer_person);
             mTextOrderPhone = mViewPay.findViewById(R.id.pay_order_text_phone);
             mTextOrderPrice = mViewPay.findViewById(R.id.pay_order_text_price);
             mBtnPayOrder = mViewPay.findViewById(R.id.pay_order_button_pay);
 
+            mTextOrderSN.setText(orderSN);
             @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             mTextOrderTime.setText(sdf.format(new Date()));
             String consignee = mTextConsignee.getText().toString();
@@ -204,23 +206,16 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
             mTextOrderPhone.setText(mTextPhone.getText());
             mTextOrderPrice.setText(mTextTotalPrice.getText());
 
-            mBtnPayOrder.setOnClickListener(v -> {
-                isPay.set(true);
-                mBottomSheetDialog.dismiss();
-
-            });
+            mBtnPayOrder.setOnClickListener(v -> mPresenterSettle.payOrder());
             mBottomSheetDialog.setContentView(mViewPay);
-
-            mBottomSheetDialog.setOnDismissListener((DialogInterface dialog) -> {
-                if (isPay.get()) {
-                    showToast(R.string.order_pay_success);
-                } else {
-                    showToast(R.string.order_do_not_finish_please_check_in_my_order_page);
-                }
-                popTo(MainFragment.class, false);
-            });
             mBottomSheetDialog.show();
         });
+    }
+
+    @Override
+    public void hidePayPage() {
+        mBottomSheetDialog.dismiss();
+        popTo(MainFragment.class, false);
     }
 
     @Override
