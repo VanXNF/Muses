@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.contract;
+package com.victorxu.muses.trade.contract;
 
 import com.victorxu.muses.gson.PageComment;
 

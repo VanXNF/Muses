@@ -13,7 +13,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.gson.PageCommodity;
-import com.victorxu.muses.product.view.ProductFragment;
+import com.victorxu.muses.trade.view.ProductFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
 import com.victorxu.muses.search.view.adapter.ProductAdapter;

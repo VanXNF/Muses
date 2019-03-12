@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view.entity;
+package com.victorxu.muses.trade.view.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.victorxu.muses.gson.Commodity;

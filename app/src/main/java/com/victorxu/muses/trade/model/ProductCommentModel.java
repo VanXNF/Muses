@@ -1,7 +1,7 @@
-package com.victorxu.muses.product.model;
+package com.victorxu.muses.trade.model;
 
 import com.victorxu.muses.gson.PageComment;
-import com.victorxu.muses.product.contract.ProductCommentContract;
+import com.victorxu.muses.trade.contract.ProductCommentContract;
 import com.victorxu.muses.util.HttpUtil;
 
 import java.util.ArrayList;

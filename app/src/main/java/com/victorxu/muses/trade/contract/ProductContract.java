@@ -1,8 +1,8 @@
-package com.victorxu.muses.product.contract;
+package com.victorxu.muses.trade.contract;
 
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.PageComment;
-import com.victorxu.muses.product.view.entity.StyleSelectItem;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 
 import java.util.List;
 

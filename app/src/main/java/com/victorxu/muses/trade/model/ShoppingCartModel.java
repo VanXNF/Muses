@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
-import com.victorxu.muses.product.view.entity.StyleSelectItem;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.trade.contract.ShoppingCartContract;
 import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 import com.victorxu.muses.util.HttpUtil;

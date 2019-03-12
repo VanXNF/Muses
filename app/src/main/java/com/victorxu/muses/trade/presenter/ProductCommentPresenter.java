@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.presenter;
+package com.victorxu.muses.trade.presenter;
 
 import android.util.Log;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.PageComment;
-import com.victorxu.muses.product.contract.ProductCommentContract;
-import com.victorxu.muses.product.model.ProductCommentModel;
+import com.victorxu.muses.trade.contract.ProductCommentContract;
+import com.victorxu.muses.trade.model.ProductCommentModel;
 
 import java.io.IOException;
 import java.util.ArrayList;

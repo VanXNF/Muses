@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.presenter;
+package com.victorxu.muses.trade.presenter;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,8 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.gson.Status;
-import com.victorxu.muses.product.contract.ProductContract;
-import com.victorxu.muses.product.model.ProductModel;
+import com.victorxu.muses.trade.contract.ProductContract;
+import com.victorxu.muses.trade.model.ProductModel;
 
 import java.io.IOException;
 

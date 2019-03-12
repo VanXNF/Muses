@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view;
+package com.victorxu.muses.trade.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,10 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.gson.PageComment;
-import com.victorxu.muses.product.contract.ProductCommentContract;
-import com.victorxu.muses.product.presenter.ProductCommentPresenter;
-import com.victorxu.muses.product.view.adapter.CommentAdapter;
-import com.victorxu.muses.product.view.entity.EvaluationItem;
+import com.victorxu.muses.trade.contract.ProductCommentContract;
+import com.victorxu.muses.trade.presenter.ProductCommentPresenter;
+import com.victorxu.muses.trade.view.adapter.CommentAdapter;
+import com.victorxu.muses.trade.view.entity.EvaluationItem;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;

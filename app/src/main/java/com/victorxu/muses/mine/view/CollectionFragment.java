@@ -14,7 +14,7 @@ import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.mine.contract.CollectionContract;
 import com.victorxu.muses.mine.presenter.CollectionPresenter;
 import com.victorxu.muses.mine.view.adapter.CollectionAdapter;
-import com.victorxu.muses.product.view.ProductFragment;
+import com.victorxu.muses.trade.view.ProductFragment;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;

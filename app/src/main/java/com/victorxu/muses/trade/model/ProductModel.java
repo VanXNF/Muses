@@ -1,16 +1,13 @@
-package com.victorxu.muses.product.model;
+package com.victorxu.muses.trade.model;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 
 import com.google.gson.Gson;
 import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
-import com.victorxu.muses.product.contract.ProductContract;
-import com.victorxu.muses.product.view.entity.StyleSelectItem;
+import com.victorxu.muses.trade.contract.ProductContract;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 

@@ -2,7 +2,7 @@ package com.victorxu.muses.trade.contract;
 
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
-import com.victorxu.muses.product.view.entity.StyleSelectItem;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
 
 import java.util.List;

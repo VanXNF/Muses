@@ -1,11 +1,11 @@
-package com.victorxu.muses.product.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
-import com.victorxu.muses.product.view.entity.PromotionItem;
+import com.victorxu.muses.trade.view.entity.PromotionItem;
 
 import java.util.List;
 

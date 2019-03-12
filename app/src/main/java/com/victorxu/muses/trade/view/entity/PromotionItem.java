@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view.entity;
+package com.victorxu.muses.trade.view.entity;
 
 public class PromotionItem {
 

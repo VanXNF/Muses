@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

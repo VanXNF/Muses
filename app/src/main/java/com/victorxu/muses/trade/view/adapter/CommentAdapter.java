@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.View;

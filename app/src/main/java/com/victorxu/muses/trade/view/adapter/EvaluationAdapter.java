@@ -1,4 +1,4 @@
-package com.victorxu.muses.product.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;

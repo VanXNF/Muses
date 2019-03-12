@@ -1,6 +1,5 @@
-package com.victorxu.muses.product.view.adapter;
+package com.victorxu.muses.trade.view.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -8,7 +7,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.Commodity;
-import com.victorxu.muses.product.view.entity.StyleSelectItem;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;

@@ -34,7 +34,7 @@ import com.victorxu.muses.gallery.view.entity.ProductItem;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.ListCommodity;
 import com.victorxu.muses.message.view.MessageListFragment;
-import com.victorxu.muses.product.view.ProductFragment;
+import com.victorxu.muses.trade.view.ProductFragment;
 import com.victorxu.muses.search.view.SearchFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
