@@ -2,6 +2,7 @@ package com.victorxu.muses.mine.model;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.victorxu.muses.gson.PageOrderStatus;
 import com.victorxu.muses.mine.contract.OrderContract;
 import com.victorxu.muses.util.HttpUtil;
@@ -55,6 +56,18 @@ public class OrderModel implements OrderContract.Model {
     }
 
     @Override
+    public void updateOrderData(int position, Callback callback) {
+        JsonObject object = new JsonObject();
+        object.addProperty("status", 1);
+        HttpUtil.putRequest(ORDER_API + String.valueOf(orders.get(position).getId()), object.toString(), callback);
+    }
+
+    @Override
+    public void addLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data) {
+        orders.addAll(data);
+    }
+
+    @Override
     public List<PageOrderStatus.PageOrder.OrderBean> getLocalOrderData() {
         return orders;
     }
@@ -62,11 +75,6 @@ public class OrderModel implements OrderContract.Model {
     @Override
     public void setLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data) {
         orders.clear();
-        orders.addAll(data);
-    }
-
-    @Override
-    public void addLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data) {
         orders.addAll(data);
     }
 

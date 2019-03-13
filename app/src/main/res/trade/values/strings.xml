@@ -60,5 +60,6 @@
     <string name="order">订单</string>
     <string name="order_pay_success">订单支付成功</string>
     <string name="order_do_not_finish_please_check_in_my_order_page">订单支付未完成，请在[待付款]页查看</string>
+    <string name="order_do_not_finish">订单支付未完成</string>
     <string name="please_choose_address_first">请先选择地址</string>
 </resources>

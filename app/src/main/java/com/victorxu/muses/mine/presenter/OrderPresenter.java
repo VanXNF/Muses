@@ -58,7 +58,7 @@ public class OrderPresenter implements OrderContract.Presenter {
                         mView.hideEmptyPage();
                         mView.showOrder(orderStatus.getData().getDataList());
                     } else {
-                        mView.showToast(orderStatus.getMessage());
+                        mView.showEmptyPage();
                     }
                 } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
@@ -101,13 +101,17 @@ public class OrderPresenter implements OrderContract.Presenter {
                             mView.showMoreOrder(orderStatus.getData().getDataList());
                             mView.hideLoadMore(true, false);
                         } else {
-                            mView.showToast(orderStatus.getMessage());
+//                            mView.showToast(orderStatus.getMessage());
                             mView.hideLoadMore(false, false);
                         }
                     } catch (IOException e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         mView.hideLoadMore(false, false);
                         e.printStackTrace();
+                    } finally {
+                        if (!mModel.checkOrderDataStatus()) {
+                            mView.showEmptyPage();
+                        }
                     }
                 }
             });
@@ -136,6 +140,39 @@ public class OrderPresenter implements OrderContract.Presenter {
                 } catch (IOException e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
+                } finally {
+                    if (!mModel.checkOrderDataStatus()) {
+                        mView.showEmptyPage();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void payOrder(int position) {
+        mModel.updateOrderData(position, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: updateOrderData");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
+                    if (status.getCode().equals("OK")) {
+                        mView.showToast(R.string.order_pay_success);
+                        reloadDataToView();
+                    } else {
+                        mView.showToast(R.string.order_do_not_finish);
+                    }
+                } catch (IOException e) {
+                    mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
+                } finally {
+                    mView.hidePaySheet();
                 }
             }
         });

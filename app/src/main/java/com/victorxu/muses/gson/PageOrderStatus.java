@@ -112,7 +112,8 @@ public class PageOrderStatus {
             private int status;
             private Object postScript;
             private int orderAmount;
-            private Object payTime;
+            private long addTime;
+            private long payTime;
             private int userId;
             private String address;
             private List<OrderCommodityModelsBean> orderCommodityModels;
@@ -165,11 +166,19 @@ public class PageOrderStatus {
                 this.orderAmount = orderAmount;
             }
 
-            public Object getPayTime() {
+            public long getAddTime() {
+                return addTime;
+            }
+
+            public void setAddTime(long addTime) {
+                this.addTime = addTime;
+            }
+
+            public long getPayTime() {
                 return payTime;
             }
 
-            public void setPayTime(Object payTime) {
+            public void setPayTime(long payTime) {
                 this.payTime = payTime;
             }
 

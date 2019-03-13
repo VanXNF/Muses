@@ -4,6 +4,8 @@ import com.victorxu.muses.gson.PageOrderStatus;
 
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 public interface OrderContract {
     interface Model {
         void getOrderData(okhttp3.Callback callback);
@@ -14,11 +16,13 @@ public interface OrderContract {
 
         void deleteOrderData(int position, okhttp3.Callback callback);
 
-        void setLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data);
+        void updateOrderData(int position, okhttp3.Callback callback);
 
         void addLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data);
 
         List<PageOrderStatus.PageOrder.OrderBean> getLocalOrderData();
+
+        void setLocalOrderData(List<PageOrderStatus.PageOrder.OrderBean> data);
 
         boolean checkOrderDataStatus();
 
@@ -46,6 +50,10 @@ public interface OrderContract {
 
         void hideEmptyPage();
 
+        void showPaySheet(int position);
+
+        void hidePaySheet();
+
         void showToast(int resId);
 
         void showToast(CharSequence text);
@@ -61,5 +69,7 @@ public interface OrderContract {
         void loadMoreDataToView();
 
         void cancelOrder(int position);
+
+        void payOrder(int position);
     }
 }

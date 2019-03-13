@@ -1,5 +1,6 @@
 package com.victorxu.muses.mine.view;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,17 +16,22 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
+import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.gson.PageOrderStatus;
 import com.victorxu.muses.mine.contract.OrderContract;
 import com.victorxu.muses.mine.presenter.OrderPresenter;
 import com.victorxu.muses.mine.view.adapter.OrderAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +39,14 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
 
     private SmartRefreshLayout mRefreshLayoutOrder;
     private RecyclerView mRecyclerOrder;
+    private AdvancedBottomSheetDialog mBottomSheetDialog;
     private View mViewEmpty;
+    private AppCompatTextView mTextOrderSN;
+    private AppCompatTextView mTextOrderTime;
+    private AppCompatTextView mTextOrderPrice;
+    private AppCompatTextView mTextOrderSigner;
+    private AppCompatTextView mTextOrderPhone;
+    private AppCompatButton mBtnPayOrder;
 
     private OrderPresenter mPresenterOrder;
 
@@ -41,6 +54,8 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     private List<PageOrderStatus.PageOrder.OrderBean> mOrderData = new ArrayList<>();
 
     private int type;
+
+    private boolean isPay = false;
 
     public static OrderPageFragment newInstance(int type) {
         Bundle bundle = new Bundle();
@@ -62,8 +77,8 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     }
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
+    public void onSupportVisible() {
+        super.onSupportVisible();
         mPresenterOrder.loadDataToView();
     }
 
@@ -84,10 +99,8 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
             switch (viewId) {
                 case R.id.item_order_btn_cancel_order:
                     AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                    builder.setMessage(getString(R.string.are_you_sure_to_quit))
-                            .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> {
-                                mPresenterOrder.cancelOrder(position);
-                            })
+                    builder.setMessage(getString(R.string.sure_to_cancel_order))
+                            .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> mPresenterOrder.cancelOrder(position))
                             .setNegativeButton(getString(R.string.cancel), (DialogInterface dialog, int id) -> {
                             });
                     builder.show();
@@ -102,7 +115,7 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
                     showToast("暂未开放");
                     break;
                 case R.id.item_order_btn_pay:
-                    showToast("暂未开放");
+                    showPaySheet(position);
                     break;
             }
         });
@@ -114,6 +127,8 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
         mRefreshLayoutOrder.setEnableAutoLoadMore(false);
         mRefreshLayoutOrder.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayoutOrder.setRefreshHeader(new MaterialHeader(mActivity));
+
+        initPayBottomSheet();
     }
 
     @Override
@@ -137,12 +152,12 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
 
     @Override
     public void showLoading() {
-        mRefreshLayoutOrder.autoRefreshAnimationOnly();
+        post(() -> mRefreshLayoutOrder.autoRefreshAnimationOnly());
     }
 
     @Override
     public void hideLoading() {
-        mRefreshLayoutOrder.finishRefresh();
+        post(() -> mRefreshLayoutOrder.finishRefresh());
     }
 
     @Override
@@ -176,6 +191,32 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     }
 
     @Override
+    public void showPaySheet(int position) {
+        isPay = false;
+        post(() -> {
+            mTextOrderSN.setText(mOrderData.get(position).getOrderSN());
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mTextOrderTime.setText(sdf.format(new Date(mOrderData.get(position).getAddTime())));
+            String data = mOrderData.get(position).getAddress();
+            String info[] = data.split(";");
+            mTextOrderSigner.setText(info[1]);
+            mTextOrderPhone.setText(info[2]);
+            mTextOrderPrice.setText(String.valueOf(mOrderData.get(position).getOrderAmount()));
+
+            mBtnPayOrder.setOnClickListener(v -> {
+                mPresenterOrder.payOrder(position);
+                isPay = true;
+            });
+            mBottomSheetDialog.show();
+        });
+    }
+
+    @Override
+    public void hidePaySheet() {
+        mBottomSheetDialog.dismiss();
+    }
+
+    @Override
     public void showToast(int resId) {
         showToast(getText(resId));
     }
@@ -183,6 +224,23 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
+    }
+
+    private void initPayBottomSheet() {
+        mBottomSheetDialog = new AdvancedBottomSheetDialog(mActivity, 0.8f, 0.8f);
+        View mViewPay = getLayoutInflater().inflate(R.layout.bottom_pay, null);
+        mTextOrderSN = mViewPay.findViewById(R.id.pay_order_text_sn);
+        mTextOrderTime = mViewPay.findViewById(R.id.pay_order_text_time);
+        mTextOrderSigner = mViewPay.findViewById(R.id.pay_order_text_signer_person);
+        mTextOrderPhone = mViewPay.findViewById(R.id.pay_order_text_phone);
+        mTextOrderPrice = mViewPay.findViewById(R.id.pay_order_text_price);
+        mBtnPayOrder = mViewPay.findViewById(R.id.pay_order_button_pay);
+        mBottomSheetDialog.setContentView(mViewPay);
+        mBottomSheetDialog.setOnDismissListener((DialogInterface dialog) -> {
+            if (!isPay) {
+                showToast(R.string.order_do_not_finish);
+            }
+        });
     }
 
     @Nullable
