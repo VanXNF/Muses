@@ -33,4 +33,14 @@
     <string name="please_input_location_detail">请填写详细地址</string>
     <string name="are_you_sure_delete_address">确认删除收货地址？</string>
     <string name="do_not_have_address">当前地址列表为空，请点击右上角添加地址</string>
+    <string name="my_order">我的订单</string>
+    <string name="all_orders">全部</string>
+    <string name="pay">支付</string>
+    <string name="confirm_receipt">确认收货</string>
+    <string name="cancel_order">取消订单</string>
+    <string name="check_order">查看订单</string>
+    <string name="muses_art">缪斯艺术</string>
+    <string name="tip_prefix">共</string>
+    <string name="tip_suffix">件宝贝</string>
+    <string name="sure_to_cancel_order">确认取消订单？</string>
 </resources>

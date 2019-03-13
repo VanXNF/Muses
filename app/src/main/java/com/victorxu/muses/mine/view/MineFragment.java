@@ -30,6 +30,11 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     private AppCompatTextView mTextCollectionCount;
     private View mViewCollection;
     private View mViewAddress;
+    private View mViewPendingPayment;
+    private View mViewToBeDelivered;
+    private View mViewPendingReceipt;
+    private View mViewWaitingForEvaluation;
+    private View mViewReturnAfterSale;
 
     private MinePresenter mPresenter;
 
@@ -53,6 +58,16 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     }
 
     @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.mine_page_bar;
+    }
+
+    @Override
     public void initRootView(View view) {
         mTextName = view.findViewById(R.id.mine_text_username);
         mTextId = view.findViewById(R.id.mine_text_user_id);
@@ -60,11 +75,26 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mTextCollectionCount = view.findViewById(R.id.mine_text_collection);
         mViewCollection = view.findViewById(R.id.mine_view_collection);
         mViewAddress = view.findViewById(R.id.mine_relative_address_management);
+        mViewPendingPayment = view.findViewById(R.id.mine_linear_pending_payment);
+        mViewToBeDelivered = view.findViewById(R.id.mine_linear_to_be_delivered);
+        mViewPendingReceipt = view.findViewById(R.id.mine_linear_pending_receipt);
+        mViewWaitingForEvaluation = view.findViewById(R.id.mine_linear_waiting_for_evaluation);
+        mViewReturnAfterSale = view.findViewById(R.id.mine_linear_return_after_sale);
 
         mTextName.setOnClickListener(v -> mPresenter.goToAccount());
         mImgAvatar.setOnClickListener(v -> mPresenter.goToAccount());
         mViewCollection.setOnClickListener(v -> ((MainFragment) getParentFragment()).startBrotherFragment(CollectionFragment.newInstance()));
         mViewAddress.setOnClickListener(v -> ((MainFragment) getParentFragment()).startBrotherFragment(AddressFragment.newInstance()));
+
+        mViewPendingPayment.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(OrderFragment.newInstance(1)));
+        mViewToBeDelivered.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(OrderFragment.newInstance(2)));
+        mViewPendingReceipt.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(OrderFragment.newInstance(3)));
+        mViewWaitingForEvaluation.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(OrderFragment.newInstance(4)));
+//        mViewReturnAfterSale.setOnClickListener(v -> {});
     }
 
     @Override
@@ -109,15 +139,5 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.mine_page_bar;
     }
 }
