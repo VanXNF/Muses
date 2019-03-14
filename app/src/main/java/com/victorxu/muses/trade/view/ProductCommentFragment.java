@@ -33,6 +33,7 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     private Toolbar mToolbar;
     private TagFlowLayout mCommentFlowLayout;
     private RecyclerView mCommentRecycler;
+    private AppCompatTextView mTextRate;
     private CommentAdapter mCommentAdapter;
     private ProductCommentPresenter mPresenter;
     private View mCommentEmptyView;
@@ -75,21 +76,41 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     }
 
     @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.product_comment_toolbar;
+    }
+
+    @Override
     public void initRootView(View view) {
         mToolbar = view.findViewById(R.id.product_comment_toolbar);
         mCommentFlowLayout = view.findViewById(R.id.product_comment_flow_layout);
         mCommentRecycler = view.findViewById(R.id.product_comment_recycler_view);
         mCommentEmptyView = view.findViewById(R.id.comment_empty_view);
+        mTextRate = view.findViewById(R.id.product_comment_text_rate);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(mActivity));
         mCommentAdapter = new CommentAdapter(mCommentData);
         mCommentAdapter.setOnLoadMoreListener(() -> mPresenter.loadMoreDataToView(), mCommentRecycler);
         mCommentRecycler.setAdapter(mCommentAdapter);
         mToolbar.setNavigationOnClickListener((v) -> mActivity.onBackPressed());
+    }
+
+    @Override
+    public void showLoading() {
 
     }
 
     @Override
-    public void showTag(List<String> data) {
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showTag(List<String> data, String rate) {
         mTagData.clear();
         mTagData = data;
         post(() -> {
@@ -119,17 +140,8 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
                 mPresenter.switchDataFilterMode(position);
                 return false;
             });
+            mTextRate.setText(rate);
         });
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 
     @Override
@@ -185,17 +197,7 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
 
     @Override
     public void showToast(CharSequence text) {
-        post(()-> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.product_comment_toolbar;
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
     private ArrayList<EvaluationItem> initTestCommentData() {

@@ -4,12 +4,18 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.victorxu.muses.R;
+import com.victorxu.muses.gson.CommentCountStatus;
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.trade.contract.ProductCommentContract;
 import com.victorxu.muses.trade.model.ProductCommentModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +43,40 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
     @Override
     public void loadDataToView() {
         mView.showLoading();
-        mView.showTag(mModel.getTagData());
+        mModel.getCommentCountData(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onFailure: getCommentCountData");
+                mView.showToast(R.string.network_error_please_try_again);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    CommentCountStatus status = new Gson().fromJson(response.body().string(), CommentCountStatus.class);
+                    if (status.getCode().equals("OK")) {
+                        List<String> data = new ArrayList<>();
+                        List<String> tagNames = mModel.getTagData();
+                        int image = status.getData().getWithImageCount();
+                        int good = status.getData().getGoodCount();
+                        int middle = status.getData().getMiddleCount();
+                        int bad = status.getData().getBadCount();
+                        int sum = good + middle + bad;
+
+                        data.add(tagNames.get(0) + "(" + sum + ")");
+                        data.add(tagNames.get(1) + "(" + image + ")");
+                        data.add(tagNames.get(2) + "(" + good + ")");
+                        data.add(tagNames.get(3) + "(" + middle + ")");
+                        data.add(tagNames.get(4) + "(" + bad + ")");
+                        String rate = new DecimalFormat("#.00").format(100.0f * good / sum) + "%";
+                        mView.showTag(data, rate);
+                    }
+                } catch (IOException e) {
+                    mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
+                }
+            }
+        });
         mModel.setFilter(0);
         mModel.getCommentData(new Callback() {
             @Override

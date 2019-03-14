@@ -13,6 +13,7 @@ public class ProductCommentModel implements ProductCommentContract.Model {
 
     private final String COMMENT_API_PREFIX = "api/comment/";
     private final String COMMENT_API_SUFFIX = "/";
+    private final String COMMENT_COUNT_API_SUFFIX = "/count";
     private final String NONE = "none";
     private final String GOOD = "good";
     private final String MIDDLE = "middle";
@@ -56,6 +57,11 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     }
 
     @Override
+    public void getCommentCountData(Callback callback) {
+        HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_COUNT_API_SUFFIX, callback);
+    }
+
+    @Override
     public void getCommentData(Callback callback) {
         getCommentData(1, callback);
     }
@@ -70,16 +76,6 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     @Override
     public void getMoreCommentData(Callback callback) {
         getCommentData(currentPage + 1, callback);
-    }
-
-    @Override
-    public void setAllPages(int allPages) {
-        this.allPages = allPages;
-    }
-
-    @Override
-    public void addPage(PageComment page) {
-        pages.add(page);
     }
 
     @Override
@@ -105,5 +101,15 @@ public class ProductCommentModel implements ProductCommentContract.Model {
             default:
                 filter = NONE;
         }
+    }
+
+    @Override
+    public void setAllPages(int allPages) {
+        this.allPages = allPages;
+    }
+
+    @Override
+    public void addPage(PageComment page) {
+        pages.add(page);
     }
 }
