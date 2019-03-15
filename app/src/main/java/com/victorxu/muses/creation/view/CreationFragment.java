@@ -66,6 +66,16 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
     }
 
     @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.creation_page_bar;
+    }
+
+    @Override
     public void initRootView(View view) {
         mTextMyFilter = view.findViewById(R.id.creation_text_my_filter);
         mTextNewFilter = view.findViewById(R.id.creation_new_filter);
@@ -89,6 +99,10 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
                 ((MainFragment) getParentFragment()).startBrotherFragment(FilterApplyFragment.newInstance(mPopularSearchData.get(position).getId()))
         );
         mRecyclerPopular.setAdapter(mAdapterPopular);
+
+        mTextMyFilter.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(MyFilterFragment.newInstance())
+        );
 
         mTextNewFilter.setOnClickListener(v ->
                 ((MainFragment) getParentFragment()).startBrotherFragment(CreateFilterFragment.newInstance())
@@ -123,15 +137,5 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.creation_page_bar;
     }
 }

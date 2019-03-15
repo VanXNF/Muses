@@ -12,8 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
@@ -246,7 +244,7 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_page_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_order_page, container, false);
         mPresenterOrder = new OrderPresenter(this, type, mActivity);
         mPresenterOrder.loadRootView(view);
         return view;

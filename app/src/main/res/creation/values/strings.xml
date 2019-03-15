@@ -24,4 +24,10 @@
     <string name="upload_success_please_check_it_in_my_filter_page">提交成功，请从[我的滤镜]页面查看滤镜训练状态</string>
     <string name="upload_failed_please_try_again">提交失败，请稍后重试</string>
     <string name="please_input_filter_name_first">请输入滤镜名称</string>
+    <string name="unfinished">未完成</string>
+    <string name="finished">已完成</string>
+    <string name="already_add">已提交</string>
+    <string name="waiting_in_line">等待训练</string>
+    <string name="training">训练中</string>
+    <string name="filter_do_not_finished_please_wait">滤镜尚未完成，请稍候</string>
 </resources>

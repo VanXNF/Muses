@@ -1,6 +1,5 @@
 package com.victorxu.muses.creation.view.adapter;
 
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,7 +24,6 @@ public class FilterAdapter extends BaseQuickAdapter<PageFilter.FilterBean, BaseV
         GlideApp.with(mContext)
                 .load(item.getCoverImage())
                 .apply(RequestOptions.centerCropTransform())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
                 .into((AppCompatImageView) helper.getView(R.id.item_filter_image));
     }
 }

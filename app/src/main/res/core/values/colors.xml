@@ -28,6 +28,6 @@
     <color name="light_gray">#9e9e9e</color>
     <color name="light_white">#F6F6F6</color>
     <color name="red_transparent">#80f7b8b8</color>
-    <color name="white_transparent">#D0FFFFFF</color>
+    <color name="white_transparent">#E9FFFFFF</color>
     <color name="black_transparent">#38000000</color>
 </resources>
