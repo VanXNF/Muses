@@ -112,7 +112,7 @@ public class MyFilterPresenter implements MyFilterContract.Presenter {
                                 if (pageFilter.getData() != null && pageFilter.getTotalNum() != 0) {
                                     mModel.setAllPages(pageFilter.getPageCount());
                                     mModel.addLocalFinishedData(pageFilter.getData());
-                                    mView.showFinishedFilter(pageFilter.getData());
+                                    mView.showMoreFinishedFilter(pageFilter.getData());
                                     mView.hideLoadMore(true, false);
                                 } else {
                                     mView.showToast(R.string.data_error_please_try_again);

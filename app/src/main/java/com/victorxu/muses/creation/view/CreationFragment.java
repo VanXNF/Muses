@@ -107,6 +107,10 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
         mTextNewFilter.setOnClickListener(v ->
                 ((MainFragment) getParentFragment()).startBrotherFragment(CreateFilterFragment.newInstance())
         );
+
+//        mSearchFilter.setOnSearchViewClickListener((View v) ->
+//                ((MainFragment) getParentFragment()).startBrotherFragment(SearchFilterFragment.newInstance())
+//        );
     }
 
     @Override

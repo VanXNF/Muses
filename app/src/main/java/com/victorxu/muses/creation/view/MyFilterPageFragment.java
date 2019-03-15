@@ -132,7 +132,7 @@ public class MyFilterPageFragment extends BaseFragment implements MyFilterContra
     public void showMoreUnfinishedFilter(List<UnfinishedFilterStatus.UnfinishedFilterBean> data) {
         mUnfinishedData.addAll(data);
         post(() -> {
-            mAdapterUnfinished.addData(data);
+            mAdapterUnfinished.setNewData(mUnfinishedData);
             mAdapterUnfinished.notifyDataSetChanged();
         });
     }
@@ -141,7 +141,7 @@ public class MyFilterPageFragment extends BaseFragment implements MyFilterContra
     public void showMoreFinishedFilter(List<PageFilter.FilterBean> data) {
         mFilterData.addAll(data);
         post(() -> {
-            mAdapterFilter.addData(data);
+            mAdapterFilter.setNewData(mFilterData);
             mAdapterFilter.notifyDataSetChanged();
         });
     }
