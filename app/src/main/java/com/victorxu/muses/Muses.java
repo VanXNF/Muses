@@ -24,7 +24,7 @@ public class Muses extends Application {
      */
     private void setupFragmentation() {
         Fragmentation.builder()
-                .stackViewMode(Fragmentation.BUBBLE)
+                .stackViewMode(Fragmentation.NONE)
                 .debug(true)
                 .handleException((Exception e)->{})
                 .install();
