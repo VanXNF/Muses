@@ -28,6 +28,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Fade;
 
 public class CreationFragment extends BaseMainFragment implements CreationContract.View {
 
@@ -108,9 +109,9 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
                 ((MainFragment) getParentFragment()).startBrotherFragment(CreateFilterFragment.newInstance())
         );
 
-//        mSearchFilter.setOnSearchViewClickListener((View v) ->
-//                ((MainFragment) getParentFragment()).startBrotherFragment(SearchFilterFragment.newInstance())
-//        );
+        mSearchFilter.setOnSearchViewClickListener((View v) ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(SearchFilterFragment.newInstance())
+        );
     }
 
     @Override
