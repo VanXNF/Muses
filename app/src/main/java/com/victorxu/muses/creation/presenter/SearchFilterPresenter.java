@@ -12,6 +12,7 @@ import com.victorxu.muses.creation.model.SearchFilterModel;
 import com.victorxu.muses.gson.PageFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -58,7 +59,10 @@ public class SearchFilterPresenter implements SearchFilterContract.Presenter {
                             mView.hideEmptyPage();
                             mView.showFilterData(pageFilter.getData());
                         } else {
-                            throw new IOException();
+                            mModel.setAllPages(0);
+                            mModel.setLocalFilterData(new ArrayList<>());
+                            mView.showFilterData(new ArrayList<>());
+                            mView.showEmptyPage();
                         }
                     } catch (IOException e) {
                         mView.showToast(R.string.data_error_please_try_again);
@@ -66,10 +70,6 @@ public class SearchFilterPresenter implements SearchFilterContract.Presenter {
                     } catch (JsonSyntaxException jse) {
                         mView.showToast(R.string.data_error_please_try_again);
                         jse.printStackTrace();
-                    } finally {
-                        if (!mModel.checkDataStatus()) {
-                            mView.showEmptyPage();
-                        }
                     }
                 }
             });
