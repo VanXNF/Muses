@@ -7,8 +7,8 @@ android {
         applicationId "com.victorxu.muses"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 8
-        versionName "v0.80"
+        versionCode 9
+        versionName "v0.85"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
