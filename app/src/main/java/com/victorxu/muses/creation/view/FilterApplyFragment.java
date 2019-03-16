@@ -3,6 +3,9 @@ package com.victorxu.muses.creation.view;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,13 +29,19 @@ import com.victorxu.muses.custom.bottompicker.BottomPicker;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.util.CropUtil;
 import com.victorxu.muses.util.FileUtil;
+import com.victorxu.muses.util.ImageUtil;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 
 
 public class FilterApplyFragment extends BaseFragment implements FilterApplyContract.View {
@@ -191,8 +200,11 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropUtil.CROP_CODE && resultCode == RESULT_OK) {
-            Uri resultUri = UCrop.getOutput(data);
-            mPresenter.uploadData(resultUri);
+            Uri uri = UCrop.getOutput(data);
+            Uri resultUri = addTextMark(uri);
+            if (resultUri != null) {
+                mPresenter.uploadData(resultUri);
+            }
         }
     }
 
@@ -203,5 +215,26 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         mPresenter = new FilterApplyPresenter(this, id);
         mPresenter.loadRootView(view);
         return view;
+    }
+
+    private Uri addTextMark(Uri uri) {
+        try {
+            File file = new File(uri.getPath());
+            Bitmap src = ImageUtil.drawTextToRightBottom(mActivity,
+                    BitmapFactory.decodeFile(uri.getPath()),
+                    getString(R.string.app_name), 20,
+                    20, 15);
+            FileOutputStream fos = new FileOutputStream(file);
+            src.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return Uri.parse(file.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
