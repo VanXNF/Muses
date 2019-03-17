@@ -13,6 +13,7 @@ import com.victorxu.muses.trade.contract.ProductContract;
 import com.victorxu.muses.trade.model.ProductModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,18 +46,22 @@ public class ProductPresenter implements ProductContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
-                    mModel.setCommodityData(commodity.getData());
-                    mView.showBaseInfo(commodity.getData());
-                    mView.showBanner(commodity.getData().getImageUrls());
-                    mView.showProductDetail(commodity.getData().getDescription());
-                    mView.showAttributeBottomSheet(mModel.getAttributeInfoData(commodity.getData().getInformation()));
-                    mView.showStyleBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
-                } else {
-                    Log.w(TAG, "onResponse: getProductData DATA ERROR");
+            public void onResponse(Call call, Response response) {
+                try {
+                    String json = response.body().string();
+//                    Log.d(TAG, "onResponse: " + json);
+                    Commodity commodity = new Gson().fromJson(json, Commodity.class);
+                    if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
+                        mModel.setCommodityData(commodity.getData());
+                        mView.showBaseInfo(commodity.getData());
+                        mView.showBanner(commodity.getData().getImageUrls());
+                        mView.showProductDetail(commodity.getData().getDescription());
+                        mView.showAttributeBottomSheet(mModel.getAttributeInfoData(commodity.getData().getInformation()));
+                        mView.showStyleBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
             }
         });
@@ -68,15 +73,20 @@ public class ProductPresenter implements ProductContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
-                if (comment != null && comment.getCode().equals("OK") && comment.getData() != null) {
-                    mView.showEvaluation(comment.getData().getDataList());
-                } else {
-                    Log.w(TAG, "onResponse: getCommentData DATA ERROR");
+            public void onResponse(Call call, Response response) {
+                try {
+                    String json = response.body().string();
+//                    Log.d(TAG, "onResponse: " + json);
+                    PageComment comment = new Gson().fromJson(json, PageComment.class);
+                    if (comment != null && comment.getCode().equals("OK") && comment.getData().getDataList() != null) {
+                        mView.showEvaluation(comment.getData().getDataList());
+                    } else {
+                        mView.showEmptyEvaluation();
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
-
             }
         });
         mModel.checkFavoriteStatus(new Callback() {
@@ -87,9 +97,9 @@ public class ProductPresenter implements ProductContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (status.getCode().equals("ERROR") && status.getData() != null) {
                         mModel.setFavoriteId(((Double) status.getData()).intValue());
                         mView.showFavorite(true);
@@ -98,11 +108,10 @@ public class ProductPresenter implements ProductContract.Presenter {
                         mView.showFavorite(false);
 //                        Log.d(TAG, "onResponse: CAN COLLECT");
                     }
-                } else {
-                    Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
-
             }
         });
     }
@@ -126,7 +135,7 @@ public class ProductPresenter implements ProductContract.Presenter {
                         } else {
                             mView.showToast(status.getMessage());
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();
                     }
@@ -153,18 +162,18 @@ public class ProductPresenter implements ProductContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Status status = new Gson().fromJson(response.body().string(), Status.class);
-                    if (status != null) {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        String json = response.body().string();
+                        Status status = new Gson().fromJson(json, Status.class);
                         if (status.getCode().equals("OK") && status.getData() != null) {
                             mModel.setFavoriteId(((Double) status.getData()).intValue());
                             mView.showFavorite(true);
                         }
-                    } else {
-                        Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
                     }
-
                 }
             });
         }
@@ -181,17 +190,17 @@ public class ProductPresenter implements ProductContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Status status = new Gson().fromJson(response.body().string(), Status.class);
-                    if (status != null) {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        Status status = new Gson().fromJson(response.body().string(), Status.class);
                         if (status.getCode().equals("ERROR")) {
                             mView.showToast(status.getMessage());
                         } else {
                             mView.showFavorite(false);
                         }
-                    } else {
-                        Log.w(TAG, "onResponse: removeProductDataFromFavorite DATA ERROR");
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
                     }
                 }
             });

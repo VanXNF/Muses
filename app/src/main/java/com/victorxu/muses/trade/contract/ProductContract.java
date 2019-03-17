@@ -53,6 +53,8 @@ public interface ProductContract {
 
         void showEvaluation(List<PageComment.PageCommentData.CommentBean> commentData);
 
+        void showEmptyEvaluation();
+
         void showAttributeBottomSheet(List<String> data);
 
         void showStyleBottomSheet(List<StyleSelectItem> data);

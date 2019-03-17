@@ -28,6 +28,7 @@
     <string name="all_comments">全部评价</string>
     <string name="do_not_find_comment">未找到相关评价</string>
     <string name="add_shopping_cart_success">添加购物车成功</string>
+    <string name="do_not_have_comment">当前无评论</string>
     <!--shopping cart-->
     <string name="shopping_cart">购物车</string>
     <string name="choose_all">全选</string>

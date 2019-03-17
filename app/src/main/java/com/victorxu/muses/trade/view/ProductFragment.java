@@ -94,6 +94,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private AppCompatTextView mEvaluationDate;
     private AppCompatTextView mEvaluationContent;
     private AppCompatTextView mEvaluationOrderInfo;
+    private View mViewEvaluationContent;
     private View mSeeMoreEvaluationView;
     private View mSideDetail;
     private View mSideEvaluation;
@@ -178,6 +179,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mEvaluationDate = view.findViewById(R.id.product_evaluation_text_comment_date);
         mEvaluationContent = view.findViewById(R.id.product_evaluation_text_comment);
         mEvaluationOrderInfo = view.findViewById(R.id.product_evaluation_text_order_info);
+        mViewEvaluationContent = view.findViewById(R.id.product_evaluation_comment_content);
         mSeeMoreEvaluationView = view.findViewById(R.id.product_evaluation_see_more_reviews);
         mSideDetail = view.findViewById(R.id.product_side_detail);
         mSideEvaluation = view.findViewById(R.id.product_side_evaluation);
@@ -387,6 +389,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mCommentData.addAll(commentData);
         PageComment.PageCommentData.CommentBean model = mCommentData.get((int) (Math.random() * mCommentData.size()));
         post(() -> {
+            mViewEvaluationContent.setVisibility(View.VISIBLE);
             GlideApp.with(mActivity)
                     .load(model.getHead())
                     .apply(RequestOptions.circleCropTransform())
@@ -397,6 +400,12 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
             mEvaluationContent.setText(model.getContent());
             mEvaluationOrderInfo.setText(model.getCommodityInfo().split(" ")[0]);
         });
+    }
+
+    @Override
+    public void showEmptyEvaluation() {
+        mCommentData.clear();
+        post(() -> mViewEvaluationContent.setVisibility(View.GONE));
     }
 
     @Override
