@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.gallery.view.adapter.TicketAdapter;
@@ -56,5 +57,15 @@ public class TicketFragment extends BaseSwipeBackFragment {
             ticketItems.add(new TicketItem(100, "无门槛/全品类", "10元现金券", 200));
         }
         return ticketItems;
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.ticket_page_bar;
     }
 }

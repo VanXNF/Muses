@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.message.view.adapter.MessageAdapter;
@@ -52,9 +53,19 @@ public class MessageListFragment extends BaseSwipeBackFragment {
         ArrayList<ListMessageItem> messageItems = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             messageItems.add(new ListMessageItem("https://s1.ax1x.com/2018/03/30/9vzmgH.jpg"
-                    ,"客服 " + String.valueOf(i + 1) + " 号", "亲，请确认一下订单信息。以下是您的收货信息",
+                    , "客服 " + String.valueOf(i + 1) + " 号", "亲，请确认一下订单信息。以下是您的收货信息",
                     "12:56", i * i * i));
         }
         return messageItems;
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.message_page_bar;
     }
 }
