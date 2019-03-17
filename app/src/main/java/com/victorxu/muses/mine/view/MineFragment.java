@@ -28,6 +28,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     private AppCompatTextView mTextId;
     private AppCompatImageView mImgAvatar;
     private AppCompatTextView mTextCollectionCount;
+    private AppCompatImageView mImgSetting;
     private View mViewCollection;
     private View mViewAddress;
     private View mViewPendingPayment;
@@ -80,6 +81,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mViewPendingReceipt = view.findViewById(R.id.mine_linear_pending_receipt);
         mViewWaitingForEvaluation = view.findViewById(R.id.mine_linear_waiting_for_evaluation);
         mViewReturnAfterSale = view.findViewById(R.id.mine_linear_return_after_sale);
+        mImgSetting = view.findViewById(R.id.mine_button_setting);
 
         mTextName.setOnClickListener(v -> mPresenter.goToAccount());
         mImgAvatar.setOnClickListener(v -> mPresenter.goToAccount());
@@ -95,6 +97,8 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mViewWaitingForEvaluation.setOnClickListener(v ->
                 ((MainFragment) getParentFragment()).startBrotherFragment(OrderFragment.newInstance(4)));
 //        mViewReturnAfterSale.setOnClickListener(v -> {});
+        mImgSetting.setOnClickListener(v ->
+                ((MainFragment) getParentFragment()).startBrotherFragment(SettingFragment.newInstance()));
     }
 
     @Override

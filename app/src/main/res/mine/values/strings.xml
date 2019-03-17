@@ -43,4 +43,9 @@
     <string name="tip_prefix">共</string>
     <string name="tip_suffix">件宝贝</string>
     <string name="sure_to_cancel_order">确认取消订单？</string>
+    <string name="setting">设置</string>
+    <string name="clean_cache">缓存清理</string>
+    <string name="clean_finished">清理完成</string>
+    <string name="sure_to_clean_cache">"确认清理应用缓存？"</string>
+    <string name="zero_byte">0.0Byte</string>
 </resources>
