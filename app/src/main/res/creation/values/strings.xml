@@ -30,4 +30,5 @@
     <string name="waiting_in_line">等待训练</string>
     <string name="training">训练中</string>
     <string name="filter_do_not_finished_please_wait">滤镜尚未完成，请稍候</string>
+    <string name="preserve_primary_colors">保留原色</string>
 </resources>

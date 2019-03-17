@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.util.CropUtil;
 import com.victorxu.muses.util.FileUtil;
 import com.victorxu.muses.util.ImageUtil;
+import com.xw.repo.BubbleSeekBar;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -41,10 +41,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
 
 
 public class FilterApplyFragment extends BaseFragment implements FilterApplyContract.View {
+
+    private static final String TAG = "FilterApplyFragment";
 
     private PinchImageView mImgDisplay;
     private View mLoadingView;
@@ -52,10 +53,17 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     private AppCompatTextView mTextChoosePic;
     private AppCompatTextView mTextTweaker;
     private AppCompatTextView mTextExport;
+    private View mViewSeekBar;
+    private AppCompatTextView mTextSeekBarTitle;
+    private BubbleSeekBar mSeekBar;
+    private AppCompatTextView mTextSeekBarConfirm;
     private View mViewExportSave;
+    private View mViewTweakerAdjust;
     private BottomPicker.Builder mBottomPicker;
     private FilterApplyPresenter mPresenter;
 
+    private Bitmap mBitmapOrigin;
+    private Bitmap mBitmapFilter;
     private Bitmap mBitmapData;
     private int id;
 
@@ -119,6 +127,10 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         mTextChoosePic = view.findViewById(R.id.filter_apply_choose_pic);
         mTextTweaker = view.findViewById(R.id.filter_apply_tweaker);
         mTextExport = view.findViewById(R.id.filter_apply_export);
+        mViewSeekBar = view.findViewById(R.id.filter_apply_seek_bar_container);
+        mTextSeekBarTitle = view.findViewById(R.id.filter_apply_text_seek_bar_title);
+        mSeekBar = view.findViewById(R.id.filter_apply_seek_bar);
+        mTextSeekBarConfirm = view.findViewById(R.id.filter_apply_text_seek_bar_confirm);
     }
 
     @Override
@@ -135,19 +147,54 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
                                     , CropUtil.MAX_WIDTH, CropUtil.MAX_HEIGHT);
                         })
         );
-        mTextTweaker.setOnClickListener(v -> {
+        View tweakerView = getLayoutInflater().inflate(R.layout.filter_apply_bottom_tweaker, null);
+        BottomSheetDialog tweakerDialog = new BottomSheetDialog(mActivity);
+        tweakerDialog.setContentView(tweakerView);
+        mViewTweakerAdjust = tweakerView.findViewById(R.id.filter_apply_tweak_intensity);
+        mViewTweakerAdjust.setOnClickListener(v -> {
+            tweakerDialog.dismiss();
+            post(() -> {
+                mViewSeekBar.setVisibility(View.VISIBLE);
+                mTextSeekBarTitle.setText(R.string.brush_intensity);
+                mSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+                    @Override
+                    public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                        mBitmapData = tweakStyleIntensity(progress);
+                        mImgDisplay.setImageBitmap(mBitmapData);
+                    }
 
+                    @Override
+                    public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) { }
+
+                    @Override
+                    public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
+                });
+            });
+        });
+        mTextSeekBarConfirm.setOnClickListener(v -> post(() -> mViewSeekBar.setVisibility(View.GONE)));
+        mTextTweaker.setOnClickListener(v -> {
+            if (checkImageStatus()) {
+                tweakerDialog.show();
+            } else {
+                showToast(R.string.please_choose_pic_first);
+            }
         });
 
         View exportView = getLayoutInflater().inflate(R.layout.filter_apply_bottom_export, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(mActivity);
-        dialog.setContentView(exportView);
+        BottomSheetDialog exportDialog = new BottomSheetDialog(mActivity);
+        exportDialog.setContentView(exportView);
         mViewExportSave = exportView.findViewById(R.id.filter_apply_bottom_save);
         mViewExportSave.setOnClickListener(v -> {
             mPresenter.saveData();
-            dialog.dismiss();
+            exportDialog.dismiss();
         });
-        mTextExport.setOnClickListener(v -> dialog.show());
+        mTextExport.setOnClickListener(v -> {
+            if (checkImageStatus()) {
+                exportDialog.show();
+            } else {
+                showToast(R.string.please_choose_pic_first);
+            }
+        });
         mTextChoosePic.callOnClick();
     }
 
@@ -156,11 +203,13 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         post(() ->
                 GlideApp.with(mActivity)
                         .asBitmap()
+                        .override(mBitmapOrigin.getWidth(), mBitmapOrigin.getHeight())
                         .load(url)
                         .into(new BitmapImageViewTarget(mImgDisplay) {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource,
                                                         @Nullable Transition<? super Bitmap> transition) {
+                                mBitmapFilter = resource;
                                 mBitmapData = resource;
                                 mImgDisplay.setImageBitmap(mBitmapData);
                             }
@@ -197,12 +246,32 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
+    private Bitmap tweakStyleIntensity(int number) {
+        int width = mBitmapOrigin.getWidth();
+        int height = mBitmapOrigin.getHeight();
+        Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(mBitmapOrigin, 0, 0, null);
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setAlpha(number);
+        canvas.drawBitmap(mBitmapFilter, 0, 0, paint);
+        canvas.save();
+        canvas.restore();
+        return newBitmap;
+    }
+
+    private boolean checkImageStatus() {
+        return mBitmapData != null;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropUtil.CROP_CODE && resultCode == RESULT_OK) {
             Uri uri = UCrop.getOutput(data);
             Uri resultUri = addTextMark(uri);
             if (resultUri != null) {
+                mBitmapOrigin = BitmapFactory.decodeFile(resultUri.getPath());
                 mPresenter.uploadData(resultUri);
             }
         }
