@@ -46,29 +46,33 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
                 Log.e(TAG, "onFailure: getProductData");
                 mView.hideLoading();
                 mView.showToast(R.string.network_error_please_try_again);
-                if (mModel.getPageList().size() == 0) {
+                if (!mModel.checkDataStatus()) {
                     mView.showFailPage();
                 }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                PageCommodity commodity = new Gson().fromJson(response.body().string(), PageCommodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getPageData().getTotalNum() != 0) {
-                    List<PageCommodity> pages = new ArrayList<>();
-                    pages.add(commodity);
-                    mModel.setPageList(pages);
-                    mModel.setAllPages(commodity.getPageData().getPageCount());
-                    mView.showProductList(commodity.getPageData().getCommodityList());
-                    Log.d(TAG, "onResponse: getProductData");
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    PageCommodity commodity = new Gson().fromJson(response.body().string(), PageCommodity.class);
+                    if (commodity != null && commodity.getCode().equals("OK") && commodity.getPageData().getTotalNum() != 0) {
+                        List<PageCommodity> pages = new ArrayList<>();
+                        pages.add(commodity);
+                        mModel.setPageList(pages);
+                        mModel.setAllPages(commodity.getPageData().getPageCount());
+                        mView.showProductList(commodity.getPageData().getCommodityList());
+//                        Log.d(TAG, "onResponse: getProductData");
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    if (mModel.getPageList().size() == 0) {
+                    e.printStackTrace();
+                } finally {
+                    if (!mModel.checkDataStatus()) {
                         mView.showEmptyPage();
                     }
-                    Log.w(TAG, "onResponse: getProductData DATA ERROR");
+                    mView.hideLoading();
                 }
-                mView.hideLoading();
+
             }
         });
     }
@@ -76,7 +80,7 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
     @Override
     public void loadMoreProductToView() {
         mView.showLoadingMore();
-        if (mModel.getAllPages() != 0 && mModel.getCurrentPage() < mModel.getAllPages()) {
+        if (mModel.checkPageStatus()) {
             mModel.getMoreProductData(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -86,19 +90,24 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    PageCommodity commodity = new Gson().fromJson(response.body().string(), PageCommodity.class);
-                    if (commodity != null && commodity.getCode().equals("OK") && commodity.getPageData().getTotalNum() != 0) {
-                        mModel.addPage(commodity);
-                        mModel.setAllPages(commodity.getPageData().getPageCount());
-                        mView.showMoreProduct(commodity.getPageData().getCommodityList());
-                        mView.hideLoadingMore(true, false);
-                        Log.d(TAG, "onResponse: getMoreProductData");
-                    } else {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        PageCommodity commodity = new Gson().fromJson(response.body().string(), PageCommodity.class);
+                        if (commodity != null && commodity.getCode().equals("OK") && commodity.getPageData().getTotalNum() != 0) {
+                            mModel.addPage(commodity);
+                            mModel.setAllPages(commodity.getPageData().getPageCount());
+                            mView.showMoreProduct(commodity.getPageData().getCommodityList());
+                            mView.hideLoadingMore(true, false);
+                            Log.d(TAG, "onResponse: getMoreProductData");
+                        } else {
+                            mView.hideLoadingMore(false, false);
+                            Log.w(TAG, "onResponse: getProductData DATA ERROR");
+                        }
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
-                        mView.hideLoadingMore(false, false);
-                        Log.w(TAG, "onResponse: getProductData DATA ERROR");
+                        e.printStackTrace();
                     }
+
                 }
             });
         } else {

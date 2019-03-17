@@ -22,25 +22,6 @@ public class SearchResultModel implements SearchResultContract.Model {
     private List<PageCommodity> pages = new ArrayList<>();
 
     @Override
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    @Override
-    public int getAllPages() {
-        try {
-            return pages.get(currentPage).getPageData().getPageCount();
-        } catch (IndexOutOfBoundsException e) {
-            return allPages;
-        }
-    }
-
-    @Override
-    public List<PageCommodity> getPageList() {
-        return pages;
-    }
-
-    @Override
     public void getProductData(Callback callback) {
         getProductData(1, callback);
     }
@@ -84,6 +65,16 @@ public class SearchResultModel implements SearchResultContract.Model {
     @Override
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    @Override
+    public boolean checkDataStatus() {
+        return (allPages != 0 && currentPage < allPages);
+    }
+
+    @Override
+    public boolean checkPageStatus() {
+        return pages.size() != 0;
     }
 
     private void initSearchModel() {
