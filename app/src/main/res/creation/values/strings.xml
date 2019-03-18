@@ -11,6 +11,9 @@
     <string name="share_to_other_people">与他人分享图片</string>
     <string name="save_change">保存</string>
     <string name="create_copy_for_your_pic">为您的图片创建副本</string>
+    <string name="customize">定制</string>
+    <string name="customize_a_unique_decorative_painting_for_you">为您的创作定制独一无二的装饰画</string>
+    <string name="please_wait_we_are_create_image_now">请稍等，正在为您创建装饰画</string>
     <string name="can_not_use_this_function_without_permission">未授予权限，无法使用此功能</string>
     <string name="if_you_reject_permission_you_can_not_use_this_service_please_turn_on_permissions_at_Setting_Permission">如果您拒绝授予权限，您将无法使用本服务，请在[设置] > [权限]中授予必要权限</string>
     <string name="please_choose_pic_first">请先选择图像</string>

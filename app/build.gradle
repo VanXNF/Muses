@@ -7,8 +7,8 @@ android {
         applicationId "com.victorxu.muses"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 9
-        versionName "v0.85"
+        versionCode 10
+        versionName "v0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -98,6 +98,8 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.2-native'
 //    bubbleseekbar
     implementation 'com.xw.repo:bubbleseekbar:3.19-lite'
+//    metroloading
+    implementation 'com.mmga.metroloading:metroloading:1.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'

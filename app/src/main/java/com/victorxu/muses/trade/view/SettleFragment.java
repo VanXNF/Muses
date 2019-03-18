@@ -13,6 +13,7 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 
 import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.creation.view.FilterApplyFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.gson.Address;
 import com.victorxu.muses.gson.DefaultAddress;
@@ -39,8 +40,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SettleFragment extends BaseFragment implements SettleContract.View {
 
-    private static final int TYPE_CART = 0;
-    private static final int TYPE_PRODUCT = 1;
+    public static final int TYPE_CART = 0;
+    public static final int TYPE_PRODUCT = 1;
+    public static final int TYPE_CUSTOMIZE = 2;
     private final int REQUEST_CHOOSE = -1;
 
     private Toolbar mToolbarSettle;
@@ -88,6 +90,15 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
         return fragment;
     }
 
+    public static SettleFragment newInstance(ProductSettleOrderBean data, int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("TYPE", type);
+        bundle.putSerializable("DATA", data);
+        SettleFragment fragment = new SettleFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +110,9 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
                     mCartOrderData = (CartSettleOrderBean) bundle.getSerializable("DATA");
                     break;
                 case TYPE_PRODUCT:
+                    mProductOrderData = (ProductSettleOrderBean) bundle.getSerializable("DATA");
+                    break;
+                case TYPE_CUSTOMIZE:
                     mProductOrderData = (ProductSettleOrderBean) bundle.getSerializable("DATA");
                     break;
             }
@@ -118,6 +132,9 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
                 mPresenterSettle.updateCartIds(mCartOrderData.getCartIds());
                 break;
             case TYPE_PRODUCT:
+                mPresenterSettle.loadCartItemOfCart(mProductOrderData);
+                break;
+            case TYPE_CUSTOMIZE:
                 mPresenterSettle.loadCartItemOfCart(mProductOrderData);
                 break;
         }
@@ -172,6 +189,9 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
                     mPresenterSettle.submitCartOrder();
                     break;
                 case TYPE_PRODUCT:
+                    mPresenterSettle.submitProductOrder();
+                    break;
+                case TYPE_CUSTOMIZE:
                     mPresenterSettle.submitProductOrder();
                     break;
             }
@@ -267,6 +287,9 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
                         break;
                     case TYPE_PRODUCT:
                         popTo(ProductFragment.class, false);
+                        break;
+                    case TYPE_CUSTOMIZE:
+                        popTo(FilterApplyFragment.class, false);
                         break;
                 }
             });

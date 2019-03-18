@@ -1,6 +1,7 @@
 package com.victorxu.muses.creation.view;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -19,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.gyf.barlibrary.ImmersionBar;
+import com.mmga.metroloading.MetroLoadingView;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.creation.contract.FilterApplyContract;
@@ -26,6 +29,7 @@ import com.victorxu.muses.creation.presenter.FilterApplyPresenter;
 import com.victorxu.muses.custom.PinchImageView;
 import com.victorxu.muses.custom.bottompicker.BottomPicker;
 import com.victorxu.muses.glide.GlideApp;
+import com.victorxu.muses.trade.view.CustomizeFragment;
 import com.victorxu.muses.util.CropUtil;
 import com.victorxu.muses.util.FileUtil;
 import com.victorxu.muses.util.ImageUtil;
@@ -40,6 +44,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
 
 
@@ -58,9 +63,11 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     private BubbleSeekBar mSeekBar;
     private AppCompatTextView mTextSeekBarConfirm;
     private View mViewExportSave;
+    private View mViewExportBuy;
     private View mViewTweakerAdjust;
     private BottomPicker.Builder mBottomPicker;
     private FilterApplyPresenter mPresenter;
+    private AlertDialog mDialogLoading;
 
     private Bitmap mBitmapOrigin;
     private Bitmap mBitmapFilter;
@@ -164,10 +171,12 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
                     }
 
                     @Override
-                    public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) { }
+                    public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                    }
 
                     @Override
-                    public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
+                    public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                    }
                 });
             });
         });
@@ -184,8 +193,13 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         BottomSheetDialog exportDialog = new BottomSheetDialog(mActivity);
         exportDialog.setContentView(exportView);
         mViewExportSave = exportView.findViewById(R.id.filter_apply_bottom_save);
+        mViewExportBuy = exportView.findViewById(R.id.filter_apply_bottom_buy);
         mViewExportSave.setOnClickListener(v -> {
             mPresenter.saveData();
+            exportDialog.dismiss();
+        });
+        mViewExportBuy.setOnClickListener(v -> {
+            mPresenter.uploadArtData(mBitmapData);
             exportDialog.dismiss();
         });
         mTextExport.setOnClickListener(v -> {
@@ -196,6 +210,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
             }
         });
         mTextChoosePic.callOnClick();
+        initLoadingDialog();
     }
 
     @Override
@@ -218,12 +233,30 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     }
 
     @Override
+    public void showCustomizePage(int id) {
+        start(CustomizeFragment.newInstance(id));
+    }
+
+    @Override
     public void saveFilterImage() {
-        if (FileUtil.saveImageToGallery(mActivity, mBitmapData)) {
+        if (FileUtil.saveImageToGallery(mActivity,
+                ImageUtil.drawTextToRightBottom(mActivity, mBitmapData,
+                        getString(R.string.app_name), 20,
+                        20, 15))) {
             showToast(R.string.save_success);
         } else {
             showToast(R.string.save_fail);
         }
+    }
+
+    @Override
+    public Uri saveTempImage(String filename, Bitmap bitmap) {
+        return FileUtil.saveImage(bitmap, filename);
+    }
+
+    @Override
+    public void deleteTempImage(Uri uri) {
+        FileUtil.deleteImage(uri);
     }
 
     @Override
@@ -232,8 +265,18 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     }
 
     @Override
+    public void showLoadingDialog() {
+        post(() -> mDialogLoading.show());
+    }
+
+    @Override
     public void hideLoading() {
         post(() -> mLoadingView.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        post(() -> mDialogLoading.dismiss());
     }
 
     @Override
@@ -265,15 +308,30 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
         return mBitmapData != null;
     }
 
+    private void initLoadingDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(mActivity);
+        View dialogView = layoutInflater.inflate(R.layout.dialog_loading, null);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mActivity);
+        builder.setView(dialogView);
+        AppCompatTextView txtTitle = dialogView.findViewById(R.id.dialog_title);
+        MetroLoadingView loadingView = dialogView.findViewById(R.id.dialog_loading);
+        builder.setCancelable(false);
+        txtTitle.setVisibility(View.VISIBLE);
+        txtTitle.setText(R.string.please_wait_we_are_create_image_now);
+
+        mDialogLoading = builder.create();
+        Window window = mDialogLoading.getWindow();
+        window.setBackgroundDrawable(getResources().getDrawable(R.drawable.rectangle_all_bg, null));
+        mDialogLoading.setOnShowListener((DialogInterface dialog) -> loadingView.start());
+        mDialogLoading.setOnDismissListener((DialogInterface dialog) -> loadingView.stop());
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropUtil.CROP_CODE && resultCode == RESULT_OK) {
             Uri uri = UCrop.getOutput(data);
-            Uri resultUri = addTextMark(uri);
-            if (resultUri != null) {
-                mBitmapOrigin = BitmapFactory.decodeFile(resultUri.getPath());
-                mPresenter.uploadData(resultUri);
-            }
+            mBitmapOrigin = BitmapFactory.decodeFile(uri.getPath());
+            mPresenter.uploadData(uri);
         }
     }
 
@@ -281,7 +339,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter_apply, container, false);
-        mPresenter = new FilterApplyPresenter(this, id);
+        mPresenter = new FilterApplyPresenter(this, id, mActivity);
         mPresenter.loadRootView(view);
         return view;
     }
