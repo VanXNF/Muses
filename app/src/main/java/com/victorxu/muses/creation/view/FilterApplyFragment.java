@@ -240,9 +240,9 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     @Override
     public void saveFilterImage() {
         if (FileUtil.saveImageToGallery(mActivity,
-                ImageUtil.drawTextToRightBottom(mActivity, mBitmapData,
-                        getString(R.string.app_name), 20,
-                        20, 15))) {
+                ImageUtil.createWaterMaskRightBottom(mActivity, mBitmapData,
+                        BitmapFactory.decodeResource(getResources(), R.drawable.muses_art),
+                        10, 10))) {
             showToast(R.string.save_success);
         } else {
             showToast(R.string.save_fail);

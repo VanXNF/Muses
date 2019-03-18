@@ -40,6 +40,7 @@ public class ImageUtil {
         }
         int width = src.getWidth();
         int height = src.getHeight();
+
         //创建一个bitmap
         Bitmap newBitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
         //将该图片作为画布
@@ -80,6 +81,22 @@ public class ImageUtil {
     public static Bitmap createWaterMaskRightBottom(
             Context context, Bitmap src, Bitmap watermark,
             int paddingRight, int paddingBottom) {
+
+        int width = src.getWidth();
+        int height = src.getHeight();
+        //获取水印图片宽高
+        int watermarkWidth = watermark.getWidth();
+        int watermarkHeight = watermark.getHeight();
+
+        int srcMin = width < height ? width : height;
+        int waterMax = watermarkWidth >= watermarkHeight ? watermarkWidth : watermarkHeight;
+
+        float scale = (srcMin * 0.25f) / waterMax;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        // 得到新的水印图片
+        watermark = Bitmap.createBitmap(watermark, 0, 0, watermarkWidth, watermarkHeight, matrix, true);
         return createWaterMaskBitmap(src, watermark,
                 src.getWidth() - watermark.getWidth() - dp2px(context, paddingRight),
                 src.getHeight() - watermark.getHeight() - dp2px(context, paddingBottom));
