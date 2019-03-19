@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
 import com.victorxu.muses.gson.Collection;
@@ -28,12 +31,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CollectionFragment extends BaseSwipeBackFragment implements CollectionContract.View {
 
     private Toolbar mToolbar;
-    private SwipeRefreshLayout mRefresh;
+    private SmartRefreshLayout mRefresh;
     private SwipeMenuRecyclerView mRecycler;
     private CollectionAdapter mAdapter;
 
@@ -85,7 +87,10 @@ public class CollectionFragment extends BaseSwipeBackFragment implements Collect
 
         mToolbar.setNavigationOnClickListener(v -> mActivity.onBackPressed());
 
-        mRefresh.setOnRefreshListener(() -> mPresenter.reloadDataToView());
+        mRefresh.setEnableLoadMore(false);
+        mRefresh.setEnableLoadMoreWhenContentNotFull(false);
+        mRefresh.setRefreshHeader(new MaterialHeader(mActivity));
+        mRefresh.setOnRefreshListener((@NonNull RefreshLayout refreshLayout) -> mPresenter.reloadDataToView());
 
         mAdapter = new CollectionAdapter(mCollectionData);
 
@@ -121,12 +126,12 @@ public class CollectionFragment extends BaseSwipeBackFragment implements Collect
 
     @Override
     public void showLoading() {
-        mRefresh.setRefreshing(true);
+        mRefresh.autoRefresh(100, 500, 1.2f, true);
     }
 
     @Override
     public void hideLoading() {
-        mRefresh.setRefreshing(false);
+        mRefresh.finishRefresh(1000);
     }
 
     @Override

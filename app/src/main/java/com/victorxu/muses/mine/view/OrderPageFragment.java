@@ -157,12 +157,12 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
 
     @Override
     public void showLoading() {
-        post(() -> mRefreshLayoutOrder.autoRefreshAnimationOnly());
+        mRefreshLayoutOrder.autoRefresh(100, 500, 1.2f, true);
     }
 
     @Override
     public void hideLoading() {
-        post(() -> mRefreshLayoutOrder.finishRefresh());
+        mRefreshLayoutOrder.finishRefresh(1000);
     }
 
     @Override

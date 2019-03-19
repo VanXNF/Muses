@@ -112,11 +112,11 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     public void showBaseUserInfo(UserStatus.UserBean data) {
         post(() -> {
             if (data.getUsername().length() > 8) {
-                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_8));
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_7));
             } else if (data.getUsername().length() > 4) {
-                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_11));
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_10));
             } else {
-                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_14));
+                mTextName.setTextSize(getResources().getDimension(R.dimen.sp_13));
             }
             mTextName.setText(data.getUsername());
             mTextId.setText("ID: " + data.getUserId());
