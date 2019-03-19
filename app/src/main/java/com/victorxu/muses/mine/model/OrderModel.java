@@ -11,6 +11,7 @@ import com.victorxu.muses.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class OrderModel implements OrderContract.Model {
@@ -25,6 +26,10 @@ public class OrderModel implements OrderContract.Model {
     private int allPages = 0;
 
     private List<PageOrderStatus.PageOrder.OrderBean> orders;
+
+    private Call mCallGet;
+    private Call mCallDelete;
+    private Call mCallUpdate;
 
     public OrderModel(int type, Context context) {
         this.type = type;
@@ -41,7 +46,9 @@ public class OrderModel implements OrderContract.Model {
     public void getOrderData(int page, Callback callback) {
         currentPage = page;
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        HttpUtil.getRequest(ORDER_API + ORDER_LIST_SUFFIX_API + String.valueOf(userId) + "/" + String.valueOf(type) + "/" + String.valueOf(currentPage), callback);
+        mCallGet = HttpUtil.getRequest(ORDER_API + ORDER_LIST_SUFFIX_API +
+                String.valueOf(userId) + "/" + String.valueOf(type) + "/" +
+                String.valueOf(currentPage), callback);
     }
 
     @Override
@@ -51,7 +58,7 @@ public class OrderModel implements OrderContract.Model {
 
     @Override
     public void deleteOrderData(int position, Callback callback) {
-        HttpUtil.deleteRequest(ORDER_API + String.valueOf(orders.get(position).getId()), callback);
+        mCallDelete = HttpUtil.deleteRequest(ORDER_API + String.valueOf(orders.get(position).getId()), callback);
         orders.remove(position);
     }
 
@@ -59,7 +66,7 @@ public class OrderModel implements OrderContract.Model {
     public void updateOrderData(int position, Callback callback) {
         JsonObject object = new JsonObject();
         object.addProperty("status", 1);
-        HttpUtil.putRequest(ORDER_API + String.valueOf(orders.get(position).getId()), object.toString(), callback);
+        mCallUpdate = HttpUtil.putRequest(ORDER_API + String.valueOf(orders.get(position).getId()), object.toString(), callback);
     }
 
     @Override
@@ -91,5 +98,18 @@ public class OrderModel implements OrderContract.Model {
     @Override
     public boolean checkPageStatus() {
         return allPages != 0 && currentPage < allPages;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallGet);
+        cancelCall(mCallDelete);
+        cancelCall(mCallUpdate);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

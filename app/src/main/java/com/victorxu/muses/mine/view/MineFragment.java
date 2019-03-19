@@ -37,7 +37,7 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
     private View mViewWaitingForEvaluation;
     private View mViewReturnAfterSale;
 
-    private MinePresenter mPresenter;
+    private MineContract.Presenter mPresenter;
 
     public static MineFragment newInstance() {
         return new MineFragment();
@@ -50,6 +50,13 @@ public class MineFragment extends BaseMainFragment implements MineContract.View 
         mPresenter = new MinePresenter(this, mActivity);
         mPresenter.loadRootView(view);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override

@@ -45,17 +45,17 @@ public class MinePresenter implements MineContract.Presenter {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Status status = new Gson().fromJson(response.body().string(), Status.class);
-                    if (status != null) {
+                public void onResponse(Call call, Response response) {
+                    try {
+                        Status status = new Gson().fromJson(response.body().string(), Status.class);
                         if (status.getCode().equals("OK") && status.getData() != null) {
                             mView.showCollectionCount(((Double) status.getData()).intValue());
                         } else {
                             mView.showToast(status.getMessage());
                         }
-                    } else {
-                        Log.w(TAG, "onResponse: getCollectionCountData DATA ERROR");
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
+                        e.printStackTrace();
                     }
                 }
             });
@@ -68,6 +68,15 @@ public class MinePresenter implements MineContract.Presenter {
             mView.goToProfilePage();
         } else {
             mView.goToLoginPage();
+        }
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
         }
     }
 }

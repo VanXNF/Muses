@@ -46,7 +46,7 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
     private AppCompatTextView mTextOrderPhone;
     private AppCompatButton mBtnPayOrder;
 
-    private OrderPresenter mPresenterOrder;
+    private OrderContract.Presenter mPresenterOrder;
 
     private OrderAdapter mAdapterOrder;
     private List<PageOrderStatus.PageOrder.OrderBean> mOrderData = new ArrayList<>();
@@ -72,6 +72,13 @@ public class OrderPageFragment extends BaseFragment implements OrderContract.Vie
         } else {
             type = 0;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenterOrder.destroy();
+        mPresenterOrder = null;
     }
 
     @Override

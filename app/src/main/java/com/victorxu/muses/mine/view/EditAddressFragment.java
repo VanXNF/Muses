@@ -80,12 +80,36 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
         }
     }
 
+    private void inputAddressData(Address.AddressBean data) {
+//        mAddressData = new Address.AddressBean();
+        mAddressData.setId(data.getId());
+        mAddressData.setProvince(data.getProvince());
+        mAddressData.setCity(data.getCity());
+        mAddressData.setDistrict(data.getDistrict());
+        mAddressData.setAddress(data.getAddress());
+        mAddressData.setSignerName(data.getSignerName());
+        mAddressData.setSignerMobile(data.getSignerMobile());
+        mAddressData.setUserId(data.getUserId());
+        mAddressData.setDefaultAddress(data.isDefaultAddress());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_address, container, false);
         initRootView(view);
         return attachToSwipeBack(view);
+    }
+
+    private void initRootView(View view) {
+        mToolbar = view.findViewById(R.id.edit_address_toolbar);
+        mEditReceiver = view.findViewById(R.id.address_edit_receiver);
+        mEditPhone = view.findViewById(R.id.address_edit_phone);
+        mTextLocation = view.findViewById(R.id.address_edit_location);
+        mEditLocationDetail = view.findViewById(R.id.address_edit_location_detail);
+        mSwitchDefault = view.findViewById(R.id.address_edit_switch_default);
+        mTextSave = view.findViewById(R.id.address_edit_save_address);
+        mTextDelete = view.findViewById(R.id.address_edit_delete_address);
     }
 
     @Override
@@ -145,7 +169,7 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
                     bundle.putString("TYPE", "add");
                     bundle.putSerializable("DATA", mAddressData);
                     setFragmentResult(RESULT_OK, bundle);
-                } else if (type ==TYPE_EDIT) {
+                } else if (type == TYPE_EDIT) {
                     bundle.putString("TYPE", "edit");
                     bundle.putSerializable("DATA", mAddressData);
                     setFragmentResult(RESULT_OK, bundle);
@@ -169,25 +193,6 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
         });
     }
 
-    private void initRootView(View view) {
-        mToolbar = view.findViewById(R.id.edit_address_toolbar);
-        mEditReceiver = view.findViewById(R.id.address_edit_receiver);
-        mEditPhone = view.findViewById(R.id.address_edit_phone);
-        mTextLocation = view.findViewById(R.id.address_edit_location);
-        mEditLocationDetail = view.findViewById(R.id.address_edit_location_detail);
-        mSwitchDefault = view.findViewById(R.id.address_edit_switch_default);
-        mTextSave = view.findViewById(R.id.address_edit_save_address);
-        mTextDelete = view.findViewById(R.id.address_edit_delete_address);
-    }
-
-    private void showToast(int resId) {
-        showToast(getText(resId));
-    }
-
-    private void showToast(CharSequence text) {
-        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
     @Override
     public void initImmersionBar() {
         ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
@@ -196,19 +201,6 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
     @Override
     protected int setTitleBar() {
         return R.id.edit_address_toolbar;
-    }
-
-    private void inputAddressData(Address.AddressBean data) {
-//        mAddressData = new Address.AddressBean();
-        mAddressData.setId(data.getId());
-        mAddressData.setProvince(data.getProvince());
-        mAddressData.setCity(data.getCity());
-        mAddressData.setDistrict(data.getDistrict());
-        mAddressData.setAddress(data.getAddress());
-        mAddressData.setSignerName(data.getSignerName());
-        mAddressData.setSignerMobile(data.getSignerMobile());
-        mAddressData.setUserId(data.getUserId());
-        mAddressData.setDefaultAddress(data.isDefaultAddress());
     }
 
     private boolean checkAddressData() {
@@ -236,5 +228,13 @@ public class EditAddressFragment extends BaseSwipeBackFragment {
         }
         mAddressData.setDefaultAddress(mSwitchDefault.isChecked());
         return true;
+    }
+
+    private void showToast(int resId) {
+        showToast(getText(resId));
+    }
+
+    private void showToast(CharSequence text) {
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 }

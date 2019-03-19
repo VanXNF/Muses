@@ -29,6 +29,8 @@ public interface OrderContract {
         void setAllPages(int allPages);
 
         boolean checkPageStatus();
+
+        void cancelTask();
     }
 
     interface View {
@@ -71,5 +73,7 @@ public interface OrderContract {
         void cancelOrder(int position);
 
         void payOrder(int position);
+
+        void destroy();
     }
 }

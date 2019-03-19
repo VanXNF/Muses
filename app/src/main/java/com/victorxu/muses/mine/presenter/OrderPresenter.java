@@ -60,7 +60,7 @@ public class OrderPresenter implements OrderContract.Presenter {
                     } else {
                         mView.showEmptyPage();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 } finally {
@@ -104,7 +104,7 @@ public class OrderPresenter implements OrderContract.Presenter {
 //                            mView.showToast(orderStatus.getMessage());
                             mView.hideLoadMore(false, false);
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         mView.hideLoadMore(false, false);
                         e.printStackTrace();
@@ -137,7 +137,7 @@ public class OrderPresenter implements OrderContract.Presenter {
                         mView.showOrder(mModel.getLocalOrderData());
                     }
                     mView.showToast(status.getMessage());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 } finally {
@@ -168,7 +168,7 @@ public class OrderPresenter implements OrderContract.Presenter {
                     } else {
                         mView.showToast(R.string.order_do_not_finish);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 } finally {
@@ -176,5 +176,14 @@ public class OrderPresenter implements OrderContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

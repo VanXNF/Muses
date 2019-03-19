@@ -48,20 +48,23 @@ public class CollectionPresenter implements CollectionContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                mView.hideLoading();
-                Collection collection = new Gson().fromJson(response.body().string(), Collection.class);
-                if (collection != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Collection collection = new Gson().fromJson(response.body().string(), Collection.class);
                     if (collection.getCode().equals("OK")) {
                         mModel.setCollectionData(collection.getData());
                         mView.showCollection(collection.getData());
                     } else {
                         mView.showToast(collection.getMessage());
                     }
-                } else {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: DATA ERROR");
+                    e.printStackTrace();
+                } finally {
+                    mView.hideLoading();
                 }
+
+
             }
         });
     }
@@ -82,8 +85,8 @@ public class CollectionPresenter implements CollectionContract.Presenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Status status = new Gson().fromJson(response.body().string(), Status.class);
-                if (status != null) {
+                try {
+                    Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (status.getCode().equals("ERROR")) {
                         mView.showToast(status.getMessage());
                     } else {
@@ -93,11 +96,20 @@ public class CollectionPresenter implements CollectionContract.Presenter {
                         mModel.setCollectionData(data);
                         mView.showCollection(data);
                     }
-                } else {
-                    Log.w(TAG, "onResponse: removeFromFavorite DATA ERROR");
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
                 }
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

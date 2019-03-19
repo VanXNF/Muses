@@ -58,7 +58,7 @@ public class AddressPresenter implements AddressContract.Presenter {
                             mView.showToast(R.string.do_not_have_address);
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -83,7 +83,7 @@ public class AddressPresenter implements AddressContract.Presenter {
                     if (status.getCode().equals("OK")) {
                         loadDataToView();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Log.w(TAG, "onResponse: addAddress");
                     mView.showToast(R.string.data_error_please_try_again);
@@ -109,7 +109,7 @@ public class AddressPresenter implements AddressContract.Presenter {
                     if (status.getCode().equals("OK")) {
                         loadDataToView();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Log.w(TAG, "onResponse: deleteAddress");
                     mView.showToast(R.string.data_error_please_try_again);
@@ -135,12 +135,21 @@ public class AddressPresenter implements AddressContract.Presenter {
                     if (status.getCode().equals("OK")) {
                         loadDataToView();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Log.w(TAG, "onResponse: updateAddress");
                     mView.showToast(R.string.data_error_please_try_again);
                 }
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

@@ -39,7 +39,7 @@ public class CollectionFragment extends BaseSwipeBackFragment implements Collect
 
     private List<Collection.CollectionBean> mCollectionData = new ArrayList<>();
 
-    private CollectionPresenter mPresenter;
+    private CollectionContract.Presenter mPresenter;
 
     public static CollectionFragment newInstance() {
         return new CollectionFragment();
@@ -55,9 +55,26 @@ public class CollectionFragment extends BaseSwipeBackFragment implements Collect
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenter.loadDataToView();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.collect_toolbar;
     }
 
     @Override
@@ -130,15 +147,5 @@ public class CollectionFragment extends BaseSwipeBackFragment implements Collect
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.collect_toolbar;
     }
 }

@@ -7,6 +7,7 @@ import com.victorxu.muses.mine.contract.MineContract;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class MineModel implements MineContract.Model {
@@ -14,6 +15,7 @@ public class MineModel implements MineContract.Model {
     private final String COLLECTION_COUNT_API = "api/favorite/commodity/count/";
 
     private Context context;
+    private Call mCallGet;
 
     public MineModel(Context context) {
         this.context = context;
@@ -32,11 +34,22 @@ public class MineModel implements MineContract.Model {
     @Override
     public void getCollectionCountData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        HttpUtil.getRequest(COLLECTION_COUNT_API + String.valueOf(userId), callback);
+        mCallGet = HttpUtil.getRequest(COLLECTION_COUNT_API + String.valueOf(userId), callback);
     }
 
     @Override
     public boolean checkUserStatus() {
         return (int) SharedPreferencesUtil.get(context, "UserId", 0) != 0;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallGet);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

@@ -33,7 +33,7 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     private Toolbar mToolbar;
     private RecyclerView mRecycler;
     private AddressAdapter mAdapter;
-    private AddressPresenter mPresenter;
+    private AddressContract.Presenter mPresenter;
 
     private List<Address.AddressBean> mAddressData = new ArrayList<>();
     private boolean isChooseMode = false;
@@ -51,21 +51,10 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            isChooseMode = bundle.getBoolean("MODE");
-        }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_address, container, false);
-        mPresenter = new AddressPresenter(this, mActivity);
-        mPresenter.loadRootView(view);
-        return attachToSwipeBack(view);
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override
@@ -107,6 +96,24 @@ public class AddressFragment extends BaseSwipeBackFragment implements AddressCon
     @Override
     protected int setTitleBar() {
         return R.id.address_toolbar;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isChooseMode = bundle.getBoolean("MODE");
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_address, container, false);
+        mPresenter = new AddressPresenter(this, mActivity);
+        mPresenter.loadRootView(view);
+        return attachToSwipeBack(view);
     }
 
     @Override

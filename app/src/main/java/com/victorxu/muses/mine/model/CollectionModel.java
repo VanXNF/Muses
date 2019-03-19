@@ -10,6 +10,7 @@ import com.victorxu.muses.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class CollectionModel implements CollectionContract.Model {
@@ -19,6 +20,9 @@ public class CollectionModel implements CollectionContract.Model {
     private Context context;
     private List<Collection.CollectionBean> mCollectionData = new ArrayList<>();
 
+    private Call mCallGet;
+    private Call mCallDelete;
+
     public CollectionModel(Context context) {
         this.context = context;
     }
@@ -26,13 +30,18 @@ public class CollectionModel implements CollectionContract.Model {
     @Override
     public void getCollectionData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId), callback);
+        mCallGet = HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId), callback);
     }
 
     @Override
     public void removeFromFavorite(int position, Callback callback) {
         int favId = mCollectionData.get(position).getId();
-        HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+        mCallDelete = HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+    }
+
+    @Override
+    public List<Collection.CollectionBean> getCollectionData() {
+        return mCollectionData;
     }
 
     @Override
@@ -42,7 +51,14 @@ public class CollectionModel implements CollectionContract.Model {
     }
 
     @Override
-    public List<Collection.CollectionBean> getCollectionData() {
-        return mCollectionData;
+    public void cancelTask() {
+        cancelCall(mCallGet);
+        cancelCall(mCallDelete);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }
