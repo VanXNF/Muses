@@ -56,7 +56,7 @@ public class FilterCreateModel implements FilterCreateContract.Model {
     }
 
     private void cancelCall(Call call) {
-        if (call != null) {
+        if (call != null && call.isExecuted()) {
             call.cancel();
         }
     }

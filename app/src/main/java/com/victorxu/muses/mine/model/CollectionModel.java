@@ -57,7 +57,7 @@ public class CollectionModel implements CollectionContract.Model {
     }
 
     private void cancelCall(Call call) {
-        if (call != null) {
+        if (call != null && call.isExecuted()) {
             call.cancel();
         }
     }

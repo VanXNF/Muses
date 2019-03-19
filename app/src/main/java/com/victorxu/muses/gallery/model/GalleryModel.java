@@ -93,7 +93,7 @@ public class GalleryModel implements GalleryContract.Model {
     }
 
     private void cancelCall(Call call) {
-        if (call != null) {
+        if (call != null && call.isExecuted()) {
             call.cancel();
         }
     }

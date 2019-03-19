@@ -115,7 +115,7 @@ public class CustomizeModel implements CustomizeContract.Model {
     }
 
     private void cancelCall(Call call) {
-        if (call != null) {
+        if (call != null && call.isExecuted()) {
             call.cancel();
         }
     }
