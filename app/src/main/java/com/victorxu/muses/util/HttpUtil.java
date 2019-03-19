@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -28,14 +29,16 @@ public class HttpUtil {
      * @param address  Api 地址
      * @param callback 回调方法
      */
-    public static void getRequest(String address, okhttp3.Callback callback) {
-        getRequest(WEB_SERVER, address, callback);
+    public static Call getRequest(String address, okhttp3.Callback callback) {
+        return getRequest(WEB_SERVER, address, callback);
     }
 
-    public static void getRequest(String server, String address, okhttp3.Callback callback) {
+    public static Call getRequest(String server, String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(server + address).build();
-        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
 
@@ -47,11 +50,26 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     @SuppressWarnings("ConstantConditions")
-    public static void postRequest(String address, Map<String, String> map, okhttp3.Callback callback) {
-        postRequest(WEB_SERVER, address, map, callback);
+    public static Call postRequest(String address, Map<String, String> map, okhttp3.Callback callback) {
+        return postRequest(WEB_SERVER, address, map, callback);
     }
 
-    public static void postRequest(String server, String address, File file, Map<String, String> map, okhttp3.Callback callback) {
+    public static Call postRequest(String server, String address, Map<String, String> map, okhttp3.Callback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        for (String key : map.keySet()) {
+            bodyBuilder.add(key, map.get(key));
+        }
+        Request request = new Request.Builder()
+                .post(bodyBuilder.build())
+                .url(server + address)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(callback);
+        return call;
+    }
+
+    public static Call postRequest(String server, String address, File file, Map<String, String> map, okhttp3.Callback callback) {
         OkHttpClient okHttpClient = new OkHttpClient();
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -72,20 +90,9 @@ public class HttpUtil {
                 .post(multipartBody.build())
                 .url(server + address)
                 .build();
-        okHttpClient.newCall(request).enqueue(callback);
-    }
-
-    public static void postRequest(String server, String address, Map<String, String> map, okhttp3.Callback callback) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        FormBody.Builder bodyBuilder = new FormBody.Builder();
-        for (String key : map.keySet()) {
-            bodyBuilder.add(key, map.get(key));
-        }
-        Request request = new Request.Builder()
-                .post(bodyBuilder.build())
-                .url(server + address)
-                .build();
-        okHttpClient.newCall(request).enqueue(callback);
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
     /**
@@ -95,11 +102,11 @@ public class HttpUtil {
      * @param json     json 数据
      * @param callback 回调方法
      */
-    public static void postRequest(String address, String json, okhttp3.Callback callback) {
-        postRequest(WEB_SERVER, address, json, callback);
+    public static Call postRequest(String address, String json, okhttp3.Callback callback) {
+        return postRequest(WEB_SERVER, address, json, callback);
     }
 
-    public static void postRequest(String server, String address, String json, okhttp3.Callback callback) {
+    public static Call postRequest(String server, String address, String json, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, json);
@@ -107,9 +114,10 @@ public class HttpUtil {
                 .url(server + address)
                 .post(requestBody)
                 .build();
-        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
-
 
 
     /**
@@ -118,17 +126,19 @@ public class HttpUtil {
      * @param address  api地址
      * @param callback 回调方法
      */
-    public static void deleteRequest(String address, okhttp3.Callback callback) {
-        deleteRequest(WEB_SERVER, address, callback);
+    public static Call deleteRequest(String address, okhttp3.Callback callback) {
+        return deleteRequest(WEB_SERVER, address, callback);
     }
 
-    public static void deleteRequest(String server, String address, okhttp3.Callback callback) {
+    public static Call deleteRequest(String server, String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .delete()
                 .url(server + address)
                 .build();
-        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
     /**
@@ -138,11 +148,11 @@ public class HttpUtil {
      * @param json     json 数据
      * @param callback 回调方法
      */
-    public static void putRequest(String address, String json, okhttp3.Callback callback) {
-        putRequest(WEB_SERVER, address, json, callback);
+    public static Call putRequest(String address, String json, okhttp3.Callback callback) {
+        return putRequest(WEB_SERVER, address, json, callback);
     }
 
-    public static void putRequest(String server, String address, String json, okhttp3.Callback callback) {
+    public static Call putRequest(String server, String address, String json, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, json);
@@ -150,6 +160,8 @@ public class HttpUtil {
                 .url(server + address)
                 .put(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 }
