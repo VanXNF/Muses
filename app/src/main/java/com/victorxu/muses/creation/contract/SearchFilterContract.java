@@ -24,6 +24,8 @@ public interface SearchFilterContract {
         void setLocalFilterData(List<PageFilter.FilterBean> data);
 
         void addLocalFilterData(List<PageFilter.FilterBean> data);
+
+        void cancelTask();
     }
 
     interface View {
@@ -54,5 +56,7 @@ public interface SearchFilterContract {
         void loadDataToView(String keyword);
 
         void loadMoreDataToView();
+
+        void destroy();
     }
 }

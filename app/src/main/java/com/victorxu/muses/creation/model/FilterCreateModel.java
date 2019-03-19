@@ -10,6 +10,7 @@ import com.victorxu.muses.util.Base64Util;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class FilterCreateModel implements FilterCreateContract.Model {
@@ -18,19 +19,20 @@ public class FilterCreateModel implements FilterCreateContract.Model {
 
     private Context context;
     private Uri uri = null;
+    private Call mCallFilter;
 
     public FilterCreateModel(Context context) {
         this.context = context;
     }
 
     @Override
-    public void setFilterUri(Uri uri) {
-        this.uri = uri;
+    public Uri getFilterUri() {
+        return uri;
     }
 
     @Override
-    public Uri getFilterUri() {
-        return uri;
+    public void setFilterUri(Uri uri) {
+        this.uri = uri;
     }
 
     @Override
@@ -45,6 +47,17 @@ public class FilterCreateModel implements FilterCreateContract.Model {
         entity.setBrushIntensity(brushIntensity);
         entity.setSmooth(smooth);
 
-        HttpUtil.postRequest(HttpUtil.FILTER_TRAIN_SERVER, FILTER_CREATE_API, new Gson().toJson(entity), callback);
+        mCallFilter = HttpUtil.postRequest(HttpUtil.FILTER_TRAIN_SERVER, FILTER_CREATE_API, new Gson().toJson(entity), callback);
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallFilter);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

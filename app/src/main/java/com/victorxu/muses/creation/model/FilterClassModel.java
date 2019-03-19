@@ -3,6 +3,7 @@ package com.victorxu.muses.creation.model;
 import com.victorxu.muses.creation.contract.FilterClassContract;
 import com.victorxu.muses.util.HttpUtil;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class FilterClassModel implements FilterClassContract.Model {
@@ -14,6 +15,8 @@ public class FilterClassModel implements FilterClassContract.Model {
 
     private int currentPage = 1;
     private int allPages = 0;
+
+    private Call mCallFilter;
 
     public FilterClassModel(String key, int id) {
         this.key = key;
@@ -29,18 +32,13 @@ public class FilterClassModel implements FilterClassContract.Model {
     @Override
     public void getFilterData(int page, Callback callback) {
         currentPage = page;
-        HttpUtil.getRequest(FILTER_API + key + "/" + String.valueOf(id) + "/"
+        mCallFilter = HttpUtil.getRequest(FILTER_API + key + "/" + String.valueOf(id) + "/"
                 + String.valueOf(currentPage), callback);
     }
 
     @Override
     public void getMoreFilterData(Callback callback) {
         getFilterData(currentPage + 1, callback);
-    }
-
-    @Override
-    public void setAllPages(int allPages) {
-        this.allPages = allPages;
     }
 
     @Override
@@ -51,5 +49,21 @@ public class FilterClassModel implements FilterClassContract.Model {
     @Override
     public int getAllPages() {
         return allPages;
+    }
+
+    @Override
+    public void setAllPages(int allPages) {
+        this.allPages = allPages;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallFilter);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

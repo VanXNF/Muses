@@ -26,6 +26,8 @@ public interface MyFilterContract {
         boolean checkDataStatus();
 
         boolean checkPageStatus();
+
+        void cancelTask();
     }
 
     interface View {
@@ -58,5 +60,7 @@ public interface MyFilterContract {
         void loadDataToView(int type);
 
         void loadMoreDataToView(int type);
+
+        void destroy();
     }
 }

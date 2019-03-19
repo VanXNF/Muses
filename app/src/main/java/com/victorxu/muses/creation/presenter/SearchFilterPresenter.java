@@ -112,4 +112,13 @@ public class SearchFilterPresenter implements SearchFilterContract.Presenter {
             mView.hideLoadMore(false, true);
         }
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

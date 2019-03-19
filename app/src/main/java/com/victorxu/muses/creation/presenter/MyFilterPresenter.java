@@ -134,4 +134,13 @@ public class MyFilterPresenter implements MyFilterContract.Presenter {
             mView.hideLoadMore(false, true);
         }
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

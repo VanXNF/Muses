@@ -9,6 +9,8 @@ public interface FilterCreateContract {
         void setFilterUri(Uri uri);
 
         void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth, okhttp3.Callback callback);
+
+        void cancelTask();
     }
 
     interface View {
@@ -35,5 +37,7 @@ public interface FilterCreateContract {
         void updateImageUri(Uri uri);
 
         void uploadFilter(String filterName, int brushSize, int brushIntensity, int smooth);
+
+        void destroy();
     }
 }

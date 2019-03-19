@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 
-public class CreateFilterFragment extends BaseSwipeBackFragment implements FilterCreateContract.View {
+public class FilterCreateFragment extends BaseSwipeBackFragment implements FilterCreateContract.View {
 
     private AppCompatImageView mImgDisplay;
     private AppCompatEditText mEditFilterName;
@@ -42,10 +41,10 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
     private BubbleSeekBar mSeekerSmooth;
     private AppCompatImageView mImgBack;
     private FloatingActionButton mFABtnAction;
-    private FilterCreatePresenter mPresenter;
+    private FilterCreateContract.Presenter mPresenter;
 
-    public static CreateFilterFragment newInstance() {
-        return new CreateFilterFragment();
+    public static FilterCreateFragment newInstance() {
+        return new FilterCreateFragment();
     }
 
     @Override
@@ -119,6 +118,8 @@ public class CreateFilterFragment extends BaseSwipeBackFragment implements Filte
         hideSoftInput();
         FileUtil.deleteTempFile();
         super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override

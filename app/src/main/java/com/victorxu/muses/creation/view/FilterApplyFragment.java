@@ -66,7 +66,7 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
     private View mViewExportBuy;
     private View mViewTweakerAdjust;
     private BottomPicker.Builder mBottomPicker;
-    private FilterApplyPresenter mPresenter;
+    private FilterApplyContract.Presenter mPresenter;
     private AlertDialog mDialogLoading;
 
     private Bitmap mBitmapOrigin;
@@ -92,6 +92,13 @@ public class FilterApplyFragment extends BaseFragment implements FilterApplyCont
             showToast(R.string.data_error_please_try_again);
             pop();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override

@@ -7,11 +7,13 @@ public interface FilterApplyContract {
     interface Model {
         void uploadImageData(Uri uri, okhttp3.Callback callback);
 
-        void uploadCommodityImageData(Uri uri, okhttp3.Callback callback);
+        void uploadCustomizeImageData(Uri uri, okhttp3.Callback callback);
 
         String getFilterUrl();
 
         void setFilterUrl(String url);
+
+        void cancelTask();
     }
 
     interface View {
@@ -52,5 +54,7 @@ public interface FilterApplyContract {
         void uploadData(Uri uri);
 
         void uploadArtData(Bitmap bitmap);
+
+        void destroy();
     }
 }

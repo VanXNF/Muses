@@ -58,4 +58,13 @@ public class CreationPresenter implements CreationContract.Presenter {
         });
         mView.showPopularSearch(mModel.getPopularSearchData());
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

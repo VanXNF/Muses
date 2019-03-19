@@ -57,7 +57,7 @@ public class UserInfoFragment extends BaseSwipeBackFragment implements InfoContr
     private AppCompatTextView mTxtQuit;
 
     private UserInfo.UserInfoBean mUserData;
-    private InfoPresenter mPresenter;
+    private InfoContract.Presenter mPresenter;
 
     public static UserInfoFragment newInstance() {
         return new UserInfoFragment();

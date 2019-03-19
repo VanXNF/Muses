@@ -11,6 +11,7 @@ import com.victorxu.muses.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class MyFilterModel implements MyFilterContract.Model {
@@ -24,6 +25,9 @@ public class MyFilterModel implements MyFilterContract.Model {
 
     private List<UnfinishedFilterStatus.UnfinishedFilterBean> mUnfinishedData;
     private List<PageFilter.FilterBean> mFinishedData;
+
+    private Call mCallTarin;
+    private Call mCallFilter;
 
     public MyFilterModel(int type, Context context) {
         this.type = type;
@@ -46,10 +50,10 @@ public class MyFilterModel implements MyFilterContract.Model {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
         switch (type) {
             case -1:
-                HttpUtil.getRequest(HttpUtil.FILTER_TRAIN_SERVER, UNFINISHED_FILTER_API + String.valueOf(userId), callback);
+                mCallTarin = HttpUtil.getRequest(HttpUtil.FILTER_TRAIN_SERVER, UNFINISHED_FILTER_API + String.valueOf(userId), callback);
                 break;
             case 1:
-                HttpUtil.getRequest(FINISHED_FILTER_API + String.valueOf(userId) + "/" + String.valueOf(currentPage), callback);
+                mCallFilter = HttpUtil.getRequest(FINISHED_FILTER_API + String.valueOf(userId) + "/" + String.valueOf(currentPage), callback);
                 break;
         }
     }
@@ -102,5 +106,17 @@ public class MyFilterModel implements MyFilterContract.Model {
     @Override
     public boolean checkPageStatus() {
         return (allPages != 0 && currentPage < allPages);
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallTarin);
+        cancelCall(mCallFilter);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

@@ -7,11 +7,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.victorxu.muses.R;
 import com.victorxu.muses.creation.contract.FilterApplyContract;
 import com.victorxu.muses.creation.model.FilterApplyModel;
-import com.victorxu.muses.gson.Status;
 
 import org.json.JSONObject;
 
@@ -90,10 +88,10 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
     public void uploadArtData(Bitmap bitmap) {
         mView.showLoadingDialog();
         Uri uri = mView.saveTempImage("Commodity", bitmap);
-        mModel.uploadCommodityImageData(uri, new Callback() {
+        mModel.uploadCustomizeImageData(uri, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: uploadCommodityImageData");
+                Log.e(TAG, "onFailure: uploadCustomizeImageData");
                 mView.showToast(R.string.network_error_please_try_again);
                 mView.hideLoadingDialog();
             }
@@ -121,5 +119,14 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

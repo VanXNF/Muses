@@ -38,7 +38,7 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
     private Toolbar mToolbar;
     private RecyclerView mRecyclerFilter;
     private View mViewEmpty;
-    private FilterClassPresenter mPresenter;
+    private FilterClassContract.Presenter mPresenter;
 
     public static FilterClassFragment newInstance(String title, String key, int id) {
         Bundle bundle = new Bundle();
@@ -74,9 +74,26 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenter.loadDataToView();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.filter_class_detail_toolbar;
     }
 
     @Override
@@ -91,7 +108,7 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
         mRecyclerFilter.setLayoutManager(layoutManager);
         mAdapterFilter = new FilterAdapter(mFilterData);
         mAdapterFilter.setOnItemClickListener((BaseQuickAdapter adapter, View v, int position) ->
-            start(FilterApplyFragment.newInstance(mFilterData.get(position).getUploadId()))
+                start(FilterApplyFragment.newInstance(mFilterData.get(position).getUploadId()))
         );
         mAdapterFilter.setEnableLoadMore(true);
         mAdapterFilter.disableLoadMoreIfNotFullPage(mRecyclerFilter);
@@ -119,7 +136,8 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
     }
 
     @Override
-    public void showLoadMore() {}
+    public void showLoadMore() {
+    }
 
     @Override
     public void hideLoadMore(boolean isCompleted, boolean isEnd) {
@@ -154,15 +172,5 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.filter_class_detail_toolbar;
     }
 }

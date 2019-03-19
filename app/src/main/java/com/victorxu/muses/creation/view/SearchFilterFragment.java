@@ -38,7 +38,7 @@ public class SearchFilterFragment extends BaseSwipeBackFragment implements Searc
     private FilterAdapter mAdapterFilter;
     private List<PageFilter.FilterBean> mFilterData;
 
-    private SearchFilterPresenter mPresenterSearch;
+    private SearchFilterContract.Presenter mPresenterSearch;
 
     public static SearchFilterFragment newInstance() {
         return new SearchFilterFragment();
@@ -51,6 +51,23 @@ public class SearchFilterFragment extends BaseSwipeBackFragment implements Searc
         mPresenterSearch = new SearchFilterPresenter(this);
         mPresenterSearch.loadRootView(view);
         return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenterSearch.destroy();
+        mPresenterSearch = null;
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.search_filter_page_bar;
     }
 
     @Override
@@ -141,15 +158,5 @@ public class SearchFilterFragment extends BaseSwipeBackFragment implements Searc
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.search_filter_page_bar;
     }
 }

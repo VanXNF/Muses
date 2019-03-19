@@ -74,4 +74,13 @@ public class FilterCreatePresenter implements FilterCreateContract.Presenter {
         }
 
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

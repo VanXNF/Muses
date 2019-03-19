@@ -38,7 +38,7 @@ public class MyFilterPageFragment extends BaseFragment implements MyFilterContra
     private List<PageFilter.FilterBean> mFilterData;
     private UnFinishedFilterAdapter mAdapterUnfinished;
     private List<UnfinishedFilterStatus.UnfinishedFilterBean> mUnfinishedData;
-    private MyFilterPresenter mPresenterMyFilter;
+    private MyFilterContract.Presenter mPresenterMyFilter;
 
     public static MyFilterPageFragment newInstance(int type) {
         Bundle bundle = new Bundle();
@@ -57,6 +57,13 @@ public class MyFilterPageFragment extends BaseFragment implements MyFilterContra
         } else {
             type = TYPE_UNFINISHED;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenterMyFilter.destroy();
+        mPresenterMyFilter = null;
     }
 
     @Override

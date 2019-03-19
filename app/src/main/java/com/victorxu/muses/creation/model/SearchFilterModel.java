@@ -9,8 +9,10 @@ import com.victorxu.muses.util.HttpUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SearchFilterModel implements SearchFilterContract.Model {
 
     private final String FILTER_SEARCH_API = "api/filter/search";
@@ -19,6 +21,8 @@ public class SearchFilterModel implements SearchFilterContract.Model {
     private int currentPage = 1;
     private int allPages = 0;
     private List<PageFilter.FilterBean> data = new ArrayList<>();
+
+    private Call mCallFilter;
 
     @Override
     public void getFilterData(Callback callback) {
@@ -32,7 +36,7 @@ public class SearchFilterModel implements SearchFilterContract.Model {
         entity.setKeyword(keyword);
         entity.setPage(currentPage);
         entity.setSize(12);
-        HttpUtil.postRequest(FILTER_SEARCH_API, new Gson().toJson(entity), callback);
+        mCallFilter = HttpUtil.postRequest(FILTER_SEARCH_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -69,5 +73,16 @@ public class SearchFilterModel implements SearchFilterContract.Model {
     @Override
     public void addLocalFilterData(List<PageFilter.FilterBean> data) {
         this.data.addAll(data);
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallFilter);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

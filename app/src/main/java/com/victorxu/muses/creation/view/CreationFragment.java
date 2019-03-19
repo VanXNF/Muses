@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.creation.contract.CreationContract;
 import com.victorxu.muses.creation.presenter.CreationPresenter;
 import com.victorxu.muses.creation.view.adapter.FilterClassAdapter;
@@ -28,7 +28,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.Fade;
 
 public class CreationFragment extends BaseMainFragment implements CreationContract.View {
 
@@ -42,7 +41,7 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
 
     private List<FilterClass.FilterClassBean> mFilterClassData = new ArrayList<>();
     private List<PopularSearchItem> mPopularSearchData = new ArrayList<>();
-    private CreationPresenter mPresenter;
+    private CreationContract.Presenter mPresenter;
 
     public static CreationFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -58,6 +57,13 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
         mPresenter = new CreationPresenter(this);
         mPresenter.loadRootView(view);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override
@@ -106,7 +112,7 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
         );
 
         mTextNewFilter.setOnClickListener(v ->
-                ((MainFragment) getParentFragment()).startBrotherFragment(CreateFilterFragment.newInstance())
+                ((MainFragment) getParentFragment()).startBrotherFragment(FilterCreateFragment.newInstance())
         );
 
         mSearchFilter.setOnSearchViewClickListener((View v) ->
