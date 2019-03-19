@@ -107,7 +107,6 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();
                     }
-
                 }
             });
         } else {
@@ -118,5 +117,14 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
     @Override
     public void reloadProductToView() {
         loadProductToView();
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

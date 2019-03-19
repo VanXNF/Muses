@@ -53,16 +53,17 @@ public class SearchPresenter implements SearchContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                HotKey hotKey = new Gson().fromJson(response.body().string(), HotKey.class);
-                if (hotKey != null && hotKey.getCode().equals("OK") && hotKey.getHotKeyData().size() != 0) {
-                    mView.hideLoading();
-                    mView.showHotKey(hotKey.getHotKeyData());
-                    Log.d(TAG, "onResponse: getHotKeyData");
-                } else {
-                    mView.hideLoading();
+            public void onResponse(Call call, Response response) {
+                try {
+                    HotKey hotKey = new Gson().fromJson(response.body().string(), HotKey.class);
+                    if (hotKey.getCode().equals("OK") && hotKey.getHotKeyData().size() != 0) {
+                        mView.showHotKey(hotKey.getHotKeyData());
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: getHotKeyData DATA ERROR");
+                    e.printStackTrace();
+                } finally {
+                    mView.hideLoading();
                 }
             }
         });
@@ -103,5 +104,14 @@ public class SearchPresenter implements SearchContract.Presenter {
             mView.showToast(R.string.please_enter_keywords);
         }
 
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

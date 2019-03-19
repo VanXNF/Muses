@@ -59,13 +59,11 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_result_page, container, false);
-        mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this);
-        mPresenter.loadRootView(view);
-        return view;
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override
@@ -73,6 +71,20 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
         if (mPresenter != null) {
             mPresenter.loadProductToView();
         }
+    }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_search_result_page, container, false);
+        mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this);
+        mPresenter.loadRootView(view);
+        return view;
     }
 
     @Override
@@ -175,10 +187,5 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
     @Override
     public void hideFailPage() {
         post(() -> mErrorView.setVisibility(View.GONE));
-    }
-
-    @Override
-    protected boolean isImmersionBarEnabled() {
-        return false;
     }
 }

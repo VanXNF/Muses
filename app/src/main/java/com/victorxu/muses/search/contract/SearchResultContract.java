@@ -27,6 +27,8 @@ public interface SearchResultContract {
         boolean checkDataStatus();
 
         boolean checkPageStatus();
+
+        void cancelTask();
     }
 
     interface View {
@@ -65,5 +67,7 @@ public interface SearchResultContract {
         void loadMoreProductToView();
 
         void reloadProductToView();
+
+        void destroy();
     }
 }

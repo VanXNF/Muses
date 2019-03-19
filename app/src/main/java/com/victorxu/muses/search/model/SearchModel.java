@@ -8,6 +8,7 @@ import com.victorxu.muses.util.HttpUtil;
 
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 @SuppressWarnings("ConstantConditions")
@@ -16,9 +17,11 @@ public class SearchModel implements SearchContract.Model {
     @SuppressWarnings("FieldCanBeLocal")
     private final String HOT_KEY_API = "api/hotkey/";
 
+    private Call mCallHotKay;
+
     @Override
     public void getHotKeyData(Callback callback) {
-        HttpUtil.getRequest(HOT_KEY_API, callback);
+        mCallHotKay = HttpUtil.getRequest(HOT_KEY_API, callback);
     }
 
     @Override
@@ -48,5 +51,16 @@ public class SearchModel implements SearchContract.Model {
     @Override
     public void clearAllHistoryKeyData() {
         SearchHistoryService.deleteAllHistoryKeys();
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallHotKay);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

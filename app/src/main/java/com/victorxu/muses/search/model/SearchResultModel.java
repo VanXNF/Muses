@@ -9,6 +9,7 @@ import com.victorxu.muses.util.HttpUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class SearchResultModel implements SearchResultContract.Model {
@@ -21,6 +22,9 @@ public class SearchResultModel implements SearchResultContract.Model {
     private SearchEntity searchEntity;
     private List<PageCommodity> pages = new ArrayList<>();
 
+    private Call mCallGet;
+    private Call mCallMore;
+
     @Override
     public void getProductData(Callback callback) {
         getProductData(1, callback);
@@ -30,7 +34,7 @@ public class SearchResultModel implements SearchResultContract.Model {
     public void getProductData(int page, Callback callback) {
         currentPage = page;
         initSearchModel();
-        HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchEntity), callback);
+        mCallGet = HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class SearchResultModel implements SearchResultContract.Model {
         if (searchEntity == null) {
             initSearchModel();
         }
-        HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchEntity), callback);
+        mCallMore = HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -75,6 +79,18 @@ public class SearchResultModel implements SearchResultContract.Model {
     @Override
     public boolean checkPageStatus() {
         return (allPages != 0 && currentPage < allPages);
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallGet);
+        cancelCall(mCallMore);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     private void initSearchModel() {

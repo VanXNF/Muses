@@ -46,6 +46,27 @@ public class SearchResultFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        mPager.setAdapter(new SearchResultPagerFragmentAdapter(getChildFragmentManager(),
+                getString(R.string.complex),
+                getString(R.string.newest),
+                getString(R.string.hottest),
+                getString(R.string.price)));
+        mTabLayout.setupWithViewPager(mPager);
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.result_page_bar;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,32 +89,11 @@ public class SearchResultFragment extends BaseFragment {
         mSearchTextButton.setOnClickListener((v) -> pop());
     }
 
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-        mPager.setAdapter(new SearchResultPagerFragmentAdapter(getChildFragmentManager(),
-                getString(R.string.complex),
-                getString(R.string.newest),
-                getString(R.string.hottest),
-                getString(R.string.price)));
-        mTabLayout.setupWithViewPager(mPager);
-    }
-
     public String getKeywords() {
         return keywords;
     }
 
     public void startBrotherFragment(BaseFragment targetFragment) {
         start(targetFragment);
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.result_page_bar;
     }
 }

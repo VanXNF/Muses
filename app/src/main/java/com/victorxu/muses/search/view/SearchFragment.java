@@ -9,7 +9,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
@@ -39,21 +38,13 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
     private View mHistoryKeyContainerView;
     private View mDeleteHistoryView;
     private AppCompatTextView mTextSearch;
-    private SearchPresenter mPresenter;
+    private SearchContract.Presenter mPresenter;
 
     private List<HotKey.Key> mHotKeyData = new ArrayList<>();
     private List<HistoryKey> mHistoryKeyData = new ArrayList<>();
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
-    }
-
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        if (mPresenter != null) {
-            mPresenter.reloadHistoryDataToView();
-        }
     }
 
     @Nullable
@@ -66,10 +57,35 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         if (mPresenter != null) {
             mPresenter.loadDataToView();
         }
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (mPresenter != null) {
+            mPresenter.reloadHistoryDataToView();
+        }
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.search_page_bar;
     }
 
     @Override
@@ -95,7 +111,7 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
         mSearchView = view.findViewById(R.id.search_page_search_bar);
         mTextSearch = view.findViewById(R.id.search_page_search_button);
         mSearchView.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
-            if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mPresenter.goToSearch(mSearchView.getSearchViewText());
             }
         });
@@ -177,15 +193,5 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
         hideSoftInput();
         mSearchView.setSearchViewText(key);
         start(SearchResultFragment.newInstance(key));
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.search_page_bar;
     }
 }
