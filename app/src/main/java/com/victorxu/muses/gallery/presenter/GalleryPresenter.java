@@ -25,7 +25,6 @@ public class GalleryPresenter implements GalleryContract.Presenter {
     private GalleryContract.View mView;
     private GalleryContract.Model mModel = new GalleryModel();
 
-
     public GalleryPresenter(GalleryContract.View mView) {
         this.mView = mView;
     }
@@ -50,18 +49,20 @@ public class GalleryPresenter implements GalleryContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Banner banner = new Gson().fromJson(response.body().string(), Banner.class);
-                if (banner != null && banner.getCode().equals("OK") && banner.getData().size() != 0) {
-                    mView.showBanner((ArrayList<Banner.BannerData>) banner.getData());
-                    Log.d(TAG, "onResponse: getBannerData");
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    Banner banner = new Gson().fromJson(response.body().string(), Banner.class);
+                    if (banner.getCode().equals("OK") && banner.getData().size() != 0) {
+                        mView.showBanner((ArrayList<Banner.BannerData>) banner.getData());
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: getBannerData DATA ERROR");
-                }
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                    e.printStackTrace();
+                } finally {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
                 }
             }
         });
@@ -77,20 +78,23 @@ public class GalleryPresenter implements GalleryContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-//                Log.d(TAG, response.body().string());
-                ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
-                    mView.showRecommendSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
-                    Log.d(TAG, "onResponse: getRecommendData");
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
+                    if (commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
+                        mView.showRecommendSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
+                        Log.d(TAG, "onResponse: getRecommendData");
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: getRecommendData DATA ERROR");
+                    e.printStackTrace();
+                } finally {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
                 }
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
-                }
+
             }
         });
         mModel.getNewProductData(5, new Callback() {
@@ -105,19 +109,22 @@ public class GalleryPresenter implements GalleryContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
-                    mView.showNewSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
-                    Log.d(TAG, "onResponse: getNewProductData");
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
+                    if (commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
+                        mView.showNewSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: getNewProductData DATA ERROR");
+                    e.printStackTrace();
+                } finally {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
                 }
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
-                }
+
             }
         });
         mModel.getHotProductData(5, new Callback() {
@@ -132,18 +139,20 @@ public class GalleryPresenter implements GalleryContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
-                if (commodity != null && commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
-                    mView.showHotSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
-                    Log.d(TAG, "onResponse: getHotProductData");
-                } else {
+            public void onResponse(Call call, Response response) {
+                try {
+                    ListCommodity commodity = new Gson().fromJson(response.body().string(), ListCommodity.class);
+                    if (commodity.getCode().equals("OK") && commodity.getCommodityList().size() != 0) {
+                        mView.showHotSection((ArrayList<ListCommodity.CommodityListModel>) commodity.getCommodityList());
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
-                    Log.w(TAG, "onResponse: getHotProductData DATA ERROR");
-                }
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                    e.printStackTrace();
+                } finally {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
                 }
             }
         });
@@ -160,5 +169,12 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         loadDataToView();
     }
 
-
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

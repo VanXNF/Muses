@@ -23,7 +23,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
 import com.victorxu.muses.custom.SearchView;
@@ -51,7 +51,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     private SmartRefreshLayout mRefreshLayout;
 
     private AppCompatImageView mTicketMarket;
-    private GalleryPresenter mPresenter;
+    private GalleryContract.Presenter mPresenter;
     private RecommendAdapter mRecommendAdapter;
 
     private ArrayList<ProductItem> mNewProductViews = new ArrayList<>();
@@ -75,23 +75,6 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         mPresenter = new GalleryPresenter(this);
         mPresenter.loadRootView(view);
         return view;
-    }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        if (mPresenter != null) {
-            mPresenter.loadDataToView();
-        }
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.gallery_page_bar;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -294,5 +277,29 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        if (mPresenter != null) {
+            mPresenter.loadDataToView();
+        }
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.gallery_page_bar;
     }
 }
