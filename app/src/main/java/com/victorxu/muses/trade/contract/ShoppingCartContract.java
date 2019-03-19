@@ -46,6 +46,8 @@ public interface ShoppingCartContract {
         List<StyleSelectItem> getStyleSelectData(List<Commodity.CommodityDetail.AttributesBean> attributesBeans);
 
         List<ShoppingCart.CartItemBean> getCheckedData();
+
+        void cancelTask();
     }
 
     interface View {
@@ -106,5 +108,7 @@ public interface ShoppingCartContract {
         void checkAllData(boolean isCheckedAll);
 
         void settleShoppingCart();
+
+        void destroy();
     }
 }

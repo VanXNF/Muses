@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class CustomizeModel implements CustomizeContract.Model {
@@ -28,6 +29,8 @@ public class CustomizeModel implements CustomizeContract.Model {
     private Map<String, String> detail = new HashMap<>();
     private String image;
 
+    private Call mCallGet;
+
     public CustomizeModel(int id, Context context) {
         this.id = id;
         this.context = context;
@@ -35,7 +38,7 @@ public class CustomizeModel implements CustomizeContract.Model {
 
     @Override
     public void getProductData(Callback callback) {
-        HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
+        mCallGet = HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override
@@ -104,5 +107,16 @@ public class CustomizeModel implements CustomizeContract.Model {
         }
         String s = builder.toString();
         return s.substring(0, s.lastIndexOf(','));
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallGet);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

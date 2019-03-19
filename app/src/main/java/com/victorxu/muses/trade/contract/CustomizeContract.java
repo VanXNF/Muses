@@ -23,6 +23,8 @@ public interface CustomizeContract {
         void setCommodityData(Commodity.CommodityDetail data);
 
         ProductSettleOrderBean getProductSettleData();
+
+        void cancelTask();
     }
 
     interface View {
@@ -53,5 +55,7 @@ public interface CustomizeContract {
         void updateStyleSelectDetail(String key, String value, int parameterId, boolean isSelected, boolean isCompleted);
 
         void updateProductImage(String image);
+
+        void destroy();
     }
 }

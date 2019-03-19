@@ -71,7 +71,7 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
                         String rate = new DecimalFormat("#.00").format(100.0f * good / sum) + "%";
                         mView.showTag(data, rate);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
@@ -88,22 +88,28 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
-                if (comment != null && comment.getCode().equals("OK")
-                        && comment.getData().getTotalNum() != 0 && comment.getData().getDataList().size() != 0) {
-                    mModel.setAllPages(comment.getData().getPageCount());
-                    List<PageComment> pages = new ArrayList<>();
-                    pages.add(comment);
-                    mModel.setPageList(pages);
-                    mView.hideEmptyPage();
-                    mView.showComment(comment.getData().getDataList());
-                } else {
-                    Log.w(TAG, "onResponse: getCommentData DATA ERROR");
-                    mView.showEmptyPage();
+            public void onResponse(Call call, Response response) {
+                try {
+                    PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
+                    if (comment != null && comment.getCode().equals("OK")
+                            && comment.getData().getTotalNum() != 0
+                            && comment.getData().getDataList().size() != 0) {
+                        mModel.setAllPages(comment.getData().getPageCount());
+                        List<PageComment> pages = new ArrayList<>();
+                        pages.add(comment);
+                        mModel.setPageList(pages);
+                        mView.hideEmptyPage();
+                        mView.showComment(comment.getData().getDataList());
+                    }
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
+                } finally {
+                    if (!mModel.checkDataStatus()) {
+                        mView.showEmptyPage();
+                    }
+                    mView.hideLoading();
                 }
-                mView.hideLoading();
             }
         });
     }
@@ -111,7 +117,7 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
     @Override
     public void loadMoreDataToView() {
         mView.showLoadingMore();
-        if (mModel.getAllPages() != 0 && mModel.getCurrentPage() < mModel.getAllPages()) {
+        if (mModel.checkPageStatus()) {
             mModel.getMoreCommentData(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -121,19 +127,23 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
-                    if (comment != null && comment.getCode().equals("OK")
-                            && comment.getData().getTotalNum() != 0 && comment.getData().getDataList() != null) {
-                        mModel.setAllPages(comment.getData().getPageCount());
-                        mModel.addPage(comment);
-                        mView.showMoreComment(comment.getData().getDataList());
-                        mView.hideLoadingMore(true, false);
-                    } else {
-                        Log.w(TAG, "onResponse: getCommentData DATA ERROR");
+                public void onResponse(Call call, Response response) {
+                    try {
+                        PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
+                        if (comment != null && comment.getCode().equals("OK")
+                                && comment.getData().getTotalNum() != 0 && comment.getData().getDataList() != null) {
+                            mModel.setAllPages(comment.getData().getPageCount());
+                            mModel.addPage(comment);
+                            mView.showMoreComment(comment.getData().getDataList());
+                            mView.hideLoadingMore(true, false);
+                        } else {
+                            mView.hideLoadingMore(false, false);
+                        }
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
-                        mView.hideLoadingMore(false, false);
+                        e.printStackTrace();
                     }
+
                 }
             });
         } else {
@@ -155,23 +165,37 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
-                if (comment != null && comment.getCode().equals("OK")
-                        && comment.getData().getTotalNum() != 0 && comment.getData().getDataList().size() != 0) {
-                    mModel.setAllPages(comment.getData().getPageCount());
-                    List<PageComment> pages = new ArrayList<>();
-                    pages.add(comment);
-                    mModel.setPageList(pages);
-                    mView.hideEmptyPage();
-                    mView.showComment(comment.getData().getDataList());
-                } else {
-                    Log.w(TAG, "onResponse: getCommentData DATA ERROR");
-                    mView.showEmptyPage();
-//                    mView.showToast(R.string.data_error_please_try_again);
+            public void onResponse(Call call, Response response) {
+                try {
+                    PageComment comment = new Gson().fromJson(response.body().string(), PageComment.class);
+                    if (comment != null && comment.getCode().equals("OK")
+                            && comment.getData().getTotalNum() != 0 && comment.getData().getDataList().size() != 0) {
+                        mModel.setAllPages(comment.getData().getPageCount());
+                        List<PageComment> pages = new ArrayList<>();
+                        pages.add(comment);
+                        mModel.setPageList(pages);
+                        mView.hideEmptyPage();
+                        mView.showComment(comment.getData().getDataList());
+                    }
+                } catch (Exception e) {
+                    mView.showToast(R.string.data_error_please_try_again);
+                    e.printStackTrace();
+                } finally {
+                    if (!mModel.checkDataStatus()) {
+                        mView.showEmptyPage();
+                    }
+                    mView.hideLoading();
                 }
-                mView.hideLoading();
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

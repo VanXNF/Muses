@@ -63,6 +63,11 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         } else {
                             mView.showToast(cart.getMessage());
                         }
+                    } catch (Exception e) {
+                        Log.w(TAG, "onResponse: getCartData DATA ERROR");
+                        mView.showToast(R.string.data_store_error_please_login_again);
+                        e.printStackTrace();
+                    } finally {
                         if (!mModel.checkDataStatus()) {
                             mView.hideShoppingCart();
                             mView.showEmptyView();
@@ -71,11 +76,6 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                             mView.showShoppingCart();
                             changeCartMode(isEditMode);
                         }
-                    } catch (IOException e) {
-                        Log.w(TAG, "onResponse: getCartData DATA ERROR");
-                        mView.showToast(R.string.data_store_error_please_login_again);
-                        e.printStackTrace();
-                    } finally {
                         mView.hideLoading();
                     }
                 }
@@ -101,12 +101,10 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
             public void onResponse(Call call, Response response) {
                 try {
                     Commodity commodity = new Gson().fromJson(response.body().string(), Commodity.class);
-                    if (commodity != null && commodity.getCode().equals("OK") && commodity.getData() != null) {
+                    if (commodity.getCode().equals("OK") && commodity.getData() != null) {
                         mView.showBottomSheet(mModel.getStyleSelectData(commodity.getData().getAttributes()));
-                    } else {
-                        throw new IOException();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.w(TAG, "onResponse: getProductData DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
@@ -142,7 +140,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
@@ -170,7 +168,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                     if (!status.getCode().equals("OK")) {
                         mView.showToast(status.getMessage());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                 }
             }
@@ -197,11 +195,10 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         mView.hideShoppingCart();
                         mView.showEmptyView();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
-
             }
         });
         mView.showCartItem(mModel.getShoppingCartData());
@@ -228,7 +225,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                         mView.hideShoppingCart();
                         mView.showEmptyView();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
@@ -253,7 +250,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                 try {
                     Status status = new Gson().fromJson(response.body().string(), Status.class);
                     mView.showToast(status.getMessage());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
@@ -277,7 +274,7 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
                 try {
                     Status status = new Gson().fromJson(response.body().string(), Status.class);
                     mView.showToast(status.getMessage());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.w(TAG, "onResponse: addCartDataToFavorite DATA ERROR");
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
@@ -305,5 +302,14 @@ public class ShoppingCartPresenter implements ShoppingCartContract.Presenter {
     @Override
     public void settleShoppingCart() {
         mView.showSettleFragment(mModel.getCheckedData());
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

@@ -59,6 +59,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ProductFragment extends BaseSwipeBackFragment implements ProductContract.View {
 
     private static final String TAG = "ProductFragment";
@@ -103,7 +104,7 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
     private AppCompatButton mBuyNowButton;
     private AppCompatTextView mTextCollect;
 
-    private ProductPresenter mPresenter;
+    private ProductContract.Presenter mPresenter;
 
     private int id;
     private boolean isUp = true;
@@ -142,6 +143,13 @@ public class ProductFragment extends BaseSwipeBackFragment implements ProductCon
         mPresenter = new ProductPresenter(this, id, mActivity);
         mPresenter.loadRootView(view);
         return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override

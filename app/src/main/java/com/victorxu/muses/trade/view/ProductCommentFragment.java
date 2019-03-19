@@ -35,7 +35,7 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
     private RecyclerView mCommentRecycler;
     private AppCompatTextView mTextRate;
     private CommentAdapter mCommentAdapter;
-    private ProductCommentPresenter mPresenter;
+    private ProductCommentContract.Presenter mPresenter;
     private View mCommentEmptyView;
 
     private int id;
@@ -48,6 +48,28 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
         ProductCommentFragment fragment = new ProductCommentFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
+        mPresenter.loadDataToView();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.product_comment_toolbar;
     }
 
     @Override
@@ -68,21 +90,6 @@ public class ProductCommentFragment extends BaseSwipeBackFragment implements Pro
         mPresenter = new ProductCommentPresenter(this, id);
         mPresenter.loadRootView(view);
         return attachToSwipeBack(view);
-    }
-
-    @Override
-    public void onEnterAnimationEnd(Bundle savedInstanceState) {
-        mPresenter.loadDataToView();
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.product_comment_toolbar;
     }
 
     @Override

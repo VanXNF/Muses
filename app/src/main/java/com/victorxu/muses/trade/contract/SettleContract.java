@@ -30,6 +30,8 @@ public interface SettleContract {
         String getOrderPrice(ProductSettleOrderBean data);
 
         boolean checkAddressStatus();
+
+        void cancelTask();
     }
 
     interface View {
@@ -74,5 +76,7 @@ public interface SettleContract {
         void submitProductOrder();
 
         void payOrder();
+
+        void destroy();
     }
 }

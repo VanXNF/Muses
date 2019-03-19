@@ -13,7 +13,6 @@ import com.victorxu.muses.trade.contract.ProductContract;
 import com.victorxu.muses.trade.model.ProductModel;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -225,5 +224,14 @@ public class ProductPresenter implements ProductContract.Presenter {
     @Override
     public void updateProductImage(String image) {
         mModel.setProductOrderImage(image);
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

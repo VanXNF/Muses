@@ -85,4 +85,13 @@ public class CustomizePresenter implements CustomizeContract.Presenter {
     public void updateProductImage(String image) {
         mModel.setProductOrderImage(image);
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

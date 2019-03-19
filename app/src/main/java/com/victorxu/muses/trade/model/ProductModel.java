@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class ProductModel implements ProductContract.Model {
@@ -42,6 +43,13 @@ public class ProductModel implements ProductContract.Model {
 
     private Context context;
 
+    private Call mCallProduct;
+    private Call mCallComment;
+    private Call mCallAdd;
+    private Call mCallCheck;
+    private Call mCallAddFavorite;
+    private Call mCallRemoveFavorite;
+
     public ProductModel(int id, Context context) {
         this.id = id;
         this.context = context;
@@ -49,12 +57,12 @@ public class ProductModel implements ProductContract.Model {
 
     @Override
     public void getProductData(Callback callback) {
-        HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
+        mCallProduct = HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override
     public void getCommentData(Callback callback) {
-        HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_API_SUFFIX, callback);
+        mCallComment = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_API_SUFFIX, callback);
     }
 
     @Override
@@ -65,13 +73,13 @@ public class ProductModel implements ProductContract.Model {
         entity.setCommodityId(id);
         entity.setDetail(getSelectDetail());
         entity.setNumber(number);
-        HttpUtil.postRequest(SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
+        mCallAdd = HttpUtil.postRequest(SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
     }
 
     @Override
     public void checkFavoriteStatus(Callback callback) {
         userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId) + "/" + String.valueOf(id), callback);
+        mCallCheck = HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId) + "/" + String.valueOf(id), callback);
     }
 
     @Override
@@ -79,12 +87,12 @@ public class ProductModel implements ProductContract.Model {
         Collection.CollectionBean entity = new Collection.CollectionBean();
         entity.setUserId(userId);
         entity.setCommodityId(id);
-        HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
+        mCallAddFavorite = HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
     }
 
     @Override
     public void removeProductDataFromFavorite(Callback callback) {
-        HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+        mCallRemoveFavorite = HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
     }
 
     @Override
@@ -162,6 +170,22 @@ public class ProductModel implements ProductContract.Model {
         data.setPrice(String.valueOf(mCommodityData.getDiscountPrice()));
         data.setImage(image);
         return data;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallProduct);
+        cancelCall(mCallComment);
+        cancelCall(mCallAdd);
+        cancelCall(mCallCheck);
+        cancelCall(mCallAddFavorite);
+        cancelCall(mCallRemoveFavorite);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 
     private String getParameter() {

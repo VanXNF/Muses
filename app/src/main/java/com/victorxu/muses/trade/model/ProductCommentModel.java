@@ -7,8 +7,10 @@ import com.victorxu.muses.util.HttpUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ProductCommentModel implements ProductCommentContract.Model {
 
     private final String COMMENT_API_PREFIX = "api/comment/";
@@ -26,23 +28,32 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     private int allPages = 0;
     private List<PageComment> pages = new ArrayList<>();
 
+    private Call mCallCount;
+    private Call mCallData;
+
     public ProductCommentModel(int id) {
         this.id = id;
     }
 
     @Override
-    public int getCurrentPage() {
-        return currentPage;
+    public boolean checkPageStatus() {
+        return (allPages != 0 && currentPage < allPages);
     }
 
     @Override
-    public int getAllPages() {
-        return allPages;
+    public boolean checkDataStatus() {
+        return pages.size() != 0;
     }
 
     @Override
-    public List<PageComment> getPageList() {
-        return pages;
+    public void setAllPages(int allPages) {
+        this.allPages = allPages;
+    }
+
+
+    @Override
+    public void setPageList(List<PageComment> data) {
+        this.pages = data;
     }
 
     @Override
@@ -58,7 +69,7 @@ public class ProductCommentModel implements ProductCommentContract.Model {
 
     @Override
     public void getCommentCountData(Callback callback) {
-        HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_COUNT_API_SUFFIX, callback);
+        mCallCount = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_COUNT_API_SUFFIX, callback);
     }
 
     @Override
@@ -69,7 +80,7 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     @Override
     public void getCommentData(int page, Callback callback) {
         currentPage = page;
-        HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id)
+        mCallData = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id)
                 + COMMENT_API_SUFFIX + String.valueOf(currentPage) + COMMENT_API_SUFFIX + filter, callback);
     }
 
@@ -79,8 +90,8 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     }
 
     @Override
-    public void setPageList(List<PageComment> data) {
-        this.pages = data;
+    public void addPage(PageComment page) {
+        pages.add(page);
     }
 
     @Override
@@ -104,12 +115,14 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     }
 
     @Override
-    public void setAllPages(int allPages) {
-        this.allPages = allPages;
+    public void cancelTask() {
+        cancelCall(mCallCount);
+        cancelCall(mCallData);
     }
 
-    @Override
-    public void addPage(PageComment page) {
-        pages.add(page);
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

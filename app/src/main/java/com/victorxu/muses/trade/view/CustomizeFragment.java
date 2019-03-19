@@ -49,7 +49,7 @@ public class CustomizeFragment extends BaseSwipeBackFragment implements Customiz
     private Map<String, Boolean> mSelectFlag = new HashMap<>();
 
     private int id;
-    private CustomizePresenter mPresenter;
+    private CustomizeContract.Presenter mPresenter;
 
     public static CustomizeFragment newInstance(int id) {
         Bundle bundle = new Bundle();
@@ -57,6 +57,29 @@ public class CustomizeFragment extends BaseSwipeBackFragment implements Customiz
         CustomizeFragment fragment = new CustomizeFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        mPresenter.loadDataToView();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.customize_toolbar;
     }
 
     @Override
@@ -78,22 +101,6 @@ public class CustomizeFragment extends BaseSwipeBackFragment implements Customiz
         mPresenter = new CustomizePresenter(this, id, mActivity);
         mPresenter.loadRootView(view);
         return attachToSwipeBack(view);
-    }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-        mPresenter.loadDataToView();
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.customize_toolbar;
     }
 
     @Override

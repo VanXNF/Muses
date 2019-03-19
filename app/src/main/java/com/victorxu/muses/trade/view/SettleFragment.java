@@ -38,6 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SettleFragment extends BaseFragment implements SettleContract.View {
 
     public static final int TYPE_CART = 0;
@@ -66,7 +67,7 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
     private SettleAdapter mAdapterSettle;
     private CartSettleOrderBean mCartOrderData;
     private ProductSettleOrderBean mProductOrderData;
-    private SettlePresenter mPresenterSettle;
+    private SettleContract.Presenter mPresenterSettle;
 
     private int type = TYPE_CART;
 
@@ -120,6 +121,13 @@ public class SettleFragment extends BaseFragment implements SettleContract.View 
             showToast(R.string.data_error_please_try_again);
             pop();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenterSettle.destroy();
+        mPresenterSettle = null;
     }
 
     @Override

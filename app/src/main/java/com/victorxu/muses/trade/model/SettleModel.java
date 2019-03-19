@@ -15,8 +15,10 @@ import com.victorxu.muses.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SettleModel implements SettleContract.Model {
 
     private final String DEFAULT_ADDRESS_API = "api/address/default/";
@@ -29,6 +31,11 @@ public class SettleModel implements SettleContract.Model {
     private int orderId = 0;
     private ProductSettleOrderBean productInfo;
 
+    private Call mCallDefaultAddress;
+    private Call mCallUpdateOrderStatus;
+    private Call mCallCartOrder;
+    private Call mCallProductOrder;
+
     public SettleModel(Context context) {
         this.context = context;
     }
@@ -36,14 +43,14 @@ public class SettleModel implements SettleContract.Model {
     @Override
     public void getDefaultAddressData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        HttpUtil.getRequest(DEFAULT_ADDRESS_API + String.valueOf(userId), callback);
+        mCallDefaultAddress = HttpUtil.getRequest(DEFAULT_ADDRESS_API + String.valueOf(userId), callback);
     }
 
     @Override
     public void updateOrderStatus(Callback callback) {
         JsonObject object = new JsonObject();
         object.addProperty("status", 1);
-        HttpUtil.putRequest(ORDER_API + String.valueOf(orderId), object.toString(), callback);
+        mCallUpdateOrderStatus = HttpUtil.putRequest(ORDER_API + String.valueOf(orderId), object.toString(), callback);
     }
 
     @Override
@@ -53,7 +60,7 @@ public class SettleModel implements SettleContract.Model {
         entity.setAddressId(addressId);
         entity.setCartIds(cartIds);
         Log.d("CART_ORDER", new Gson().toJson(entity));
-        HttpUtil.postRequest(ORDER_API, new Gson().toJson(entity), callback);
+        mCallCartOrder = HttpUtil.postRequest(ORDER_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -66,7 +73,7 @@ public class SettleModel implements SettleContract.Model {
         object.addProperty("number", productInfo.getNumber());
         object.addProperty("message", "");
         object.addProperty("detail", productInfo.getDetail());
-        HttpUtil.postRequest(ORDER_DIRECT_API, object.toString(), callback);
+        mCallProductOrder = HttpUtil.postRequest(ORDER_DIRECT_API, object.toString(), callback);
     }
 
     @Override
@@ -108,5 +115,19 @@ public class SettleModel implements SettleContract.Model {
     @Override
     public boolean checkAddressStatus() {
         return addressId != 0;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallDefaultAddress);
+        cancelCall(mCallUpdateOrderStatus);
+        cancelCall(mCallCartOrder);
+        cancelCall(mCallProductOrder);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }

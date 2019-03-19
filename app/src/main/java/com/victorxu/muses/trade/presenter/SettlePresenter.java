@@ -57,7 +57,7 @@ public class SettlePresenter implements SettleContract.Presenter {
                         mModel.updateAddressId(address.getData().getId());
                         mView.showAddress(address.getData());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
@@ -116,10 +116,7 @@ public class SettlePresenter implements SettleContract.Presenter {
                         } else {
                             mView.showToast(status.getMessage());
                         }
-                    } catch (IOException e) {
-                        mView.showToast(R.string.data_error_please_try_again);
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();
                     }
@@ -154,10 +151,7 @@ public class SettlePresenter implements SettleContract.Presenter {
                         } else {
                             mView.showToast(status.getMessage());
                         }
-                    } catch (IOException e) {
-                        mView.showToast(R.string.data_error_please_try_again);
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();
                     }
@@ -186,7 +180,7 @@ public class SettlePresenter implements SettleContract.Presenter {
                     } else {
                         mView.showToast(R.string.order_do_not_finish_please_check_in_my_order_page);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 } finally {
@@ -194,5 +188,14 @@ public class SettlePresenter implements SettleContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
     }
 }

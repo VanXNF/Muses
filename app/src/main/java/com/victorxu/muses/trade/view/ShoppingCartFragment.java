@@ -49,6 +49,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCartContract.View {
 
     private boolean cartMode = false;
@@ -82,7 +83,7 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
     private int mLastPosition = -1;
     private int mPosition = -1;
 
-    private ShoppingCartPresenter mPresenter;
+    private ShoppingCartContract.Presenter mPresenter;
 
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
@@ -95,6 +96,13 @@ public class ShoppingCartFragment extends BaseMainFragment implements ShoppingCa
         mPresenter = new ShoppingCartPresenter(this, mActivity);
         mPresenter.loadRootView(view);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
     }
 
     @Override
