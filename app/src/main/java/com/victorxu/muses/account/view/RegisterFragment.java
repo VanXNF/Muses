@@ -11,7 +11,7 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.presenter.AccountPresenter;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,16 +50,33 @@ public class RegisterFragment extends BaseMainFragment implements AccountContrac
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mPresenter = null;
+        loginListener = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void onSupportVisible() {
         super.onSupportVisible();
         hideSoftInput();
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mPresenter = null;
-        loginListener = null;
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.register_page_bar;
     }
 
     @Override
@@ -104,7 +121,7 @@ public class RegisterFragment extends BaseMainFragment implements AccountContrac
             loginListener.onLoginSuccess();
             popTo(MainFragment.class, false);
         } else {
-            throw new RuntimeException( " must implement AccountContract.LoginListener");
+            throw new RuntimeException(" must implement AccountContract.LoginListener");
         }
     }
 
@@ -116,16 +133,6 @@ public class RegisterFragment extends BaseMainFragment implements AccountContrac
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.register_page_bar;
     }
 
     public void addLoginListener(AccountContract.LoginListener loginListener) {

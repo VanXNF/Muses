@@ -13,6 +13,7 @@ public interface AccountContract {
         void doLoginByCode(String mobile, String code, Callback callback);
         void doRegister(String mobile, String password, String code, okhttp3.Callback callback);
         boolean saveUserInfo(UserStatus.UserBean userBean);
+        void cancelTask();
     }
 
     interface View {
@@ -27,5 +28,6 @@ public interface AccountContract {
         void doLoginByPWD(String username, String password);
         void doLoginByCode(String mobile, String code);
         void doRegister(String mobile, String password, String code);
+        void destroy();
     }
 }

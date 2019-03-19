@@ -9,6 +9,7 @@ import com.victorxu.muses.gson.UserStatus;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class AccountModel implements AccountContract.Model {
@@ -17,6 +18,10 @@ public class AccountModel implements AccountContract.Model {
     private final String LOGIN_USERNAME_API = "api/user/login/username";
     private final String LOGIN_MOBILE_API = "api/user/login/mobile";
     private Context context;
+
+    private Call mCallLoginPWD;
+    private Call mCallLoginCode;
+    private Call mCallRegister;
 
     public AccountModel(Context context) {
         this.context = context;
@@ -27,7 +32,7 @@ public class AccountModel implements AccountContract.Model {
         UserAccountEntity entity = new UserAccountEntity();
         entity.setUsername(username);
         entity.setPassword(password);
-        HttpUtil.postRequest(LOGIN_USERNAME_API, new Gson().toJson(entity), callback);
+        mCallLoginPWD = HttpUtil.postRequest(LOGIN_USERNAME_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -35,7 +40,7 @@ public class AccountModel implements AccountContract.Model {
         UserAccountEntity entity = new UserAccountEntity();
         entity.setMobile(mobile);
         entity.setPassword(code);
-        HttpUtil.postRequest(LOGIN_MOBILE_API, new Gson().toJson(entity), callback);
+        mCallLoginCode = HttpUtil.postRequest(LOGIN_MOBILE_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -44,7 +49,7 @@ public class AccountModel implements AccountContract.Model {
         entity.setMobile(mobile);
         entity.setPassword(password);
         entity.setCode(code);
-        HttpUtil.postRequest(REGISTER_API, new Gson().toJson(entity), callback);
+        mCallRegister = HttpUtil.postRequest(REGISTER_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -58,6 +63,19 @@ public class AccountModel implements AccountContract.Model {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallLoginPWD);
+        cancelCall(mCallLoginCode);
+        cancelCall(mCallRegister);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
         }
     }
 }

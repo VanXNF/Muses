@@ -13,7 +13,7 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.AccountContract;
 import com.victorxu.muses.account.presenter.AccountPresenter;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,12 +53,6 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
     }
 
     @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        hideSoftInput();
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mPresenter = null;
@@ -77,7 +71,7 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
         mBtnQQ = view.findViewById(R.id.button_qq);
         mBtnWeChat = view.findViewById(R.id.button_wechat);
         mBtnWeiBo = view.findViewById(R.id.button_weibo);
-        
+
         mTextSkip.setOnClickListener(v -> popTo(MainFragment.class, false));
         mBtnLogin.setOnClickListener(v -> {
             String mobile = mEditMobile.getText().toString();
@@ -94,7 +88,7 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
             fragment.addLoginListener(loginListener);
             startWithPop(fragment);
         });
-        // TODO: 2019/2/18 接入第三方 
+        // TODO: 2019/2/18 接入第三方
         mBtnQQ.setOnClickListener(v -> showToast("敬请期待"));
         mBtnWeChat.setOnClickListener(v -> showToast("敬请期待"));
         mBtnWeiBo.setOnClickListener(v -> showToast("敬请期待"));
@@ -108,7 +102,7 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
             loginListener.onLoginSuccess();
             popTo(MainFragment.class, false);
         } else {
-            throw new RuntimeException( " must implement AccountContract.LoginListener");
+            throw new RuntimeException(" must implement AccountContract.LoginListener");
         }
     }
 
@@ -122,6 +116,23 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
+    public void addLoginListener(AccountContract.LoginListener loginListener) {
+        this.loginListener = loginListener;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        hideSoftInput();
+    }
+
     @Override
     public void initImmersionBar() {
         ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
@@ -130,9 +141,5 @@ public class LoginByCodeFragment extends BaseMainFragment implements AccountCont
     @Override
     protected int setTitleBar() {
         return R.id.login_code_page_bar;
-    }
-
-    public void addLoginListener(AccountContract.LoginListener loginListener) {
-        this.loginListener = loginListener;
     }
 }

@@ -209,4 +209,13 @@ public class InfoPresenter implements InfoContract.Presenter {
         mModel.removeLocalUserData();
     }
 
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
+
 }

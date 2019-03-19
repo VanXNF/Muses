@@ -151,4 +151,13 @@ public class AccountPresenter implements AccountContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void destroy() {
+        mView = null;
+        if (mModel != null) {
+            mModel.cancelTask();
+            mModel = null;
+        }
+    }
 }

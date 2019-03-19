@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.victorxu.muses.R;
 import com.victorxu.muses.account.contract.InfoContract;
 import com.victorxu.muses.account.presenter.InfoPresenter;
 import com.victorxu.muses.base.BaseSwipeBackFragment;
-import com.victorxu.muses.core.view.MainFragment;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.UserInfo;
 
@@ -73,9 +73,26 @@ public class UserInfoFragment extends BaseSwipeBackFragment implements InfoContr
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
         mPresenter.loadDataToView();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
+    }
+
+    @Override
+    protected int setTitleBar() {
+        return R.id.user_info_page_bar;
     }
 
     @Override
@@ -105,16 +122,26 @@ public class UserInfoFragment extends BaseSwipeBackFragment implements InfoContr
         mViewEmail.setOnClickListener(v -> showEmailDialog());
         mTxtQuit.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-            builder.setMessage(getString(R.string.are_you_sure_to_quit))
-                    .setPositiveButton(getString(R.string.confirm), (DialogInterface dialog, int id) -> {
-                        mPresenter.quit();
-                        LoginByPWDFragment fragment = LoginByPWDFragment.newInstance();
-                        fragment.addLoginListener((MainActivity) getActivity());
-                        startWithPop(fragment);
-                    })
-                    .setNegativeButton(getString(R.string.cancel), (DialogInterface dialog, int id) -> {
-                    });
-            builder.show();
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_base, null);
+            AppCompatTextView dialogTitle = dialogView.findViewById(R.id.dialog_title);
+            AppCompatTextView dialogConfirm = dialogView.findViewById(R.id.dialog_confirm);
+            AppCompatTextView dialogCancel = dialogView.findViewById(R.id.dialog_cancel);
+            dialogTitle.setText(R.string.are_you_sure_to_quit);
+            builder.setView(dialogView);
+            builder.setCancelable(false);
+            AlertDialog quitDialog = builder.create();
+            Window window = quitDialog.getWindow();
+            window.setBackgroundDrawable(getResources().getDrawable(R.drawable.rectangle_all_bg, null));
+
+            dialogConfirm.setOnClickListener(vi -> {
+                quitDialog.dismiss();
+                mPresenter.quit();
+                LoginByPWDFragment fragment = LoginByPWDFragment.newInstance();
+                fragment.addLoginListener((MainActivity) getActivity());
+                startWithPop(fragment);
+            });
+            dialogCancel.setOnClickListener(vi -> quitDialog.dismiss());
+            quitDialog.show();
         });
     }
 
@@ -198,16 +225,6 @@ public class UserInfoFragment extends BaseSwipeBackFragment implements InfoContr
     @Override
     public void showToast(CharSequence text) {
         post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void initImmersionBar() {
-        ImmersionBar.with(mActivity).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected int setTitleBar() {
-        return R.id.user_info_page_bar;
     }
 
     private void showPasswordDialog() {

@@ -9,6 +9,7 @@ import com.victorxu.muses.gson.UserInfo;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 public class InfoModel implements InfoContract.Model {
@@ -19,6 +20,10 @@ public class InfoModel implements InfoContract.Model {
     private Context context;
     private UserInfo.UserInfoBean mUserInfoData;
 
+    private Call mCallGet;
+    private Call mCallUpdateInfo;
+    private Call mCallUpdatePwd;
+
     public InfoModel(Context context) {
         this.context = context;
     }
@@ -26,13 +31,13 @@ public class InfoModel implements InfoContract.Model {
     @Override
     public void getUserInfoData(Callback callback) {
         String token = (String) SharedPreferencesUtil.get(context, "UserToken", "");
-        HttpUtil.getRequest(USER_API + token, callback);
+        mCallGet = HttpUtil.getRequest(USER_API + token, callback);
     }
 
     @Override
     public void updateUserInfo(Callback callback) {
         String json = new Gson().toJson(mUserInfoData);
-        HttpUtil.putRequest(USER_API, json, callback);
+        mCallUpdateInfo = HttpUtil.putRequest(USER_API, json, callback);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class InfoModel implements InfoContract.Model {
         entity.setUserId(userId);
         entity.setOldPassword(oldPassword);
         entity.setNewPassword(newPassword);
-        HttpUtil.postRequest(USER_PWD_API, new Gson().toJson(entity), callback);
+        mCallUpdatePwd = HttpUtil.postRequest(USER_PWD_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -77,5 +82,18 @@ public class InfoModel implements InfoContract.Model {
     @Override
     public UserInfo.UserInfoBean getLocalUserInfoData() {
         return mUserInfoData;
+    }
+
+    @Override
+    public void cancelTask() {
+        cancelCall(mCallGet);
+        cancelCall(mCallUpdateInfo);
+        cancelCall(mCallUpdatePwd);
+    }
+
+    private void cancelCall(Call call) {
+        if (call != null) {
+            call.cancel();
+        }
     }
 }
