@@ -11,7 +11,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.view.UserInfoFragment;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.UserStatus;
 import com.victorxu.muses.mine.contract.MineContract;

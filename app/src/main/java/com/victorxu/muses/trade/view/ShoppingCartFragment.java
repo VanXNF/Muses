@@ -16,7 +16,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseMainFragment;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.glide.GlideApp;
 import com.victorxu.muses.gson.Commodity;

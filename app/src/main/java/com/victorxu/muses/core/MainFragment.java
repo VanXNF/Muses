@@ -1,4 +1,4 @@
-package com.victorxu.muses.core.view;
+package com.victorxu.muses.core;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,8 +10,6 @@ import com.victorxu.muses.MainActivity;
 import com.victorxu.muses.R;
 import com.victorxu.muses.account.view.LoginByPWDFragment;
 import com.victorxu.muses.base.BaseFragment;
-import com.victorxu.muses.core.contract.MainContract;
-import com.victorxu.muses.core.presenter.MainPresenter;
 import com.victorxu.muses.creation.view.CreationFragment;
 import com.victorxu.muses.custom.BottomBar;
 import com.victorxu.muses.custom.BottomBarTab;
@@ -25,7 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
-public class MainFragment extends BaseFragment implements MainContract.View {
+public class MainFragment extends BaseFragment {
 
     private static final int REQ_MAIN_FRAGMENT = 10;
     public static final int FIRST = 0;
@@ -34,7 +32,6 @@ public class MainFragment extends BaseFragment implements MainContract.View {
     public static final int FORTH = 3;
 
     private BaseFragment[] mFragments = new BaseFragment[4];
-    private MainPresenter mPresenter;
     private BottomBar mBottomBar;
 
     public static MainFragment newInstance() {
@@ -48,7 +45,6 @@ public class MainFragment extends BaseFragment implements MainContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        mPresenter = new MainPresenter(this);
         initView(view);
         return view;
     }
@@ -129,7 +125,6 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         }
     }
 
-    @Override
     public void startToAccountFragment() {
 //        RegisterFragment fragment = RegisterFragment.newInstance();
         LoginByPWDFragment  fragment = LoginByPWDFragment.newInstance();
@@ -137,7 +132,6 @@ public class MainFragment extends BaseFragment implements MainContract.View {
         startBrotherFragment(fragment);
     }
 
-    @Override
     public void startBrotherFragment(BaseFragment targetFragment) {
         start(targetFragment);
     }

@@ -12,7 +12,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.creation.view.FilterApplyFragment;
 import com.victorxu.muses.custom.AdvancedBottomSheetDialog;
 import com.victorxu.muses.gson.Address;

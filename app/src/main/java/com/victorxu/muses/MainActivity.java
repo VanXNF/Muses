@@ -11,7 +11,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.victorxu.muses.account.contract.AccountContract;
-import com.victorxu.muses.core.view.MainFragment;
+import com.victorxu.muses.core.MainFragment;
 import com.victorxu.muses.base.BaseActivity;
 import com.victorxu.muses.util.SharedPreferencesUtil;
 
