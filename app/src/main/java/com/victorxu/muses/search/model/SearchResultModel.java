@@ -69,12 +69,12 @@ public class SearchResultModel implements SearchResultContract.Model {
 
     @Override
     public boolean checkDataStatus() {
-        return (allPages != 0 && currentPage < allPages);
+        return pages.size() != 0;
     }
 
     @Override
     public boolean checkPageStatus() {
-        return pages.size() != 0;
+        return (allPages != 0 && currentPage < allPages);
     }
 
     private void initSearchModel() {
