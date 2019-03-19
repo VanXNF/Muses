@@ -17,7 +17,7 @@
         <item name="android:layout_width">@dimen/dp_158</item>
         <item name="android:layout_height">@dimen/dp_158</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:scaleType">fitXY</item>
+        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <style name="gallery_commodity_title">
@@ -113,5 +113,33 @@
         <item name="android:paddingTop">@dimen/dp_10</item>
         <item name="android:paddingBottom">@dimen/dp_10</item>
         <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="order_button_gray_line_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_10</item>
+        <item name="android:background">@drawable/line_button_bg_black</item>
+        <item name="android:paddingStart">@dimen/dp_10</item>
+        <item name="android:paddingTop">@dimen/dp_5</item>
+        <item name="android:paddingEnd">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_5</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="order_button_dark_red_line_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_10</item>
+        <item name="android:background">@drawable/line_button_bg_dark_red</item>
+        <item name="android:paddingStart">@dimen/dp_10</item>
+        <item name="android:paddingTop">@dimen/dp_5</item>
+        <item name="android:paddingEnd">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_5</item>
+        <item name="android:textColor">@color/dark_red</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

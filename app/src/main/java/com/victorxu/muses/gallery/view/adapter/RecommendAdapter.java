@@ -26,8 +26,6 @@ public class RecommendAdapter extends BaseQuickAdapter<ListCommodity.CommodityLi
     protected void convert(BaseViewHolder helper, ListCommodity.CommodityListModel item) {
         GlideApp.with(mContext)
                 .load(item.getCoverImage())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(
-                                mContext.getResources().getInteger(R.integer.recommend_image_radius))))
                 .into((AppCompatImageView) helper.getView(R.id.image_recommend));
     }
 }

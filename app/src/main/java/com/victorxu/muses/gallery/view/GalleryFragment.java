@@ -195,6 +195,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
                             public void displayImage(Context context, Object path, ImageView imageView) {
                                 GlideApp.with(context)
                                         .load(path)
+                                        .apply(RequestOptions.centerCropTransform())
                                         .apply(RequestOptions.bitmapTransform(new RoundedCorners(getResources().getInteger(R.integer.banner_image_radius))))
                                         .into(imageView);
                             }
