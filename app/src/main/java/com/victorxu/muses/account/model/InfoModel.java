@@ -64,6 +64,11 @@ public class InfoModel implements InfoContract.Model {
     }
 
     @Override
+    public UserInfo.UserInfoBean getLocalUserInfoData() {
+        return mUserInfoData;
+    }
+
+    @Override
     public void setLocalUserInfoData(UserInfo.UserInfoBean data) {
         mUserInfoData = new UserInfo.UserInfoBean();
         mUserInfoData.setId(data.getId());
@@ -77,11 +82,6 @@ public class InfoModel implements InfoContract.Model {
         mUserInfoData.setEmail(data.getEmail());
         mUserInfoData.setLevel(data.getLevel());
         mUserInfoData.setToken(data.getToken());
-    }
-
-    @Override
-    public UserInfo.UserInfoBean getLocalUserInfoData() {
-        return mUserInfoData;
     }
 
     @Override

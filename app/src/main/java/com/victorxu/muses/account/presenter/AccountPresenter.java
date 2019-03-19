@@ -53,8 +53,8 @@ public class AccountPresenter implements AccountContract.Presenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
-                if (userStatus != null) {
+                try {
+                    UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
                     if (userStatus.getCode().equals("OK") && userStatus.getData() != null) {
                         if (mModel.saveUserInfo(userStatus.getData())) {
                             mView.notifyLoginSuccess();
@@ -64,10 +64,11 @@ public class AccountPresenter implements AccountContract.Presenter {
                     } else {
                         mView.showToast(userStatus.getMessage());
                     }
-                } else {
+                } catch (Exception e) {
                     mView.showToast(R.string.account_failure_data_error);
-                    Log.w(TAG, "onResponse: doLoginPWD Data ERROR");
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -90,9 +91,9 @@ public class AccountPresenter implements AccountContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
-                if (userStatus != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
                     if (userStatus.getCode().equals("OK") && userStatus.getData() != null) {
                         if (mModel.saveUserInfo(userStatus.getData())) {
                             mView.notifyLoginSuccess();
@@ -102,10 +103,11 @@ public class AccountPresenter implements AccountContract.Presenter {
                     } else {
                         mView.showToast(userStatus.getMessage());
                     }
-                } else {
+                } catch (Exception e) {
                     mView.showToast(R.string.account_failure_data_error);
-                    Log.w(TAG, "onResponse: doLoginCode Data ERROR");
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -132,9 +134,9 @@ public class AccountPresenter implements AccountContract.Presenter {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
-                if (userStatus != null) {
+            public void onResponse(Call call, Response response) {
+                try {
+                    UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
                     if (userStatus.getCode().equals("OK") && userStatus.getData() != null) {
                         if (mModel.saveUserInfo(userStatus.getData())) {
                             mView.notifyLoginSuccess();
@@ -144,10 +146,11 @@ public class AccountPresenter implements AccountContract.Presenter {
                     } else {
                         mView.showToast(userStatus.getMessage());
                     }
-                } else {
+                } catch (Exception e) {
                     mView.showToast(R.string.account_failure_data_error);
-                    Log.w(TAG, "onResponse: doRegister Data ERROR");
+                    e.printStackTrace();
                 }
+
             }
         });
     }

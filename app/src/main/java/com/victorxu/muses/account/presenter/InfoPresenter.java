@@ -53,7 +53,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                     } else {
                         mView.showToast(userInfo.getMessage());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -75,7 +75,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                 try {
                     Status status = new Gson().fromJson(response.body().string(), Status.class);
                     mView.showToast(status.getMessage());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -106,7 +106,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                         mModel.updateCacheData();
                         mView.showNickname(name);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -136,7 +136,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                     } else {
                         mView.showBirthday(timestamp);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -166,7 +166,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                     } else {
                         mView.showGender(gender);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
@@ -196,7 +196,7 @@ public class InfoPresenter implements InfoContract.Presenter {
                     } else {
                         mView.showEmail(email);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }
