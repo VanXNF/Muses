@@ -12,7 +12,6 @@
         android:id="@+id/item_collection_image"
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_120"
-        android:background="@color/light_white"
         android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatTextView

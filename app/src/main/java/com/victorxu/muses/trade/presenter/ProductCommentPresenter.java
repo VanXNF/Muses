@@ -161,7 +161,7 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
         mModel.getCommentData(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: getCommentData");
+                Log.e(TAG, "onFailure: getCommentData" + e.getMessage());
                 if (!e.getMessage().equals("Socket closed")) {
                     mView.showToast(R.string.network_error_please_try_again);
                     mView.hideLoading();
@@ -181,6 +181,10 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
                         mModel.setPageList(pages);
                         mView.hideEmptyPage();
                         mView.showComment(comment.getData().getDataList());
+                    } else {
+                        mModel.setAllPages(0);
+                        mModel.setPageList(new ArrayList<>());
+                        mView.showEmptyPage();
                     }
                 } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);

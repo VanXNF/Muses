@@ -206,7 +206,9 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         mNewProductData.addAll(newProductData);
         post(() -> {
             for (int i = 0; i < mNewProductViews.size(); i++) {
-                GlideApp.with(this).load(mNewProductData.get(i).getCoverImage()).into(mNewProductViews.get(i).getImageView());
+                GlideApp.with(this)
+                        .load(mNewProductData.get(i).getCoverImage())
+                        .into(mNewProductViews.get(i).getImageView());
                 if (i != 0) {
                     mNewProductViews.get(i).getTitleText().setText(mNewProductData.get(i).getName());
                     mNewProductViews.get(i).getTagText().setText(mNewProductData.get(i).getBrief());
@@ -227,7 +229,9 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
         mHotProductData.addAll(hotProductData);
         post(() -> {
             for (int i = 0; i < mHotProductViews.size(); i++) {
-                GlideApp.with(this).load(mHotProductData.get(i).getCoverImage()).into(mHotProductViews.get(i).getImageView());
+                GlideApp.with(this)
+                        .load(mHotProductData.get(i).getCoverImage())
+                        .into(mHotProductViews.get(i).getImageView());
                 if (i != 0) {
                     mHotProductViews.get(i).getTitleText().setText(mHotProductData.get(i).getName());
                     mHotProductViews.get(i).getTagText().setText(mHotProductData.get(i).getBrief());

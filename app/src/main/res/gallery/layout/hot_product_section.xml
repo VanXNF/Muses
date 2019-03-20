@@ -54,12 +54,20 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.victorxu.muses.custom.AdvancedImageView
-            android:id="@+id/image_hot_product_title"
-            style="@style/gallery_commodity_title_image"
-            android:background="@color/light_white"
-            app:borderRadius="@dimen/dp_4_5"
-            app:type="round" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/dp_10"
+            app:cardElevation="@dimen/dp_1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_hot_product_title"
+                style="@style/gallery_commodity_title_image" />
+
+        </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,12 +83,19 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.AdvancedImageView
-                    android:id="@+id/image_hot_product_1_image"
-                    style="@style/gallery_commodity_image"
-                    android:background="@color/light_white"
-                    app:borderRadius="@dimen/dp_4_5"
-                    app:type="round" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_hot_product_1_image"
+                        style="@style/gallery_commodity_image" />
+
+                </androidx.cardview.widget.CardView>
+
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
@@ -113,12 +128,18 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.AdvancedImageView
-                    android:id="@+id/image_hot_product_2_image"
-                    style="@style/gallery_commodity_image"
-                    android:background="@color/light_white"
-                    app:borderRadius="@dimen/dp_4_5"
-                    app:type="round" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_hot_product_2_image"
+                        style="@style/gallery_commodity_image" />
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
@@ -159,13 +180,18 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.AdvancedImageView
-                    android:id="@+id/image_hot_product_3_image"
-                    style="@style/gallery_commodity_image"
-                    android:background="@color/light_white"
-                    app:borderRadius="@dimen/dp_4_5"
-                    app:type="round" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_1">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_hot_product_3_image"
+                        style="@style/gallery_commodity_image" />
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
@@ -198,12 +224,18 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.victorxu.muses.custom.AdvancedImageView
-                    android:id="@+id/image_hot_product_4_image"
-                    style="@style/gallery_commodity_image"
-                    android:background="@color/light_white"
-                    app:borderRadius="@dimen/dp_4_5"
-                    app:type="round" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_hot_product_4_image"
+                        style="@style/gallery_commodity_image" />
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"

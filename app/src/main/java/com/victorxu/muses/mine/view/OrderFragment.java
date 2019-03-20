@@ -63,7 +63,7 @@ public class OrderFragment extends BaseFragment {
         for (int i = 0; i < 5; i++) {
             mTabLayoutOrder.addTab(mTabLayoutOrder.newTab());
         }
-        mPagerOrder.setOffscreenPageLimit(5);
+        mPagerOrder.setOffscreenPageLimit(1);
         mPagerOrder.setAdapter(new OrderPagerFragmentAdapter(getChildFragmentManager(),
                 getString(R.string.all_orders),
                 getString(R.string.pending_payment),

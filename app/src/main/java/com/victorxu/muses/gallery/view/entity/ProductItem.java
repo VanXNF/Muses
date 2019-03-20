@@ -2,34 +2,35 @@ package com.victorxu.muses.gallery.view.entity;
 
 import com.victorxu.muses.custom.AdvancedImageView;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class ProductItem {
 
-    private AdvancedImageView mImageView;
+    private AppCompatImageView mImageView;
     private AppCompatTextView mTitleText;
     private AppCompatTextView mTagText;
     private AppCompatTextView mPriceText;
 
-    public ProductItem(AdvancedImageView mImageView) {
+    public ProductItem(AppCompatImageView mImageView) {
         this.mImageView = mImageView;
         this.mTitleText = null;
         this.mTagText = null;
         this.mPriceText = null;
     }
 
-    public ProductItem(AdvancedImageView mImageView, AppCompatTextView mTitleText, AppCompatTextView mTagText, AppCompatTextView mPriceText) {
+    public ProductItem(AppCompatImageView mImageView, AppCompatTextView mTitleText, AppCompatTextView mTagText, AppCompatTextView mPriceText) {
         this.mImageView = mImageView;
         this.mTitleText = mTitleText;
         this.mTagText = mTagText;
         this.mPriceText = mPriceText;
     }
 
-    public AdvancedImageView getImageView() {
+    public AppCompatImageView getImageView() {
         return mImageView;
     }
 
-    public void setImageView(AdvancedImageView mImageView) {
+    public void setImageView(AppCompatImageView mImageView) {
         this.mImageView = mImageView;
     }
 

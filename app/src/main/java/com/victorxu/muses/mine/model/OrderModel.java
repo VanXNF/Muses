@@ -25,7 +25,7 @@ public class OrderModel implements OrderContract.Model {
     private int currentPage = 1;
     private int allPages = 0;
 
-    private List<PageOrderStatus.PageOrder.OrderBean> orders;
+    private List<PageOrderStatus.PageOrder.OrderBean> orders = new ArrayList<>();
 
     private Call mCallGet;
     private Call mCallDelete;
@@ -34,7 +34,6 @@ public class OrderModel implements OrderContract.Model {
     public OrderModel(int type, Context context) {
         this.type = type;
         this.context = context;
-        orders = new ArrayList<>();
     }
 
     @Override

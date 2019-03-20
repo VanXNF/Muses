@@ -60,17 +60,20 @@ public class OrderPresenter implements OrderContract.Presenter {
                         mModel.setLocalOrderData(orderStatus.getData().getDataList());
                         mView.hideEmptyPage();
                         mView.showOrder(orderStatus.getData().getDataList());
-                    } else {
-                        mView.showEmptyPage();
                     }
-                } catch (Exception e) {
-                    mView.showToast(R.string.data_error_please_try_again);
-                    e.printStackTrace();
-                } finally {
                     if (!mModel.checkOrderDataStatus()) {
                         mView.showEmptyPage();
                     }
                     mView.hideLoading();
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    e.printStackTrace();
+                    if (!e.getMessage().equals("Socket closed")) {
+                        if (!mModel.checkOrderDataStatus()) {
+                            mView.showEmptyPage();
+                        }
+                        mView.showToast(R.string.data_error_please_try_again);
+                    }
                 }
             }
         });
