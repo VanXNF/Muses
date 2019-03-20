@@ -23,6 +23,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class SettlePresenter implements SettleContract.Presenter {
 
     private static final String TAG = "SettlePresenter";
@@ -46,7 +47,9 @@ public class SettlePresenter implements SettleContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getDefaultAddress");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -100,7 +103,9 @@ public class SettlePresenter implements SettleContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: updateCartOrderData");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override
@@ -135,7 +140,9 @@ public class SettlePresenter implements SettleContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: updateProductOrderData");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override
@@ -168,11 +175,13 @@ public class SettlePresenter implements SettleContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: updateOrderStatus");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 try {
                     Status status = new Gson().fromJson(response.body().string(), Status.class);
                     if (status.getCode().equals("OK")) {

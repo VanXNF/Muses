@@ -18,6 +18,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class SearchPresenter implements SearchContract.Presenter {
 
     private static final String TAG = "SearchPresenter";
@@ -48,8 +49,10 @@ public class SearchPresenter implements SearchContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.w(TAG, "onFailure: getHotKeyData");
-                mView.hideLoading();
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.hideLoading();
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override

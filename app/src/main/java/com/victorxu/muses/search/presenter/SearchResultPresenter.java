@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class SearchResultPresenter implements SearchResultContract.Presenter {
 
     private static final String TAG = "SearchResultPresenter";
@@ -44,10 +44,12 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getProductData");
-                mView.hideLoading();
-                mView.showToast(R.string.network_error_please_try_again);
-                if (!mModel.checkDataStatus()) {
-                    mView.showFailPage();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.hideLoading();
+                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!mModel.checkDataStatus()) {
+                        mView.showFailPage();
+                    }
                 }
             }
 
@@ -85,8 +87,10 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getMoreProductData");
-                    mView.hideLoadingMore(false, false);
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.hideLoadingMore(false, false);
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override

@@ -17,6 +17,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class OrderPresenter implements OrderContract.Presenter {
 
     private static final String TAG = "OrderPresenter";
@@ -41,11 +42,13 @@ public class OrderPresenter implements OrderContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getOrderData");
-                mView.showToast(R.string.network_error_please_try_again);
-                if (!mModel.checkOrderDataStatus()) {
-                    mView.showEmptyPage();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!mModel.checkOrderDataStatus()) {
+                        mView.showEmptyPage();
+                    }
+                    mView.hideLoading();
                 }
-                mView.hideLoading();
             }
 
             @Override
@@ -87,8 +90,10 @@ public class OrderPresenter implements OrderContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getMoreOrderData");
-                    mView.showToast(R.string.network_error_please_try_again);
-                    mView.hideLoadMore(false, false);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                        mView.hideLoadMore(false, false);
+                    }
                 }
 
                 @Override
@@ -126,7 +131,9 @@ public class OrderPresenter implements OrderContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: deleteOrderData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -155,7 +162,9 @@ public class OrderPresenter implements OrderContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: updateOrderData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override

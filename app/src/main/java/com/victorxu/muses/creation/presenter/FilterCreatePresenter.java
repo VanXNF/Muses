@@ -16,6 +16,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class FilterCreatePresenter implements FilterCreateContract.Presenter {
 
     private static final String TAG = "FilterCreatePresenter";
@@ -52,11 +53,13 @@ public class FilterCreatePresenter implements FilterCreateContract.Presenter {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.e(TAG, "onFailure: uploadFilter");
-                        mView.showToast(R.string.network_error_please_try_again);
+                        if (!e.getMessage().equals("Socket closed")) {
+                            mView.showToast(R.string.network_error_please_try_again);
+                        }
                     }
 
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
+                    public void onResponse(Call call, Response response) {
                         int code = response.code();
                         if (code == 200) {
                             mView.showToast(R.string.upload_success_please_check_it_in_my_filter_page);

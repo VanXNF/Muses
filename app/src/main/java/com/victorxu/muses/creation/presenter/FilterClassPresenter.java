@@ -15,6 +15,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class FilterClassPresenter implements FilterClassContract.Presenter {
 
     private static final String TAG = "FilterClassPresenter";
@@ -38,8 +39,10 @@ public class FilterClassPresenter implements FilterClassContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getFilterData");
-                mView.showEmptyPage();
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showEmptyPage();
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -53,7 +56,7 @@ public class FilterClassPresenter implements FilterClassContract.Presenter {
                     } else {
                         mView.showEmptyPage();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     mView.showToast(R.string.data_error_please_try_again);
                     e.printStackTrace();
                 }
@@ -69,8 +72,10 @@ public class FilterClassPresenter implements FilterClassContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getMoreFilterData");
-                    mView.hideLoadMore(false, false);
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.hideLoadMore(false, false);
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override
@@ -82,7 +87,7 @@ public class FilterClassPresenter implements FilterClassContract.Presenter {
                             mView.hideLoadMore(true, false);
                             mView.showMoreFilter(pageFilter.getData());
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         mView.hideLoadMore(false, false);
                         mView.showToast(R.string.data_error_please_try_again);
                         e.printStackTrace();

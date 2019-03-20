@@ -17,6 +17,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class AccountPresenter implements AccountContract.Presenter {
 
     private static final String TAG = "AccountPresenter";
@@ -47,12 +48,14 @@ public class AccountPresenter implements AccountContract.Presenter {
         mModel.doLoginByPWD(username, password, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showToast(R.string.account_failure_network_error);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.account_failure_network_error);
+                }
                 Log.e(TAG, "onFailure: doLoginByPWD");
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 try {
                     UserStatus userStatus = new Gson().fromJson(response.body().string(), UserStatus.class);
                     if (userStatus.getCode().equals("OK") && userStatus.getData() != null) {
@@ -86,7 +89,9 @@ public class AccountPresenter implements AccountContract.Presenter {
         mModel.doLoginByCode(mobile, code, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showToast(R.string.account_failure_network_error);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.account_failure_network_error);
+                }
                 Log.e(TAG, "onFailure: doLoginByCode");
             }
 
@@ -129,7 +134,9 @@ public class AccountPresenter implements AccountContract.Presenter {
         mModel.doRegister(mobile, password, code, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.showToast(R.string.account_failure_network_error);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.account_failure_network_error);
+                }
                 Log.e(TAG, "onFailure: doRegister");
             }
 

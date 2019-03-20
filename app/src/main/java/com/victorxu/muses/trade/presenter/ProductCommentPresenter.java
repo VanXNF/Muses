@@ -4,15 +4,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.victorxu.muses.R;
 import com.victorxu.muses.gson.CommentCountStatus;
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.trade.contract.ProductCommentContract;
 import com.victorxu.muses.trade.model.ProductCommentModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -23,6 +19,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class ProductCommentPresenter implements ProductCommentContract.Presenter {
 
     private static final String TAG = "ProductCommentPresenter";
@@ -47,7 +44,9 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getCommentCountData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -82,9 +81,11 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getCommentData");
-                mView.showToast(R.string.network_error_please_try_again);
-                mView.showEmptyPage();
-                mView.hideLoading();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                    mView.showEmptyPage();
+                    mView.hideLoading();
+                }
             }
 
             @Override
@@ -122,8 +123,10 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getMoreCommentData");
-                    mView.showToast(R.string.network_error_please_try_again);
-                    mView.hideLoadingMore(false, false);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                        mView.hideLoadingMore(false, false);
+                    }
                 }
 
                 @Override
@@ -159,9 +162,11 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getCommentData");
-                mView.showToast(R.string.network_error_please_try_again);
-                mView.hideLoading();
-                mView.showEmptyPage();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                    mView.hideLoading();
+                    mView.showEmptyPage();
+                }
             }
 
             @Override

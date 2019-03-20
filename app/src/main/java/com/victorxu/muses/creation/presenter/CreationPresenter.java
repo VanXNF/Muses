@@ -15,6 +15,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings("NullableProblems")
 public class CreationPresenter implements CreationContract.Presenter {
 
     private static final String TAG = "CreationPresenter";
@@ -38,19 +39,21 @@ public class CreationPresenter implements CreationContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getFilterClassData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    FilterClass filterClass = new Gson().fromJson(response.body().string(), FilterClass.class);
+                    @SuppressWarnings("ConstantConditions") FilterClass filterClass = new Gson().fromJson(response.body().string(), FilterClass.class);
                     if (filterClass.getCode().equals("OK")) {
                         mView.showFilterClasses(filterClass.getData());
                     } else {
-                        throw new IOException();
+                        throw new Exception();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     mView.showToast(R.string.data_error_please_try_again);
                 }

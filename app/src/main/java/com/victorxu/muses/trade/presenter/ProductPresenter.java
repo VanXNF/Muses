@@ -18,6 +18,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class ProductPresenter implements ProductContract.Presenter {
 
     private static final String TAG = "ProductPresenter";
@@ -41,7 +42,9 @@ public class ProductPresenter implements ProductContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getProductData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -68,7 +71,9 @@ public class ProductPresenter implements ProductContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getCommentData");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -92,7 +97,9 @@ public class ProductPresenter implements ProductContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: checkFavoriteStatus");
-                mView.showToast(R.string.network_error_please_try_again);
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -122,7 +129,9 @@ public class ProductPresenter implements ProductContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: delete");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override
@@ -157,7 +166,9 @@ public class ProductPresenter implements ProductContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getCollectionCountData");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override
@@ -185,7 +196,9 @@ public class ProductPresenter implements ProductContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: removeProductDataFromFavorite");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override

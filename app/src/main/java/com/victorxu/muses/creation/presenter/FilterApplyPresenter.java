@@ -19,6 +19,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class FilterApplyPresenter implements FilterApplyContract.Presenter {
 
     private static final String TAG = "FilterApplyPresenter";
@@ -57,9 +58,11 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
         mModel.uploadImageData(uri, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "onFailure: uploadImageData");
-                mView.hideLoading();
-                mView.showToast(R.string.network_error_please_try_again);
+                Log.e(TAG, "onFailure: uploadImageData" + e.getMessage());
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.hideLoading();
+                    mView.showToast(R.string.network_error_please_try_again);
+                }
             }
 
             @Override
@@ -92,8 +95,10 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: uploadCustomizeImageData");
-                mView.showToast(R.string.network_error_please_try_again);
-                mView.hideLoadingDialog();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                    mView.hideLoadingDialog();
+                }
             }
 
             @Override

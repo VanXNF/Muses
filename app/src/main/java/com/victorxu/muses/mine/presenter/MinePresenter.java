@@ -16,6 +16,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"ConstantConditions", "NullableProblems"})
 public class MinePresenter implements MineContract.Presenter {
 
     private static final String TAG = "MinePresenter";
@@ -41,7 +42,9 @@ public class MinePresenter implements MineContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getCollectionCountData");
-                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                    }
                 }
 
                 @Override

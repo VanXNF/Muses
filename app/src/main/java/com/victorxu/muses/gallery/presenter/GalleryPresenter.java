@@ -40,11 +40,13 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         mModel.getBannerData(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                if (!e.getMessage().equals("Socket closed")) {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
+                    mView.showToast(R.string.network_error_please_try_again);
                 }
-                mView.showToast(R.string.network_error_please_try_again);
                 Log.e(TAG, "onFailure: getBannerData");
             }
 
@@ -69,11 +71,13 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         mModel.getRecommendData(3, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                if (!e.getMessage().equals("Socket closed")) {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
+                    mView.showToast(R.string.network_error_please_try_again);
                 }
-                mView.showToast(R.string.network_error_please_try_again);
                 Log.d(TAG, "onFailure: getRecommendData");
             }
 
@@ -100,11 +104,13 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         mModel.getNewProductData(5, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                if (!e.getMessage().equals("Socket closed")) {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
+                    mView.showToast(R.string.network_error_please_try_again);
                 }
-                mView.showToast(R.string.network_error_please_try_again);
                 Log.d(TAG, "onFailure: getNewProductData");
             }
 
@@ -130,11 +136,13 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         mModel.getHotProductData(5, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (mModel.checkFlags()) {
-                    mModel.resetFlags();
-                    mView.hideLoading();
+                if (!e.getMessage().equals("Socket closed")) {
+                    if (mModel.checkFlags()) {
+                        mModel.resetFlags();
+                        mView.hideLoading();
+                    }
+                    mView.showToast(R.string.network_error_please_try_again);
                 }
-                mView.showToast(R.string.network_error_please_try_again);
                 Log.d(TAG, "onFailure: getHotProductData");
             }
 

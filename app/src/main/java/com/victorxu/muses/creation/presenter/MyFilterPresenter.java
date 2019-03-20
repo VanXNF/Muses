@@ -17,6 +17,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public class MyFilterPresenter implements MyFilterContract.Presenter {
     private static final String TAG = "MyFilterPresenter";
 
@@ -39,9 +40,11 @@ public class MyFilterPresenter implements MyFilterContract.Presenter {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "onFailure: getFilterData");
-                mView.showToast(R.string.network_error_please_try_again);
-                if (!mModel.checkDataStatus()) {
-                    mView.showEmptyPage();
+                if (!e.getMessage().equals("Socket closed")) {
+                    mView.showToast(R.string.network_error_please_try_again);
+                    if (!mModel.checkDataStatus()) {
+                        mView.showEmptyPage();
+                    }
                 }
             }
 
@@ -91,8 +94,10 @@ public class MyFilterPresenter implements MyFilterContract.Presenter {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "onFailure: getMoreFilterData");
-                    mView.showToast(R.string.network_error_please_try_again);
-                    mView.hideLoadMore(false, false);
+                    if (!e.getMessage().equals("Socket closed")) {
+                        mView.showToast(R.string.network_error_please_try_again);
+                        mView.hideLoadMore(false, false);
+                    }
                 }
 
                 @Override
