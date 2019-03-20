@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/dp_13"
-    android:layout_marginEnd="@dimen/dp_13"
     android:layout_marginTop="@dimen/dp_9"
+    android:layout_marginEnd="@dimen/dp_13"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -17,10 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/sp_18"
-            android:textStyle="bold"
+            android:text="@string/hot_product"
             android:textColor="@color/title_text_default"
-            android:text="@string/hot_product"/>
+            android:textSize="@dimen/sp_18"
+            android:textStyle="bold" />
 
 
         <LinearLayout
@@ -34,15 +34,15 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
+                android:text="@string/more"
                 android:textColor="@color/title_sub_text_default"
-                android:text="@string/more"/>
+                android:textSize="@dimen/sp_14" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/dp_13"
                 android:layout_height="@dimen/dp_13"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/more"/>
+                android:src="@drawable/more" />
 
         </LinearLayout>
 
@@ -51,15 +51,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <com.victorxu.muses.custom.AdvancedImageView
-            style="@style/gallery_commodity_title_image"
             android:id="@+id/image_hot_product_title"
+            style="@style/gallery_commodity_title_image"
+            android:background="@color/light_white"
             app:borderRadius="@dimen/dp_4_5"
-            app:type="round"
-            android:src="@drawable/product_title"/>
+            app:type="round" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,38 +71,35 @@
                 android:id="@+id/hot_product_1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_237"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/dp_2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.victorxu.muses.custom.AdvancedImageView
-                    style="@style/gallery_commodity_image"
                     android:id="@+id/image_hot_product_1_image"
+                    style="@style/gallery_commodity_image"
+                    android:background="@color/light_white"
                     app:borderRadius="@dimen/dp_4_5"
-                    app:type="round"
-                    android:src="@drawable/product1"/>
+                    app:type="round" />
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:gravity="start">
+                    android:gravity="start"
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_title"
                         android:id="@+id/text_hot_product_1_title"
-                        android:text="@string/product_1_title"/>
+                        style="@style/gallery_commodity_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_tag"
                         android:id="@+id/text_hot_product_1_tag"
-                        android:text="@string/product_1_tag"/>
+                        style="@style/gallery_commodity_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_price"
                         android:id="@+id/text_hot_product_1_price"
-                        android:text="@string/product_1_price"/>
+                        style="@style/gallery_commodity_price" />
 
                 </LinearLayout>
 
@@ -112,38 +109,35 @@
                 android:id="@+id/hot_product_2"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_237"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/dp_2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.victorxu.muses.custom.AdvancedImageView
-                    style="@style/gallery_commodity_image"
                     android:id="@+id/image_hot_product_2_image"
+                    style="@style/gallery_commodity_image"
+                    android:background="@color/light_white"
                     app:borderRadius="@dimen/dp_4_5"
-                    app:type="round"
-                    android:src="@drawable/product2"/>
+                    app:type="round" />
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:gravity="start">
+                    android:gravity="start"
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_title"
                         android:id="@+id/text_hot_product_2_title"
-                        android:text="@string/product_2_title"/>
+                        style="@style/gallery_commodity_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_tag"
                         android:id="@+id/text_hot_product_2_tag"
-                        android:text="@string/product_2_tag"/>
+                        style="@style/gallery_commodity_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_price"
                         android:id="@+id/text_hot_product_2_price"
-                        android:text="@string/product_2_price"/>
+                        style="@style/gallery_commodity_price" />
 
                 </LinearLayout>
 
@@ -161,39 +155,36 @@
                 android:id="@+id/hot_product_3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_237"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/dp_2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.victorxu.muses.custom.AdvancedImageView
-                    style="@style/gallery_commodity_image"
                     android:id="@+id/image_hot_product_3_image"
+                    style="@style/gallery_commodity_image"
+                    android:background="@color/light_white"
                     app:borderRadius="@dimen/dp_4_5"
-                    app:type="round"
-                    android:src="@drawable/product1"/>
+                    app:type="round" />
 
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:gravity="start">
+                    android:gravity="start"
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_title"
                         android:id="@+id/text_hot_product_3_title"
-                        android:text="@string/product_1_title"/>
+                        style="@style/gallery_commodity_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_tag"
                         android:id="@+id/text_hot_product_3_tag"
-                        android:text="@string/product_1_tag"/>
+                        style="@style/gallery_commodity_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_price"
                         android:id="@+id/text_hot_product_3_price"
-                        android:text="@string/product_1_price"/>
+                        style="@style/gallery_commodity_price" />
 
                 </LinearLayout>
 
@@ -203,38 +194,35 @@
                 android:id="@+id/hot_product_4"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_237"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/dp_2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.victorxu.muses.custom.AdvancedImageView
-                    style="@style/gallery_commodity_image"
                     android:id="@+id/image_hot_product_4_image"
+                    style="@style/gallery_commodity_image"
+                    android:background="@color/light_white"
                     app:borderRadius="@dimen/dp_4_5"
-                    app:type="round"
-                    android:src="@drawable/product2"/>
+                    app:type="round" />
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_158"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:gravity="start">
+                    android:gravity="start"
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_title"
                         android:id="@+id/text_hot_product_4_title"
-                        android:text="@string/product_2_title"/>
+                        style="@style/gallery_commodity_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_tag"
                         android:id="@+id/text_hot_product_4_tag"
-                        android:text="@string/product_2_tag"/>
+                        style="@style/gallery_commodity_tag" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/gallery_commodity_price"
                         android:id="@+id/text_hot_product_4_price"
-                        android:text="@string/product_2_price"/>
+                        style="@style/gallery_commodity_price" />
 
                 </LinearLayout>
 

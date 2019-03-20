@@ -15,8 +15,8 @@
             android:id="@+id/item_popular_search_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/product1" />
+            android:background="@color/light_white"
+            android:scaleType="centerCrop" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_popular_search_name"

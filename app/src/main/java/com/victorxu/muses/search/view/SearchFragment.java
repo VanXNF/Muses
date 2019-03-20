@@ -185,7 +185,7 @@ public class SearchFragment extends BaseSwipeBackFragment implements SearchContr
 
     @Override
     public void showToast(CharSequence text) {
-        Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+        post(() -> Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show());
     }
 
     @Override

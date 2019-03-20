@@ -19,7 +19,7 @@
             android:id="@+id/bottom_sheet_product_preview_image"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
-            android:src="@drawable/product1" />
+            android:background="@color/light_white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/bottom_sheet_product_preview_price"
