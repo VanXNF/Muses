@@ -38,7 +38,11 @@ public class FilterApplyModel implements FilterApplyContract.Model {
         File file = new File(uri.getPath());
         Map<String, String> map = new HashMap<>();
         map.put("upload_id", String.valueOf(id));
-        mCallImage = HttpUtil.postRequest(HttpUtil.FILTER_TRANSFER_SERVER, TRANSFER_API, file, map, callback);
+        String transfer = String.valueOf(SharedPreferencesUtil.get(context, "transfer", "null"));
+        if (transfer.equals("null")) {
+            transfer = HttpUtil.FILTER_TRANSFER_SERVER;
+        }
+        mCallImage = HttpUtil.postRequest(transfer, TRANSFER_API, file, map, callback);
     }
 
     @Override
@@ -47,7 +51,11 @@ public class FilterApplyModel implements FilterApplyContract.Model {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
         Map<String, String> map = new HashMap<>();
         map.put("userId", String.valueOf(userId));
-        mCallCustomize = HttpUtil.postRequest(HttpUtil.WEB_SERVER, COMMODITY_API, file, map, callback);
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = HttpUtil.WEB_SERVER;
+        }
+        mCallCustomize = HttpUtil.postRequest(web, COMMODITY_API, file, map, callback);
     }
 
     @Override

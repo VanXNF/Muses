@@ -1,5 +1,7 @@
 package com.victorxu.muses.creation.model;
 
+import android.content.Context;
+
 import com.victorxu.muses.creation.contract.FilterClassContract;
 import com.victorxu.muses.util.HttpUtil;
 
@@ -12,15 +14,16 @@ public class FilterClassModel implements FilterClassContract.Model {
 
     private String key;
     private int id;
-
+    private Context context;
     private int currentPage = 1;
     private int allPages = 0;
 
     private Call mCallFilter;
 
-    public FilterClassModel(String key, int id) {
+    public FilterClassModel(String key, int id, Context context) {
         this.key = key;
         this.id = id;
+        this.context = context;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class FilterClassModel implements FilterClassContract.Model {
     @Override
     public void getFilterData(int page, Callback callback) {
         currentPage = page;
-        mCallFilter = HttpUtil.getRequest(FILTER_API + key + "/" + String.valueOf(id) + "/"
+        mCallFilter = HttpUtil.getRequest(context, FILTER_API + key + "/" + String.valueOf(id) + "/"
                 + String.valueOf(currentPage), callback);
     }
 

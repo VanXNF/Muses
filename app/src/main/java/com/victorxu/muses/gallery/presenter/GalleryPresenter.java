@@ -1,5 +1,6 @@
 package com.victorxu.muses.gallery.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -23,10 +24,11 @@ public class GalleryPresenter implements GalleryContract.Presenter {
     private static final String TAG = "GalleryPresenter";
 
     private GalleryContract.View mView;
-    private GalleryContract.Model mModel = new GalleryModel();
+    private GalleryContract.Model mModel;
 
-    public GalleryPresenter(GalleryContract.View mView) {
+    public GalleryPresenter(GalleryContract.View mView, Context context) {
         this.mView = mView;
+        mModel = new GalleryModel(context);
     }
 
     @Override

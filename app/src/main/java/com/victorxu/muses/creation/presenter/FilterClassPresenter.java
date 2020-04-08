@@ -1,5 +1,6 @@
 package com.victorxu.muses.creation.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -23,9 +24,9 @@ public class FilterClassPresenter implements FilterClassContract.Presenter {
     private FilterClassContract.View mView;
     private FilterClassContract.Model mModel;
 
-    public FilterClassPresenter(FilterClassContract.View mView, String key, int id) {
+    public FilterClassPresenter(FilterClassContract.View mView, String key, int id, Context context) {
         this.mView = mView;
-        mModel = new FilterClassModel(key, id);
+        mModel = new FilterClassModel(key, id, context);
     }
 
     @Override

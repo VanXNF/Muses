@@ -1,6 +1,8 @@
 package com.victorxu.muses.search.model;
 
 
+import android.content.Context;
+
 import com.victorxu.muses.db.entity.HistoryKey;
 import com.victorxu.muses.db.service.SearchHistoryService;
 import com.victorxu.muses.search.contract.SearchContract;
@@ -16,12 +18,16 @@ public class SearchModel implements SearchContract.Model {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final String HOT_KEY_API = "api/hotkey/";
-
+    private Context context;
     private Call mCallHotKay;
+
+    public SearchModel(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void getHotKeyData(Callback callback) {
-        mCallHotKay = HttpUtil.getRequest(HOT_KEY_API, callback);
+        mCallHotKay = HttpUtil.getRequest(context, HOT_KEY_API, callback);
     }
 
     @Override

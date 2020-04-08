@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.victorxu.muses.trade.contract.SettleContract;
 import com.victorxu.muses.trade.model.entity.SettleOrderEntity;
-import com.victorxu.muses.trade.view.entity.CartSettleOrderBean;
 import com.victorxu.muses.trade.view.entity.ProductSettleOrderBean;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
@@ -43,14 +42,14 @@ public class SettleModel implements SettleContract.Model {
     @Override
     public void getDefaultAddressData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        mCallDefaultAddress = HttpUtil.getRequest(DEFAULT_ADDRESS_API + String.valueOf(userId), callback);
+        mCallDefaultAddress = HttpUtil.getRequest(context, DEFAULT_ADDRESS_API + String.valueOf(userId), callback);
     }
 
     @Override
     public void updateOrderStatus(Callback callback) {
         JsonObject object = new JsonObject();
         object.addProperty("status", 1);
-        mCallUpdateOrderStatus = HttpUtil.putRequest(ORDER_API + String.valueOf(orderId), object.toString(), callback);
+        mCallUpdateOrderStatus = HttpUtil.putRequest(context, ORDER_API + String.valueOf(orderId), object.toString(), callback);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class SettleModel implements SettleContract.Model {
         entity.setAddressId(addressId);
         entity.setCartIds(cartIds);
         Log.d("CART_ORDER", new Gson().toJson(entity));
-        mCallCartOrder = HttpUtil.postRequest(ORDER_API, new Gson().toJson(entity), callback);
+        mCallCartOrder = HttpUtil.postRequest(context, ORDER_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -73,7 +72,7 @@ public class SettleModel implements SettleContract.Model {
         object.addProperty("number", productInfo.getNumber());
         object.addProperty("message", "");
         object.addProperty("detail", productInfo.getDetail());
-        mCallProductOrder = HttpUtil.postRequest(ORDER_DIRECT_API, object.toString(), callback);
+        mCallProductOrder = HttpUtil.postRequest(context, ORDER_DIRECT_API, object.toString(), callback);
     }
 
     @Override

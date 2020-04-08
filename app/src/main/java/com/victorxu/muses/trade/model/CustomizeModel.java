@@ -38,7 +38,7 @@ public class CustomizeModel implements CustomizeContract.Model {
 
     @Override
     public void getProductData(Callback callback) {
-        mCallGet = HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
+        mCallGet = HttpUtil.getRequest(context,COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.victorxu.muses.util;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.media.ImageReader;
 import android.util.Log;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -17,8 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class HttpUtil {
-    //    "http://192.168.2.225:8080/"
-//    "http://120.79.162.134:7010/"
+
     public static final String WEB_SERVER = "http://muses.deepicecream.com:7010/";
     public static final String FILTER_TRANSFER_SERVER = "http://art.deepicecream.com:7004/";
     public static final String FILTER_TRAIN_SERVER = "http://art.deepicecream.com:7003/";
@@ -29,8 +27,12 @@ public class HttpUtil {
      * @param address  Api 地址
      * @param callback 回调方法
      */
-    public static Call getRequest(String address, okhttp3.Callback callback) {
-        return getRequest(WEB_SERVER, address, callback);
+    public static Call getRequest(Context context, String address, okhttp3.Callback callback) {
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = WEB_SERVER;
+        }
+        return getRequest(web, address, callback);
     }
 
     public static Call getRequest(String server, String address, okhttp3.Callback callback) {
@@ -50,8 +52,12 @@ public class HttpUtil {
      * @param callback 回调方法
      */
     @SuppressWarnings("ConstantConditions")
-    public static Call postRequest(String address, Map<String, String> map, okhttp3.Callback callback) {
-        return postRequest(WEB_SERVER, address, map, callback);
+    public static Call postRequest(Context context, String address, Map<String, String> map, okhttp3.Callback callback) {
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = WEB_SERVER;
+        }
+        return postRequest(web, address, map, callback);
     }
 
     public static Call postRequest(String server, String address, Map<String, String> map, okhttp3.Callback callback) {
@@ -102,8 +108,12 @@ public class HttpUtil {
      * @param json     json 数据
      * @param callback 回调方法
      */
-    public static Call postRequest(String address, String json, okhttp3.Callback callback) {
-        return postRequest(WEB_SERVER, address, json, callback);
+    public static Call postRequest(Context context, String address, String json, okhttp3.Callback callback) {
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = WEB_SERVER;
+        }
+        return postRequest(web, address, json, callback);
     }
 
     public static Call postRequest(String server, String address, String json, okhttp3.Callback callback) {
@@ -126,8 +136,12 @@ public class HttpUtil {
      * @param address  api地址
      * @param callback 回调方法
      */
-    public static Call deleteRequest(String address, okhttp3.Callback callback) {
-        return deleteRequest(WEB_SERVER, address, callback);
+    public static Call deleteRequest(Context context, String address, okhttp3.Callback callback) {
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = WEB_SERVER;
+        }
+        return deleteRequest(web, address, callback);
     }
 
     public static Call deleteRequest(String server, String address, okhttp3.Callback callback) {
@@ -148,8 +162,12 @@ public class HttpUtil {
      * @param json     json 数据
      * @param callback 回调方法
      */
-    public static Call putRequest(String address, String json, okhttp3.Callback callback) {
-        return putRequest(WEB_SERVER, address, json, callback);
+    public static Call putRequest(Context context, String address, String json, okhttp3.Callback callback) {
+        String web = String.valueOf(SharedPreferencesUtil.get(context, "web", "null"));
+        if (web.equals("null")) {
+            web = WEB_SERVER;
+        }
+        return putRequest(web, address, json, callback);
     }
 
     public static Call putRequest(String server, String address, String json, okhttp3.Callback callback) {

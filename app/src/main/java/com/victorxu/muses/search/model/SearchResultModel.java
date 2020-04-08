@@ -1,9 +1,11 @@
 package com.victorxu.muses.search.model;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.victorxu.muses.gson.PageCommodity;
-import com.victorxu.muses.search.model.entity.SearchEntity;
 import com.victorxu.muses.search.contract.SearchResultContract;
+import com.victorxu.muses.search.model.entity.SearchEntity;
 import com.victorxu.muses.util.HttpUtil;
 
 import java.util.ArrayList;
@@ -24,6 +26,11 @@ public class SearchResultModel implements SearchResultContract.Model {
 
     private Call mCallGet;
     private Call mCallMore;
+    private Context context;
+
+    public SearchResultModel(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void getProductData(Callback callback) {
@@ -34,7 +41,7 @@ public class SearchResultModel implements SearchResultContract.Model {
     public void getProductData(int page, Callback callback) {
         currentPage = page;
         initSearchModel();
-        mCallGet = HttpUtil.postRequest(API_PREFIX + String.valueOf(page), new Gson().toJson(searchEntity), callback);
+        mCallGet = HttpUtil.postRequest(context, API_PREFIX + String.valueOf(page), new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -42,7 +49,7 @@ public class SearchResultModel implements SearchResultContract.Model {
         if (searchEntity == null) {
             initSearchModel();
         }
-        mCallMore = HttpUtil.postRequest(API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchEntity), callback);
+        mCallMore = HttpUtil.postRequest(context, API_PREFIX + String.valueOf(++currentPage), new Gson().toJson(searchEntity), callback);
     }
 
     @Override

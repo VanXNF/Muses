@@ -46,8 +46,11 @@ public class FilterCreateModel implements FilterCreateContract.Model {
         entity.setBrushSize(brushSize);
         entity.setBrushIntensity(brushIntensity);
         entity.setSmooth(smooth);
-
-        mCallFilter = HttpUtil.postRequest(HttpUtil.FILTER_TRAIN_SERVER, FILTER_CREATE_API, new Gson().toJson(entity), callback);
+        String train = String.valueOf(SharedPreferencesUtil.get(context, "train", "null"));
+        if (train.equals("null")) {
+            train = HttpUtil.FILTER_TRAIN_SERVER;
+        }
+        mCallFilter = HttpUtil.postRequest(train, FILTER_CREATE_API, new Gson().toJson(entity), callback);
     }
 
     @Override

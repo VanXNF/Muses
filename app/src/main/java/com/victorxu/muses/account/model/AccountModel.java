@@ -32,7 +32,7 @@ public class AccountModel implements AccountContract.Model {
         UserAccountEntity entity = new UserAccountEntity();
         entity.setUsername(username);
         entity.setPassword(password);
-        mCallLoginPWD = HttpUtil.postRequest(LOGIN_USERNAME_API, new Gson().toJson(entity), callback);
+        mCallLoginPWD = HttpUtil.postRequest(context, LOGIN_USERNAME_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class AccountModel implements AccountContract.Model {
         UserAccountEntity entity = new UserAccountEntity();
         entity.setMobile(mobile);
         entity.setPassword(code);
-        mCallLoginCode = HttpUtil.postRequest(LOGIN_MOBILE_API, new Gson().toJson(entity), callback);
+        mCallLoginCode = HttpUtil.postRequest(context, LOGIN_MOBILE_API, new Gson().toJson(entity), callback);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AccountModel implements AccountContract.Model {
         entity.setMobile(mobile);
         entity.setPassword(password);
         entity.setCode(code);
-        mCallRegister = HttpUtil.postRequest(REGISTER_API, new Gson().toJson(entity), callback);
+        mCallRegister = HttpUtil.postRequest(context, REGISTER_API, new Gson().toJson(entity), callback);
     }
 
     @Override

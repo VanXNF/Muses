@@ -30,24 +30,24 @@ public class AddressModel implements AddressContract.Model {
     @Override
     public void getAddressData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        mCallGet = HttpUtil.getRequest(ADDRESS_API + ADDRESS_LIST_API_SUFFIX + String.valueOf(userId), callback);
+        mCallGet = HttpUtil.getRequest(context, ADDRESS_API + ADDRESS_LIST_API_SUFFIX + String.valueOf(userId), callback);
     }
 
     @Override
     public void addAddressData(Address.AddressBean data, Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
         data.setUserId(userId);
-        mCallAdd = HttpUtil.postRequest(ADDRESS_API, new Gson().toJson(data), callback);
+        mCallAdd = HttpUtil.postRequest(context, ADDRESS_API, new Gson().toJson(data), callback);
     }
 
     @Override
     public void deleteAddressData(int addressId, Callback callback) {
-        mCallDelete = HttpUtil.deleteRequest(ADDRESS_API + String.valueOf(addressId), callback);
+        mCallDelete = HttpUtil.deleteRequest(context, ADDRESS_API + String.valueOf(addressId), callback);
     }
 
     @Override
     public void updateAddressData(Address.AddressBean data, Callback callback) {
-        mCallUpdate = HttpUtil.postRequest(ADDRESS_API + String.valueOf(data.getId()), new Gson().toJson(data), callback);
+        mCallUpdate = HttpUtil.postRequest(context, ADDRESS_API + String.valueOf(data.getId()), new Gson().toJson(data), callback);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.victorxu.muses.trade.model;
 
+import android.content.Context;
+
 import com.victorxu.muses.gson.PageComment;
 import com.victorxu.muses.trade.contract.ProductCommentContract;
 import com.victorxu.muses.util.HttpUtil;
@@ -31,8 +33,11 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     private Call mCallCount;
     private Call mCallData;
 
-    public ProductCommentModel(int id) {
+    private Context context;
+
+    public ProductCommentModel(int id, Context context) {
         this.id = id;
+        this.context = context;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class ProductCommentModel implements ProductCommentContract.Model {
 
     @Override
     public void getCommentCountData(Callback callback) {
-        mCallCount = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_COUNT_API_SUFFIX, callback);
+        mCallCount = HttpUtil.getRequest(context, COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_COUNT_API_SUFFIX, callback);
     }
 
     @Override
@@ -80,7 +85,7 @@ public class ProductCommentModel implements ProductCommentContract.Model {
     @Override
     public void getCommentData(int page, Callback callback) {
         currentPage = page;
-        mCallData = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id)
+        mCallData = HttpUtil.getRequest(context, COMMENT_API_PREFIX + String.valueOf(id)
                 + COMMENT_API_SUFFIX + String.valueOf(currentPage) + COMMENT_API_SUFFIX + filter, callback);
     }
 

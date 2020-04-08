@@ -57,12 +57,12 @@ public class ProductModel implements ProductContract.Model {
 
     @Override
     public void getProductData(Callback callback) {
-        mCallProduct = HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
+        mCallProduct = HttpUtil.getRequest(context, COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override
     public void getCommentData(Callback callback) {
-        mCallComment = HttpUtil.getRequest(COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_API_SUFFIX, callback);
+        mCallComment = HttpUtil.getRequest(context, COMMENT_API_PREFIX + String.valueOf(id) + COMMENT_API_SUFFIX, callback);
     }
 
     @Override
@@ -73,13 +73,13 @@ public class ProductModel implements ProductContract.Model {
         entity.setCommodityId(id);
         entity.setDetail(getSelectDetail());
         entity.setNumber(number);
-        mCallAdd = HttpUtil.postRequest(SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
+        mCallAdd = HttpUtil.postRequest(context, SHOPPING_CART_API + String.valueOf(userId), new Gson().toJson(entity), callback);
     }
 
     @Override
     public void checkFavoriteStatus(Callback callback) {
         userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        mCallCheck = HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId) + "/" + String.valueOf(id), callback);
+        mCallCheck = HttpUtil.getRequest(context, FAVORITE_API + String.valueOf(userId) + "/" + String.valueOf(id), callback);
     }
 
     @Override
@@ -87,12 +87,12 @@ public class ProductModel implements ProductContract.Model {
         Collection.CollectionBean entity = new Collection.CollectionBean();
         entity.setUserId(userId);
         entity.setCommodityId(id);
-        mCallAddFavorite = HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
+        mCallAddFavorite = HttpUtil.postRequest(context, FAVORITE_API, new Gson().toJson(entity), callback);
     }
 
     @Override
     public void removeProductDataFromFavorite(Callback callback) {
-        mCallRemoveFavorite = HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+        mCallRemoveFavorite = HttpUtil.deleteRequest(context, FAVORITE_API + String.valueOf(favId), callback);
     }
 
     @Override

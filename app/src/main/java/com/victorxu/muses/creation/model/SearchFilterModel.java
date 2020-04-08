@@ -1,5 +1,7 @@
 package com.victorxu.muses.creation.model;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.victorxu.muses.creation.contract.SearchFilterContract;
 import com.victorxu.muses.creation.model.entity.FilterSearchEntity;
@@ -24,6 +26,12 @@ public class SearchFilterModel implements SearchFilterContract.Model {
 
     private Call mCallFilter;
 
+    private Context context;
+
+    public SearchFilterModel(Context context) {
+        this.context = context;
+    }
+
     @Override
     public void getFilterData(Callback callback) {
         getFilterData(1, callback);
@@ -36,7 +44,7 @@ public class SearchFilterModel implements SearchFilterContract.Model {
         entity.setKeyword(keyword);
         entity.setPage(currentPage);
         entity.setSize(12);
-        mCallFilter = HttpUtil.postRequest(FILTER_SEARCH_API, new Gson().toJson(entity), callback);
+        mCallFilter = HttpUtil.postRequest(context, FILTER_SEARCH_API, new Gson().toJson(entity), callback);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.victorxu.muses.search.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -25,9 +26,9 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
     private SearchResultContract.View mView;
     private SearchResultContract.Model mModel;
 
-    public SearchResultPresenter(int index, String keyword, SearchResultContract.View mView) {
+    public SearchResultPresenter(int index, String keyword, SearchResultContract.View mView, Context context) {
         this.mView = mView;
-        mModel = new SearchResultModel();
+        mModel = new SearchResultModel(context);
         mModel.setIndex(index);
         mModel.setKeyword(keyword);
     }

@@ -53,7 +53,7 @@ public class MyFilterModel implements MyFilterContract.Model {
                 mCallTarin = HttpUtil.getRequest(HttpUtil.FILTER_TRAIN_SERVER, UNFINISHED_FILTER_API + String.valueOf(userId), callback);
                 break;
             case 1:
-                mCallFilter = HttpUtil.getRequest(FINISHED_FILTER_API + String.valueOf(userId) + "/" + String.valueOf(currentPage), callback);
+                mCallFilter = HttpUtil.getRequest(context,FINISHED_FILTER_API + String.valueOf(userId) + "/" + String.valueOf(currentPage), callback);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.victorxu.muses.creation.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -23,9 +24,9 @@ public class CreationPresenter implements CreationContract.Presenter {
     private CreationContract.View mView;
     private CreationContract.Model mModel;
 
-    public CreationPresenter(CreationContract.View mView) {
+    public CreationPresenter(CreationContract.View mView, Context context) {
         this.mView = mView;
-        mModel = new CreationModel();
+        mModel = new CreationModel(context);
     }
 
     @Override

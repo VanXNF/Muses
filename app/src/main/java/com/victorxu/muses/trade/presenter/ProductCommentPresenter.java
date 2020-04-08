@@ -1,5 +1,6 @@
 package com.victorxu.muses.trade.presenter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -27,9 +28,9 @@ public class ProductCommentPresenter implements ProductCommentContract.Presenter
     private ProductCommentContract.View mView;
     private ProductCommentContract.Model mModel;
 
-    public ProductCommentPresenter(ProductCommentContract.View mView, int id) {
+    public ProductCommentPresenter(ProductCommentContract.View mView, int id, Context context) {
         this.mView = mView;
-        mModel = new ProductCommentModel(id);
+        mModel = new ProductCommentModel(id, context);
     }
 
     @Override

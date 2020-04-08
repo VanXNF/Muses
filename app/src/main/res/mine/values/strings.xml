@@ -48,4 +48,10 @@
     <string name="clean_finished">清理完成</string>
     <string name="sure_to_clean_cache">"确认清理应用缓存？"</string>
     <string name="zero_byte">0.0Byte</string>
+    <string name="service_address">服务器地址管理</string>
+    <string name="web_address">WEB 服务器地址</string>
+    <string name="filter_transfer_address">风格迁移服务器地址</string>
+    <string name="filter_train_address">模型训练服务器地址</string>
+    <string name="restore">恢复默认</string>
+    <string name="confirm_edit">确认修改</string>
 </resources>

@@ -6,6 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -13,18 +18,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.victorxu.muses.R;
 import com.victorxu.muses.base.BaseFragment;
 import com.victorxu.muses.gson.PageCommodity;
-import com.victorxu.muses.trade.view.ProductFragment;
 import com.victorxu.muses.search.contract.SearchResultContract;
 import com.victorxu.muses.search.presenter.SearchResultPresenter;
 import com.victorxu.muses.search.view.adapter.ProductAdapter;
+import com.victorxu.muses.trade.view.ProductFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchResultPageFragment extends BaseFragment implements SearchResultContract.View {
 
@@ -82,7 +82,7 @@ public class SearchResultPageFragment extends BaseFragment implements SearchResu
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result_page, container, false);
-        mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this);
+        mPresenter = new SearchResultPresenter(index, ((SearchResultFragment) getParentFragment()).getKeywords(), this, mActivity);
         mPresenter.loadRootView(view);
         return view;
     }

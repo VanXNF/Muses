@@ -48,7 +48,7 @@ public class SearchFilterFragment extends BaseSwipeBackFragment implements Searc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_filter, container, false);
-        mPresenterSearch = new SearchFilterPresenter(this);
+        mPresenterSearch = new SearchFilterPresenter(this, mActivity);
         mPresenterSearch.loadRootView(view);
         return attachToSwipeBack(view);
     }

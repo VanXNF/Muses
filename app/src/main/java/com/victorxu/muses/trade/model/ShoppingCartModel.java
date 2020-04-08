@@ -7,12 +7,11 @@ import com.google.gson.Gson;
 import com.victorxu.muses.gson.Collection;
 import com.victorxu.muses.gson.Commodity;
 import com.victorxu.muses.gson.ShoppingCart;
-import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.trade.contract.ShoppingCartContract;
 import com.victorxu.muses.trade.view.entity.ShoppingCartProduct;
+import com.victorxu.muses.trade.view.entity.StyleSelectItem;
 import com.victorxu.muses.util.HttpUtil;
 import com.victorxu.muses.util.SharedPreferencesUtil;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +49,13 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
 
     @Override
     public void getCartData(Callback callback) {
-        mCallCart = HttpUtil.getRequest(SHOPPING_CART_API + String.valueOf(userId), callback);
+        mCallCart = HttpUtil.getRequest(context, SHOPPING_CART_API + String.valueOf(userId), callback);
     }
 
     @Override
     public void getProductData(int position, Callback callback) {
         int id = mData.get(position).getData().getCommodityId();
-        mCallProduct = HttpUtil.getRequest(COMMODITY_API_PREFIX + String.valueOf(id), callback);
+        mCallProduct = HttpUtil.getRequest(context, COMMODITY_API_PREFIX + String.valueOf(id), callback);
     }
 
     @Override
@@ -78,14 +77,14 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
     public void deleteCartData(int position, Callback callback) {
         int cartId = mData.get(position).getData().getId();
         mData.remove(position);
-        mCallDelete = HttpUtil.deleteRequest(SHOPPING_CART_ITEM_API + String.valueOf(cartId), callback);
+        mCallDelete = HttpUtil.deleteRequest(context, SHOPPING_CART_ITEM_API + String.valueOf(cartId), callback);
     }
 
     @Override
     public void updateCartData(int position, Callback callback) {
         int cartId = mData.get(position).getData().getId();
         String json = new Gson().toJson(mData.get(position).getData());
-        mCallUpdate = HttpUtil.putRequest(SHOPPING_CART_ITEM_API + String.valueOf(cartId), json, callback);
+        mCallUpdate = HttpUtil.putRequest(context, SHOPPING_CART_ITEM_API + String.valueOf(cartId), json, callback);
     }
 
     @Override
@@ -104,7 +103,7 @@ public class ShoppingCartModel implements ShoppingCartContract.Model {
         Collection.CollectionBean entity = new Collection.CollectionBean();
         entity.setUserId(userId);
         entity.setCommodityId(commodityId);
-        mCallAdd = HttpUtil.postRequest(FAVORITE_API, new Gson().toJson(entity), callback);
+        mCallAdd = HttpUtil.postRequest(context, FAVORITE_API, new Gson().toJson(entity), callback);
     }
 
     @Override

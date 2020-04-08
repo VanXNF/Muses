@@ -1,11 +1,11 @@
 package com.victorxu.muses.gallery.model;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.victorxu.muses.gallery.contract.GalleryContract;
-
 import com.victorxu.muses.search.model.entity.SearchEntity;
 import com.victorxu.muses.util.HttpUtil;
-
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,8 +25,10 @@ public class GalleryModel implements GalleryContract.Model {
     private Call mCallRecommend;
     private Call mCallNewProduct;
     private Call mCallHotProduct;
+    private Context context;
 
-    public GalleryModel() {
+    public GalleryModel(Context context) {
+        this.context = context;
         resetFlags();
     }
 
@@ -51,7 +53,7 @@ public class GalleryModel implements GalleryContract.Model {
     @Override
     public void getBannerData(Callback callback) {
         setFlag(BANNER_INDEX);
-        mCallBanner = HttpUtil.getRequest("api/banner/", callback);
+        mCallBanner = HttpUtil.getRequest(context, "api/banner/", callback);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class GalleryModel implements GalleryContract.Model {
         searchEntity.setSize(count);
         searchEntity.setAsc(false);
         searchEntity.setSortType(SearchEntity.SEARCH_DEFAULT);
-        mCallRecommend = HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
+        mCallRecommend = HttpUtil.postRequest(context, "api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class GalleryModel implements GalleryContract.Model {
         searchEntity.setSize(count);
         searchEntity.setAsc(false);
         searchEntity.setSortType(SearchEntity.SEARCH_TIME);
-        mCallNewProduct = HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
+        mCallNewProduct = HttpUtil.postRequest(context, "api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class GalleryModel implements GalleryContract.Model {
         searchEntity.setSize(count);
         searchEntity.setAsc(false);
         searchEntity.setSortType(SearchEntity.SEARCH_VOLUME);
-        mCallHotProduct = HttpUtil.postRequest("api/commodity/list/1", new Gson().toJson(searchEntity), callback);
+        mCallHotProduct = HttpUtil.postRequest(context, "api/commodity/list/1", new Gson().toJson(searchEntity), callback);
     }
 
     @Override

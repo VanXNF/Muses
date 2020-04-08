@@ -31,13 +31,13 @@ public class InfoModel implements InfoContract.Model {
     @Override
     public void getUserInfoData(Callback callback) {
         String token = (String) SharedPreferencesUtil.get(context, "UserToken", "");
-        mCallGet = HttpUtil.getRequest(USER_API + token, callback);
+        mCallGet = HttpUtil.getRequest(context, USER_API + token, callback);
     }
 
     @Override
     public void updateUserInfo(Callback callback) {
         String json = new Gson().toJson(mUserInfoData);
-        mCallUpdateInfo = HttpUtil.putRequest(USER_API, json, callback);
+        mCallUpdateInfo = HttpUtil.putRequest(context, USER_API, json, callback);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class InfoModel implements InfoContract.Model {
         entity.setUserId(userId);
         entity.setOldPassword(oldPassword);
         entity.setNewPassword(newPassword);
-        mCallUpdatePwd = HttpUtil.postRequest(USER_PWD_API, new Gson().toJson(entity), callback);
+        mCallUpdatePwd = HttpUtil.postRequest(context, USER_PWD_API, new Gson().toJson(entity), callback);
     }
 
     @Override

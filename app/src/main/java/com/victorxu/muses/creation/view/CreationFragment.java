@@ -54,7 +54,7 @@ public class CreationFragment extends BaseMainFragment implements CreationContra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation, container, false);
-        mPresenter = new CreationPresenter(this);
+        mPresenter = new CreationPresenter(this, mActivity);
         mPresenter.loadRootView(view);
         return view;
     }

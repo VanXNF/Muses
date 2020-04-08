@@ -1,5 +1,7 @@
 package com.victorxu.muses.creation.model;
 
+import android.content.Context;
+
 import com.victorxu.muses.creation.contract.CreationContract;
 import com.victorxu.muses.creation.view.entity.PopularSearchItem;
 import com.victorxu.muses.util.HttpUtil;
@@ -14,12 +16,16 @@ import okhttp3.Callback;
 public class CreationModel implements CreationContract.Model {
 
     private final String FILTER_CLASS_LIST_API = "api/filterCategory/";
-
+    private Context context;
     private Call mCallFilterClass;
+
+    public CreationModel(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void getFilterClassData(Callback callback) {
-        mCallFilterClass = HttpUtil.getRequest(FILTER_CLASS_LIST_API, callback);
+        mCallFilterClass = HttpUtil.getRequest(context, FILTER_CLASS_LIST_API, callback);
     }
 
     @Override

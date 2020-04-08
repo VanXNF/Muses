@@ -34,7 +34,7 @@ public class MineModel implements MineContract.Model {
     @Override
     public void getCollectionCountData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        mCallGet = HttpUtil.getRequest(COLLECTION_COUNT_API + String.valueOf(userId), callback);
+        mCallGet = HttpUtil.getRequest(context, COLLECTION_COUNT_API + String.valueOf(userId), callback);
     }
 
     @Override

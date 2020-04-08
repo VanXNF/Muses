@@ -72,7 +72,7 @@ public class GalleryFragment extends BaseMainFragment implements GalleryContract
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-        mPresenter = new GalleryPresenter(this);
+        mPresenter = new GalleryPresenter(this, mActivity);
         mPresenter.loadRootView(view);
         return view;
     }

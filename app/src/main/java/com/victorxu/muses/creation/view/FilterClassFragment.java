@@ -68,7 +68,7 @@ public class FilterClassFragment extends BaseSwipeBackFragment implements Filter
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter_class_detail, container, false);
-        mPresenter = new FilterClassPresenter(this, key, id);
+        mPresenter = new FilterClassPresenter(this, key, id, mActivity);
         mPresenter.loadRootView(view);
         return attachToSwipeBack(view);
     }

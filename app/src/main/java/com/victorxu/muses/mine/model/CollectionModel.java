@@ -30,13 +30,13 @@ public class CollectionModel implements CollectionContract.Model {
     @Override
     public void getCollectionData(Callback callback) {
         int userId = (int) SharedPreferencesUtil.get(context, "UserId", 0);
-        mCallGet = HttpUtil.getRequest(FAVORITE_API + String.valueOf(userId), callback);
+        mCallGet = HttpUtil.getRequest(context, FAVORITE_API + String.valueOf(userId), callback);
     }
 
     @Override
     public void removeFromFavorite(int position, Callback callback) {
         int favId = mCollectionData.get(position).getId();
-        mCallDelete = HttpUtil.deleteRequest(FAVORITE_API + String.valueOf(favId), callback);
+        mCallDelete = HttpUtil.deleteRequest(context, FAVORITE_API + String.valueOf(favId), callback);
     }
 
     @Override
