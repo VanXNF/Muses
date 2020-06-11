@@ -1,53 +1,30 @@
-# Muses 开发日志
-## 2018-10-05
-- 于 GitHub 创建项目。
-- 导入开源库 Fragmentation 1.3.6
-- 导入开源库 EventBus 3.1.1
+# Muses
+本应用使用 Java 进行编写，项目本身采用 MVP 架构，按功能进行代码分包。另有简化版本 [Muses Pad](https://github.com/VanXNF/MusesPad)，欢迎在 [Release](https://github.com/VanXNF/Muses/releases) 中下载体验。
 
-## 2018-10-9
-- 导入开源库 ConvenientBanner 2.1.4
-- 导入开源库 immersion-sdk 1.0.7
+本应用主要包含两类功能：
 
-## 2018-10-10
-- 移除开源库 ConvenientBanner 2.1.4
-- 导入开源库 banner 1.4.10
+- 商城功能
+- 创作功能
 
-## 2018-10-11
-- 导入开源库 BaseRecyclerViewAdapterHelper 2.9.30
 
-## 2018-10-13
-- 更新开源库 BaseRecyclerViewAdapterHelper 2.9.37
-- 导入开源库 MaterialChipView 1.2.4
 
-## 2018-10-17
-- 移除开源库 MaterialChipView 1.2.4
-- 升级项目依赖包为 AndroidX
+## 创作功能
 
-## 2018-10-21
-- 移除开源库 immersion-sdk 1.0.7
-- 导入开源库 immersionbar 2.3.2-beta01
+主要集中于 [creation](https://github.com/VanXNF/Muses/tree/master/app/src/main/java/com/victorxu/muses/creation) 分包下，主要包含滤镜应用、滤镜训练、风格强度调整、风格图片保存等功能，用户可以此体验风格迁移服务，并提交风格图像，制定独一无二的自设风格。
 
-## 2018-10-29
-- 导入开源库 recyclerview-swipe 1.1.4
+## 商城功能 
 
-## 2018-11-23
-- 导入开源库 simpleratingbar 0.1.5
+商城功能包含首页、商品搜索、详情查看、商品收藏、购物车、订单查看、地址管理、装饰画定制等功能。
 
-## 2019-01-22
-- 更新开源库 `BaseRecyclerViewAdapterHelper 2.9.44`
-- 导入开源库 `Gson 2.8.5`
-- 导入开源库 `SmartRefreshLayout 1.1.0-andx-2`
-- 导入开源库 `SmartRefreshHeader 1.1.0-andx-2`
-- 导入开源库 `flowlayout-lib 1.1.2`
-- 导入开源库 `okhttp 3.12.0`
 
-## 2019-03-01
-- 导入开源库 `citypickerview 4.1.0`
 
-## 2019-03-03
-- 导入开源库 `glide-transformations 4.0.1`
+### 注
 
-## 2019-03-04
-- 导入开源库 `tedbottompicker 2.0.0-alpha1'`
-- 导入开源库 `tedpermission 2.2.2`
-- 移除开源库 `tkrefreshlayout 1.0.7`
+本应用依赖于后端服务器，如需使用本应用，请按 [MusesSpring](https://github.com/MusesArt/MusesSpring) 搭建WEB 服务端以及按 [MusesStyle](https://github.com/czczup/MusesStyle) 搭建 GPU 服务端。
+
+目前登录界面无法跳过，可使用体验账号：
+
+- 账号：12345678910
+
+- 密码：123456
+
