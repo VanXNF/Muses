@@ -10,6 +10,7 @@ import android.view.View;
 import com.victorxu.muses.R;
 import com.victorxu.muses.creation.contract.FilterApplyContract;
 import com.victorxu.muses.creation.model.FilterApplyModel;
+import com.victorxu.muses.util.HttpUtil;
 
 import org.json.JSONObject;
 
@@ -71,6 +72,8 @@ public class FilterApplyPresenter implements FilterApplyContract.Presenter {
                     String data = response.body().string();
                     JSONObject jsonObject = new JSONObject(data);
                     String url = jsonObject.getString("image");
+                    url = HttpUtil.FILTER_TRANSFER_SERVER + url;
+                    Log.e(TAG, "onResponse: " + url);
                     if (!TextUtils.isEmpty(url)) {
                         mModel.setFilterUrl(url);
                         mView.showFilterImage(url);
